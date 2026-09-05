@@ -2,6 +2,13 @@
   "name": "applecn",
   "version": "0.0.1",
   "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/STiXzoOR/applecn.git"
+  },
+  "homepage": "https://applecn.vercel.app",
+  "bugs": "https://github.com/STiXzoOR/applecn/issues",
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev --filter=@applecn/web",

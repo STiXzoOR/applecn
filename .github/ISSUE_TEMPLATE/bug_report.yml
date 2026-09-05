@@ -1,0 +1,55 @@
+name: Bug report
+description: Something renders or behaves differently from Apple's, or breaks.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Search existing issues first. For a visual mismatch, a screenshot next to the Apple
+        reference (HIG page, app, or web property) is the most useful thing you can give.
+  - type: input
+    id: component
+    attributes:
+      label: Component or page
+      placeholder: "sheet, /foundations/color, registry"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Install `@applecn/sheet`
+        2. Open it at 390 px
+        3. See …
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Current vs expected behaviour
+      description: What happens, and what Apple's counterpart does. Link the HIG page or name the app.
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform idiom
+      multiple: true
+      options:
+        - iOS (default)
+        - macOS (data-platform)
+        - Dark mode
+        - Increase Contrast
+        - Reduce Transparency
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      render: shell
+      placeholder: |
+        Browser: Safari 26 / Chrome 140
+        Next: 16.2.6
+        Node: v24
+    validations:
+      required: true
