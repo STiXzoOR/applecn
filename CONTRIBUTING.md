@@ -12,7 +12,7 @@ Thanks for helping. This covers getting the repo running and landing a change.
 ```sh
 git clone https://github.com/STiXzoOR/applecn.git
 cd applecn
-pnpm install        # also installs the git hooks
+pnpm install        # also installs the git hooks (skipped where there is no git checkout)
 pnpm dev            # http://localhost:3000
 ```
 

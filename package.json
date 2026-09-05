@@ -22,7 +22,7 @@
     "tokens:build": "pnpm --filter @applecn/ui tokens:build",
     "registry:build": "pnpm --filter @applecn/web registry:build",
     "ui:add": "pnpm --filter @applecn/ui exec shadcn add",
-    "prepare": "lefthook install"
+    "prepare": "lefthook install || echo 'lefthook: not a git checkout, hooks skipped'"
   },
   "devDependencies": {
     "@applecn/typescript-config": "workspace:*",
