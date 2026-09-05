@@ -32,6 +32,7 @@ export interface ControlMetrics {
   readonly alert: { readonly width: number; readonly radius: number; readonly buttonHeight: number }
   readonly actionSheet: { readonly rowHeight: number; readonly radius: number; readonly cancelGap: number }
   readonly menu: { readonly width: number; readonly itemHeight: number; readonly radius: number }
+  readonly dialog: { readonly width: number }
   readonly popover: { readonly radius: number; readonly arrow: readonly [number, number] }
   readonly progress: { readonly height: number }
   readonly spinner: { readonly medium: number; readonly large: number }
@@ -58,6 +59,7 @@ const ios: ControlMetrics = {
   alert: { width: 270, radius: 26, buttonHeight: 44 },
   actionSheet: { rowHeight: 56, radius: 26, cancelGap: 8 },
   menu: { width: 250, itemHeight: 44, radius: 26 },
+  dialog: { width: 540 },
   popover: { radius: 26, arrow: [13, 6.5] },
   progress: { height: 4 },
   spinner: { medium: 20, large: 37 },
@@ -84,6 +86,7 @@ const macos: ControlMetrics = {
   alert: { width: 260, radius: 12, buttonHeight: 24 },
   actionSheet: { rowHeight: 22, radius: 12, cancelGap: 0 },
   menu: { width: 200, itemHeight: 22, radius: 12 },
+  dialog: { width: 480 },
   popover: { radius: 12, arrow: [13, 6.5] },
   progress: { height: 4 },
   spinner: { medium: 16, large: 32 },

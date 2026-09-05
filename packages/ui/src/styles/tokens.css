@@ -156,6 +156,7 @@
   --action-sheet-cancel-gap: 8px;
   --menu-width: 250px;
   --menu-item-height: 44px;
+  --dialog-width: 540px;
   --popover-arrow-width: 13px;
   --popover-arrow-height: 6.5px;
   --progress-height: 4px;
@@ -623,6 +624,7 @@
   --action-sheet-cancel-gap: 0px;
   --menu-width: 200px;
   --menu-item-height: 22px;
+  --dialog-width: 480px;
   --popover-arrow-width: 13px;
   --popover-arrow-height: 6.5px;
   --progress-height: 4px;

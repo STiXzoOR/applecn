@@ -174,6 +174,7 @@ function controlLines(m: ControlMetrics): Line[] {
     ['action-sheet-cancel-gap', px(m.actionSheet.cancelGap)],
     ['menu-width', px(m.menu.width)],
     ['menu-item-height', px(m.menu.itemHeight)],
+    ['dialog-width', px(m.dialog.width)],
     ['popover-arrow-width', px(m.popover.arrow[0])],
     ['popover-arrow-height', px(m.popover.arrow[1])],
     ['progress-height', px(m.progress.height)],
