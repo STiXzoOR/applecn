@@ -64,10 +64,10 @@ describe('renderTokensCss', () => {
     expect(root).toContain('--control-height-regular: 44px;')
     expect(root).toContain('--switch-width: 51px;')
     expect(root).toContain('--list-inset: 16px;')
-    expect(root).toContain('--radius-sheet: 40px;')
-    expect(root).toContain('--ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);')
+    expect(root).toContain('--sheet-radius: 40px;')
+    expect(root).toContain('--easing-sheet: cubic-bezier(0.32, 0.72, 0, 1);')
     expect(root).toContain('--duration-press: 120ms;')
-    expect(root).toContain('--shadow-thumb: 0 3px 8px rgb(0 0 0 / 0.15), 0 3px 1px rgb(0 0 0 / 0.06);')
+    expect(root).toContain('--elevation-thumb: 0 3px 8px rgb(0 0 0 / 0.15), 0 3px 1px rgb(0 0 0 / 0.06);')
   })
 
   test('Dynamic Type makes the pt unit follow the reader on iOS', () => {

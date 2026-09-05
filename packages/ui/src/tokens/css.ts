@@ -191,16 +191,18 @@ function controlLines(m: ControlMetrics): Line[] {
 function shapeLines(): Line[] {
   return [
     ['radius', `${radii.base / 16}rem`],
-    ['radius-sheet', px(radii.sheet)],
-    ['radius-icon', radii.icon],
+    // `--radius-*`, `--shadow-*` and `--ease-*` are Tailwind theme namespaces; globals.css bridges
+    // these primitives into them, so the primitives carry different names to avoid a cycle.
+    ['sheet-radius', px(radii.sheet)],
+    ['icon-radius', radii.icon],
   ]
 }
 
 function motionLines(): Line[] {
   return [
-    ['ease-standard', easings.standard],
-    ['ease-sheet', easings.sheet],
-    ['ease-nav', easings.nav],
+    ['easing-standard', easings.standard],
+    ['easing-sheet', easings.sheet],
+    ['easing-nav', easings.nav],
     ['spring-smooth', springs.smooth],
     ['spring-snappy', springs.snappy],
     ['spring-bouncy', springs.bouncy],
@@ -214,7 +216,7 @@ function motionLines(): Line[] {
 
 function elevationLines(): Line[] {
   const toKebab = (s: string) => s.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)
-  return Object.entries(elevation).map(([name, value]) => [`shadow-${toKebab(name)}`, value])
+  return Object.entries(elevation).map(([name, value]) => [`elevation-${toKebab(name)}`, value])
 }
 
 function materialLines(appearance: Appearance): Line[] {
