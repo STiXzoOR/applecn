@@ -1,8 +1,8 @@
 import { Geist, Geist_Mono, Inter } from "next/font/google"
 
-import "@workspace/ui/globals.css"
+import "@apple-ds/ui/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@workspace/ui/lib/utils";
+import { cn } from "@apple-ds/ui/lib/utils";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'})
 

@@ -1,3 +1,3 @@
-# `@workspace/eslint-config`
+# `@apple-ds/eslint-config`
 
 Shared eslint configuration for the workspace.

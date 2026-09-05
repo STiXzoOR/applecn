@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "@apple-ds/web",
   "version": "0.0.1",
   "type": "module",
   "private": true,
@@ -12,8 +12,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@workspace/ui": "workspace:*",
-    "lucide-react": "^1.41.0",
+    "@hugeicons/core-free-icons": "^4.3.0",
+    "@hugeicons/react": "^1.1.10",
+    "@apple-ds/ui": "workspace:*",
     "next": "16.2.6",
     "next-themes": "^0.4.6",
     "react": "19.2.4",
@@ -24,8 +25,8 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@workspace/eslint-config": "workspace:^",
-    "@workspace/typescript-config": "workspace:*",
+    "@apple-ds/eslint-config": "workspace:^",
+    "@apple-ds/typescript-config": "workspace:*",
     "eslint": "^9",
     "typescript": "^5"
   }

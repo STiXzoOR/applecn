@@ -1,8 +1,8 @@
 {
-  "extends": "@workspace/typescript-config/react-library.json",
+  "extends": "@apple-ds/typescript-config/react-library.json",
   "compilerOptions": {
     "paths": {
-      "@workspace/ui/*": ["./src/*"]
+      "@apple-ds/ui/*": ["./src/*"]
     }
   },
   "include": ["."],

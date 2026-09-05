@@ -1,129 +1,392 @@
+/**
+ * The design system's stylesheet.
+ *
+ * Layering, in order: Tailwind, tw-animate-css, shadcn's variants and utilities, then
+ * `tokens.css` — the generated, single definition of every Apple token (colours, type, control
+ * metrics, shape, motion, elevation, materials; light, dark, elevated, increased-contrast and
+ * macOS scopes). This file only bridges those primitives into Tailwind's theme namespaces so
+ * they become utilities (`bg-system-blue`, `rounded-sheet`, `shadow-thumb`, `ease-sheet`),
+ * defines the `type-*` text-style utilities, and adds the base styles and the material utilities.
+ *
+ * Never write a literal colour, size, radius or duration here or in a component: change the
+ * token module, run `pnpm tokens:build`, and the value flows through.
+ */
+
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "./tokens.css";
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant macos (&:is([data-platform="macos"], [data-platform="macos"] *));
+
 @source "../../../apps/**/*.{ts,tsx}";
 @source "../../../components/**/*.{ts,tsx}";
 @source "../**/*.{ts,tsx}";
 
 @theme inline {
-    --font-heading: var(--font-sans);
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar: var(--sidebar);
-    --color-chart-5: var(--chart-5);
-    --color-chart-4: var(--chart-4);
-    --color-chart-3: var(--chart-3);
-    --color-chart-2: var(--chart-2);
-    --color-chart-1: var(--chart-1);
-    --color-ring: var(--ring);
-    --color-input: var(--input);
-    --color-border: var(--border);
-    --color-destructive: var(--destructive);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-accent: var(--accent);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-muted: var(--muted);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-secondary: var(--secondary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-primary: var(--primary);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-popover: var(--popover);
-    --color-card-foreground: var(--card-foreground);
-    --color-card: var(--card);
-    --color-foreground: var(--foreground);
-    --color-background: var(--background);
-    --radius-sm: calc(var(--radius) * 0.6);
-    --radius-md: calc(var(--radius) * 0.8);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) * 1.4);
-    --radius-2xl: calc(var(--radius) * 1.8);
-    --radius-3xl: calc(var(--radius) * 2.2);
-    --radius-4xl: calc(var(--radius) * 2.6);
-    --font-sans: var(--font-sans);
+  /* ---------- type ---------- */
+  --font-sans: -apple-system, BlinkMacSystemFont, system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-rounded: ui-rounded, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-heading: -apple-system, BlinkMacSystemFont, system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+
+  /* ---------- colour: shadcn vocabulary ---------- */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* ---------- colour: Apple primitives ---------- */
+  --color-system-red: var(--system-red);
+  --color-system-orange: var(--system-orange);
+  --color-system-yellow: var(--system-yellow);
+  --color-system-green: var(--system-green);
+  --color-system-mint: var(--system-mint);
+  --color-system-teal: var(--system-teal);
+  --color-system-cyan: var(--system-cyan);
+  --color-system-blue: var(--system-blue);
+  --color-system-indigo: var(--system-indigo);
+  --color-system-purple: var(--system-purple);
+  --color-system-pink: var(--system-pink);
+  --color-system-brown: var(--system-brown);
+  --color-gray: var(--gray);
+  --color-gray-2: var(--gray-2);
+  --color-gray-3: var(--gray-3);
+  --color-gray-4: var(--gray-4);
+  --color-gray-5: var(--gray-5);
+  --color-gray-6: var(--gray-6);
+  --color-label: var(--label);
+  --color-label-2: var(--label-2);
+  --color-label-3: var(--label-3);
+  --color-label-4: var(--label-4);
+  --color-placeholder: var(--placeholder);
+  --color-fill: var(--fill);
+  --color-fill-2: var(--fill-2);
+  --color-fill-3: var(--fill-3);
+  --color-fill-4: var(--fill-4);
+  --color-background-1: var(--background-1);
+  --color-background-2: var(--background-2);
+  --color-background-3: var(--background-3);
+  --color-grouped-background-1: var(--grouped-background-1);
+  --color-grouped-background-2: var(--grouped-background-2);
+  --color-grouped-background-3: var(--grouped-background-3);
+  --color-separator: var(--separator);
+  --color-separator-opaque: var(--separator-opaque);
+  --color-link: var(--link);
+
+  /* ---------- shape: shadcn's Luma derivation, unmodified, plus Apple's two extras ---------- */
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-sheet: var(--sheet-radius);
+  --radius-icon: var(--icon-radius);
+
+  /* ---------- motion ---------- */
+  --ease-standard: var(--easing-standard);
+  --ease-sheet: var(--easing-sheet);
+  --ease-nav: var(--easing-nav);
+  --ease-spring-smooth: var(--spring-smooth);
+  --ease-spring-snappy: var(--spring-snappy);
+  --ease-spring-bouncy: var(--spring-bouncy);
+
+  /* ---------- elevation ---------- */
+  --shadow-thumb: var(--elevation-thumb);
+  --shadow-segment: var(--elevation-segment);
+  --shadow-control: var(--elevation-control);
+  --shadow-card-small: var(--elevation-card-small);
+  --shadow-card-medium: var(--elevation-card-medium);
+  --shadow-menu: var(--elevation-menu);
+  --shadow-popover: var(--elevation-popover);
+  --shadow-window: var(--elevation-window);
+  --shadow-glass: var(--elevation-glass);
 }
 
-:root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+/* ---------- type styles ----------
+   Explicit utilities rather than `--text-*` theme entries: tailwind-merge cannot tell that `text-body` is a
+   size and not a colour, and would drop it against `text-label`. `type-body` has no conflict group. */
+
+@utility type-large-title {
+  font-size: var(--type-large-title-size);
+  line-height: var(--type-large-title-leading);
+  font-weight: var(--type-large-title-weight);
 }
 
-.dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+@utility type-title-1 {
+  font-size: var(--type-title-1-size);
+  line-height: var(--type-title-1-leading);
+  font-weight: var(--type-title-1-weight);
+}
+
+@utility type-title-2 {
+  font-size: var(--type-title-2-size);
+  line-height: var(--type-title-2-leading);
+  font-weight: var(--type-title-2-weight);
+}
+
+@utility type-title-3 {
+  font-size: var(--type-title-3-size);
+  line-height: var(--type-title-3-leading);
+  font-weight: var(--type-title-3-weight);
+}
+
+@utility type-headline {
+  font-size: var(--type-headline-size);
+  line-height: var(--type-headline-leading);
+  font-weight: var(--type-headline-weight);
+}
+
+@utility type-body {
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
+  font-weight: var(--type-body-weight);
+}
+
+@utility type-callout {
+  font-size: var(--type-callout-size);
+  line-height: var(--type-callout-leading);
+  font-weight: var(--type-callout-weight);
+}
+
+@utility type-subheadline {
+  font-size: var(--type-subheadline-size);
+  line-height: var(--type-subheadline-leading);
+  font-weight: var(--type-subheadline-weight);
+}
+
+@utility type-footnote {
+  font-size: var(--type-footnote-size);
+  line-height: var(--type-footnote-leading);
+  font-weight: var(--type-footnote-weight);
+}
+
+@utility type-caption-1 {
+  font-size: var(--type-caption-1-size);
+  line-height: var(--type-caption-1-leading);
+  font-weight: var(--type-caption-1-weight);
+}
+
+@utility type-caption-2 {
+  font-size: var(--type-caption-2-size);
+  line-height: var(--type-caption-2-leading);
+  font-weight: var(--type-caption-2-weight);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    }
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    font-optical-sizing: auto;
+    scrollbar-gutter: stable;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply type-body bg-background font-sans text-foreground;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a,
+  button,
+  [role="button"],
+  label,
+  summary {
+    touch-action: manipulation;
+  }
+
+  /* Anything under 16px makes iOS Safari zoom the page on focus; only where a finger focuses. */
+  @media (pointer: coarse) {
+    input,
+    select,
+    textarea {
+      font-size: max(16px, 1rem);
     }
+  }
+
+  /* Dynamic Type: the root font follows the reader's text size, and every type token is authored in
+     `--pt` (which tokens.css re-derives from that root in the same @supports block). */
+  @supports (font: -apple-system-body) and (-webkit-touch-callout: none) {
+    html {
+      font: -apple-system-body;
+      font-family: var(--font-sans);
+    }
+  }
+}
+
+/* ---------- materials: the content layer ---------- */
+
+@utility material-ultra-thin {
+  background-color: var(--material-ultra-thin-bg);
+  -webkit-backdrop-filter: blur(var(--material-ultra-thin-blur)) saturate(var(--material-ultra-thin-saturate));
+  backdrop-filter: blur(var(--material-ultra-thin-blur)) saturate(var(--material-ultra-thin-saturate));
+  @media (prefers-reduced-transparency: reduce) {
+    background-color: var(--background-3);
+    backdrop-filter: none;
+  }
+  :where([data-transparency="reduced"]) & {
+    background-color: var(--background-3);
+    backdrop-filter: none;
+  }
+}
+
+@utility material-thin {
+  background-color: var(--material-thin-bg);
+  -webkit-backdrop-filter: blur(var(--material-thin-blur)) saturate(var(--material-thin-saturate));
+  backdrop-filter: blur(var(--material-thin-blur)) saturate(var(--material-thin-saturate));
+  @media (prefers-reduced-transparency: reduce) {
+    background-color: var(--background-3);
+    backdrop-filter: none;
+  }
+  :where([data-transparency="reduced"]) & {
+    background-color: var(--background-3);
+    backdrop-filter: none;
+  }
+}
+
+@utility material-regular {
+  background-color: var(--material-regular-bg);
+  -webkit-backdrop-filter: blur(var(--material-regular-blur)) saturate(var(--material-regular-saturate));
+  backdrop-filter: blur(var(--material-regular-blur)) saturate(var(--material-regular-saturate));
+  @media (prefers-reduced-transparency: reduce) {
+    background-color: var(--background-3);
+    backdrop-filter: none;
+  }
+  :where([data-transparency="reduced"]) & {
+    background-color: var(--background-3);
+    backdrop-filter: none;
+  }
+}
+
+@utility material-thick {
+  background-color: var(--material-thick-bg);
+  -webkit-backdrop-filter: blur(var(--material-thick-blur)) saturate(var(--material-thick-saturate));
+  backdrop-filter: blur(var(--material-thick-blur)) saturate(var(--material-thick-saturate));
+  @media (prefers-reduced-transparency: reduce) {
+    background-color: var(--background-3);
+    backdrop-filter: none;
+  }
+  :where([data-transparency="reduced"]) & {
+    background-color: var(--background-3);
+    backdrop-filter: none;
+  }
+}
+
+/* ---------- Liquid Glass: the functional layer (bars, sheets, menus, prominent controls) ---------- */
+
+@utility glass {
+  background-color: var(--material-glass-bg);
+  -webkit-backdrop-filter: blur(var(--material-glass-blur)) saturate(var(--material-glass-saturate));
+  backdrop-filter: blur(var(--material-glass-blur)) saturate(var(--material-glass-saturate));
+  box-shadow: var(--elevation-glass);
+  @media (prefers-reduced-transparency: reduce) {
+    background-color: var(--background-3);
+    backdrop-filter: none;
+    box-shadow: var(--elevation-popover);
+  }
+  :where([data-transparency="reduced"]) & {
+    background-color: var(--background-3);
+    backdrop-filter: none;
+    box-shadow: var(--elevation-popover);
+  }
+}
+
+@utility glass-clear {
+  background-color: var(--material-glass-clear-bg);
+  -webkit-backdrop-filter: blur(var(--material-glass-clear-blur)) saturate(var(--material-glass-clear-saturate));
+  backdrop-filter: blur(var(--material-glass-clear-blur)) saturate(var(--material-glass-clear-saturate));
+  box-shadow: var(--elevation-glass);
+  @media (prefers-reduced-transparency: reduce) {
+    background-color: var(--background-3);
+    backdrop-filter: none;
+    box-shadow: var(--elevation-popover);
+  }
+  :where([data-transparency="reduced"]) & {
+    background-color: var(--background-3);
+    backdrop-filter: none;
+    box-shadow: var(--elevation-popover);
+  }
+}
+
+/* Prominent glass: the one tinted, primary action on a glass bar. Its own utility rather than glass + a
+   background override, so the paint order never depends on how Tailwind sorts two utilities. */
+@utility glass-prominent {
+  background-color: color-mix(in srgb, var(--primary) 85%, transparent);
+  color: var(--primary-foreground);
+  -webkit-backdrop-filter: blur(var(--material-glass-blur)) saturate(var(--material-glass-saturate));
+  backdrop-filter: blur(var(--material-glass-blur)) saturate(var(--material-glass-saturate));
+  box-shadow: var(--elevation-glass);
+  @media (prefers-reduced-transparency: reduce) {
+    background-color: var(--primary);
+    backdrop-filter: none;
+  }
+  :where([data-transparency="reduced"]) & {
+    background-color: var(--primary);
+    backdrop-filter: none;
+  }
+}
+
+/* ---------- hairlines: Apple's 0.5 pt separators, drawn with shadows so they stay half a pixel ---------- */
+
+@utility hairline {
+  box-shadow: 0 0 0 0.5px var(--separator);
+}
+
+@utility hairline-t {
+  box-shadow: inset 0 0.5px 0 var(--separator);
+}
+
+@utility hairline-b {
+  box-shadow: inset 0 -0.5px 0 var(--separator);
+}
+
+/* ---------- press feedback shared by every control ---------- */
+
+@utility pressable {
+  transition-property: transform, opacity, background-color;
+  transition-duration: var(--duration-press);
+  transition-timing-function: var(--easing-standard);
+  &:active {
+    transform: scale(0.97);
+    opacity: 0.8;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &:active {
+      transform: none;
+    }
+  }
 }

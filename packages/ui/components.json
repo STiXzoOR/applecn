@@ -9,13 +9,13 @@
     "baseColor": "neutral",
     "cssVariables": true
   },
-  "iconLibrary": "lucide",
+  "iconLibrary": "hugeicons",
   "aliases": {
-    "components": "@workspace/ui/components",
-    "utils": "@workspace/ui/lib/utils",
-    "hooks": "@workspace/ui/hooks",
-    "lib": "@workspace/ui/lib",
-    "ui": "@workspace/ui/components"
+    "components": "@apple-ds/ui/components",
+    "utils": "@apple-ds/ui/lib/utils",
+    "hooks": "@apple-ds/ui/hooks",
+    "lib": "@apple-ds/ui/lib",
+    "ui": "@apple-ds/ui/components"
   },
   "rtl": false,
   "menuColor": "default",
