@@ -12,7 +12,7 @@
     "test": "vitest run",
     "examples:build": "node scripts/examples-index.ts",
     "registry:data": "node scripts/registry.ts",
-    "registry:build": "node scripts/registry.ts && shadcn build ./registry.json -o ./public/r",
+    "registry:build": "node scripts/registry.ts && shadcn build ../../apps/web/registry.json -o ../../apps/web/public/r --cwd ../../packages/ui",
     "prebuild": "pnpm registry:build"
   },
   "dependencies": {

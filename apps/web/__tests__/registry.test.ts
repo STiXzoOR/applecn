@@ -23,9 +23,21 @@ describe("registry", () => {
     for (const item of ui) {
       for (const file of item.files) {
         expect(
-          existsSync(join(process.cwd(), file.path)),
+          existsSync(join(process.cwd(), "../../packages/ui", file.path)),
           `${item.name}: ${file.path}`
         ).toBe(true)
+      }
+    }
+  })
+
+  test("file paths are relative to the package with no traversal, so the CLI accepts them and derives the install location", () => {
+    // shadcn rejects any `..` in a published path; `src/<dir>/<file>` resolves to
+    // components/ui, hooks/ and lib/ in the consumer without a `target`.
+    for (const item of registry.items) {
+      for (const file of item.files) {
+        expect(file.path, item.name).toMatch(
+          /^src\/(components|hooks|lib)\/[\w-]+\.tsx?$/
+        )
       }
     }
   })

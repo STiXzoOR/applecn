@@ -38,7 +38,8 @@ export interface Registry {
   items: RegistryItem[]
 }
 
-const UI_ROOT = "../../packages/ui/src"
+/** Where the package lives relative to this app; `shadcn build` runs with it as cwd. */
+const UI_PACKAGE = "../../packages/ui"
 const IGNORED_PACKAGES = new Set(["react", "react-dom"])
 
 function readSource(relative: string): string {
@@ -83,8 +84,12 @@ function item(
   title: string,
   description: string
 ): RegistryItem {
-  const path = `${UI_ROOT}/${dir}/${file}`
-  const { dependencies, registryDependencies } = imports(readSource(path))
+  // Relative to the package, never to this app: the CLI refuses a published path with
+  // `..` in it, and derives components/ui, hooks/ and lib/ from `src/<dir>/<file>`.
+  const path = `src/${dir}/${file}`
+  const { dependencies, registryDependencies } = imports(
+    readSource(`${UI_PACKAGE}/${path}`)
+  )
   return {
     name: file.replace(/\.tsx?$/, ""),
     type: `registry:${kind}`,
@@ -154,7 +159,9 @@ function parseBlock(body: string): Record<string, unknown> {
 }
 
 export function buildRegistry(): Registry {
-  const components = readdirSync(join(process.cwd(), UI_ROOT, "components"))
+  const components = readdirSync(
+    join(process.cwd(), UI_PACKAGE, "src/components")
+  )
     .filter((f) => f.endsWith(".tsx"))
     .sort()
   const docs = new Map(componentDocs.map((d) => [d.name, d]))
@@ -214,7 +221,7 @@ export function buildRegistry(): Registry {
       "Every Apple token as CSS variables (light and dark) plus the type, material, glass, hairline and press utilities.",
     files: [],
     cssVars: { light: tokenVars("light"), dark: tokenVars("dark") },
-    css: utilities(readSource(`${UI_ROOT}/styles/globals.css`)),
+    css: utilities(readSource(`${UI_PACKAGE}/src/styles/globals.css`)),
   }
 
   return {
