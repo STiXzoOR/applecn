@@ -687,6 +687,40 @@
       ]
     },
     {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "The path to the current location as links separated by chevrons — the Finder’s path bar, apple.com’s breadcrumbs.",
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "cn"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/breadcrumb.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button group",
+      "description": "Adjacent buttons joined into one control — AppKit’s segmented push buttons, apple.com’s paired actions.",
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "src/components/button-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
@@ -719,6 +753,40 @@
       ]
     },
     {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "A snapping horizontal shelf of items with a page control, scrolled natively — the App Store’s shelves.",
+      "dependencies": [
+        "cn"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/page-control.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/carousel.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "checkbox-group",
+      "type": "registry:ui",
+      "title": "Checkbox group",
+      "description": "Checkboxes that share a value under a parent that turns them all on or off and shows the mixed state — macOS’s settings hierarchy.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "src/components/checkbox-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "checkbox",
       "type": "registry:ui",
       "title": "Checkbox",
@@ -734,6 +802,21 @@
       "files": [
         {
           "path": "src/components/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "color-well",
+      "type": "registry:ui",
+      "title": "Color well",
+      "description": "The native colour input as Apple presents it: a ring around the swatch on iOS, AppKit’s capsule on macOS.",
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "src/components/color-well.tsx",
           "type": "registry:ui"
         }
       ]
@@ -971,6 +1054,22 @@
       ]
     },
     {
+      "name": "lockup",
+      "type": "registry:ui",
+      "title": "Lockup",
+      "description": "The App Store’s product lockup: an icon on the icon mask, a title, a subtitle and the Get button.",
+      "dependencies": [
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "src/components/lockup.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "material",
       "type": "registry:ui",
       "title": "Material",
@@ -1102,6 +1201,22 @@
       ]
     },
     {
+      "name": "passcode-field",
+      "type": "registry:ui",
+      "title": "Passcode field",
+      "description": "A row of one-character boxes for a verification code that advances as digits are typed and fills on paste.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "src/components/passcode-field.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "popover",
       "type": "registry:ui",
       "title": "Popover",
@@ -1162,6 +1277,25 @@
       "files": [
         {
           "path": "src/components/radio-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "rating",
+      "type": "registry:ui",
+      "title": "Rating",
+      "description": "The App Store’s five stars: read-only with the value in its name, or a radio group the person can set.",
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "cn"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/rating.tsx",
           "type": "registry:ui"
         }
       ]
@@ -1567,6 +1701,21 @@
       "files": [
         {
           "path": "src/components/tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "window",
+      "type": "registry:ui",
+      "title": "Window",
+      "description": "A macOS 26 window: 16 pt corners, the title bar with its traffic lights or the unified toolbar, and the dialog shadow.",
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "src/components/window.tsx",
           "type": "registry:ui"
         }
       ]

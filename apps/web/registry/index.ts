@@ -180,6 +180,26 @@ export const componentDocs: ComponentDoc[] = [
     primitive: "Meter",
     examples: [{ name: "basic", title: "Linear and circular" }],
   },
+  {
+    name: "button-group",
+    title: "Button group",
+    description:
+      "Adjacent buttons joined into one control — AppKit’s segmented push buttons, apple.com’s paired actions.",
+    group: "controls",
+    apple: { name: "Buttons", hig: hig("buttons") },
+    primitive: "element",
+    examples: [{ name: "basic", title: "Joined buttons" }],
+  },
+  {
+    name: "rating",
+    title: "Rating",
+    description:
+      "The App Store’s five stars: read-only with the value in its name, or a radio group the person can set.",
+    group: "controls",
+    apple: { name: "Rating indicators", hig: hig("rating-indicators") },
+    primitive: "element",
+    examples: [{ name: "basic", title: "Read-only and interactive" }],
+  },
   // ---------- forms ----------
   {
     name: "switch",
@@ -321,6 +341,36 @@ export const componentDocs: ComponentDoc[] = [
     apple: { name: "Combo boxes", hig: hig("combo-boxes") },
     primitive: "Combobox",
     examples: [{ name: "basic", title: "Suggestions" }],
+  },
+  {
+    name: "checkbox-group",
+    title: "Checkbox group",
+    description:
+      "Checkboxes that share a value under a parent that turns them all on or off and shows the mixed state — macOS’s settings hierarchy.",
+    group: "forms",
+    apple: { name: "Checkboxes", hig: hig("toggles") },
+    primitive: "CheckboxGroup",
+    examples: [{ name: "basic", title: "Parent and children" }],
+  },
+  {
+    name: "passcode-field",
+    title: "Passcode field",
+    description:
+      "A row of one-character boxes for a verification code that advances as digits are typed and fills on paste.",
+    group: "forms",
+    apple: { name: "Text fields", hig: hig("text-fields") },
+    primitive: "OTPField",
+    examples: [{ name: "basic", title: "Verification code" }],
+  },
+  {
+    name: "color-well",
+    title: "Color well",
+    description:
+      "The native colour input as Apple presents it: a ring around the swatch on iOS, AppKit’s capsule on macOS.",
+    group: "forms",
+    apple: { name: "Color wells", hig: hig("color-wells") },
+    primitive: "element",
+    examples: [{ name: "basic", title: "Pick a colour" }],
   },
   // ---------- overlays ----------
   {
@@ -505,6 +555,16 @@ export const componentDocs: ComponentDoc[] = [
     primitive: "NavigationMenu",
     examples: [{ name: "basic", title: "Global nav" }],
   },
+  {
+    name: "breadcrumb",
+    title: "Breadcrumb",
+    description:
+      "The path to the current location as links separated by chevrons — the Finder’s path bar, apple.com’s breadcrumbs.",
+    group: "navigation",
+    apple: { name: "Path controls", hig: hig("path-controls") },
+    primitive: "element",
+    examples: [{ name: "basic", title: "A file path" }],
+  },
   // ---------- content ----------
   {
     name: "list",
@@ -595,6 +655,36 @@ export const componentDocs: ComponentDoc[] = [
     apple: { name: "Scroll views", hig: hig("scroll-views") },
     primitive: "ScrollArea",
     examples: [{ name: "basic", title: "A list" }],
+  },
+  {
+    name: "window",
+    title: "Window",
+    description:
+      "A macOS 26 window: 16 pt corners, the title bar with its traffic lights or the unified toolbar, and the dialog shadow.",
+    group: "content",
+    apple: { name: "Windows", hig: hig("windows") },
+    primitive: "element",
+    examples: [{ name: "basic", title: "A window with a toolbar" }],
+  },
+  {
+    name: "lockup",
+    title: "Lockup",
+    description:
+      "The App Store’s product lockup: an icon on the icon mask, a title, a subtitle and the Get button.",
+    group: "content",
+    apple: { name: "Lockups", hig: hig("lockups") },
+    primitive: "element",
+    examples: [{ name: "basic", title: "App rows" }],
+  },
+  {
+    name: "carousel",
+    title: "Carousel",
+    description:
+      "A snapping horizontal shelf of items with a page control, scrolled natively — the App Store’s shelves.",
+    group: "content",
+    apple: { name: "Collections", hig: hig("collections") },
+    primitive: "element",
+    examples: [{ name: "basic", title: "Playlists" }],
   },
   {
     name: "kbd",
