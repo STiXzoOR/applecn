@@ -18,7 +18,9 @@
 @import "./tokens.css";
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant ios (&:is([data-platform="ios"], [data-platform="ios"] *));
 @custom-variant macos (&:is([data-platform="macos"], [data-platform="macos"] *));
+@custom-variant web (&:is([data-platform="web"], [data-platform="web"] *));
 
 @source "../../../apps/**/*.{ts,tsx}";
 @source "../../../components/**/*.{ts,tsx}";
@@ -106,6 +108,8 @@
   --color-separator: var(--separator);
   --color-separator-opaque: var(--separator-opaque);
   --color-link: var(--link);
+  --color-tint: var(--accent-color);
+  --color-selection: var(--selection);
 
   /* ---------- shape: shadcn's Luma derivation, unmodified, plus Apple's two extras ---------- */
   --radius-sm: var(--corner-sm);
@@ -117,6 +121,22 @@
   --radius-4xl: var(--corner-4xl);
   --radius-sheet: var(--sheet-radius);
   --radius-icon: var(--icon-radius);
+  /* Per-platform control shapes, measured (research document §11–§12). */
+  --radius-control: var(--control-radius-regular);
+  --radius-field: var(--text-field-radius);
+  --radius-list: var(--list-radius);
+  --radius-card: var(--card-radius);
+  --radius-menu: var(--menu-radius);
+  --radius-menu-item: var(--menu-item-radius);
+  --radius-popover: var(--popover-radius);
+  --radius-alert: var(--alert-radius);
+  --radius-dialog: var(--dialog-radius);
+  --radius-window: var(--window-radius);
+  --radius-sidebar: var(--sidebar-radius);
+  --radius-segmented: var(--segmented-radius);
+  --radius-checkbox: var(--checkbox-radius);
+  --radius-stepper: var(--stepper-radius);
+  --radius-search: var(--search-field-radius);
 
   /* ---------- motion ---------- */
   --ease-standard: var(--easing-standard);
@@ -160,66 +180,77 @@
   font-size: var(--type-large-title-size);
   line-height: var(--type-large-title-leading);
   font-weight: var(--type-large-title-weight);
+  letter-spacing: var(--type-large-title-tracking);
 }
 
 @utility type-title-1 {
   font-size: var(--type-title-1-size);
   line-height: var(--type-title-1-leading);
   font-weight: var(--type-title-1-weight);
+  letter-spacing: var(--type-title-1-tracking);
 }
 
 @utility type-title-2 {
   font-size: var(--type-title-2-size);
   line-height: var(--type-title-2-leading);
   font-weight: var(--type-title-2-weight);
+  letter-spacing: var(--type-title-2-tracking);
 }
 
 @utility type-title-3 {
   font-size: var(--type-title-3-size);
   line-height: var(--type-title-3-leading);
   font-weight: var(--type-title-3-weight);
+  letter-spacing: var(--type-title-3-tracking);
 }
 
 @utility type-headline {
   font-size: var(--type-headline-size);
   line-height: var(--type-headline-leading);
   font-weight: var(--type-headline-weight);
+  letter-spacing: var(--type-headline-tracking);
 }
 
 @utility type-body {
   font-size: var(--type-body-size);
   line-height: var(--type-body-leading);
   font-weight: var(--type-body-weight);
+  letter-spacing: var(--type-body-tracking);
 }
 
 @utility type-callout {
   font-size: var(--type-callout-size);
   line-height: var(--type-callout-leading);
   font-weight: var(--type-callout-weight);
+  letter-spacing: var(--type-callout-tracking);
 }
 
 @utility type-subheadline {
   font-size: var(--type-subheadline-size);
   line-height: var(--type-subheadline-leading);
   font-weight: var(--type-subheadline-weight);
+  letter-spacing: var(--type-subheadline-tracking);
 }
 
 @utility type-footnote {
   font-size: var(--type-footnote-size);
   line-height: var(--type-footnote-leading);
   font-weight: var(--type-footnote-weight);
+  letter-spacing: var(--type-footnote-tracking);
 }
 
 @utility type-caption-1 {
   font-size: var(--type-caption-1-size);
   line-height: var(--type-caption-1-leading);
   font-weight: var(--type-caption-1-weight);
+  letter-spacing: var(--type-caption-1-tracking);
 }
 
 @utility type-caption-2 {
   font-size: var(--type-caption-2-size);
   line-height: var(--type-caption-2-leading);
   font-weight: var(--type-caption-2-weight);
+  letter-spacing: var(--type-caption-2-tracking);
 }
 
 @layer base {
@@ -404,6 +435,20 @@
 
 @utility hairline-b {
   box-shadow: inset 0 -0.5px 0 var(--separator);
+}
+
+/* ---------- the Liquid Glass knob: switch and slider thumbs stretch while pressed ---------- */
+
+@utility knob {
+  background-color: var(--white);
+  box-shadow: var(--elevation-thumb);
+  border-radius: var(--corner-capsule, 1000px);
+  transition-property: width, transform, translate, box-shadow;
+  transition-duration: var(--duration-hover);
+  transition-timing-function: var(--spring-snappy);
+  @media (prefers-reduced-motion: reduce) {
+    transition-property: none;
+  }
 }
 
 /* ---------- press feedback shared by every control ---------- */

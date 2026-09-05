@@ -77,7 +77,7 @@ describe("registry", () => {
     expect(style.name).toBe("apple")
     expect(style.cssVars?.light?.["system-blue"]).toBe("rgb(0 136 255)")
     expect(style.cssVars?.dark?.["system-blue"]).toBe("rgb(0 145 255)")
-    expect(style.cssVars?.light?.primary).toBe("var(--system-blue)")
+    expect(style.cssVars?.light?.primary).toBe("var(--accent-color)")
     expect(Object.keys(style.css ?? {})).toEqual(
       expect.arrayContaining(["@utility type-body", "@utility glass"])
     )

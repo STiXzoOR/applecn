@@ -2,7 +2,7 @@
 
 import { createContext, useContext, type ReactNode } from "react"
 
-type Platform = "ios" | "macos"
+type Platform = "ios" | "macos" | "web"
 
 const PlatformContext = createContext<Platform>("ios")
 

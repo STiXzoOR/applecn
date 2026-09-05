@@ -2,86 +2,288 @@ import { describe, expect, test } from "vitest"
 
 import { elevation } from "../elevation"
 import { materials } from "../materials"
-import { metrics } from "../metrics"
+import { metrics, platforms } from "../metrics"
 import { durations, easings, springLinear, springs } from "../motion"
 import { radii } from "../radii"
 
-describe("iOS metrics (UIKit and HIG values)", () => {
-  const ios = metrics.ios
-  test("button heights per control size", () => {
-    expect(ios.buttonHeight).toEqual({
-      mini: 28,
-      small: 32,
-      regular: 44,
-      large: 52,
-      xl: 64,
-    })
-  })
-  test("the switch is 51×31 with a 27 pt thumb", () => {
-    expect(ios.switch).toEqual({ width: 51, height: 31, thumb: 27 })
-  })
-  test("list rows, with the inset group on Apple's web xlarge radius", () => {
-    expect(ios.list.inset).toBe(16)
-    expect(ios.list.insetWide).toBe(20)
-    expect(ios.list.radius).toBe(24)
-    expect(ios.list.rowMinHeight).toBe(44)
-    expect(ios.list.rowPaddingX).toBe(16)
-    expect(ios.list.rowPaddingY).toBe(11)
-  })
-  test("alert, sheet and nav bar", () => {
-    expect(ios.alert).toEqual({ width: 270, radius: 24, buttonHeight: 44 })
-    expect(ios.sheet.grabber).toEqual([36, 5])
-    expect(ios.sheet.scrim).toBe(0.45)
-    expect(ios.navBar).toEqual({ height: 44, largeTitle: 52 })
-    expect(ios.menu).toEqual({ width: 250, itemHeight: 44, radius: 24 })
-  })
-  test("hit targets", () => {
-    expect(ios.hitTarget).toEqual({ default: 44, minimum: 28 })
-    expect(metrics.macos.hitTarget).toEqual({ default: 28, minimum: 20 })
-  })
-  test("macOS checkbox is a 14 pt square, iOS a 22 pt circle", () => {
-    expect(ios.checkbox).toEqual({ size: 22, shape: "circle" })
-    expect(metrics.macos.checkbox).toEqual({ size: 14, shape: "square" })
+describe("platforms", () => {
+  test("there are three idioms: iOS, macOS and Apple's web", () => {
+    expect(platforms).toEqual(["ios", "macos", "web"])
+    for (const p of platforms) expect(metrics[p]).toBeDefined()
   })
 })
 
-describe("macOS metrics (measured from Apple's desktop web apps, 2026-09-05)", () => {
+describe("iOS 26 metrics (UIKit on the iPhone 17 Pro simulator, 2026-09-06)", () => {
+  const ios = metrics.ios
+  test("button heights: 28 for mini and small, 34 medium, 50 large, all capsules", () => {
+    expect(ios.buttonHeight).toEqual({
+      mini: 28,
+      small: 28,
+      regular: 34,
+      large: 50,
+      xl: 60,
+    })
+    expect(ios.buttonRadius.regular).toBe(1000)
+    expect(ios.buttonRadius.mini).toBe(1000)
+    expect(ios.buttonFont).toEqual({
+      mini: 15,
+      small: 15,
+      regular: 17,
+      large: 17,
+      xl: 20,
+    })
+    expect(ios.buttonPaddingX.regular).toBe(12)
+    expect(ios.buttonPaddingX.large).toBe(20)
+  })
+  test("the switch is a 63×28 capsule with a 37×24 oval knob inset 2", () => {
+    expect(ios.switch).toEqual({
+      width: 63,
+      height: 28,
+      thumbWidth: 37,
+      thumbHeight: 24,
+      inset: 2,
+    })
+  })
+  test("the slider has a 6 pt track and the same 37×24 pill thumb", () => {
+    expect(ios.slider).toEqual({ track: 6, thumbWidth: 37, thumbHeight: 24 })
+  })
+  test("segmented control and stepper are 32 pt capsules", () => {
+    expect(ios.segmented).toEqual({ height: 32, inset: 2, radius: 1000 })
+    expect(ios.stepper).toEqual({
+      width: 94,
+      height: 32,
+      radius: 1000,
+      orientation: "horizontal",
+    })
+  })
+  test("fields: the 34 pt rounded-rect text field (radius 5) and the 44 pt search capsule", () => {
+    expect(ios.textField).toEqual({ height: 34, radius: 5 })
+    expect(ios.searchField).toEqual({ height: 44, radius: 1000 })
+  })
+  test("inset grouped lists: inset 20, radius 26, rows 52 with 15×16 padding, 17 pt headers", () => {
+    expect(ios.list.inset).toBe(16)
+    expect(ios.list.insetWide).toBe(20)
+    expect(ios.list.radius).toBe(26)
+    expect(ios.list.rowMinHeight).toBe(52)
+    expect(ios.list.rowPaddingY).toBe(15)
+    expect(ios.list.rowPaddingX).toBe(16)
+    expect(ios.list.iconTile).toBe(30)
+    expect(ios.list.headerFont).toBe(17)
+    expect(ios.list.footerFont).toBe(13)
+    expect(ios.card.radius).toBe(26)
+  })
+  test("bars: 54 pt nav row with 44 pt platters, the 62 pt floating tab bar, 52 pt toolbars", () => {
+    expect(ios.navBar).toEqual({ height: 54, largeTitle: 52, item: 44 })
+    expect(ios.tabBar).toEqual({
+      height: 62,
+      inset: 21,
+      item: 54,
+      itemInset: 4,
+      label: 10,
+    })
+    expect(ios.toolbar).toEqual({ height: 52, item: 44, inset: 4 })
+  })
+  test("alerts: 320 wide, radius 34, 48 pt capsule actions inset 16 and 8 apart", () => {
+    expect(ios.alert).toEqual({
+      width: 320,
+      radius: 34,
+      buttonHeight: 48,
+      buttonInset: 16,
+      buttonGap: 8,
+    })
+    expect(ios.actionSheet).toEqual({
+      width: 320,
+      rowHeight: 48,
+      radius: 34,
+      inset: 16,
+      gap: 8,
+    })
+  })
+  test("menus, popovers, sheets and dialogs", () => {
+    expect(ios.menu).toEqual({
+      width: 250,
+      itemHeight: 44,
+      radius: 26,
+      itemRadius: 22,
+      padding: 4,
+    })
+    expect(ios.popover.radius).toBe(26)
+    expect(ios.sheet.grabber).toEqual([36, 5])
+    expect(ios.sheet.radius).toBe(40)
+    expect(ios.dialog).toEqual({ width: 540, radius: 34 })
+  })
+  test("small controls", () => {
+    expect(ios.checkbox).toEqual({ size: 22, radius: 1000, shape: "circle" })
+    expect(ios.radio).toEqual({ size: 22, dot: 8 })
+    expect(ios.pageControl).toEqual({ dot: 7, gap: 10 })
+    expect(ios.progress.height).toBe(4)
+    expect(ios.spinner).toEqual({ medium: 20, large: 37 })
+    expect(ios.hitTarget).toEqual({ default: 44, minimum: 28 })
+    expect(ios.window).toBeUndefined()
+  })
+})
+
+describe("macOS 26 metrics (AppKit on Tahoe 26.6, 2026-09-06)", () => {
   const mac = metrics.macos
-  test("button heights: Music 24 and 28, the 36 pt pill, TV's 40 pt pill, apple.com's 44 pt CTA", () => {
+  test("push buttons: 16/20/24/28/36, rounded rectangles up to regular, capsules from large", () => {
     expect(mac.buttonHeight).toEqual({
+      mini: 16,
+      small: 20,
+      regular: 24,
+      large: 28,
+      xl: 36,
+    })
+    expect(mac.buttonRadius).toEqual({
+      mini: 4,
+      small: 5,
+      regular: 6,
+      large: 1000,
+      xl: 1000,
+    })
+    expect(mac.buttonFont).toEqual({
+      mini: 9,
+      small: 11,
+      regular: 13,
+      large: 13,
+      xl: 13,
+    })
+  })
+  test("the switch is 54×24 with a 31×20 oval knob", () => {
+    expect(mac.switch).toEqual({
+      width: 54,
+      height: 24,
+      thumbWidth: 31,
+      thumbHeight: 20,
+      inset: 2,
+    })
+  })
+  test("checkbox and radio are 16 pt; the checkbox a 4 pt rounded square", () => {
+    expect(mac.checkbox).toEqual({ size: 16, radius: 4, shape: "square" })
+    expect(mac.radio).toEqual({ size: 16, dot: 6 })
+  })
+  test("the slider knob is a 20×16 oval on a 4 pt track", () => {
+    expect(mac.slider).toEqual({ track: 4, thumbWidth: 20, thumbHeight: 16 })
+  })
+  test("segmented 24 (radius 6), text field 24 (radius 6), search 24 capsule, stepper 20×26 vertical", () => {
+    expect(mac.segmented).toEqual({ height: 24, inset: 2, radius: 6 })
+    expect(mac.textField).toEqual({ height: 24, radius: 6 })
+    expect(mac.searchField).toEqual({ height: 24, radius: 1000 })
+    expect(mac.stepper).toEqual({
+      width: 20,
+      height: 26,
+      radius: 5,
+      orientation: "vertical",
+    })
+  })
+  test("menus have 24 pt items with 5 pt padding; alerts are 260 wide with 28 pt buttons", () => {
+    expect(mac.menu).toEqual({
+      width: 200,
+      itemHeight: 24,
+      radius: 12,
+      itemRadius: 5,
+      padding: 5,
+    })
+    expect(mac.alert).toEqual({
+      width: 260,
+      radius: 16,
+      buttonHeight: 28,
+      buttonInset: 16,
+      buttonGap: 8,
+    })
+  })
+  test("windows: 32 pt title bar, 52 pt unified toolbar, 14 pt traffic lights", () => {
+    expect(mac.window).toEqual({ titleBar: 32, radius: 16, trafficLight: 14 })
+    expect(mac.toolbar).toEqual({ height: 52, item: 28, inset: 0 })
+    expect(mac.navBar).toEqual({ height: 52, largeTitle: 0, item: 28 })
+    expect(mac.tabBar.height).toBe(0)
+  })
+  test("sidebar rows are 28 with 6 pt corners; grouped forms use 10 pt corners", () => {
+    expect(mac.sidebar).toEqual({ width: 240, rowHeight: 28, radius: 6 })
+    expect(mac.list.radius).toBe(10)
+    expect(mac.list.rowMinHeight).toBe(28)
+    expect(mac.hitTarget).toEqual({ default: 28, minimum: 20 })
+    expect(mac.spinner).toEqual({ medium: 16, large: 32 })
+    expect(mac.progress.height).toBe(6)
+  })
+})
+
+describe("web metrics (apple.com and Apple's web apps, 2026-09-05/06)", () => {
+  const web = metrics.web
+  test("apple.com's pill buttons: reduced 24, small 28, standard 36, elevated 44, super 56", () => {
+    expect(web.buttonHeight).toEqual({
       mini: 24,
       small: 28,
       regular: 36,
-      large: 40,
-      xl: 44,
+      large: 44,
+      xl: 56,
+    })
+    expect(web.buttonRadius.regular).toBe(1000)
+    expect(web.buttonFont).toEqual({
+      mini: 12,
+      small: 12,
+      regular: 14,
+      large: 17,
+      xl: 17,
+    })
+    expect(web.buttonPaddingX).toEqual({
+      mini: 11,
+      small: 15,
+      regular: 16,
+      large: 22,
+      xl: 31,
     })
   })
-  test("sidebar rows are Music's 34 pt with 8 pt corners; the sidebar is the App Store's 260 pt", () => {
-    expect(mac.list.rowMinHeight).toBe(34)
-    expect(mac.list.radius).toBe(8)
-    expect(mac.splitView).toEqual({ sidebar: 260, content: 320 })
+  test("web-app controls: 32 pt fields, 34 pt sidebar rows with 8 pt corners, 44 pt menu rows", () => {
+    expect(web.textField).toEqual({ height: 32, radius: 5 })
+    expect(web.searchField).toEqual({ height: 32, radius: 1000 })
+    expect(web.sidebar).toEqual({ width: 260, rowHeight: 34, radius: 8 })
+    expect(web.menu).toEqual({
+      width: 200,
+      itemHeight: 44,
+      radius: 12,
+      itemRadius: 8,
+      padding: 4,
+    })
+    expect(web.slider).toEqual({ track: 5, thumbWidth: 13, thumbHeight: 13 })
+    expect(web.segmented).toEqual({ height: 32, inset: 2, radius: 1000 })
   })
-  test("fields are the App Store search field: 32 pt, 4 pt corners; the select is 32 pt", () => {
-    expect(mac.textField).toEqual({ height: 32, radius: 4 })
-    expect(mac.searchField.height).toBe(32)
-    expect(mac.segmented.height).toBe(32)
-  })
-  test("dialogs: 10 pt corners, the App Store's 691 pt content modal, the .45 scrim; menus 44 pt rows", () => {
-    expect(mac.sheet.radius).toBe(10)
-    expect(mac.sheet.scrim).toBe(0.45)
-    expect(mac.dialog.width).toBe(691)
-    expect(mac.menu).toEqual({ width: 200, itemHeight: 44, radius: 12 })
-    expect(mac.toolbar.height).toBe(52)
-    expect(mac.navBar.height).toBe(52)
-  })
-  test("the TV player's scrubber: 5 pt track, 13 pt thumb", () => {
-    expect(mac.slider).toEqual({ track: 5, thumb: 13 })
+  test("bars: the 44 pt global nav, 52 pt web-app headers; dialogs 10 pt corners, the 691 pt content modal", () => {
+    expect(web.navBar).toEqual({ height: 44, largeTitle: 0, item: 36 })
+    expect(web.toolbar).toEqual({ height: 52, item: 28, inset: 0 })
+    expect(web.dialog).toEqual({ width: 691, radius: 10 })
+    expect(web.sheet.radius).toBe(24)
+    expect(web.card.radius).toBe(17)
+    expect(web.list.radius).toBe(12)
   })
 })
 
-describe("radii (apps.apple.com tokens plus the sizes in use)", () => {
-  test("xsmall 5, 8 (Music rows), 10 (dialogs), medium 12, large 17, 20 (Music sidebar), xlarge 24", () => {
-    expect(radii.ladder).toEqual({
+describe("radii per platform", () => {
+  test("iOS 26: 5 (fields) to 26 (grouped lists), alerts 34, sheets 40", () => {
+    expect(radii.ios.ladder).toEqual({
+      sm: 5,
+      md: 8,
+      lg: 10,
+      xl: 14,
+      "2xl": 18,
+      "3xl": 22,
+      "4xl": 26,
+    })
+    expect(radii.ios.sheet).toBe(40)
+  })
+  test("macOS 26: 4 to 16", () => {
+    expect(radii.macos.ladder).toEqual({
+      sm: 4,
+      md: 5,
+      lg: 6,
+      xl: 8,
+      "2xl": 10,
+      "3xl": 12,
+      "4xl": 16,
+    })
+    expect(radii.macos.sheet).toBe(16)
+  })
+  test("web: the App Store's tokens, xsmall 5 to xlarge 24", () => {
+    expect(radii.web.ladder).toEqual({
       sm: 5,
       md: 8,
       lg: 10,
@@ -90,9 +292,9 @@ describe("radii (apps.apple.com tokens plus the sizes in use)", () => {
       "3xl": 20,
       "4xl": 24,
     })
+    expect(radii.web.sheet).toBe(24)
     expect(radii.icon).toBe("22.37%")
     expect(radii.capsule).toBe(1000)
-    expect(radii.sheet).toBe(40)
   })
 })
 

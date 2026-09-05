@@ -21,6 +21,8 @@ import {
   SegmentedControlItem,
 } from "@applecn/ui/components/segmented-control"
 
+import type { Platform } from "@applecn/ui/lib/platform"
+
 import { useAppearance } from "@/components/appearance"
 
 export function PlatformSwitch({ className }: { className?: string }) {
@@ -29,11 +31,12 @@ export function PlatformSwitch({ className }: { className?: string }) {
     <SegmentedControl
       aria-label="Platform"
       value={platform}
-      onValueChange={(v) => setPlatform(v as "ios" | "macos")}
+      onValueChange={(v) => setPlatform(v as Platform)}
       className={className}
     >
       <SegmentedControlItem value="ios">iOS</SegmentedControlItem>
       <SegmentedControlItem value="macos">macOS</SegmentedControlItem>
+      <SegmentedControlItem value="web">Web</SegmentedControlItem>
     </SegmentedControl>
   )
 }
