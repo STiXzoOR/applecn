@@ -132,6 +132,16 @@
   --shadow-popover: var(--elevation-popover);
   --shadow-window: var(--elevation-window);
   --shadow-glass: var(--elevation-glass);
+
+  /* ---------- animations ---------- */
+  @keyframes progress-indeterminate {
+    from {
+      translate: -100% 0;
+    }
+    to {
+      translate: 300% 0;
+    }
+  }
 }
 
 /* ---------- type styles ----------
