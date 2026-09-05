@@ -1,5 +1,5 @@
 {
-  "name": "@workspace/ui",
+  "name": "@apple-ds/ui",
   "version": "0.0.0",
   "type": "module",
   "private": true,
@@ -10,9 +10,10 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
+    "@hugeicons/core-free-icons": "^4.3.0",
+    "@hugeicons/react": "^1.1.10",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.2.5",
-    "lucide-react": "^1.41.0",
     "next-themes": "^0.4.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
@@ -26,8 +27,8 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@workspace/eslint-config": "workspace:*",
-    "@workspace/typescript-config": "workspace:*",
+    "@apple-ds/eslint-config": "workspace:*",
+    "@apple-ds/typescript-config": "workspace:*",
     "eslint": "^9",
     "tailwindcss": "^4",
     "typescript": "^5"
