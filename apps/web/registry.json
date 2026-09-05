@@ -239,6 +239,7 @@
           "menu-item-radius": "22px",
           "menu-padding": "4px",
           "menu-font": "calc(17 * var(--pt))",
+          "menu-bar-height": "44px",
           "dialog-width": "540px",
           "dialog-radius": "34px",
           "split-view-sidebar-width": "320px",
@@ -597,6 +598,26 @@
       }
     },
     {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "An inset grouped list of disclosure rows that each reveal a panel, one open at a time unless multiple.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "cn"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/accordion.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "action-sheet",
       "type": "registry:ui",
       "title": "Action sheet",
@@ -713,6 +734,26 @@
       "files": [
         {
           "path": "src/components/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combo box",
+      "description": "A text field that offers suggestions filtered as the person types, in a glass menu with the platform’s rows.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "cn"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/combobox.tsx",
           "type": "registry:ui"
         }
       ]
@@ -894,6 +935,22 @@
       ]
     },
     {
+      "name": "link",
+      "type": "registry:ui",
+      "title": "Link",
+      "description": "A link in the link colour: apple.com’s “Learn more ›” with its chevron, a pill button, or a quiet inline link.",
+      "dependencies": [
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "src/components/link.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "list",
       "type": "registry:ui",
       "title": "List",
@@ -951,6 +1008,44 @@
       ]
     },
     {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menu bar",
+      "description": "The macOS menu bar: top-level menus whose titles highlight with the accent while open, each a full menu with shortcuts and submenus.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "cn"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/menu.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/menubar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "meter",
+      "type": "registry:ui",
+      "title": "Meter",
+      "description": "Gauges for a value in a range that is not progress: the linear meter with a label and percentage, and the circular gauge with the value in the centre.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "src/components/meter.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "navigation-bar",
       "type": "registry:ui",
       "title": "Navigation bar",
@@ -966,6 +1061,26 @@
       "files": [
         {
           "path": "src/components/navigation-bar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation menu",
+      "description": "apple.com’s global navigation: a 44 pt material bar of small links with full-width flyout panels of large links under eyebrows.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "cn"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/navigation-menu.tsx",
           "type": "registry:ui"
         }
       ]
@@ -1003,6 +1118,22 @@
       ]
     },
     {
+      "name": "preview-card",
+      "type": "registry:ui",
+      "title": "Preview card",
+      "description": "Safari’s link preview: a Liquid Glass card that appears after hovering a link for a moment.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "src/components/preview-card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "progress",
       "type": "registry:ui",
       "title": "Progress",
@@ -1031,6 +1162,22 @@
       "files": [
         {
           "path": "src/components/radio-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll area",
+      "description": "A scroll view with Apple’s overlay scrollbars, which fade in while scrolling and never take layout space.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "src/components/scroll-area.tsx",
           "type": "registry:ui"
         }
       ]
@@ -1330,6 +1477,42 @@
       "files": [
         {
           "path": "src/components/textarea.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "Notification banners: a Liquid Glass card with an icon, title and message that drops in from the top and can be swiped away.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "cn"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/toast.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle group",
+      "description": "A joined set of toggle buttons in the segmented control’s geometry, single- or multi-select — Keynote’s bold, italic and underline.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "src/components/toggle-group.tsx",
           "type": "registry:ui"
         }
       ]

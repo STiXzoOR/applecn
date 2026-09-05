@@ -147,6 +147,39 @@ export const componentDocs: ComponentDoc[] = [
     primitive: "Progress",
     examples: [{ name: "basic", title: "Linear and circular" }],
   },
+  {
+    name: "link",
+    title: "Link",
+    description:
+      "A link in the link colour: apple.com’s “Learn more ›” with its chevron, a pill button, or a quiet inline link.",
+    group: "controls",
+    apple: { name: "Buttons, links", hig: hig("buttons") },
+    primitive: "element",
+    examples: [{ name: "basic", title: "Styles" }],
+  },
+  {
+    name: "toggle-group",
+    title: "Toggle group",
+    description:
+      "A joined set of toggle buttons in the segmented control’s geometry, single- or multi-select — Keynote’s bold, italic and underline.",
+    group: "controls",
+    apple: {
+      name: "Segmented controls (select any)",
+      hig: hig("segmented-controls"),
+    },
+    primitive: "ToggleGroup",
+    examples: [{ name: "basic", title: "Alignment and font style" }],
+  },
+  {
+    name: "meter",
+    title: "Meter",
+    description:
+      "Gauges for a value in a range that is not progress: the linear meter with a label and percentage, and the circular gauge with the value in the centre.",
+    group: "controls",
+    apple: { name: "Gauges", hig: hig("gauges") },
+    primitive: "Meter",
+    examples: [{ name: "basic", title: "Linear and circular" }],
+  },
   // ---------- forms ----------
   {
     name: "switch",
@@ -279,6 +312,16 @@ export const componentDocs: ComponentDoc[] = [
     primitive: "Select",
     examples: [{ name: "basic", title: "Plain and pop-up" }],
   },
+  {
+    name: "combobox",
+    title: "Combo box",
+    description:
+      "A text field that offers suggestions filtered as the person types, in a glass menu with the platform’s rows.",
+    group: "forms",
+    apple: { name: "Combo boxes", hig: hig("combo-boxes") },
+    primitive: "Combobox",
+    examples: [{ name: "basic", title: "Suggestions" }],
+  },
   // ---------- overlays ----------
   {
     name: "menu",
@@ -362,6 +405,26 @@ export const componentDocs: ComponentDoc[] = [
     primitive: "Dialog",
     examples: [{ name: "basic", title: "Rename" }],
   },
+  {
+    name: "preview-card",
+    title: "Preview card",
+    description:
+      "Safari’s link preview: a Liquid Glass card that appears after hovering a link for a moment.",
+    group: "overlays",
+    apple: { name: "Link previews", hig: hig("popovers") },
+    primitive: "PreviewCard",
+    examples: [{ name: "basic", title: "On a link" }],
+  },
+  {
+    name: "toast",
+    title: "Toast",
+    description:
+      "Notification banners: a Liquid Glass card with an icon, title and message that drops in from the top and can be swiped away.",
+    group: "overlays",
+    apple: { name: "Notifications", hig: hig("notifications") },
+    primitive: "Toast",
+    examples: [{ name: "basic", title: "Post a notification" }],
+  },
   // ---------- navigation ----------
   {
     name: "navigation-bar",
@@ -421,6 +484,26 @@ export const componentDocs: ComponentDoc[] = [
     apple: { name: "Page controls", hig: hig("page-controls") },
     primitive: "element",
     examples: [{ name: "basic", title: "Pages" }],
+  },
+  {
+    name: "menubar",
+    title: "Menu bar",
+    description:
+      "The macOS menu bar: top-level menus whose titles highlight with the accent while open, each a full menu with shortcuts and submenus.",
+    group: "navigation",
+    apple: { name: "The menu bar", hig: hig("the-menu-bar") },
+    primitive: "Menubar",
+    examples: [{ name: "basic", title: "Finder’s menus" }],
+  },
+  {
+    name: "navigation-menu",
+    title: "Navigation menu",
+    description:
+      "apple.com’s global navigation: a 44 pt material bar of small links with full-width flyout panels of large links under eyebrows.",
+    group: "navigation",
+    apple: { name: "apple.com global nav", hig: hig("navigation-bars") },
+    primitive: "NavigationMenu",
+    examples: [{ name: "basic", title: "Global nav" }],
   },
   // ---------- content ----------
   {
@@ -492,6 +575,26 @@ export const componentDocs: ComponentDoc[] = [
     apple: { name: "Contact photos" },
     primitive: "Avatar",
     examples: [{ name: "basic", title: "Sizes" }],
+  },
+  {
+    name: "accordion",
+    title: "Accordion",
+    description:
+      "An inset grouped list of disclosure rows that each reveal a panel, one open at a time unless multiple.",
+    group: "content",
+    apple: { name: "Disclosure controls", hig: hig("disclosure-controls") },
+    primitive: "Accordion",
+    examples: [{ name: "basic", title: "Questions" }],
+  },
+  {
+    name: "scroll-area",
+    title: "Scroll area",
+    description:
+      "A scroll view with Apple’s overlay scrollbars, which fade in while scrolling and never take layout space.",
+    group: "content",
+    apple: { name: "Scroll views", hig: hig("scroll-views") },
+    primitive: "ScrollArea",
+    examples: [{ name: "basic", title: "A list" }],
   },
   {
     name: "kbd",

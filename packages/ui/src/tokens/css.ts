@@ -313,6 +313,7 @@ function controlLines(m: ControlMetrics): Line[] {
     ["menu-item-radius", px(m.menu.itemRadius)],
     ["menu-padding", px(m.menu.padding)],
     ["menu-font", pt(m.menu.font)],
+    ["menu-bar-height", px(m.menuBar.height)],
     ["dialog-width", px(m.dialog.width)],
     ["dialog-radius", px(m.dialog.radius)],
     ["split-view-sidebar-width", px(m.splitView.sidebar)],

@@ -211,6 +211,7 @@ describe("macOS 26 metrics (AppKit on Tahoe 26.6, 2026-09-06)", () => {
   })
   test("windows: 32 pt title bar, 52 pt unified toolbar, 14 pt traffic lights", () => {
     expect(mac.window).toEqual({ titleBar: 32, radius: 16, trafficLight: 14 })
+    expect(mac.menuBar.height).toBe(24)
     expect(mac.toolbar).toEqual({ height: 52, item: 28, inset: 0 })
     expect(mac.navBar).toEqual({
       height: 52,

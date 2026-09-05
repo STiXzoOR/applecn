@@ -135,6 +135,8 @@ export interface ControlMetrics {
     readonly padding: number
     readonly font: number
   }
+  /** The menu bar (macOS; iPadOS 26 has one too). */
+  readonly menuBar: { readonly height: number }
   readonly dialog: { readonly width: number; readonly radius: number }
   readonly splitView: { readonly sidebar: number; readonly content: number }
   readonly popover: {
@@ -229,6 +231,8 @@ const ios: ControlMetrics = {
     padding: 4,
     font: 17,
   },
+  /** iPadOS 26's menu bar **approx.** */
+  menuBar: { height: 44 },
   /** iPad form sheet; radius **approx.** */
   dialog: { width: 540, radius: 34 },
   splitView: { sidebar: 320, content: 375 },
@@ -302,6 +306,8 @@ const macos: ControlMetrics = {
     padding: 5,
     font: 13,
   },
+  /** The macOS menu bar on a display without a notch. */
+  menuBar: { height: 24 },
   dialog: { width: 480, radius: 16 },
   splitView: { sidebar: 240, content: 320 },
   /** **approx.** */
@@ -385,6 +391,7 @@ const web: ControlMetrics = {
     padding: 4,
     font: 14,
   },
+  menuBar: { height: 36 },
   /** The App Store's Version History modal. */
   dialog: { width: 691, radius: 10 },
   splitView: { sidebar: 260, content: 320 },
