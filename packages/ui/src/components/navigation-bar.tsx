@@ -4,8 +4,8 @@ import { ArrowLeft01Icon } from '@hugeicons/core-free-icons'
 import { cn } from 'cn'
 import type { ComponentProps, ReactNode } from 'react'
 
-import { useScrollCollapse } from '../hooks/use-scroll-collapse.ts'
-import { Icon } from './icon.tsx'
+import { useScrollCollapse } from '../hooks/use-scroll-collapse'
+import { Icon } from './icon'
 
 /**
  * The navigation bar (HIG › Toolbars): a 44 pt row with leading and trailing items and, with

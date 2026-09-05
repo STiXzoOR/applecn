@@ -5,8 +5,8 @@ import { Drawer as DrawerPrimitive } from '@base-ui/react/drawer'
 import { cn } from 'cn'
 import { createContext, useContext, type ComponentProps, type ReactNode } from 'react'
 
-import { useIsDesktop } from '../hooks/use-media-query.ts'
-import { dialogBackdropClassName, dialogPopupClassName } from './dialog.tsx'
+import { useIsDesktop } from '../hooks/use-media-query'
+import { dialogBackdropClassName, dialogPopupClassName } from './dialog'
 
 /**
  * Sheets (HIG › Sheets). Below the `sm` breakpoint a sheet rises from the bottom on the sheet

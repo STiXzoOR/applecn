@@ -6,7 +6,7 @@ import type { IconSvgElement } from '@hugeicons/react'
 import { cn } from 'cn'
 import type { ComponentProps, ReactNode } from 'react'
 
-import { Icon } from './icon.tsx'
+import { Icon } from './icon'
 
 /**
  * Sidebars (HIG › Sidebars): a navigation list on the regular material along the leading edge,

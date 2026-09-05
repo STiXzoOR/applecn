@@ -5,7 +5,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from 'cn'
 import { createContext, useContext, type ComponentProps, type ReactNode } from 'react'
 
-import { Icon } from './icon.tsx'
+import { Icon } from './icon'
 
 /**
  * Lists (HIG › Lists and tables). `inset-grouped` is the Settings list: sections on the grouped

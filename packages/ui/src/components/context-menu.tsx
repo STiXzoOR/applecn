@@ -5,8 +5,8 @@ import { Tick02Icon } from '@hugeicons/core-free-icons'
 import type { IconSvgElement } from '@hugeicons/react'
 import { cn } from 'cn'
 
-import { Icon } from './icon.tsx'
-import { menuContentClassName, menuItemClassName } from './menu.tsx'
+import { Icon } from './icon'
+import { menuContentClassName, menuItemClassName } from './menu'
 
 /** Context menus (HIG › Menus): the same glass menu, opened by a secondary click or a long press. */
 function ContextMenu(props: ContextMenuPrimitive.Root.Props) {

@@ -1,29 +1,34 @@
-import { Geist, Geist_Mono, Inter } from "next/font/google"
+import type { Metadata, Viewport } from 'next'
 
-import "@apple-ds/ui/globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@apple-ds/ui/lib/utils";
+import '@apple-ds/ui/globals.css'
+import './docs.css'
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'})
+import { AppearanceProvider } from '@/components/appearance'
+import { ThemeProvider } from '@/components/theme-provider'
 
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
+export const metadata: Metadata = {
+  title: { default: 'Apple Design System', template: '%s · Apple Design System' },
+  description: 'Apple’s Human Interface Guidelines as a shadcn design system on Base UI and Hugeicons.',
+}
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  colorScheme: 'light dark',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: 'rgb(242 242 247)' },
+    { media: '(prefers-color-scheme: dark)', color: 'rgb(0 0 0)' },
+  ],
+}
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}
-    >
-      <body>
-        <ThemeProvider>{children}</ThemeProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className="min-h-dvh">
+        <ThemeProvider>
+          <AppearanceProvider>{children}</AppearanceProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

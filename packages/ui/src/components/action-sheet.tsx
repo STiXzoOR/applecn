@@ -5,7 +5,7 @@ import { Popover as PopoverPrimitive } from '@base-ui/react/popover'
 import { cn } from 'cn'
 import { createContext, useContext, type ComponentProps, type ReactNode } from 'react'
 
-import { useIsDesktop } from '../hooks/use-media-query.ts'
+import { useIsDesktop } from '../hooks/use-media-query'
 
 /**
  * Action sheets (HIG › Action sheets): choices related to an action the person started. On a

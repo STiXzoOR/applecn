@@ -3,7 +3,7 @@
 import { Tabs as TabsPrimitive } from '@base-ui/react/tabs'
 import { cn } from 'cn'
 
-import { SegmentedControlItem, SegmentedControlList } from './segmented-control.tsx'
+import { SegmentedControlItem, SegmentedControlList } from './segmented-control'
 
 /**
  * Tab views: a segmented control that switches between closely related subviews (the Calendar

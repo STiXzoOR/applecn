@@ -2,7 +2,7 @@
 
 import { createContext, useContext, type ReactNode } from 'react'
 
-import type { Platform } from '../tokens/metrics.ts'
+type Platform = 'ios' | 'macos'
 
 const PlatformContext = createContext<Platform>('ios')
 

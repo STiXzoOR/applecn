@@ -4,7 +4,7 @@ import { NumberField as NumberFieldPrimitive } from '@base-ui/react/number-field
 import { MinusSignIcon, PlusSignIcon } from '@hugeicons/core-free-icons'
 import { cn } from 'cn'
 
-import { Icon } from './icon.tsx'
+import { Icon } from './icon'
 
 /**
  * The stepper (HIG › Steppers): the 94×32 pt two-segment control. It shows no value itself —

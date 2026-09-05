@@ -43,3 +43,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generated registry output (built by `pnpm registry:build`)
+apps/web/public/r/

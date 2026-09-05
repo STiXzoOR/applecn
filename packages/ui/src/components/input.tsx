@@ -6,7 +6,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from 'cn'
 import { useState } from 'react'
 
-import { Icon } from './icon.tsx'
+import { Icon } from './icon'
 
 /**
  * The text field (HIG › Text fields). `rounded` is the iOS standalone field on the tertiary

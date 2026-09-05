@@ -1,4 +1,9 @@
-import type { Rgb, Rgba } from '../tokens/colors.ts'
+type Rgb = readonly [number, number, number]
+
+interface Rgba {
+  readonly rgb: Rgb
+  readonly alpha?: number
+}
 
 /** WCAG 2 relative luminance of an sRGB colour. */
 export function luminance([r, g, b]: Rgb): number {

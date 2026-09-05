@@ -1,7 +1,7 @@
 import { cn } from 'cn'
 import type { ComponentProps } from 'react'
 
-import { Icon, type IconProps } from './icon.tsx'
+import { Icon, type IconProps } from './icon'
 
 /**
  * The unavailable-content view (SwiftUI `ContentUnavailableView`): a large symbol, a bold

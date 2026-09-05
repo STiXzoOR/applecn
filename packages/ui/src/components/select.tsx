@@ -5,7 +5,7 @@ import { ArrowDown01Icon, ArrowUp01Icon, Tick02Icon, UnfoldMoreIcon } from '@hug
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from 'cn'
 
-import { Icon } from './icon.tsx'
+import { Icon } from './icon'
 
 /**
  * The menu picker (HIG › Pickers, Pop-up buttons). The `plain` trigger reads as a tinted value

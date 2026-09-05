@@ -4,7 +4,7 @@ import { Cancel01Icon, Search01Icon } from '@hugeicons/core-free-icons'
 import { cn } from 'cn'
 import { useRef, useState, type ComponentProps } from 'react'
 
-import { Icon } from './icon.tsx'
+import { Icon } from './icon'
 
 /**
  * The search field (HIG › Search fields): a 36 pt capsule on the tertiary fill with the

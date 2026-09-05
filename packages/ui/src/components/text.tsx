@@ -2,7 +2,32 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from 'cn'
 import type { ComponentProps, ElementType } from 'react'
 
-import { textStyleNames, type TextStyleName } from '../tokens/typography.ts'
+type TextStyleName =
+  | 'large-title'
+  | 'title-1'
+  | 'title-2'
+  | 'title-3'
+  | 'headline'
+  | 'body'
+  | 'callout'
+  | 'subheadline'
+  | 'footnote'
+  | 'caption-1'
+  | 'caption-2'
+
+const textStyleNames: readonly TextStyleName[] = [
+  'large-title',
+  'title-1',
+  'title-2',
+  'title-3',
+  'headline',
+  'body',
+  'callout',
+  'subheadline',
+  'footnote',
+  'caption-1',
+  'caption-2',
+]
 
 /**
  * A label. `variant` is one of Apple's eleven text styles (size, leading and weight come from
@@ -80,5 +105,5 @@ function Text({
   )
 }
 
-export { Text, textVariants }
-export type { TextProps }
+export { Text, textStyleNames, textVariants }
+export type { TextProps, TextStyleName }

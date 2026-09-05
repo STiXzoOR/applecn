@@ -4,7 +4,7 @@ import { Collapsible as CollapsiblePrimitive } from '@base-ui/react/collapsible'
 import { ArrowRight01Icon } from '@hugeicons/core-free-icons'
 import { cn } from 'cn'
 
-import { Icon } from './icon.tsx'
+import { Icon } from './icon'
 
 /**
  * Disclosure controls (HIG › Disclosure controls): a row whose chevron points along the

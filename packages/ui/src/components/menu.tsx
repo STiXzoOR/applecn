@@ -6,7 +6,7 @@ import type { IconSvgElement } from '@hugeicons/react'
 import { cn } from 'cn'
 import type { ComponentProps } from 'react'
 
-import { Icon } from './icon.tsx'
+import { Icon } from './icon'
 
 /**
  * Menus (HIG › Menus, Pull-down buttons): a 250 pt glass panel of 44 pt rows with glyphs at

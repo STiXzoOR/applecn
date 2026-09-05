@@ -4,7 +4,7 @@ import { Checkbox as CheckboxPrimitive } from '@base-ui/react/checkbox'
 import { Tick02Icon } from '@hugeicons/core-free-icons'
 import { cn } from 'cn'
 
-import { Icon } from './icon.tsx'
+import { Icon } from './icon'
 
 /**
  * The checkbox (HIG › Toggles). On iOS it is the 22 pt circle of a list in selection mode; on

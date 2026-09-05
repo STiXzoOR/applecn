@@ -1,0 +1,1331 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "apple-ds",
+  "homepage": "https://apple-ds.local",
+  "items": [
+    {
+      "name": "apple",
+      "type": "registry:style",
+      "title": "Apple",
+      "description": "Every Apple token as CSS variables (light and dark) plus the type, material, glass, hairline and press utilities.",
+      "files": [],
+      "cssVars": {
+        "light": {
+          "pt": "0.0625rem",
+          "system-red": "rgb(255 56 60)",
+          "system-orange": "rgb(255 141 40)",
+          "system-yellow": "rgb(255 204 0)",
+          "system-green": "rgb(52 199 89)",
+          "system-mint": "rgb(0 200 179)",
+          "system-teal": "rgb(0 195 208)",
+          "system-cyan": "rgb(0 192 232)",
+          "system-blue": "rgb(0 136 255)",
+          "system-indigo": "rgb(97 85 245)",
+          "system-purple": "rgb(203 48 224)",
+          "system-pink": "rgb(255 45 85)",
+          "system-brown": "rgb(172 127 94)",
+          "gray": "rgb(142 142 147)",
+          "gray-2": "rgb(174 174 178)",
+          "gray-3": "rgb(199 199 204)",
+          "gray-4": "rgb(209 209 214)",
+          "gray-5": "rgb(229 229 234)",
+          "gray-6": "rgb(242 242 247)",
+          "label": "rgb(0 0 0)",
+          "label-2": "rgb(60 60 67 / 0.6)",
+          "label-3": "rgb(60 60 67 / 0.3)",
+          "label-4": "rgb(60 60 67 / 0.18)",
+          "placeholder": "rgb(60 60 67 / 0.3)",
+          "fill": "rgb(120 120 128 / 0.2)",
+          "fill-2": "rgb(120 120 128 / 0.16)",
+          "fill-3": "rgb(118 118 128 / 0.12)",
+          "fill-4": "rgb(116 116 128 / 0.08)",
+          "background-1": "rgb(255 255 255)",
+          "background-2": "rgb(242 242 247)",
+          "background-3": "rgb(255 255 255)",
+          "grouped-background-1": "rgb(242 242 247)",
+          "grouped-background-2": "rgb(255 255 255)",
+          "grouped-background-3": "rgb(242 242 247)",
+          "separator": "rgb(60 60 67 / 0.29)",
+          "separator-opaque": "rgb(198 198 200)",
+          "link": "rgb(0 122 255)",
+          "white": "rgb(255 255 255)",
+          "background": "var(--background-1)",
+          "foreground": "var(--label)",
+          "card": "var(--grouped-background-2)",
+          "card-foreground": "var(--label)",
+          "popover": "var(--background-1)",
+          "popover-foreground": "var(--label)",
+          "primary": "var(--system-blue)",
+          "primary-foreground": "var(--white)",
+          "secondary": "var(--fill-3)",
+          "secondary-foreground": "var(--label)",
+          "muted": "var(--background-2)",
+          "muted-foreground": "var(--label-2)",
+          "accent": "var(--fill-4)",
+          "accent-foreground": "var(--label)",
+          "destructive": "var(--system-red)",
+          "border": "var(--separator)",
+          "input": "var(--fill-3)",
+          "ring": "var(--system-blue)",
+          "chart-1": "var(--system-blue)",
+          "chart-2": "var(--system-green)",
+          "chart-3": "var(--system-orange)",
+          "chart-4": "var(--system-purple)",
+          "chart-5": "var(--system-red)",
+          "sidebar": "var(--grouped-background-1)",
+          "sidebar-foreground": "var(--label)",
+          "sidebar-primary": "var(--system-blue)",
+          "sidebar-primary-foreground": "var(--white)",
+          "sidebar-accent": "var(--fill-3)",
+          "sidebar-accent-foreground": "var(--label)",
+          "sidebar-border": "var(--separator)",
+          "sidebar-ring": "var(--system-blue)",
+          "radius": "0.625rem",
+          "sheet-radius": "40px",
+          "icon-radius": "22.37%",
+          "type-large-title-size": "calc(34 * var(--pt))",
+          "type-large-title-leading": "calc(41 * var(--pt))",
+          "type-large-title-weight": "400",
+          "type-large-title-emphasized": "700",
+          "type-title-1-size": "calc(28 * var(--pt))",
+          "type-title-1-leading": "calc(34 * var(--pt))",
+          "type-title-1-weight": "400",
+          "type-title-1-emphasized": "700",
+          "type-title-2-size": "calc(22 * var(--pt))",
+          "type-title-2-leading": "calc(28 * var(--pt))",
+          "type-title-2-weight": "400",
+          "type-title-2-emphasized": "700",
+          "type-title-3-size": "calc(20 * var(--pt))",
+          "type-title-3-leading": "calc(25 * var(--pt))",
+          "type-title-3-weight": "400",
+          "type-title-3-emphasized": "600",
+          "type-headline-size": "calc(17 * var(--pt))",
+          "type-headline-leading": "calc(22 * var(--pt))",
+          "type-headline-weight": "600",
+          "type-headline-emphasized": "600",
+          "type-body-size": "calc(17 * var(--pt))",
+          "type-body-leading": "calc(22 * var(--pt))",
+          "type-body-weight": "400",
+          "type-body-emphasized": "600",
+          "type-callout-size": "calc(16 * var(--pt))",
+          "type-callout-leading": "calc(21 * var(--pt))",
+          "type-callout-weight": "400",
+          "type-callout-emphasized": "600",
+          "type-subheadline-size": "calc(15 * var(--pt))",
+          "type-subheadline-leading": "calc(20 * var(--pt))",
+          "type-subheadline-weight": "400",
+          "type-subheadline-emphasized": "600",
+          "type-footnote-size": "calc(13 * var(--pt))",
+          "type-footnote-leading": "calc(18 * var(--pt))",
+          "type-footnote-weight": "400",
+          "type-footnote-emphasized": "600",
+          "type-caption-1-size": "calc(12 * var(--pt))",
+          "type-caption-1-leading": "calc(16 * var(--pt))",
+          "type-caption-1-weight": "400",
+          "type-caption-1-emphasized": "600",
+          "type-caption-2-size": "calc(11 * var(--pt))",
+          "type-caption-2-leading": "calc(13 * var(--pt))",
+          "type-caption-2-weight": "400",
+          "type-caption-2-emphasized": "600",
+          "control-height-mini": "28px",
+          "control-height-small": "32px",
+          "control-height-regular": "44px",
+          "control-height-large": "52px",
+          "control-height-xl": "64px",
+          "switch-width": "51px",
+          "switch-height": "31px",
+          "switch-thumb": "27px",
+          "checkbox-size": "22px",
+          "radio-size": "22px",
+          "radio-dot": "8px",
+          "slider-track": "4px",
+          "slider-thumb": "28px",
+          "stepper-width": "94px",
+          "stepper-height": "32px",
+          "segmented-height": "32px",
+          "segmented-inset": "2px",
+          "text-field-height": "36px",
+          "search-field-height": "36px",
+          "list-inset": "16px",
+          "list-radius": "26px",
+          "list-row-min-height": "44px",
+          "list-row-padding-y": "11px",
+          "list-row-padding-x": "16px",
+          "list-icon-tile": "30px",
+          "nav-bar-height": "44px",
+          "nav-bar-large-title": "52px",
+          "tab-bar-height": "64px",
+          "tab-bar-inset": "21px",
+          "toolbar-height": "44px",
+          "sheet-grabber-width": "36px",
+          "sheet-grabber-height": "5px",
+          "sheet-scrim": "0.4",
+          "alert-width": "270px",
+          "alert-button-height": "44px",
+          "action-sheet-row-height": "56px",
+          "action-sheet-cancel-gap": "8px",
+          "menu-width": "250px",
+          "menu-item-height": "44px",
+          "dialog-width": "540px",
+          "split-view-sidebar-width": "320px",
+          "split-view-content-width": "375px",
+          "popover-arrow-width": "13px",
+          "popover-arrow-height": "6.5px",
+          "progress-height": "4px",
+          "spinner-medium": "20px",
+          "spinner-large": "37px",
+          "badge-height": "18px",
+          "badge-min-width": "18px",
+          "page-control-dot": "7px",
+          "page-control-gap": "9px",
+          "hit-target": "44px",
+          "hit-target-min": "28px",
+          "easing-standard": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "easing-sheet": "cubic-bezier(0.32, 0.72, 0, 1)",
+          "easing-nav": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "spring-smooth": "linear(0, 0.018, 0.063, 0.1246, 0.1951, 0.2692, 0.3432, 0.4146, 0.482, 0.5443, 0.6012, 0.6526, 0.6985, 0.7393, 0.7752, 0.8068, 0.8343, 0.8583, 0.879, 0.8969, 0.9123, 0.9255, 0.9368, 0.9465, 0.9547, 0.9618, 0.9677, 0.9728, 0.9771, 0.9807, 0.9838, 1)",
+          "spring-snappy": "linear(0, 0.0183, 0.0653, 0.1309, 0.2075, 0.2893, 0.3718, 0.452, 0.5278, 0.5979, 0.6615, 0.7182, 0.7682, 0.8117, 0.849, 0.8806, 0.9072, 0.9292, 0.9473, 0.9619, 0.9736, 0.9828, 0.9899, 0.9953, 0.9993, 1.0021, 1.004, 1.0053, 1.006, 1.0063, 1.0062, 1)",
+          "spring-bouncy": "linear(0, 0.0187, 0.0677, 0.1378, 0.2214, 0.3121, 0.4048, 0.4959, 0.5825, 0.6625, 0.7348, 0.7987, 0.854, 0.9008, 0.9396, 0.971, 0.9956, 1.0143, 1.0279, 1.0371, 1.0428, 1.0455, 1.0459, 1.0446, 1.042, 1.0386, 1.0346, 1.0304, 1.0261, 1.022, 1.0181, 1)",
+          "duration-press": "120ms",
+          "duration-hover": "150ms",
+          "duration-overlay": "250ms",
+          "duration-nav": "300ms",
+          "duration-sheet": "450ms",
+          "elevation-thumb": "0 3px 8px rgb(0 0 0 / 0.15), 0 3px 1px rgb(0 0 0 / 0.06)",
+          "elevation-segment": "0 3px 8px rgb(0 0 0 / 0.12), 0 3px 1px rgb(0 0 0 / 0.04)",
+          "elevation-control": "0 0.5px 1px rgb(0 0 0 / 0.1), 0 0 0 0.5px rgb(0 0 0 / 0.05)",
+          "elevation-card-small": "0 3px 9px rgb(0 0 0 / 0.08)",
+          "elevation-card-medium": "0 3px 20px rgb(0 0 0 / 0.08)",
+          "elevation-menu": "0 0 0 0.5px rgb(0 0 0 / 0.1), 0 8px 40px rgb(0 0 0 / 0.2)",
+          "elevation-popover": "0 0 0 0.5px rgb(0 0 0 / 0.1), 0 8px 32px rgb(0 0 0 / 0.16)",
+          "elevation-window": "0 0 0 0.5px rgb(0 0 0 / 0.15), 0 22px 70px rgb(0 0 0 / 0.35)",
+          "elevation-glass": "0 8px 24px rgb(0 0 0 / 0.12), inset 0 1px 0 rgb(255 255 255 / 0.6), inset 0 -1px 0 rgb(0 0 0 / 0.08)",
+          "material-ultra-thin-bg": "rgb(255 255 255 / 0.55)",
+          "material-ultra-thin-blur": "10px",
+          "material-ultra-thin-saturate": "1.8",
+          "material-thin-bg": "rgb(255 255 255 / 0.7)",
+          "material-thin-blur": "20px",
+          "material-thin-saturate": "1.8",
+          "material-regular-bg": "rgb(255 255 255 / 0.82)",
+          "material-regular-blur": "30px",
+          "material-regular-saturate": "1.8",
+          "material-thick-bg": "rgb(255 255 255 / 0.93)",
+          "material-thick-blur": "40px",
+          "material-thick-saturate": "1.8",
+          "material-glass-bg": "rgb(255 255 255 / 0.5)",
+          "material-glass-blur": "16px",
+          "material-glass-saturate": "1.6",
+          "material-glass-clear-bg": "rgb(255 255 255 / 0.2)",
+          "material-glass-clear-blur": "8px",
+          "material-glass-clear-saturate": "1.4"
+        },
+        "dark": {
+          "system-red": "rgb(255 66 69)",
+          "system-orange": "rgb(255 146 48)",
+          "system-yellow": "rgb(255 214 0)",
+          "system-green": "rgb(48 209 88)",
+          "system-mint": "rgb(0 218 195)",
+          "system-teal": "rgb(0 210 224)",
+          "system-cyan": "rgb(60 211 254)",
+          "system-blue": "rgb(0 145 255)",
+          "system-indigo": "rgb(109 124 255)",
+          "system-purple": "rgb(219 52 242)",
+          "system-pink": "rgb(255 55 95)",
+          "system-brown": "rgb(183 138 102)",
+          "gray": "rgb(142 142 147)",
+          "gray-2": "rgb(99 99 102)",
+          "gray-3": "rgb(72 72 74)",
+          "gray-4": "rgb(58 58 60)",
+          "gray-5": "rgb(44 44 46)",
+          "gray-6": "rgb(28 28 30)",
+          "label": "rgb(255 255 255)",
+          "label-2": "rgb(235 235 245 / 0.6)",
+          "label-3": "rgb(235 235 245 / 0.3)",
+          "label-4": "rgb(235 235 245 / 0.16)",
+          "placeholder": "rgb(235 235 245 / 0.3)",
+          "fill": "rgb(120 120 128 / 0.36)",
+          "fill-2": "rgb(120 120 128 / 0.32)",
+          "fill-3": "rgb(118 118 128 / 0.24)",
+          "fill-4": "rgb(118 118 128 / 0.18)",
+          "background-1": "rgb(0 0 0)",
+          "background-2": "rgb(28 28 30)",
+          "background-3": "rgb(44 44 46)",
+          "grouped-background-1": "rgb(0 0 0)",
+          "grouped-background-2": "rgb(28 28 30)",
+          "grouped-background-3": "rgb(44 44 46)",
+          "separator": "rgb(84 84 88 / 0.6)",
+          "separator-opaque": "rgb(56 56 58)",
+          "link": "rgb(9 132 255)",
+          "white": "rgb(255 255 255)",
+          "background": "var(--background-1)",
+          "foreground": "var(--label)",
+          "card": "var(--grouped-background-2)",
+          "card-foreground": "var(--label)",
+          "popover": "var(--background-2)",
+          "popover-foreground": "var(--label)",
+          "primary": "var(--system-blue)",
+          "primary-foreground": "var(--white)",
+          "secondary": "var(--fill-3)",
+          "secondary-foreground": "var(--label)",
+          "muted": "var(--background-2)",
+          "muted-foreground": "var(--label-2)",
+          "accent": "var(--fill-4)",
+          "accent-foreground": "var(--label)",
+          "destructive": "var(--system-red)",
+          "border": "var(--separator)",
+          "input": "var(--fill-3)",
+          "ring": "var(--system-blue)",
+          "chart-1": "var(--system-blue)",
+          "chart-2": "var(--system-green)",
+          "chart-3": "var(--system-orange)",
+          "chart-4": "var(--system-purple)",
+          "chart-5": "var(--system-red)",
+          "sidebar": "var(--grouped-background-1)",
+          "sidebar-foreground": "var(--label)",
+          "sidebar-primary": "var(--system-blue)",
+          "sidebar-primary-foreground": "var(--white)",
+          "sidebar-accent": "var(--fill-3)",
+          "sidebar-accent-foreground": "var(--label)",
+          "sidebar-border": "var(--separator)",
+          "sidebar-ring": "var(--system-blue)",
+          "material-ultra-thin-bg": "rgb(37 37 37 / 0.3)",
+          "material-thin-bg": "rgb(37 37 37 / 0.45)",
+          "material-regular-bg": "rgb(37 37 37 / 0.62)",
+          "material-thick-bg": "rgb(37 37 37 / 0.8)",
+          "material-glass-bg": "rgb(40 40 40 / 0.5)",
+          "material-glass-clear-bg": "rgb(0 0 0 / 0.3)"
+        }
+      },
+      "css": {
+        "@utility type-large-title": {
+          "font-size": "var(--type-large-title-size)",
+          "line-height": "var(--type-large-title-leading)",
+          "font-weight": "var(--type-large-title-weight)"
+        },
+        "@utility type-title-1": {
+          "font-size": "var(--type-title-1-size)",
+          "line-height": "var(--type-title-1-leading)",
+          "font-weight": "var(--type-title-1-weight)"
+        },
+        "@utility type-title-2": {
+          "font-size": "var(--type-title-2-size)",
+          "line-height": "var(--type-title-2-leading)",
+          "font-weight": "var(--type-title-2-weight)"
+        },
+        "@utility type-title-3": {
+          "font-size": "var(--type-title-3-size)",
+          "line-height": "var(--type-title-3-leading)",
+          "font-weight": "var(--type-title-3-weight)"
+        },
+        "@utility type-headline": {
+          "font-size": "var(--type-headline-size)",
+          "line-height": "var(--type-headline-leading)",
+          "font-weight": "var(--type-headline-weight)"
+        },
+        "@utility type-body": {
+          "font-size": "var(--type-body-size)",
+          "line-height": "var(--type-body-leading)",
+          "font-weight": "var(--type-body-weight)"
+        },
+        "@utility type-callout": {
+          "font-size": "var(--type-callout-size)",
+          "line-height": "var(--type-callout-leading)",
+          "font-weight": "var(--type-callout-weight)"
+        },
+        "@utility type-subheadline": {
+          "font-size": "var(--type-subheadline-size)",
+          "line-height": "var(--type-subheadline-leading)",
+          "font-weight": "var(--type-subheadline-weight)"
+        },
+        "@utility type-footnote": {
+          "font-size": "var(--type-footnote-size)",
+          "line-height": "var(--type-footnote-leading)",
+          "font-weight": "var(--type-footnote-weight)"
+        },
+        "@utility type-caption-1": {
+          "font-size": "var(--type-caption-1-size)",
+          "line-height": "var(--type-caption-1-leading)",
+          "font-weight": "var(--type-caption-1-weight)"
+        },
+        "@utility type-caption-2": {
+          "font-size": "var(--type-caption-2-size)",
+          "line-height": "var(--type-caption-2-leading)",
+          "font-weight": "var(--type-caption-2-weight)"
+        },
+        "@utility material-ultra-thin": {
+          "background-color": "var(--material-ultra-thin-bg)",
+          "-webkit-backdrop-filter": "blur(var(--material-ultra-thin-blur)) saturate(var(--material-ultra-thin-saturate))",
+          "backdrop-filter": "blur(var(--material-ultra-thin-blur)) saturate(var(--material-ultra-thin-saturate))",
+          "@media (prefers-reduced-transparency: reduce)": {
+            "background-color": "var(--background-3)",
+            "backdrop-filter": "none"
+          },
+          ":where([data-transparency=\"reduced\"]) &": {
+            "background-color": "var(--background-3)",
+            "backdrop-filter": "none"
+          }
+        },
+        "@utility material-thin": {
+          "background-color": "var(--material-thin-bg)",
+          "-webkit-backdrop-filter": "blur(var(--material-thin-blur)) saturate(var(--material-thin-saturate))",
+          "backdrop-filter": "blur(var(--material-thin-blur)) saturate(var(--material-thin-saturate))",
+          "@media (prefers-reduced-transparency: reduce)": {
+            "background-color": "var(--background-3)",
+            "backdrop-filter": "none"
+          },
+          ":where([data-transparency=\"reduced\"]) &": {
+            "background-color": "var(--background-3)",
+            "backdrop-filter": "none"
+          }
+        },
+        "@utility material-regular": {
+          "background-color": "var(--material-regular-bg)",
+          "-webkit-backdrop-filter": "blur(var(--material-regular-blur)) saturate(var(--material-regular-saturate))",
+          "backdrop-filter": "blur(var(--material-regular-blur)) saturate(var(--material-regular-saturate))",
+          "@media (prefers-reduced-transparency: reduce)": {
+            "background-color": "var(--background-3)",
+            "backdrop-filter": "none"
+          },
+          ":where([data-transparency=\"reduced\"]) &": {
+            "background-color": "var(--background-3)",
+            "backdrop-filter": "none"
+          }
+        },
+        "@utility material-thick": {
+          "background-color": "var(--material-thick-bg)",
+          "-webkit-backdrop-filter": "blur(var(--material-thick-blur)) saturate(var(--material-thick-saturate))",
+          "backdrop-filter": "blur(var(--material-thick-blur)) saturate(var(--material-thick-saturate))",
+          "@media (prefers-reduced-transparency: reduce)": {
+            "background-color": "var(--background-3)",
+            "backdrop-filter": "none"
+          },
+          ":where([data-transparency=\"reduced\"]) &": {
+            "background-color": "var(--background-3)",
+            "backdrop-filter": "none"
+          }
+        },
+        "@utility glass": {
+          "background-color": "var(--material-glass-bg)",
+          "-webkit-backdrop-filter": "blur(var(--material-glass-blur)) saturate(var(--material-glass-saturate))",
+          "backdrop-filter": "blur(var(--material-glass-blur)) saturate(var(--material-glass-saturate))",
+          "box-shadow": "var(--elevation-glass)",
+          "@media (prefers-reduced-transparency: reduce)": {
+            "background-color": "var(--background-3)",
+            "backdrop-filter": "none",
+            "box-shadow": "var(--elevation-popover)"
+          },
+          ":where([data-transparency=\"reduced\"]) &": {
+            "background-color": "var(--background-3)",
+            "backdrop-filter": "none",
+            "box-shadow": "var(--elevation-popover)"
+          }
+        },
+        "@utility glass-clear": {
+          "background-color": "var(--material-glass-clear-bg)",
+          "-webkit-backdrop-filter": "blur(var(--material-glass-clear-blur)) saturate(var(--material-glass-clear-saturate))",
+          "backdrop-filter": "blur(var(--material-glass-clear-blur)) saturate(var(--material-glass-clear-saturate))",
+          "box-shadow": "var(--elevation-glass)",
+          "@media (prefers-reduced-transparency: reduce)": {
+            "background-color": "var(--background-3)",
+            "backdrop-filter": "none",
+            "box-shadow": "var(--elevation-popover)"
+          },
+          ":where([data-transparency=\"reduced\"]) &": {
+            "background-color": "var(--background-3)",
+            "backdrop-filter": "none",
+            "box-shadow": "var(--elevation-popover)"
+          }
+        },
+        "@utility glass-prominent": {
+          "background-color": "color-mix(in srgb, var(--primary) 85%, transparent)",
+          "color": "var(--primary-foreground)",
+          "-webkit-backdrop-filter": "blur(var(--material-glass-blur)) saturate(var(--material-glass-saturate))",
+          "backdrop-filter": "blur(var(--material-glass-blur)) saturate(var(--material-glass-saturate))",
+          "box-shadow": "var(--elevation-glass)",
+          "@media (prefers-reduced-transparency: reduce)": {
+            "background-color": "var(--primary)",
+            "backdrop-filter": "none"
+          },
+          ":where([data-transparency=\"reduced\"]) &": {
+            "background-color": "var(--primary)",
+            "backdrop-filter": "none"
+          }
+        },
+        "@utility hairline": {
+          "box-shadow": "0 0 0 0.5px var(--separator)"
+        },
+        "@utility hairline-t": {
+          "box-shadow": "inset 0 0.5px 0 var(--separator)"
+        },
+        "@utility hairline-b": {
+          "box-shadow": "inset 0 -0.5px 0 var(--separator)"
+        },
+        "@utility pressable": {
+          "transition-property": "transform, opacity, background-color",
+          "transition-duration": "var(--duration-press)",
+          "transition-timing-function": "var(--easing-standard)",
+          "&:active": {
+            "transform": "scale(0.97)",
+            "opacity": "0.8"
+          },
+          "@media (prefers-reduced-motion: reduce)": {
+            "&:active": {
+              "transform": "none"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "action-sheet",
+      "type": "registry:ui",
+      "title": "Action sheet",
+      "description": "Choices related to an action: a bottom sheet on phones, a popover on wider screens.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "registryDependencies": [
+        "use-media-query"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/action-sheet.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "The 270 pt alert on thick material with up to three actions, side by side or stacked.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/alert-dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "A person’s picture or their monogram on gray.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/avatar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "The red count capsule, and tinted or filled tags.",
+      "dependencies": [
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/badge.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Filled, tinted, gray, bordered, plain, glass and destructive buttons in the five control sizes.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "A group box on the grouped card surface.",
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "A circular checkbox on iOS, a rounded square on macOS, with a mixed state.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "cn"
+      ],
+      "registryDependencies": [
+        "icon"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context menu",
+      "description": "The same menu, opened by a secondary click or a long press on an item.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "cn"
+      ],
+      "registryDependencies": [
+        "icon",
+        "menu"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/context-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "A modal card: the macOS sheet and the iPad form sheet.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "disclosure-group",
+      "type": "registry:ui",
+      "title": "Disclosure group",
+      "description": "A row that reveals details, its chevron turning as it opens.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "cn"
+      ],
+      "registryDependencies": [
+        "icon"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/disclosure-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "The unavailable-content view: a symbol, a title, a description and an action.",
+      "dependencies": [
+        "cn"
+      ],
+      "registryDependencies": [
+        "icon"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/empty.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "A labelled control with a description and an error, wired together for assistive technology.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/field.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "glass",
+      "type": "registry:ui",
+      "title": "Glass",
+      "description": "Liquid Glass for the functional layer: regular, clear and prominent, as a capsule, rounded rectangle or circle.",
+      "dependencies": [
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/glass.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "icon",
+      "type": "registry:ui",
+      "title": "Icon",
+      "description": "Hugeicons rendered with the SF Symbols sizing model: scales relative to text and weights that follow it.",
+      "dependencies": [
+        "@hugeicons/react",
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/icon.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "The text field: rounded, plain in a list, or bordered on macOS, with the iOS clear button.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "class-variance-authority",
+        "cn"
+      ],
+      "registryDependencies": [
+        "icon"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/input.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "A keyboard key, as shown beside menu items.",
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/kbd.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "A control’s label in body text.",
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/label.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "type": "registry:ui",
+      "title": "List",
+      "description": "Plain, grouped, inset grouped and sidebar lists with rows, accessories and sections.",
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "class-variance-authority",
+        "cn"
+      ],
+      "registryDependencies": [
+        "icon"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/list.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "material",
+      "type": "registry:ui",
+      "title": "Material",
+      "description": "A content-layer material from ultra-thin to thick that blurs what is behind it.",
+      "dependencies": [
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/material.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "menu",
+      "type": "registry:ui",
+      "title": "Menu",
+      "description": "A 250 pt glass menu of 44 pt rows with leading glyphs, group bands, check marks and submenus.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "cn"
+      ],
+      "registryDependencies": [
+        "icon"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "navigation-bar",
+      "type": "registry:ui",
+      "title": "Navigation bar",
+      "description": "The 44 pt bar with a large title that collapses into it as content scrolls under.",
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "cn"
+      ],
+      "registryDependencies": [
+        "icon",
+        "use-scroll-collapse"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/navigation-bar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "page-control",
+      "type": "registry:ui",
+      "title": "Page control",
+      "description": "A row of dots for a flat sequence of pages.",
+      "dependencies": [
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/page-control.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "A transient card on the regular material with an arrow pointing at its control.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/popover.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "The 4 pt linear bar and the circular ring, determinate or indeterminate.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/progress.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio group",
+      "description": "Two to five mutually exclusive options as tinted rings.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/radio-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "search-field",
+      "type": "registry:ui",
+      "title": "Search field",
+      "description": "A capsule with the magnifier, a clear button and Cancel while editing.",
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "cn"
+      ],
+      "registryDependencies": [
+        "icon"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/search-field.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "segmented-control",
+      "type": "registry:ui",
+      "title": "Segmented control",
+      "description": "A capsule of equal segments with a sliding white selection.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/segmented-control.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "The menu picker and the macOS pop-up button, opening a glass menu with leading check marks.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "class-variance-authority",
+        "cn"
+      ],
+      "registryDependencies": [
+        "icon"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/select.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "The half-point hairline, inset after a row’s leading content when it divides a list.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/separator.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "A bottom sheet with a grabber and detents on phones, a centred card from the sm breakpoint.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "registryDependencies": [
+        "dialog",
+        "use-media-query"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/sheet.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "A navigation list on the regular material with labelled, collapsible groups.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "cn"
+      ],
+      "registryDependencies": [
+        "icon"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/sidebar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "A redacted placeholder for loading content.",
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "A 4 pt track with a 28 pt thumb and optional images at either end.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/slider.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "The activity indicator: eight fading bars at the medium and large sizes.",
+      "dependencies": [
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/spinner.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "split-view",
+      "type": "registry:ui",
+      "title": "Split view",
+      "description": "Two or three adjacent panes with hairline dividers that stack on narrow screens.",
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/split-view.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "stepper",
+      "type": "registry:ui",
+      "title": "Stepper",
+      "description": "The 94×32 pt two-segment control for incremental values.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "cn"
+      ],
+      "registryDependencies": [
+        "icon"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/stepper.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "The 51×31 pt switch with a 27 pt thumb, green or tinted when on.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/switch.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tab-bar",
+      "type": "registry:ui",
+      "title": "Tab bar",
+      "description": "The floating Liquid Glass capsule of tabs with a separate search button and a minimized state.",
+      "dependencies": [
+        "@hugeicons/react",
+        "cn"
+      ],
+      "registryDependencies": [
+        "badge",
+        "icon"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/tab-bar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "The macOS table with small column headers, compact rows and a tinted selection.",
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/table.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "A segmented control that switches between related subviews.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "registryDependencies": [
+        "segmented-control"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "text",
+      "type": "registry:ui",
+      "title": "Text",
+      "description": "A label in one of the eleven text styles, with the label colour roles and per-style emphasis.",
+      "dependencies": [
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/text.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "The text view for longer text, on the same surface as the text field.",
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/textarea.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "A toggle button whose pressed state is the tinted fill, for options outside a list.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/toggle.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toolbar",
+      "type": "registry:ui",
+      "title": "Toolbar",
+      "description": "Floating glass groups of circular buttons with one prominent action.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "class-variance-authority",
+        "cn"
+      ],
+      "registryDependencies": [
+        "icon"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/toolbar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "A brief phrase on thick material after a short hover.",
+      "dependencies": [
+        "@base-ui/react",
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "../../packages/ui/src/components/tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "use-media-query",
+      "type": "registry:hook",
+      "title": "useMediaQuery",
+      "description": "Tracks a media query; useIsDesktop is the sheet breakpoint.",
+      "files": [
+        {
+          "path": "../../packages/ui/src/hooks/use-media-query.ts",
+          "type": "registry:hook"
+        }
+      ]
+    },
+    {
+      "name": "use-scroll-collapse",
+      "type": "registry:hook",
+      "title": "useScrollCollapse",
+      "description": "Reports when a large title has scrolled under the bar.",
+      "files": [
+        {
+          "path": "../../packages/ui/src/hooks/use-scroll-collapse.ts",
+          "type": "registry:hook"
+        }
+      ]
+    },
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "cn",
+      "description": "Class merging.",
+      "files": [
+        {
+          "path": "../../packages/ui/src/lib/utils.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "platform",
+      "type": "registry:lib",
+      "title": "Platform",
+      "description": "PlatformProvider and usePlatform: the iOS/macOS idiom switch.",
+      "files": [
+        {
+          "path": "../../packages/ui/src/lib/platform.tsx",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "contrast",
+      "type": "registry:lib",
+      "title": "Contrast",
+      "description": "WCAG luminance, compositing and contrast ratio.",
+      "files": [
+        {
+          "path": "../../packages/ui/src/lib/contrast.ts",
+          "type": "registry:lib"
+        }
+      ]
+    }
+  ]
+}

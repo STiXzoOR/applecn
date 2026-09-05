@@ -4,8 +4,8 @@ import type { IconSvgElement } from '@hugeicons/react'
 import { cn } from 'cn'
 import { createContext, useContext, type ComponentProps, type ReactNode } from 'react'
 
-import { Badge } from './badge.tsx'
-import { Icon } from './icon.tsx'
+import { Badge } from './badge'
+import { Icon } from './icon'
 
 /**
  * The iOS 26 tab bar (HIG › Tab bars): a Liquid Glass capsule floating 21 pt from the edges,

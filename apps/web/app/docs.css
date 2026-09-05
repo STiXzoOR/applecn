@@ -1,0 +1,14 @@
+/* Shiki dual themes: light by default, dark under the `.dark` class. */
+.shiki,
+.shiki span {
+  color: var(--shiki-light);
+}
+
+.dark .shiki,
+.dark .shiki span {
+  color: var(--shiki-dark);
+}
+
+.shiki {
+  background-color: transparent !important;
+}

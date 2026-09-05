@@ -6,7 +6,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from 'cn'
 import { createContext, useContext, type ComponentProps } from 'react'
 
-import { Icon } from './icon.tsx'
+import { Icon } from './icon'
 
 /**
  * Toolbars (HIG › Toolbars) under Liquid Glass: items sit in floating glass groups, each a
