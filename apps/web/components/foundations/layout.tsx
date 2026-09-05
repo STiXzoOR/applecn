@@ -1,4 +1,4 @@
-import { metrics } from "@apple-ds/ui/tokens/metrics"
+import { metrics } from "@applecn/ui/tokens/metrics"
 
 import { PageHeader } from "@/components/doc/page-header"
 import { Section } from "@/components/doc/section"

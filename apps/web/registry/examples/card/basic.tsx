@@ -1,4 +1,4 @@
-import { Button } from "@apple-ds/ui/components/button"
+import { Button } from "@applecn/ui/components/button"
 import {
   Card,
   CardContent,
@@ -6,8 +6,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@apple-ds/ui/components/card"
-import { Progress } from "@apple-ds/ui/components/progress"
+} from "@applecn/ui/components/card"
+import { Progress } from "@applecn/ui/components/progress"
 
 export default function CardBasic() {
   return (

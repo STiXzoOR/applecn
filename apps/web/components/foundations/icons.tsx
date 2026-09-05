@@ -9,8 +9,8 @@ import {
   Wifi01Icon,
 } from "@hugeicons/core-free-icons"
 
-import { Icon, strokeWidths } from "@apple-ds/ui/components/icon"
-import { Text } from "@apple-ds/ui/components/text"
+import { Icon, strokeWidths } from "@applecn/ui/components/icon"
+import { Text } from "@applecn/ui/components/text"
 
 import { PageHeader } from "@/components/doc/page-header"
 import { Section } from "@/components/doc/section"

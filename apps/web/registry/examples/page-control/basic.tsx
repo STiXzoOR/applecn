@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 
-import { PageControl } from "@apple-ds/ui/components/page-control"
-import { Text } from "@apple-ds/ui/components/text"
+import { PageControl } from "@applecn/ui/components/page-control"
+import { Text } from "@applecn/ui/components/text"
 
 const pages = ["Cupertino", "London", "Tokyo", "Sydney"]
 

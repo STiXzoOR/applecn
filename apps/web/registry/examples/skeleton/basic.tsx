@@ -1,4 +1,4 @@
-import { Skeleton } from "@apple-ds/ui/components/skeleton"
+import { Skeleton } from "@applecn/ui/components/skeleton"
 
 export default function SkeletonBasic() {
   return (

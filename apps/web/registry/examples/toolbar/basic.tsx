@@ -12,7 +12,7 @@ import {
   ToolbarButton,
   ToolbarGroup,
   ToolbarSpacer,
-} from "@apple-ds/ui/components/toolbar"
+} from "@applecn/ui/components/toolbar"
 
 export default function ToolbarBasic() {
   return (

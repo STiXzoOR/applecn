@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "name": "apple-ds",
-  "homepage": "https://apple-ds.local",
+  "name": "applecn",
+  "homepage": "https://applecn.vercel.app",
   "items": [
     {
       "name": "apple",

@@ -1,7 +1,7 @@
 import { Wifi01Icon } from "@hugeicons/core-free-icons"
 
-import { Icon } from "@apple-ds/ui/components/icon"
-import { Text } from "@apple-ds/ui/components/text"
+import { Icon } from "@applecn/ui/components/icon"
+import { Text } from "@applecn/ui/components/text"
 
 export default function IconScales() {
   return (

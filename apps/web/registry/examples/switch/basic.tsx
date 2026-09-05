@@ -1,7 +1,7 @@
 "use client"
 
-import { List, ListRow, ListSection } from "@apple-ds/ui/components/list"
-import { Switch } from "@apple-ds/ui/components/switch"
+import { List, ListRow, ListSection } from "@applecn/ui/components/list"
+import { Switch } from "@applecn/ui/components/switch"
 
 export default function SwitchBasic() {
   return (

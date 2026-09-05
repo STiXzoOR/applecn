@@ -1,8 +1,8 @@
-import { Glass } from "@apple-ds/ui/components/glass"
-import { Material } from "@apple-ds/ui/components/material"
-import { Text } from "@apple-ds/ui/components/text"
-import { css } from "@apple-ds/ui/tokens/colors"
-import { materials } from "@apple-ds/ui/tokens/materials"
+import { Glass } from "@applecn/ui/components/glass"
+import { Material } from "@applecn/ui/components/material"
+import { Text } from "@applecn/ui/components/text"
+import { css } from "@applecn/ui/tokens/colors"
+import { materials } from "@applecn/ui/tokens/materials"
 
 import { PageHeader } from "@/components/doc/page-header"
 import { Section } from "@/components/doc/section"

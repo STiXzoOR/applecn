@@ -1,5 +1,5 @@
 {
-  "extends": "@apple-ds/typescript-config/react-library.json",
+  "extends": "@applecn/typescript-config/react-library.json",
   "compilerOptions": {
     "outDir": "dist"
   },

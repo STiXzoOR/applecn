@@ -1,8 +1,8 @@
 "use client"
 
-import { Button } from "@apple-ds/ui/components/button"
-import { Input } from "@apple-ds/ui/components/input"
-import { List, ListRow, ListSection } from "@apple-ds/ui/components/list"
+import { Button } from "@applecn/ui/components/button"
+import { Input } from "@applecn/ui/components/input"
+import { List, ListRow, ListSection } from "@applecn/ui/components/list"
 import {
   Sheet,
   SheetClose,
@@ -11,8 +11,8 @@ import {
   SheetTitle,
   SheetToolbar,
   SheetTrigger,
-} from "@apple-ds/ui/components/sheet"
-import { Switch } from "@apple-ds/ui/components/switch"
+} from "@applecn/ui/components/sheet"
+import { Switch } from "@applecn/ui/components/switch"
 
 export default function SheetBasic() {
   return (

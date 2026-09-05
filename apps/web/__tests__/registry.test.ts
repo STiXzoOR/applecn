@@ -4,11 +4,17 @@ import { join } from "node:path"
 import { describe, expect, test } from "vitest"
 
 import { componentDocs } from "@/registry/index"
+import { SITE_URL } from "@/lib/site"
 import { buildRegistry } from "@/scripts/registry-data"
 
 const registry = buildRegistry()
 
 describe("registry", () => {
+  test("is named applecn and points at the site", () => {
+    expect(registry.name).toBe("applecn")
+    expect(registry.homepage).toBe(SITE_URL)
+  })
+
   test("has a registry:ui item per component, each pointing at the package source", () => {
     const ui = registry.items.filter((i) => i.type === "registry:ui")
     expect(ui.map((i) => i.name).sort()).toEqual(

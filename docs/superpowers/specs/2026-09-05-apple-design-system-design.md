@@ -1,5 +1,7 @@
 # Apple design system on shadcn — design spec
 
+> Renamed to **applecn** on 2026-09-05 (`@applecn/*`); see `docs/superpowers/specs/2026-09-05-applecn-public-release-design.md`. Package names below are historical.
+
 Date: 2026-09-05. Status: approved by the owner's `/goal` directive (autonomous run); the brainstorming approval gate was overridden by that directive, so every decision below is recorded with its reason.
 
 ## 1. Goal

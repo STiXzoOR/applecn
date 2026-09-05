@@ -1,4 +1,4 @@
-# @apple-ds/ui
+# @applecn/ui
 
 The design system's primitives: Apple's tokens as data, the stylesheet generated from them, and one file per component on Base UI with Hugeicons. Nothing in here knows about the docs app.
 
@@ -23,8 +23,8 @@ The design system's primitives: Apple's tokens as data, the stylesheet generated
 ## Commands
 
 ```sh
-pnpm --filter @apple-ds/ui test          # vitest
-pnpm --filter @apple-ds/ui typecheck
+pnpm --filter @applecn/ui test          # vitest
+pnpm --filter @applecn/ui typecheck
 pnpm tokens:build                        # regenerate tokens.css
 pnpm ui:add <name>                       # pull a shadcn registry component to restyle
 ```

@@ -12,8 +12,8 @@ import {
   ContextMenuItem,
   ContextMenuSeparator,
   ContextMenuTrigger,
-} from "@apple-ds/ui/components/context-menu"
-import { Text } from "@apple-ds/ui/components/text"
+} from "@applecn/ui/components/context-menu"
+import { Text } from "@applecn/ui/components/text"
 
 export default function ContextMenuBasic() {
   return (

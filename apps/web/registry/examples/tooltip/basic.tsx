@@ -2,14 +2,14 @@
 
 import { Share01Icon } from "@hugeicons/core-free-icons"
 
-import { Button } from "@apple-ds/ui/components/button"
-import { Icon } from "@apple-ds/ui/components/icon"
+import { Button } from "@applecn/ui/components/button"
+import { Icon } from "@applecn/ui/components/icon"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@apple-ds/ui/components/tooltip"
+} from "@applecn/ui/components/tooltip"
 
 export default function TooltipBasic() {
   return (

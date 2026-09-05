@@ -6,8 +6,8 @@ import {
   ActionSheetCancel,
   ActionSheetContent,
   ActionSheetTrigger,
-} from "@apple-ds/ui/components/action-sheet"
-import { Button } from "@apple-ds/ui/components/button"
+} from "@applecn/ui/components/action-sheet"
+import { Button } from "@applecn/ui/components/button"
 
 export default function ActionSheetBasic() {
   return (

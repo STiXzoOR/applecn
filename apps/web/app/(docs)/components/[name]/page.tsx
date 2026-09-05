@@ -3,13 +3,14 @@ import { join } from "node:path"
 
 import { notFound } from "next/navigation"
 
-import { Badge } from "@apple-ds/ui/components/badge"
-import { Text } from "@apple-ds/ui/components/text"
+import { Badge } from "@applecn/ui/components/badge"
+import { Text } from "@applecn/ui/components/text"
 
 import { CodeBlock } from "@/components/doc/code-block"
 import { PageHeader } from "@/components/doc/page-header"
 import { Preview } from "@/components/doc/preview"
 import { Section } from "@/components/doc/section"
+import { REGISTRY_URL } from "@/lib/site"
 import { examples } from "@/registry/examples.generated"
 import { componentDocs } from "@/registry/index"
 
@@ -101,7 +102,7 @@ export default async function ComponentPage({
       >
         <CodeBlock
           lang="bash"
-          code={`npx shadcn@latest add https://<your-host>/r/${doc.name}.json`}
+          code={`npx shadcn@latest add ${REGISTRY_URL}/${doc.name}.json`}
         />
       </Section>
 

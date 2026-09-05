@@ -1,5 +1,5 @@
-import { Material } from "@apple-ds/ui/components/material"
-import { Text } from "@apple-ds/ui/components/text"
+import { Material } from "@applecn/ui/components/material"
+import { Text } from "@applecn/ui/components/text"
 
 export default function MaterialBasic() {
   return (

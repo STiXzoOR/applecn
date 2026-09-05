@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@apple-ds/ui/components/table"
+} from "@applecn/ui/components/table"
 
 export function TokenTable({
   columns,

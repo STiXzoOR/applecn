@@ -2,7 +2,7 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@apple-ds/ui/components/avatar"
+} from "@applecn/ui/components/avatar"
 
 export default function AvatarBasic() {
   return (

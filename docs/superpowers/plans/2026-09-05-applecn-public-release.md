@@ -26,6 +26,7 @@
 ### Task 1: Rename apple-ds to applecn
 
 **Files:**
+
 - Create: `apps/web/lib/site.ts`
 - Create: `apps/web/__tests__/repo.test.ts`
 - Modify: `apps/web/__tests__/registry.test.ts:41-44`
@@ -37,6 +38,7 @@
 - Regenerate: `pnpm-lock.yaml`, `apps/web/registry.json`
 
 **Interfaces:**
+
 - Produces: `SITE_URL: string`, `REGISTRY_URL: string`, `GITHUB_URL: string` from `apps/web/lib/site.ts`. Task 4's README and skill use the same literal host.
 - Produces: `apps/web/__tests__/repo.test.ts` with a `registryNamesIn(markdown: string): string[]` helper Task 4 extends.
 
@@ -48,10 +50,10 @@ Change the style test in `apps/web/__tests__/registry.test.ts` and add an identi
 import { SITE_URL } from "@/lib/site"
 // ...existing imports stay
 
-  test("is named applecn and points at the site", () => {
-    expect(registry.name).toBe("applecn")
-    expect(registry.homepage).toBe(SITE_URL)
-  })
+test("is named applecn and points at the site", () => {
+  expect(registry.name).toBe("applecn")
+  expect(registry.homepage).toBe(SITE_URL)
+})
 ```
 
 Create `apps/web/__tests__/repo.test.ts`:
@@ -78,7 +80,8 @@ const binary = /\.(png|jpg|jpeg|gif|webp|ico|woff2?|ttf|otf)$/
 export function registryNamesIn(markdown: string): string[] {
   const names = new Set<string>()
   for (const m of markdown.matchAll(/@applecn\/([a-z0-9-]+)/g)) names.add(m[1]!)
-  for (const m of markdown.matchAll(/\/r\/([a-z0-9-]+)\.json/g)) names.add(m[1]!)
+  for (const m of markdown.matchAll(/\/r\/([a-z0-9-]+)\.json/g))
+    names.add(m[1]!)
   return [...names]
 }
 
@@ -207,12 +210,14 @@ Claude-Session: https://claude.ai/code/session_0144XmffgCpsCzS4Mx2UEmhH"
 ### Task 2: oxlint and oxfmt replace ESLint and Prettier
 
 **Files:**
+
 - Delete: `packages/eslint-config/` (whole directory), `.eslintrc.js`, `.prettierrc`, `.prettierignore`, `apps/web/eslint.config.js`, `packages/ui/eslint.config.js`, `packages/ui/tsconfig.lint.json`
 - Create: `.oxlintrc.json`, `.oxfmtrc.jsonc`, `lefthook.yml`, `commitlint.config.mjs`, `.editorconfig`, `.node-version`, `.vscode/settings.json`, `.vscode/extensions.json`
 - Modify: `package.json` (root), `packages/ui/package.json`, `apps/web/package.json`, `turbo.json`, `pnpm-workspace.yaml`
 - Regenerate: `pnpm-lock.yaml`
 
 **Interfaces:**
+
 - Produces: root scripts `lint:check`, `lint:fix`, `format`, `format:check`, `check`, `prepare`. Task 3's CI and CONTRIBUTING call `pnpm check`; Task 3's PR template names `pnpm check`.
 
 - [ ] **Step 1: Remove the old toolchain**
@@ -265,7 +270,17 @@ In `packages/ui/package.json` and `apps/web/package.json`: delete the `lint` and
 ```json
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["import", "jsx-a11y", "nextjs", "oxc", "promise", "react", "typescript", "unicorn", "vitest"],
+  "plugins": [
+    "import",
+    "jsx-a11y",
+    "nextjs",
+    "oxc",
+    "promise",
+    "react",
+    "typescript",
+    "unicorn",
+    "vitest"
+  ],
   "categories": { "correctness": "warn", "suspicious": "warn", "perf": "warn" },
   "env": { "browser": true, "node": true, "es2026": true },
   "rules": {
@@ -276,7 +291,16 @@ In `packages/ui/package.json` and `apps/web/package.json`: delete the `lint` and
     "import/no-duplicates": "error",
     "import/no-unassigned-import": "off",
     "no-debugger": "error",
-    "no-unused-vars": ["warn", { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_", "ignoreRestSiblings": true }],
+    "no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_",
+        "ignoreRestSiblings": true
+      }
+    ],
     "no-var": "error",
     "prefer-const": "error",
     "react/display-name": "off",
@@ -287,7 +311,10 @@ In `packages/ui/package.json` and `apps/web/package.json`: delete the `lint` and
     "react/no-unknown-property": "off",
     "react/react-in-jsx-scope": "off",
     "react/rules-of-hooks": "error",
-    "typescript/consistent-type-imports": ["error", { "disallowTypeAnnotations": false }],
+    "typescript/consistent-type-imports": [
+      "error",
+      { "disallowTypeAnnotations": false }
+    ],
     "typescript/no-explicit-any": "off",
     "typescript/no-non-null-assertion": "off",
     "typescript/no-require-imports": "error",
@@ -335,7 +362,7 @@ In `packages/ui/package.json` and `apps/web/package.json`: delete the `lint` and
   // Same algorithm as prettier-plugin-tailwindcss; the stylesheet is Tailwind v4's entry.
   "sortTailwindcss": {
     "stylesheet": "packages/ui/src/styles/globals.css",
-    "functions": ["cn", "cva"]
+    "functions": ["cn", "cva"],
   },
   // Generated files are regenerated, never edited; docs/research holds verbatim captures.
   "ignorePatterns": [
@@ -348,8 +375,8 @@ In `packages/ui/package.json` and `apps/web/package.json`: delete the `lint` and
     "apps/web/registry/examples.generated.ts",
     "packages/ui/src/styles/tokens.css",
     "docs/research/**",
-    "**/AGENTS.md"
-  ]
+    "**/AGENTS.md",
+  ],
 }
 ```
 
@@ -383,7 +410,20 @@ export default {
     "scope-enum": [
       2,
       "always",
-      ["ui", "web", "tokens", "registry", "docs", "spec", "skills", "ci", "lint", "deps", "repo", "release"],
+      [
+        "ui",
+        "web",
+        "tokens",
+        "registry",
+        "docs",
+        "spec",
+        "skills",
+        "ci",
+        "lint",
+        "deps",
+        "repo",
+        "release",
+      ],
     ],
     "body-max-line-length": [0],
     "footer-max-line-length": [0],
@@ -470,11 +510,13 @@ Claude-Session: https://claude.ai/code/session_0144XmffgCpsCzS4Mx2UEmhH"
 ### Task 3: Community files, issue forms and CI
 
 **Files:**
+
 - Create: `LICENSE`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`
 - Create: `.github/CODEOWNERS`, `.github/dco.yml`, `.github/ISSUE_TEMPLATE/config.yml`, `.github/ISSUE_TEMPLATE/bug_report.yml`, `.github/ISSUE_TEMPLATE/feature_request.yml`, `.github/pull_request_template.md`, `.github/actions/setup/action.yml`, `.github/workflows/ci.yml`
 - Modify: `package.json`, `packages/ui/package.json`, `apps/web/package.json`, `packages/typescript-config/package.json` (`license`, `repository`)
 
 **Interfaces:**
+
 - Consumes: `pnpm check` from Task 2.
 - Produces: the section anchors `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md` that Task 4's README links.
 
@@ -492,7 +534,7 @@ Every `package.json`: `"license": "MIT"`; `packages/typescript-config/package.js
 
 - [ ] **Step 2: CONTRIBUTING.md**
 
-```md
+````md
 # Contributing to applecn
 
 Thanks for helping. This covers getting the repo running and landing a change.
@@ -510,6 +552,7 @@ cd applecn
 pnpm install        # also installs the git hooks
 pnpm dev            # http://localhost:3000
 ```
+````
 
 ## The gate
 
@@ -572,7 +615,8 @@ based on, in the research document.
 3. Open the pull request; the template asks for the summary, validation and checklist.
 
 By participating you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
-```
+
+````
 
 - [ ] **Step 3: CODE_OF_CONDUCT.md and SECURITY.md**
 
@@ -580,7 +624,7 @@ By participating you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ```bash
 curl -fsSL https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md >| CODE_OF_CONDUCT.md
-```
+````
 
 Replace `[INSERT CONTACT METHOD]` with: `the maintainer, privately, through a GitHub security advisory at https://github.com/STiXzoOR/applecn/security/advisories/new or a direct message to @STiXzoOR on GitHub`. If the URL is unavailable, copy the 2.0 text from `shadcn-labs/pdfcn`'s `CODE_OF_CONDUCT.md` and apply the same replacement.
 
@@ -675,7 +719,14 @@ body:
     attributes:
       label: Platform idiom
       multiple: true
-      options: ["iOS (default)", "macOS (data-platform)", "Dark mode", "Increase Contrast", "Reduce Transparency"]
+      options:
+        [
+          "iOS (default)",
+          "macOS (data-platform)",
+          "Dark mode",
+          "Increase Contrast",
+          "Reduce Transparency",
+        ]
   - type: textarea
     id: environment
     attributes:
@@ -822,12 +873,14 @@ Claude-Session: https://claude.ai/code/session_0144XmffgCpsCzS4Mx2UEmhH"
 ### Task 4: Agent skill and the public README
 
 **Files:**
+
 - Create: `.agents/skills/applecn/SKILL.md`
 - Modify: `apps/web/__tests__/repo.test.ts` (extend the install-name test to the skill)
 - Rewrite: `README.md`
 - Modify (outside the repo, machine-local): `~/Vault/Projects/apple-ds.md` → `~/Vault/Projects/applecn.md` plus `~/Vault/Projects/index.md`; `~/.claude/projects/-Users-stix-Projects-apple-ds/memory/apple-ds-project.md` and `MEMORY.md`
 
 **Interfaces:**
+
 - Consumes: `registryNamesIn` from Task 1; `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md` from Task 3.
 
 - [ ] **Step 1: Extend the failing test**
@@ -835,20 +888,23 @@ Claude-Session: https://claude.ai/code/session_0144XmffgCpsCzS4Mx2UEmhH"
 In `apps/web/__tests__/repo.test.ts` replace the README test with one over both documents:
 
 ```ts
-  test.each(["README.md", ".agents/skills/applecn/SKILL.md"])(
-    "every registry item %s installs exists",
-    (file) => {
-      const items = new Set(buildRegistry().items.map((i) => i.name))
-      const mentioned = registryNamesIn(readFileSync(join(root, file), "utf8"))
-      expect(mentioned.length).toBeGreaterThan(0)
-      expect(mentioned.filter((n) => !items.has(n))).toEqual([])
-    }
-  )
+test.each(["README.md", ".agents/skills/applecn/SKILL.md"])(
+  "every registry item %s installs exists",
+  (file) => {
+    const items = new Set(buildRegistry().items.map((i) => i.name))
+    const mentioned = registryNamesIn(readFileSync(join(root, file), "utf8"))
+    expect(mentioned.length).toBeGreaterThan(0)
+    expect(mentioned.filter((n) => !items.has(n))).toEqual([])
+  }
+)
 
-  test("the skill has the frontmatter the skills CLI needs", () => {
-    const skill = readFileSync(join(root, ".agents/skills/applecn/SKILL.md"), "utf8")
-    expect(skill).toMatch(/^---\nname: applecn\ndescription: /)
-  })
+test("the skill has the frontmatter the skills CLI needs", () => {
+  const skill = readFileSync(
+    join(root, ".agents/skills/applecn/SKILL.md"),
+    "utf8"
+  )
+  expect(skill).toMatch(/^---\nname: applecn\ndescription: /)
+})
 ```
 
 - [ ] **Step 2: Run to verify it fails**
@@ -871,7 +927,7 @@ import("./apps/web/registry/index.ts").then(({ componentDocs, componentGroups })
 
 Paste the output into the "Components" section of `.agents/skills/applecn/SKILL.md`:
 
-```md
+````md
 ---
 name: applecn
 description: >-
@@ -896,6 +952,7 @@ Register the namespace once in the project's `components.json`:
 ```json
 { "registries": { "@applecn": "https://applecn.vercel.app/r/{name}.json" } }
 ```
+````
 
 Then add the theme, and components as needed (dependencies resolve automatically):
 
@@ -940,7 +997,8 @@ Without the namespace, the URL form works: `npx shadcn@latest add https://applec
 - The theme is exact sRGB from Apple's published tables and measured Apple web CSS; three
   values are documented approximations (iOS 26 tab bar height, bottom-sheet radius, macOS
   switch/stepper/alert width). See the research document in the repo before "correcting" one.
-```
+
+````
 
 - [ ] **Step 4: Run the tests**
 
@@ -972,7 +1030,7 @@ Register the namespace once in your `components.json`, then add the theme and an
 
 ```json
 { "registries": { "@applecn": "https://applecn.vercel.app/r/{name}.json" } }
-```
+````
 
 ```sh
 npx shadcn@latest add @applecn/apple      # the theme: every token, light and dark
@@ -1002,7 +1060,8 @@ pnpm check          # lint + format check + typecheck + tests + build
 ```
 
 Other scripts: `pnpm test`, `pnpm tokens:build` (regenerate `tokens.css` after editing a token module), `pnpm registry:build` (regenerate `registry.json` and `public/r`), `pnpm --filter @applecn/web examples:build` (regenerate the example map), `pnpm ui:add <name>` (pull a shadcn registry component into `packages/ui` to restyle).
-```
+
+````
 
 Keep "How it is built", "What is exact and what is approximated" and "Layout" as they are (with Task 1's substitutions), and append:
 
@@ -1028,7 +1087,7 @@ Apple devices, and Hugeicons stands in for SF Symbols.
 ## License
 
 [MIT](LICENSE)
-```
+````
 
 - [ ] **Step 6: Notes outside the repo**
 

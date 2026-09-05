@@ -1,5 +1,5 @@
-import { Text } from "@apple-ds/ui/components/text"
-import { durations, easings, springs } from "@apple-ds/ui/tokens/motion"
+import { Text } from "@applecn/ui/components/text"
+import { durations, easings, springs } from "@applecn/ui/tokens/motion"
 
 import { PageHeader } from "@/components/doc/page-header"
 import { Section } from "@/components/doc/section"

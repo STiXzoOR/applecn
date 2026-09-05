@@ -8,7 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./', import.meta.url)),
-      '@apple-ds/ui': fileURLToPath(new URL('../../packages/ui/src', import.meta.url)),
+      '@applecn/ui': fileURLToPath(new URL('../../packages/ui/src', import.meta.url)),
     },
   },
   test: {

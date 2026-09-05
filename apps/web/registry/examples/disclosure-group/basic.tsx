@@ -4,9 +4,9 @@ import {
   DisclosureGroup,
   DisclosureGroupPanel,
   DisclosureGroupTrigger,
-} from "@apple-ds/ui/components/disclosure-group"
-import { Label } from "@apple-ds/ui/components/label"
-import { Switch } from "@apple-ds/ui/components/switch"
+} from "@applecn/ui/components/disclosure-group"
+import { Label } from "@applecn/ui/components/label"
+import { Switch } from "@applecn/ui/components/switch"
 
 export default function DisclosureGroupBasic() {
   return (

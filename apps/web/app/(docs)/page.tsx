@@ -5,13 +5,14 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@apple-ds/ui/components/card"
-import { Text } from "@apple-ds/ui/components/text"
+} from "@applecn/ui/components/card"
+import { Text } from "@applecn/ui/components/text"
 
 import { CodeBlock } from "@/components/doc/code-block"
 import { PageHeader } from "@/components/doc/page-header"
 import { Section } from "@/components/doc/section"
 import { foundationPages } from "@/lib/nav"
+import { REGISTRY_URL } from "@/lib/site"
 import { componentDocs, componentGroups } from "@/registry/index"
 
 const groupTitles = {
@@ -82,7 +83,7 @@ export default function OverviewPage() {
       >
         <CodeBlock
           lang="bash"
-          code={`npx shadcn@latest add https://<your-host>/r/apple.json\nnpx shadcn@latest add https://<your-host>/r/button.json https://<your-host>/r/list.json`}
+          code={`npx shadcn@latest add ${REGISTRY_URL}/apple.json\nnpx shadcn@latest add ${REGISTRY_URL}/button.json ${REGISTRY_URL}/list.json`}
         />
       </Section>
     </>

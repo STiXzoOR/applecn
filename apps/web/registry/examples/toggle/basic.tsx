@@ -6,8 +6,8 @@ import {
   TextItalicIcon,
 } from "@hugeicons/core-free-icons"
 
-import { Icon } from "@apple-ds/ui/components/icon"
-import { Toggle } from "@apple-ds/ui/components/toggle"
+import { Icon } from "@applecn/ui/components/icon"
+import { Toggle } from "@applecn/ui/components/toggle"
 
 export default function ToggleBasic() {
   return (

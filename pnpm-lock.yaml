@@ -8,10 +8,10 @@ importers:
 
   .:
     devDependencies:
-      '@apple-ds/eslint-config':
+      '@applecn/eslint-config':
         specifier: workspace:*
         version: link:packages/eslint-config
-      '@apple-ds/typescript-config':
+      '@applecn/typescript-config':
         specifier: workspace:*
         version: link:packages/typescript-config
       prettier:
@@ -29,7 +29,7 @@ importers:
 
   apps/web:
     dependencies:
-      '@apple-ds/ui':
+      '@applecn/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       '@hugeicons/core-free-icons':
@@ -54,10 +54,10 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3
     devDependencies:
-      '@apple-ds/eslint-config':
+      '@applecn/eslint-config':
         specifier: workspace:^
         version: link:../../packages/eslint-config
-      '@apple-ds/typescript-config':
+      '@applecn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
       '@tailwindcss/postcss':
@@ -180,10 +180,10 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3
     devDependencies:
-      '@apple-ds/eslint-config':
+      '@applecn/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
-      '@apple-ds/typescript-config':
+      '@applecn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       '@tailwindcss/postcss':

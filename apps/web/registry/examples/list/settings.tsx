@@ -7,9 +7,9 @@ import {
   Wifi01Icon,
 } from "@hugeicons/core-free-icons"
 
-import { Icon } from "@apple-ds/ui/components/icon"
-import { List, ListRow, ListSection } from "@apple-ds/ui/components/list"
-import { Switch } from "@apple-ds/ui/components/switch"
+import { Icon } from "@applecn/ui/components/icon"
+import { List, ListRow, ListSection } from "@applecn/ui/components/list"
+import { Switch } from "@applecn/ui/components/switch"
 
 const tile = (color: string) => `${color} text-white`
 

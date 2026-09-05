@@ -5,8 +5,8 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import type { ReactNode } from "react"
 
-import { Button } from "@apple-ds/ui/components/button"
-import { Icon } from "@apple-ds/ui/components/icon"
+import { Button } from "@applecn/ui/components/button"
+import { Icon } from "@applecn/ui/components/icon"
 import {
   Sheet,
   SheetClose,
@@ -14,15 +14,15 @@ import {
   SheetTitle,
   SheetToolbar,
   SheetTrigger,
-} from "@apple-ds/ui/components/sheet"
+} from "@applecn/ui/components/sheet"
 import {
   Sidebar,
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
   SidebarItem,
-} from "@apple-ds/ui/components/sidebar"
-import { Text } from "@apple-ds/ui/components/text"
+} from "@applecn/ui/components/sidebar"
+import { Text } from "@applecn/ui/components/text"
 
 import {
   AppearanceMenu,

@@ -1,1 +1,1 @@
-export { default } from "@apple-ds/ui/postcss.config";
+export { default } from "@applecn/ui/postcss.config";

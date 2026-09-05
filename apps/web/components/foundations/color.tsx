@@ -1,5 +1,5 @@
-import { Text } from "@apple-ds/ui/components/text"
-import { contrastRatio } from "@apple-ds/ui/lib/contrast"
+import { Text } from "@applecn/ui/components/text"
+import { contrastRatio } from "@applecn/ui/lib/contrast"
 import {
   backgrounds,
   css,
@@ -11,7 +11,7 @@ import {
   separators,
   systemColors,
   white,
-} from "@apple-ds/ui/tokens/colors"
+} from "@applecn/ui/tokens/colors"
 
 import { PageHeader } from "@/components/doc/page-header"
 import { Section } from "@/components/doc/section"

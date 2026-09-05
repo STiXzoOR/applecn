@@ -1,5 +1,5 @@
 {
-  "name": "@apple-ds/eslint-config",
+  "name": "@applecn/eslint-config",
   "version": "0.0.0",
   "type": "module",
   "private": true,

@@ -1,16 +1,15 @@
 import type { Metadata, Viewport } from "next"
 
-import "@apple-ds/ui/globals.css"
+import "@applecn/ui/globals.css"
 import "./docs.css"
 
 import { AppearanceProvider } from "@/components/appearance"
+import { SITE_URL } from "@/lib/site"
 import { ThemeProvider } from "@/components/theme-provider"
 
 export const metadata: Metadata = {
-  title: {
-    default: "Apple Design System",
-    template: "%s · Apple Design System",
-  },
+  metadataBase: new URL(SITE_URL),
+  title: { default: "applecn", template: "%s · applecn" },
   description:
     "Apple’s Human Interface Guidelines as a shadcn design system on Base UI and Hugeicons.",
 }

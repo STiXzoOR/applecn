@@ -6,7 +6,7 @@ import {
   Share01Icon,
 } from "@hugeicons/core-free-icons"
 
-import { Button } from "@apple-ds/ui/components/button"
+import { Button } from "@applecn/ui/components/button"
 import {
   Menu,
   MenuCheckboxItem,
@@ -18,7 +18,7 @@ import {
   MenuSubContent,
   MenuSubTrigger,
   MenuTrigger,
-} from "@apple-ds/ui/components/menu"
+} from "@applecn/ui/components/menu"
 
 export default function MenuBasic() {
   return (

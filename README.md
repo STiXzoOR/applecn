@@ -1,9 +1,9 @@
-# Apple design system
+# applecn
 
 Apple's Human Interface Guidelines — the iOS/iPadOS 26 Liquid Glass idiom by default, macOS 26 as a runtime switch — rebuilt as a **shadcn** design system on **Base UI** primitives with **Hugeicons**, in a private pnpm/Turborepo monorepo scaffolded by the shadcn CLI.
 
-- `packages/ui` (`@apple-ds/ui`) — the tokens, the generated stylesheet, and 45 components.
-- `apps/web` (`@apple-ds/web`) — the design-system site: eight foundation pages rendered from the token data, a page per component with live examples and source, and a shadcn registry at `/r/*.json`.
+- `packages/ui` (`@applecn/ui`) — the tokens, the generated stylesheet, and 45 components.
+- `apps/web` (`@applecn/web`) — the design-system site: eight foundation pages rendered from the token data, a page per component with live examples and source, and a shadcn registry at `/r/*.json`.
 - `docs/` — the research (`docs/research/apple-design-system-reference.md`: every number and where it came from), the spec, and the plan.
 
 ## Run it
@@ -14,7 +14,7 @@ pnpm dev            # http://localhost:3000
 pnpm check          # lint + format check + typecheck + tests + build
 ```
 
-Other scripts: `pnpm test`, `pnpm tokens:build` (regenerate `tokens.css` after editing a token module), `pnpm registry:build` (regenerate `registry.json` and `public/r`), `pnpm --filter @apple-ds/web examples:build` (regenerate the example map), `pnpm ui:add <name>` (pull a shadcn registry component into `packages/ui` to restyle).
+Other scripts: `pnpm test`, `pnpm tokens:build` (regenerate `tokens.css` after editing a token module), `pnpm registry:build` (regenerate `registry.json` and `public/r`), `pnpm --filter @applecn/web examples:build` (regenerate the example map), `pnpm ui:add <name>` (pull a shadcn registry component into `packages/ui` to restyle).
 
 ## How it is built
 
@@ -29,8 +29,8 @@ Other scripts: `pnpm test`, `pnpm tokens:build` (regenerate `tokens.css` after e
 **Registry.** `apps/web/scripts/registry.ts` reads the package sources and writes `registry.json` (dependencies from imports, an `apple` style item with every token as `cssVars` and the utilities as `css`); `shadcn build` turns it into `public/r/<name>.json` at build time.
 
 ```sh
-npx shadcn@latest add https://<your-host>/r/apple.json      # the theme
-npx shadcn@latest add https://<your-host>/r/button.json     # a component and its dependencies
+npx shadcn@latest add https://applecn.vercel.app/r/apple.json      # the theme
+npx shadcn@latest add https://applecn.vercel.app/r/button.json     # a component and its dependencies
 ```
 
 ## What is exact and what is approximated
@@ -48,7 +48,7 @@ apps/web/                      Next.js 16 App Router site + registry
   registry/index.ts            component docs (title, Apple counterpart, primitive, examples)
   registry/examples/           live examples, one folder per component
   scripts/                     registry.ts, registry-data.ts, examples-index.ts
-packages/ui/                   @apple-ds/ui
+packages/ui/                   @applecn/ui
   src/tokens/                  the data; css.ts renders it
   src/styles/                  globals.css (hand-written), tokens.css (generated)
   src/components/              one file per component

@@ -1,6 +1,6 @@
 "use client"
 
-import { Button } from "@apple-ds/ui/components/button"
+import { Button } from "@applecn/ui/components/button"
 import {
   Dialog,
   DialogClose,
@@ -10,8 +10,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@apple-ds/ui/components/dialog"
-import { Input } from "@apple-ds/ui/components/input"
+} from "@applecn/ui/components/dialog"
+import { Input } from "@applecn/ui/components/input"
 
 export default function DialogBasic() {
   return (

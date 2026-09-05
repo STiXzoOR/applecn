@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 
-import { Stepper } from "@apple-ds/ui/components/stepper"
-import { Text } from "@apple-ds/ui/components/text"
+import { Stepper } from "@applecn/ui/components/stepper"
+import { Text } from "@applecn/ui/components/text"
 
 export default function StepperBasic() {
   const [copies, setCopies] = useState(1)

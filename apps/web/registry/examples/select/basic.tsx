@@ -6,8 +6,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@apple-ds/ui/components/select"
-import { Text } from "@apple-ds/ui/components/text"
+} from "@applecn/ui/components/select"
+import { Text } from "@applecn/ui/components/text"
 
 const repeat = {
   never: "Never",

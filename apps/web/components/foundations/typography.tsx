@@ -1,4 +1,4 @@
-import { Text } from "@apple-ds/ui/components/text"
+import { Text } from "@applecn/ui/components/text"
 import {
   dynamicType,
   fontFamilies,
@@ -7,7 +7,7 @@ import {
   platformSizes,
   textStyleNames,
   tracking,
-} from "@apple-ds/ui/tokens/typography"
+} from "@applecn/ui/tokens/typography"
 
 import { PageHeader } from "@/components/doc/page-header"
 import { Section } from "@/components/doc/section"

@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 
-import { List, ListRow, ListSection } from "@apple-ds/ui/components/list"
+import { List, ListRow, ListSection } from "@applecn/ui/components/list"
 
 const options = ["Date Edited", "Date Created", "Title"]
 

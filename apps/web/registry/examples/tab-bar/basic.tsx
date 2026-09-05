@@ -8,13 +8,13 @@ import {
 } from "@hugeicons/core-free-icons"
 import { useState } from "react"
 
-import { Switch } from "@apple-ds/ui/components/switch"
+import { Switch } from "@applecn/ui/components/switch"
 import {
   TabBar,
   TabBarItem,
   TabBarSearch,
-} from "@apple-ds/ui/components/tab-bar"
-import { Text } from "@apple-ds/ui/components/text"
+} from "@applecn/ui/components/tab-bar"
+import { Text } from "@applecn/ui/components/text"
 
 export default function TabBarBasic() {
   const [value, setValue] = useState("home")

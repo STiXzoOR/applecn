@@ -1,23 +1,23 @@
 {
-  "name": "apple-ds",
+  "name": "applecn",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev --filter=@apple-ds/web",
+    "dev": "turbo dev --filter=@applecn/web",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,css,md,json}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,css,md,json}\"",
     "typecheck": "turbo typecheck",
     "test": "turbo test",
     "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build",
-    "tokens:build": "pnpm --filter @apple-ds/ui tokens:build",
-    "registry:build": "pnpm --filter @apple-ds/web registry:build",
-    "ui:add": "pnpm --filter @apple-ds/ui exec shadcn add"
+    "tokens:build": "pnpm --filter @applecn/ui tokens:build",
+    "registry:build": "pnpm --filter @applecn/web registry:build",
+    "ui:add": "pnpm --filter @applecn/ui exec shadcn add"
   },
   "devDependencies": {
-    "@apple-ds/eslint-config": "workspace:*",
-    "@apple-ds/typescript-config": "workspace:*",
+    "@applecn/eslint-config": "workspace:*",
+    "@applecn/typescript-config": "workspace:*",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "turbo": "^2.9.18",

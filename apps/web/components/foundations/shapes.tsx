@@ -1,5 +1,5 @@
-import { Text } from "@apple-ds/ui/components/text"
-import { radii } from "@apple-ds/ui/tokens/radii"
+import { Text } from "@applecn/ui/components/text"
+import { radii } from "@applecn/ui/tokens/radii"
 
 import { PageHeader } from "@/components/doc/page-header"
 import { Section } from "@/components/doc/section"

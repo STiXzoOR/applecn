@@ -3,8 +3,8 @@
 import { PaintBoardIcon } from "@hugeicons/core-free-icons"
 import { useTheme } from "next-themes"
 
-import { Button } from "@apple-ds/ui/components/button"
-import { Icon } from "@apple-ds/ui/components/icon"
+import { Button } from "@applecn/ui/components/button"
+import { Icon } from "@applecn/ui/components/icon"
 import {
   Menu,
   MenuCheckboxItem,
@@ -14,11 +14,11 @@ import {
   MenuRadioItem,
   MenuSeparator,
   MenuTrigger,
-} from "@apple-ds/ui/components/menu"
+} from "@applecn/ui/components/menu"
 import {
   SegmentedControl,
   SegmentedControlItem,
-} from "@apple-ds/ui/components/segmented-control"
+} from "@applecn/ui/components/segmented-control"
 
 import { useAppearance } from "@/components/appearance"
 

@@ -1,5 +1,7 @@
 # Apple Design System Implementation Plan
 
+> Renamed to **applecn** on 2026-09-05 (`@applecn/*`); see `docs/superpowers/specs/2026-09-05-applecn-public-release-design.md`. Package names below are historical.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Turn the freshly scaffolded shadcn monorepo into an Apple design system: a tested token layer, ~40 components on Base UI + Hugeicons, and a Next.js documentation app that also publishes a shadcn registry.

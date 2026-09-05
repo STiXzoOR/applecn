@@ -1,6 +1,6 @@
 import type { ReactNode } from "react"
 
-import { Text } from "@apple-ds/ui/components/text"
+import { Text } from "@applecn/ui/components/text"
 
 export function PageHeader({
   title,

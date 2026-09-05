@@ -1,5 +1,5 @@
 /**
- * The documentation index: one entry per component in `@apple-ds/ui`, with its Apple
+ * The documentation index: one entry per component in `@applecn/ui`, with its Apple
  * counterpart, the Base UI primitive underneath, and the live examples shown on its page.
  * A test asserts this list matches the package's component files exactly.
  */

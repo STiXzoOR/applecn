@@ -5,19 +5,19 @@ import {
   EmptyDescription,
   EmptyIcon,
   EmptyTitle,
-} from "@apple-ds/ui/components/empty"
-import { List, ListRow, ListSection } from "@apple-ds/ui/components/list"
+} from "@applecn/ui/components/empty"
+import { List, ListRow, ListSection } from "@applecn/ui/components/list"
 import {
   Sidebar,
   SidebarGroup,
   SidebarItem,
-} from "@apple-ds/ui/components/sidebar"
+} from "@applecn/ui/components/sidebar"
 import {
   SplitView,
   SplitViewContent,
   SplitViewDetail,
   SplitViewSidebar,
-} from "@apple-ds/ui/components/split-view"
+} from "@applecn/ui/components/split-view"
 
 export default function SplitViewBasic() {
   return (

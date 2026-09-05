@@ -1,13 +1,13 @@
 import { Search01Icon } from "@hugeicons/core-free-icons"
 
-import { Button } from "@apple-ds/ui/components/button"
+import { Button } from "@applecn/ui/components/button"
 import {
   Empty,
   EmptyActions,
   EmptyDescription,
   EmptyIcon,
   EmptyTitle,
-} from "@apple-ds/ui/components/empty"
+} from "@applecn/ui/components/empty"
 
 export default function EmptyBasic() {
   return (

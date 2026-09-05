@@ -1,4 +1,4 @@
-import { Text, textStyleNames } from "@apple-ds/ui/components/text"
+import { Text, textStyleNames } from "@applecn/ui/components/text"
 
 export default function TextStyles() {
   return (

@@ -1,6 +1,6 @@
 "use client"
 
-import { Button } from "@apple-ds/ui/components/button"
+import { Button } from "@applecn/ui/components/button"
 import {
   Popover,
   PopoverContent,
@@ -8,9 +8,9 @@ import {
   PopoverHeader,
   PopoverTitle,
   PopoverTrigger,
-} from "@apple-ds/ui/components/popover"
-import { Switch } from "@apple-ds/ui/components/switch"
-import { Text } from "@apple-ds/ui/components/text"
+} from "@applecn/ui/components/popover"
+import { Switch } from "@applecn/ui/components/switch"
+import { Text } from "@applecn/ui/components/text"
 
 export default function PopoverBasic() {
   return (

@@ -12,7 +12,7 @@ import {
   SidebarGroup,
   SidebarHeader,
   SidebarItem,
-} from "@apple-ds/ui/components/sidebar"
+} from "@applecn/ui/components/sidebar"
 
 export default function SidebarBasic() {
   return (

@@ -1,4 +1,4 @@
-import { Spinner } from "@apple-ds/ui/components/spinner"
+import { Spinner } from "@applecn/ui/components/spinner"
 
 export default function SpinnerBasic() {
   return (

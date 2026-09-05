@@ -27,16 +27,16 @@ repository and accept outside contributions:
 
 ## 1. Naming
 
-| Before                       | After                        |
-| ---------------------------- | ---------------------------- |
-| root package `apple-ds`      | `applecn`                    |
-| `@apple-ds/ui`               | `@applecn/ui`                |
-| `@apple-ds/web`              | `@applecn/web`               |
-| `@apple-ds/typescript-config`| `@applecn/typescript-config` |
-| `@apple-ds/eslint-config`    | deleted (see §2)             |
-| registry `name: "apple-ds"`  | `name: "applecn"`            |
-| registry `homepage`          | the site URL constant        |
-| "Apple design system" (title)| "applecn"                    |
+| Before                        | After                        |
+| ----------------------------- | ---------------------------- |
+| root package `apple-ds`       | `applecn`                    |
+| `@apple-ds/ui`                | `@applecn/ui`                |
+| `@apple-ds/web`               | `@applecn/web`               |
+| `@apple-ds/typescript-config` | `@applecn/typescript-config` |
+| `@apple-ds/eslint-config`     | deleted (see §2)             |
+| registry `name: "apple-ds"`   | `name: "applecn"`            |
+| registry `homepage`           | the site URL constant        |
+| "Apple design system" (title) | "applecn"                    |
 
 The `apple` style item keeps its name: `npx shadcn@latest add @applecn/apple` reads as "the
 Apple theme from applecn".

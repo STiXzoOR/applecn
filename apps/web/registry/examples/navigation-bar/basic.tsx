@@ -2,13 +2,13 @@
 
 import { MoreHorizontalCircle01Icon } from "@hugeicons/core-free-icons"
 
-import { Button } from "@apple-ds/ui/components/button"
-import { Icon } from "@apple-ds/ui/components/icon"
-import { List, ListRow, ListSection } from "@apple-ds/ui/components/list"
+import { Button } from "@applecn/ui/components/button"
+import { Icon } from "@applecn/ui/components/icon"
+import { List, ListRow, ListSection } from "@applecn/ui/components/list"
 import {
   NavigationBar,
   NavigationBarBackButton,
-} from "@apple-ds/ui/components/navigation-bar"
+} from "@applecn/ui/components/navigation-bar"
 
 export default function NavigationBarBasic() {
   return (

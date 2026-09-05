@@ -1,7 +1,7 @@
 "use client"
 
-import { Label } from "@apple-ds/ui/components/label"
-import { RadioGroup, RadioGroupItem } from "@apple-ds/ui/components/radio-group"
+import { Label } from "@applecn/ui/components/label"
+import { RadioGroup, RadioGroupItem } from "@applecn/ui/components/radio-group"
 
 export default function RadioGroupBasic() {
   return (

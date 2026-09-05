@@ -1,4 +1,4 @@
-import { Textarea } from "@apple-ds/ui/components/textarea"
+import { Textarea } from "@applecn/ui/components/textarea"
 
 export default function TextareaBasic() {
   return (

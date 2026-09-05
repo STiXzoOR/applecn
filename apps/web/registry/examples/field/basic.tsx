@@ -6,8 +6,8 @@ import {
   FieldError,
   FieldGroup,
   FieldLabel,
-} from "@apple-ds/ui/components/field"
-import { Input } from "@apple-ds/ui/components/input"
+} from "@applecn/ui/components/field"
+import { Input } from "@applecn/ui/components/input"
 
 export default function FieldBasic() {
   return (

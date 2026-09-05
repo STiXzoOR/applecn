@@ -9,8 +9,8 @@ import {
   AlertDialogDescription,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@apple-ds/ui/components/alert-dialog"
-import { Button } from "@apple-ds/ui/components/button"
+} from "@applecn/ui/components/alert-dialog"
+import { Button } from "@applecn/ui/components/button"
 
 export default function AlertDialogStacked() {
   return (

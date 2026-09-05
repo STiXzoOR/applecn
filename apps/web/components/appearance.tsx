@@ -8,7 +8,7 @@ import {
   type ReactNode,
 } from "react"
 
-import { PlatformProvider, type Platform } from "@apple-ds/ui/lib/platform"
+import { PlatformProvider, type Platform } from "@applecn/ui/lib/platform"
 
 /**
  * The site's appearance settings: the platform idiom, increased contrast and reduced
@@ -33,7 +33,7 @@ const AppearanceContext = createContext<Appearance>({
   setTransparency: () => {},
 })
 
-const KEY = "apple-ds:appearance"
+const KEY = "applecn:appearance"
 
 function read(): {
   platform: Platform

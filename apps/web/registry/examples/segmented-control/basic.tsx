@@ -3,7 +3,7 @@
 import {
   SegmentedControl,
   SegmentedControlItem,
-} from "@apple-ds/ui/components/segmented-control"
+} from "@applecn/ui/components/segmented-control"
 
 export default function SegmentedControlBasic() {
   return (

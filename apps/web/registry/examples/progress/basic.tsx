@@ -7,7 +7,7 @@ import {
   ProgressCircular,
   ProgressLabel,
   ProgressValue,
-} from "@apple-ds/ui/components/progress"
+} from "@applecn/ui/components/progress"
 
 export default function ProgressBasic() {
   const [value, setValue] = useState(20)

@@ -1,12 +1,13 @@
 import { readdirSync, readFileSync } from "node:fs"
 import { join } from "node:path"
 
-import { tokenVars } from "@apple-ds/ui/tokens/css"
+import { tokenVars } from "@applecn/ui/tokens/css"
 
+import { SITE_URL } from "../lib/site.ts"
 import { componentDocs } from "../registry/index.ts"
 
 /**
- * Builds the shadcn `registry.json` for `@apple-ds/ui` from the package sources: one
+ * Builds the shadcn `registry.json` for `@applecn/ui` from the package sources: one
  * `registry:ui` item per component (dependencies read from its imports), the hooks and lib
  * modules, and an `apple` style item carrying every token as `cssVars` plus the `type-*`,
  * material, glass, hairline and press utilities as `css`. `shadcn build` turns this into
@@ -218,8 +219,8 @@ export function buildRegistry(): Registry {
 
   return {
     $schema: "https://ui.shadcn.com/schema/registry.json",
-    name: "apple-ds",
-    homepage: "https://apple-ds.local",
+    name: "applecn",
+    homepage: SITE_URL,
     items: [style, ...ui, ...hooks, ...lib],
   }
 }
