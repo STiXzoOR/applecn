@@ -1,13 +1,13 @@
 import { cn } from "cn"
 import type { ComponentProps } from "react"
 
-/** A group box: content on the grouped card surface with the list radius. */
+/** A group box: content on the grouped card surface with the platform's card corner (26 pt on iOS 26, 10 on macOS, 17 on the web). */
 function Card({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       data-slot="card"
       className={cn(
-        "flex flex-col gap-3 rounded-4xl bg-card p-4 text-label",
+        "flex flex-col gap-3 rounded-card bg-card p-4 text-label",
         className
       )}
       {...props}

@@ -236,3 +236,74 @@ export function css(color: Rgba): string {
     ? `rgb(${r} ${g} ${b})`
     : `rgb(${r} ${g} ${b} / ${alpha})`
 }
+
+/**
+ * Per-platform colour overrides. iOS is the baseline above. macOS uses AppKit's semantic
+ * colours (read on macOS 26.6, research document §11); the web uses apple.com's palette
+ * (§12). Anything not listed keeps the iOS value.
+ */
+export interface PlatformColors {
+  readonly label?: Adaptive
+  readonly "label-2"?: Adaptive
+  readonly "label-3"?: Adaptive
+  readonly "label-4"?: Adaptive
+  readonly placeholder?: Adaptive
+  readonly fill?: Adaptive
+  readonly "fill-2"?: Adaptive
+  readonly "fill-3"?: Adaptive
+  readonly "fill-4"?: Adaptive
+  readonly "background-1"?: Adaptive
+  readonly "background-2"?: Adaptive
+  readonly "background-3"?: Adaptive
+  readonly "grouped-background-1"?: Adaptive
+  readonly "grouped-background-2"?: Adaptive
+  readonly "grouped-background-3"?: Adaptive
+  readonly separator?: Adaptive
+  readonly "separator-opaque"?: Adaptive
+  readonly link?: Adaptive
+  /** The tint that fills prominent controls (`--accent-color`, `--primary`). */
+  readonly accent?: Adaptive
+  /** Selected rows and highlighted content (`--selection`). */
+  readonly selection?: Adaptive
+}
+
+export const platformColors: Readonly<Record<"macos" | "web", PlatformColors>> =
+  {
+    macos: {
+      label: { light: c(0, 0, 0, 0.85), dark: c(255, 255, 255, 0.85) },
+      "label-2": { light: c(0, 0, 0, 0.5), dark: c(255, 255, 255, 0.55) },
+      "label-3": { light: c(0, 0, 0, 0.26), dark: c(255, 255, 255, 0.25) },
+      "label-4": { light: c(0, 0, 0, 0.1), dark: c(255, 255, 255, 0.1) },
+      placeholder: { light: c(0, 0, 0, 0.5), dark: c(255, 255, 255, 0.55) },
+      "background-1": { light: c(255, 255, 255), dark: c(30, 30, 30) },
+      "background-3": { light: c(255, 255, 255), dark: c(40, 40, 40) },
+      "grouped-background-2": { light: c(255, 255, 255), dark: c(30, 30, 30) },
+      separator: { light: c(0, 0, 0, 0.1), dark: c(255, 255, 255, 0.1) },
+      "separator-opaque": { light: c(230, 230, 230), dark: c(26, 26, 26) },
+      link: { light: c(0, 104, 218), dark: c(65, 156, 255) },
+      accent: { light: c(0, 122, 255), dark: c(0, 122, 255) },
+      selection: { light: c(0, 100, 225), dark: c(0, 89, 209) },
+    },
+    web: {
+      label: { light: c(29, 29, 31), dark: c(245, 245, 247) },
+      "label-2": { light: c(110, 110, 115), dark: c(134, 134, 139) },
+      "label-3": { light: c(134, 134, 139), dark: c(110, 110, 115) },
+      "label-4": { light: c(210, 210, 215), dark: c(66, 66, 69) },
+      placeholder: { light: c(134, 134, 139), dark: c(134, 134, 139) },
+      fill: { light: c(232, 232, 237), dark: c(51, 51, 54) },
+      "fill-2": { light: c(232, 232, 237), dark: c(39, 39, 41) },
+      "fill-3": { light: c(245, 245, 247), dark: c(29, 29, 31) },
+      "fill-4": { light: c(0, 0, 0, 0.04), dark: c(255, 255, 255, 0.06) },
+      "background-1": { light: c(255, 255, 255), dark: c(0, 0, 0) },
+      "background-2": { light: c(245, 245, 247), dark: c(29, 29, 31) },
+      "background-3": { light: c(251, 251, 253), dark: c(22, 22, 23) },
+      "grouped-background-1": { light: c(245, 245, 247), dark: c(0, 0, 0) },
+      "grouped-background-2": { light: c(255, 255, 255), dark: c(29, 29, 31) },
+      "grouped-background-3": { light: c(251, 251, 253), dark: c(39, 39, 41) },
+      separator: { light: c(210, 210, 215), dark: c(66, 66, 69) },
+      "separator-opaque": { light: c(210, 210, 215), dark: c(66, 66, 69) },
+      link: { light: c(0, 102, 204), dark: c(41, 151, 255) },
+      accent: { light: c(0, 113, 227), dark: c(0, 113, 227) },
+      selection: { light: c(0, 113, 227), dark: c(0, 113, 227) },
+    },
+  }

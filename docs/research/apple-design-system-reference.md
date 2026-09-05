@@ -233,3 +233,93 @@ SF Symbols: nine weights matching the text weights; three scales (small, medium,
 ## 10. Method for the web measurements
 
 `scripts` in the session scratchpad: the stylesheets linked from each page were downloaded and grepped for `:root` custom properties and for histograms of `border-radius`, `backdrop-filter`, `box-shadow`, `cubic-bezier` and durations; then headless Chromium (Playwright) loaded each page at 1440×900 and 390×844 in light and dark schemes and read computed styles of every visible element — fixed and sticky bars, radii, backdrop filters, shadows, transitions, button heights and font sizes — plus the nav, sidebar, search field and headings. Values above cite the stylesheet token where one exists and "rendered" where they were read from the page.
+
+## 11. iOS 26 and macOS 26, measured on device (2026-09-06)
+
+The sections above were researched from the HIG and Apple's web. On 2026-09-06 the values below were read directly from Apple's frameworks: a probe app built against the iOS 26.5 SDK and run in the iPhone 17 Pro simulator (402 × 874 pt) dumped every control's view tree (frames, corner radii, colours); an AppKit probe on macOS 26.6.1 (Tahoe) read `fittingSize`, fonts and semantic colours and rendered each control to PNG, which was then pixel-measured. Corner radii of continuous-corner shapes were fitted from screenshots (a circle through the edge insets at 4–13 pt depth reproduces UIKit's `cornerRadius`; the alert's known 34 pt validated the method). These numbers replace the earlier HIG-table and web-measured values for the `ios` and `macos` platforms.
+
+### iOS 26 (UIKit, iPhone 17 Pro)
+
+| Control                    | Measured                                                                                                                                                                                       |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Switch                     | track 63 × 28, radius 14; knob (`_UILiquidLensView`) 37 × 24, an oval inset 2 pt, travel 22 pt; off track `tertiaryLabel`, on track system green; knob white with the thumb shadow             |
+| Slider                     | track 6 (radius 3), fill = tint; thumb the same 37 × 24 white oval; overall height 34; min/max images either side                                                                              |
+| Segmented control          | 32 tall capsule (radius 16) on `tertiarySystemFill`; selected segment white capsule inset 2 (28 tall) with the segment shadow; labels 13 pt medium, semibold when selected                    |
+| Stepper                    | 94 × 32 capsule on the fill, ± glyphs, a short centre divider                                                                                                                                  |
+| Page control              | dots 7 pt, 17.7 pt centre to centre (gap 10)                                                                                                                                                   |
+| Progress bar               | 4 pt; activity indicator 20 / 37                                                                                                                                                               |
+| Text field (`roundedRect`) | 34 tall, radius 5, ⅓ px border, white background, 7 pt text inset, gray clear button                                                                                                            |
+| Search bar                 | text field 44 tall capsule on the fill; magnifier at 12, text at 39                                                                                                                            |
+| Buttons (configurations)   | mini and small 28 tall (15 pt label, 10 pt padding); medium 34 (17 pt, 12 pt padding); large 50 (17 pt, 20 pt padding); all capsules; icon-only glass 34 circle; tinted = tint at 18 %, gray = `(120 120 128 / .16)` |
+| Colour well                | 28 circle                                                                                                                                                                                      |
+| Inset grouped list         | inset 20 from the screen edge; group corners **26** (continuous); rows 52 (15 pt vertical padding, 16 leading, 8 trailing before the accessory); subtitle rows 73; separator inset 56 with an icon, 16 without; icon area 30; accessory 20 from the group edge |
+| Section header / footer    | header 17 pt semibold (`UICTFontTextStyleEmphasizedBody`), title case, secondary colour, 38 tall (11 above the text); footer 13 pt footnote, 30 tall; ~17 pt between a group and the next header |
+| Navigation bar             | 54 pt row (up from 44) plus 52 pt large title; bar items are 44 pt glass platters (circle for a glyph, capsule for text); Done becomes a filled 44 pt circle with a check mark; title 17 semibold, large title 34 bold |
+| Tab bar                    | a 62 pt glass platter inset 21 from the sides, 21 above the bottom edge; items 76 × 54 inset 4 (glyph 24, label 10 pt); the selected item a tinted lens; the search tab a separate 62 pt circle |
+| Toolbar (bottom)           | 44 pt items grouped in glass platters with 4 pt padding (52 tall); the prominent action a filled circle                                                                                       |
+| Alert                      | 320 wide, radius 34, glass; title 17 semibold and message 13, both left-aligned, 24 pt side padding; actions are 48 pt capsules on the fill inside a 16 pt inset, 8 pt apart, two side by side, three or more stacked; the preferred action semibold |
+| Action sheet               | same card as the alert (320 × radius 34) anchored to its source, or centred without one; actions 48 pt capsules 8 pt apart, destructive red, Cancel a bolder capsule at the bottom              |
+| Sheet                      | page sheet at the medium detent, full width, corners follow the display; grabber 36 × 5                                                                                                        |
+
+### macOS 26 (AppKit, Tahoe 26.6.1)
+
+| Control              | mini      | small     | regular                          | large             | extra large        |
+| -------------------- | --------- | --------- | -------------------------------- | ----------------- | ------------------ |
+| Push button height   | 16 (r 3.5) | 20 (r 4.5) | 24 (r 6, rounded rectangle)      | 28 (capsule)      | 36 (capsule)       |
+| Push button "Button" | 46 wide, 9 pt | 55, 11 pt | 65, 13 pt (12 pt padding)      | 69, 13 pt         | 77, 13 pt          |
+| Switch               | 36 × 16, knob 20 × 14 | 44 × 20 | 54 × 24, knob 31 × 20 oval inset 2 | 64 × 28, knob 37 × 24 | 78 × 36        |
+| Checkbox / radio     | 12        | 14        | 16 (checkbox r ≈ 4)              | 18                | 18                 |
+| Segmented control    | 16        | 20        | 24 (r 6); selected segment accent-filled | 28 (capsule) | 36 (capsule)      |
+| Text field (rounded) | 19        | 22        | 24 (r 6, hairline bezel, white)  | 24                | 24                 |
+| Search field         | 16        | 20        | 24 (capsule)                     | 28                | 36                 |
+| Pop-up / pull-down   | 16        | 20        | 24 (r 6)                         | 28 (capsule)      | 36 (capsule)       |
+| Slider               | knob 16 × 12 | 18 × 14 | knob 20 × 16 oval, track ≈ 4     | 24 × 20           | 24 × 20            |
+| Stepper              | 13 × 20   | 17 × 22   | 20 × 26 (r 5)                    | 23 × 30           | 30 × 38            |
+| Help button          | 16        | 20        | 24 circle                        | 28                | 36                 |
+| Colour well          | 32 × 16   | 40 × 20   | 48 × 24 capsule                  | 56 × 28           | 72 × 36            |
+| Combo box            | 16        | 20        | 24                               | 28                | 36                 |
+| Spinner              | 10        | 16        | 32                               | 32                | 32                 |
+
+Other AppKit values: system font 13 (mini 9, small 11); menu items 24 tall with 5 pt vertical padding (a one-item menu is 34 tall, a separator adds 11); source-list rows 24 (28 with spacing); titled window title bar 32, close/minimise/zoom 14 pt at (12, 13); alert 260 wide with 110 × 28 buttons; path control 22; rating indicator 12 pt stars; date picker 21; overlay scroller 17.
+
+AppKit semantic colours (sRGB, light / dark): label `0 0 0 / .85` / `255 255 255 / .85`, secondary `.5` / `.55`, tertiary `.26` / `.25`, quaternary `.1` / `.1`, placeholder `.5` / `.55`, window and control background `255 255 255` / `30 30 30`, under-page `150 150 150 / .9` / `40 40 40`, control `255 255 255` / `255 255 255 / .25`, selected content `0 100 225` / `0 89 209`, unemphasised selection `220 220 220` / `70 70 70`, separator `0 0 0 / .1` / `255 255 255 / .1`, grid `230 230 230` / `26 26 26`, link `0 104 218` / `65 156 255`, accent `0 122 255` both, focus ring `0 103 244 / .5` / `26 169 255 / .5`, system blue `0 136 255` / `0 145 255`.
+
+Shapes (WWDC25 "Build a SwiftUI app with the new design", confirmed by the renders): bordered buttons are capsules by default; mini, small and medium controls on macOS keep a rounded rectangle to preserve horizontal density; large and extra large are capsules; `NSControl.borderShape` overrides; corners are concentric with their container.
+
+## 12. The web platform (apple.com, apps.apple.com, music.apple.com, tv.apple.com)
+
+`web` is Apple's own web idiom, for sites and web apps rather than native ports. Read from apple.com's stylesheets and computed styles on 2026-09-06 (1664 px viewport), plus the web-app measurements in §3–§8 (which previously stood in for macOS).
+
+Type (`SF Pro Display` above 19 px, `SF Pro Text` below; static webfont, so tracking is explicit):
+
+| Role (design-system style)   | apple.com class            | ≥ 1069 px       | 735–1068 px    | < 735 px       |
+| ---------------------------- | -------------------------- | --------------- | -------------- | -------------- |
+| large-title                  | typography-headline        | 48/52 600 −.003em | 40/44 600 0 | 32/36 600 .004em |
+| title-1                      | typography-headline-reduced | 40/44 600 0    | 32/36 600 .004em | 28/32 600 .007em |
+| title-2                      | typography-tile-headline-reduced | 32/36 600 .002em | 28/32 600 .007em | 24/28 600 .009em |
+| title-3                      | typography-callout         | 28/32 600 .007em | 24/28 600 .009em | 21/25 600 .011em |
+| headline                     | typography-tile-callout / promo-subhead | 21/25 600 .011em | 21/25 | 19/23 600 .012em |
+| body                         | body                       | 17/25 400 −.022em (`line-height: 1.47059`) | | |
+| callout                      | typography-intro           | 21/25 400 .011em | 19/23 | 19/23 |
+| subheadline                  | typography-tile-subhead-reduced | 19/23 400 .012em | | 17/25 |
+| footnote                     | typography-body-reduced    | 14/20 400 −.016em | | |
+| caption-1                    | typography-caption         | 12/16 400 −.01em | | |
+| caption-2                    | eyebrow / label            | 12/16 600 −.01em | | |
+
+Colour (apple.com; the App Store's `systemPrimary` `rgba(0,0,0,.88)` / `systemSecondary` `.56` agree within 2 %):
+
+| Role         | Light                            | Dark                              |
+| ------------ | -------------------------------- | --------------------------------- |
+| label        | `#1d1d1f`                        | `#f5f5f7`                         |
+| label-2      | `#6e6e73`                        | `#86868b`                         |
+| label-3      | `#86868b`                        | `#6e6e73`                         |
+| label-4      | `#d2d2d7`                        | `#424245`                         |
+| background   | `#fff`; secondary `#f5f5f7`; tertiary `#fbfbfd` | `#000`; `#1d1d1f`; `#161617` |
+| fill         | `#e8e8ed` (neutral button hover, curtain `rgba(232,232,237,.4)`) | `#333336` / `#272729` |
+| separator    | `#d2d2d7`; footer rule `rgba(0,0,0,.16)` | `#424245`; `rgba(255,255,255,.24)` |
+| button       | `#0071e3` (hover `#0077ed`, active `#006edb`) | same                    |
+| link         | `#0066cc`                        | `#2997ff`                         |
+| footer text  | `rgba(0,0,0,.56)`, links `.72`   | `rgba(255,255,255,.56)`, `.92`    |
+| global nav   | `rgba(255,255,255,.8)` + `saturate(180%) blur(20px)`, links `rgba(0,0,0,.8)` | `rgba(22,22,23,.8)`, links `rgba(255,255,255,.8)` |
+
+Controls: buttons are 980 px pills — `reduced` 12 px text, 4 × 11 padding (24 tall); standard 14 px, 9 × 16 (36); `elevated` 17 px, 12 × 22 (44); `super` 17 px, 18 × 31 (56); a 1 px border, disabled opacity .42; secondary buttons are outlined in the text colour and fill on hover. Global nav 44 px (48 below 834 px) with 12 px links; local nav 52 px. Links are `#06c` with `Learn more ›` chevrons. Cards use 12 px (App Store medium), 17 px (large) and 24 px (xlarge) corners; dialogs 10 px. Web-app controls (App Store, Music, TV: 32 px fields with 4–5 px corners, 34 px sidebar rows with 8 px corners, 44 px menu rows, 200 px menus, the 5 × 13 scrubber) are as measured in §6.

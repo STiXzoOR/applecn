@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from "node:fs"
 import { join } from "node:path"
 
-import { tokenVars } from "@applecn/ui/tokens/css"
+import { tokenPlatformCss, tokenVars } from "@applecn/ui/tokens/css"
 
 import { REGISTRY_URL, SITE_URL } from "../lib/site.ts"
 import { componentDocs } from "../registry/index.ts"
@@ -225,6 +225,20 @@ export function buildRegistry(): Registry {
       "useScrollCollapse",
       "Reports when a large title has scrolled under the bar."
     ),
+    item(
+      "hook",
+      "hooks",
+      "use-reduced-motion.ts",
+      "useReducedMotion",
+      "Whether the person has asked for reduced motion."
+    ),
+    item(
+      "hook",
+      "hooks",
+      "use-color-scheme.ts",
+      "useColorScheme",
+      "The system colour scheme, light or dark."
+    ),
   ]
 
   const lib: RegistryItem[] = [
@@ -234,7 +248,7 @@ export function buildRegistry(): Registry {
       "lib",
       "platform.tsx",
       "Platform",
-      "PlatformProvider and usePlatform: the iOS/macOS idiom switch."
+      "PlatformProvider and usePlatform: the iOS, macOS and web idiom switch."
     ),
     item(
       "lib",
@@ -242,6 +256,13 @@ export function buildRegistry(): Registry {
       "contrast.ts",
       "Contrast",
       "WCAG luminance, compositing and contrast ratio."
+    ),
+    item(
+      "lib",
+      "lib",
+      "detect-platform.ts",
+      "detectPlatform",
+      "Picks ios, macos or web from the visitor's device."
     ),
   ]
 
@@ -253,7 +274,10 @@ export function buildRegistry(): Registry {
       "Every Apple token as CSS variables (light and dark) plus the type, material, glass, hairline and press utilities.",
     files: [],
     cssVars: { light: tokenVars("light"), dark: tokenVars("dark") },
-    css: utilities(readSource(`${UI_PACKAGE}/src/styles/globals.css`)),
+    css: {
+      ...utilities(readSource(`${UI_PACKAGE}/src/styles/globals.css`)),
+      ...tokenPlatformCss(),
+    },
   }
 
   return {

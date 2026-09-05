@@ -18,13 +18,14 @@ describe("Checkbox", () => {
     ).not.toBeNull()
   })
 
-  test("is a 22 pt circle on iOS and a 14 pt rounded square on macOS, from the same classes", () => {
+  test("is a 22 pt circle on iOS and a 16 pt rounded square with a bezel on macOS, from the same classes", () => {
     render(<Checkbox aria-label="Shape" />)
     const c = screen.getByRole("checkbox")
     expect(c.className).toContain("size-(--checkbox-size)")
-    expect(c.className).toContain("rounded-full")
-    expect(c.className).toContain("macos:rounded-[3.5px]")
+    expect(c.className).toContain("rounded-checkbox")
     expect(c.className).toContain("border-gray-3")
+    expect(c.className).toContain("macos:bg-background-3")
+    expect(c.className).toContain("macos:shadow-control")
     expect(c.className).toContain("data-checked:bg-primary")
     expect(c.className).toContain("data-checked:border-primary")
   })

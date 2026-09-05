@@ -6,23 +6,25 @@ import { cn } from "cn"
 
 /**
  * A toggle button (HIG › Toggles, outside lists): a button whose pressed state is the tinted
- * fill, the way the Phone app's filter button lights up. Use a `Switch` inside list rows.
+ * fill, the way the Phone app's filter button lights up. Sizes and corners follow the platform's
+ * button metrics. Use a `Switch` inside list rows.
  */
 const toggleVariants = cva(
-  "group/toggle inline-flex shrink-0 items-center justify-center gap-1.5 bg-transparent font-semibold whitespace-nowrap text-foreground transition-[background-color,transform,opacity] duration-(--duration-press) ease-(--ease-standard) outline-none select-none hover:bg-fill-4 focus-visible:ring-4 focus-visible:ring-ring/60 active:scale-[0.97] disabled:pointer-events-none disabled:opacity-40 data-pressed:bg-primary/15 data-pressed:text-primary motion-reduce:active:scale-100 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "group/toggle inline-flex shrink-0 items-center justify-center gap-1.5 bg-transparent leading-none font-semibold whitespace-nowrap text-foreground transition-[background-color,transform,opacity] duration-(--duration-press) ease-(--ease-standard) outline-none select-none hover:bg-fill-4 focus-visible:ring-4 focus-visible:ring-ring/60 active:scale-[0.97] disabled:pointer-events-none disabled:opacity-40 data-pressed:bg-primary/15 data-pressed:text-primary motion-reduce:active:scale-100 macos:font-normal macos:active:scale-100 web:font-normal [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       size: {
-        mini: "h-(--control-height-mini) min-w-(--control-height-mini) px-2.5 type-caption-1",
+        mini: "h-(--control-height-mini) min-w-(--control-height-mini) rounded-(--control-radius-mini) px-(--control-padding-x-mini) text-[length:var(--control-font-mini)]",
         small:
-          "h-(--control-height-small) min-w-(--control-height-small) px-3 type-subheadline",
+          "h-(--control-height-small) min-w-(--control-height-small) rounded-(--control-radius-small) px-(--control-padding-x-small) text-[length:var(--control-font-small)]",
         regular:
-          "h-(--control-height-regular) min-w-(--control-height-regular) px-4 type-body",
+          "h-(--control-height-regular) min-w-(--control-height-regular) rounded-(--control-radius-regular) px-(--control-padding-x-regular) text-[length:var(--control-font-regular)]",
         large:
-          "h-(--control-height-large) min-w-(--control-height-large) px-5 type-body",
-        xl: "h-(--control-height-xl) min-w-(--control-height-xl) px-6 type-title-3",
+          "h-(--control-height-large) min-w-(--control-height-large) rounded-(--control-radius-large) px-(--control-padding-x-large) text-[length:var(--control-font-large)]",
+        xl: "h-(--control-height-xl) min-w-(--control-height-xl) rounded-(--control-radius-xl) px-(--control-padding-x-xl) text-[length:var(--control-font-xl)]",
       },
       shape: {
+        automatic: "",
         capsule: "rounded-full",
         rounded: "rounded-lg",
         circle: "aspect-square rounded-full px-0",
@@ -30,7 +32,7 @@ const toggleVariants = cva(
     },
     defaultVariants: {
       size: "regular",
-      shape: "capsule",
+      shape: "automatic",
     },
   }
 )
@@ -40,7 +42,7 @@ type ToggleProps = TogglePrimitive.Props & VariantProps<typeof toggleVariants>
 function Toggle({
   className,
   size = "regular",
-  shape = "capsule",
+  shape = "automatic",
   ...props
 }: ToggleProps) {
   return (

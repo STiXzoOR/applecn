@@ -9,6 +9,7 @@ import {
   Menu,
   MenuCheckboxItem,
   MenuContent,
+  MenuGroup,
   MenuLabel,
   MenuRadioGroup,
   MenuRadioItem,
@@ -20,6 +21,8 @@ import {
   SegmentedControlItem,
 } from "@applecn/ui/components/segmented-control"
 
+import type { Platform } from "@applecn/ui/lib/platform"
+
 import { useAppearance } from "@/components/appearance"
 
 export function PlatformSwitch({ className }: { className?: string }) {
@@ -28,11 +31,12 @@ export function PlatformSwitch({ className }: { className?: string }) {
     <SegmentedControl
       aria-label="Platform"
       value={platform}
-      onValueChange={(v) => setPlatform(v as "ios" | "macos")}
+      onValueChange={(v) => setPlatform(v as Platform)}
       className={className}
     >
       <SegmentedControlItem value="ios">iOS</SegmentedControlItem>
       <SegmentedControlItem value="macos">macOS</SegmentedControlItem>
+      <SegmentedControlItem value="web">Web</SegmentedControlItem>
     </SegmentedControl>
   )
 }
@@ -56,26 +60,29 @@ export function AppearanceMenu() {
         <Icon icon={PaintBoardIcon} />
       </MenuTrigger>
       <MenuContent align="end">
-        <MenuLabel>Appearance</MenuLabel>
+        {/* Base UI group labels must sit inside a group or radio group. */}
         <MenuRadioGroup
           value={theme ?? "system"}
           onValueChange={(v) => setTheme(String(v))}
         >
+          <MenuLabel>Appearance</MenuLabel>
           <MenuRadioItem value="light">Light</MenuRadioItem>
           <MenuRadioItem value="dark">Dark</MenuRadioItem>
           <MenuRadioItem value="system">Automatic</MenuRadioItem>
         </MenuRadioGroup>
         <MenuSeparator />
-        <MenuLabel>Accessibility</MenuLabel>
-        <MenuCheckboxItem checked={contrast} onCheckedChange={setContrast}>
-          Increase Contrast
-        </MenuCheckboxItem>
-        <MenuCheckboxItem
-          checked={transparency}
-          onCheckedChange={setTransparency}
-        >
-          Reduce Transparency
-        </MenuCheckboxItem>
+        <MenuGroup>
+          <MenuLabel>Accessibility</MenuLabel>
+          <MenuCheckboxItem checked={contrast} onCheckedChange={setContrast}>
+            Increase Contrast
+          </MenuCheckboxItem>
+          <MenuCheckboxItem
+            checked={transparency}
+            onCheckedChange={setTransparency}
+          >
+            Reduce Transparency
+          </MenuCheckboxItem>
+        </MenuGroup>
       </MenuContent>
     </Menu>
   )

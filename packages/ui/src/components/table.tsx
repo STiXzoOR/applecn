@@ -68,7 +68,7 @@ function TableRow({ className, selected, ...props }: TableRowProps) {
       data-slot="table-row"
       aria-selected={selected}
       className={cn(
-        "h-7 transition-colors duration-(--duration-press) aria-selected:bg-primary aria-selected:text-primary-foreground",
+        "h-7 transition-colors duration-(--duration-press) aria-selected:bg-selection aria-selected:text-white",
         className
       )}
       {...props}

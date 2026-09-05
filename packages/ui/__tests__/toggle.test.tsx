@@ -19,11 +19,15 @@ describe("Toggle", () => {
     expect(toggleVariants()).toContain("data-pressed:text-primary")
   })
 
-  test("sizes read the platform control heights and the shape defaults to a capsule", () => {
+  test("sizes read the platform control heights and the shape defaults to the platform's", () => {
     expect(toggleVariants({ size: "small" })).toContain(
       "h-(--control-height-small)"
     )
-    expect(toggleVariants()).toContain("rounded-full")
+    expect(toggleVariants({ size: "small" })).toContain(
+      "rounded-(--control-radius-small)"
+    )
+    expect(toggleVariants()).toContain("rounded-(--control-radius-regular)")
+    expect(toggleVariants({ shape: "capsule" })).toContain("rounded-full")
     expect(toggleVariants({ shape: "circle" })).toContain("aspect-square")
   })
 })

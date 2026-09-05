@@ -1,4 +1,9 @@
-import { metrics } from "@applecn/ui/tokens/metrics"
+import {
+  metrics,
+  platforms,
+  CAPSULE,
+  type ControlMetrics,
+} from "@applecn/ui/tokens/metrics"
 
 import { PageHeader } from "@/components/doc/page-header"
 import { Section } from "@/components/doc/section"
@@ -15,153 +20,176 @@ const devices: [string, string, string][] = [
   ["iPad mini", "744 × 1133", "1488 × 2266 @2x"],
 ]
 
+const r = (n: number) => (n >= CAPSULE ? "capsule" : `r ${n}`)
+
+const rows: [string, (m: ControlMetrics) => string | number][] = [
+  [
+    "Button height mini / small / regular / large / xl",
+    (m) => Object.values(m.buttonHeight).join(" / "),
+  ],
+  [
+    "Button shape mini / small / regular / large / xl",
+    (m) =>
+      Object.values(m.buttonRadius)
+        .map((v) => (v >= CAPSULE ? "capsule" : v))
+        .join(" / "),
+  ],
+  ["Button label size", (m) => Object.values(m.buttonFont).join(" / ")],
+  [
+    "Switch",
+    (m) =>
+      `${m.switch.width}×${m.switch.height}, knob ${m.switch.thumbWidth}×${m.switch.thumbHeight}, inset ${m.switch.inset}`,
+  ],
+  [
+    "Checkbox",
+    (m) => `${m.checkbox.size} ${m.checkbox.shape}, ${r(m.checkbox.radius)}`,
+  ],
+  ["Radio", (m) => `${m.radio.size}, dot ${m.radio.dot}`],
+  [
+    "Slider track / thumb",
+    (m) => `${m.slider.track} / ${m.slider.thumbWidth}×${m.slider.thumbHeight}`,
+  ],
+  [
+    "Stepper",
+    (m) =>
+      `${m.stepper.width}×${m.stepper.height}, ${r(m.stepper.radius)}, ${m.stepper.orientation}`,
+  ],
+  [
+    "Segmented control",
+    (m) =>
+      `h ${m.segmented.height}, inset ${m.segmented.inset}, ${r(m.segmented.radius)}`,
+  ],
+  ["Text field", (m) => `h ${m.textField.height}, r ${m.textField.radius}`],
+  [
+    "Search field",
+    (m) => `h ${m.searchField.height}, ${r(m.searchField.radius)}`,
+  ],
+  [
+    "List row",
+    (m) =>
+      `min ${m.list.rowMinHeight}, pad ${m.list.rowPaddingY}×${m.list.rowPaddingX}, r ${m.list.radius}, inset ${m.list.inset}`,
+  ],
+  [
+    "List header / footer text",
+    (m) => `${m.list.headerFont} / ${m.list.footerFont}`,
+  ],
+  [
+    "Sidebar",
+    (m) =>
+      `w ${m.sidebar.width}, rows ${m.sidebar.rowHeight}, r ${m.sidebar.radius}`,
+  ],
+  ["Card corner", (m) => m.card.radius],
+  [
+    "Navigation bar",
+    (m) =>
+      m.navBar.largeTitle
+        ? `${m.navBar.height} (+${m.navBar.largeTitle} large title), items ${m.navBar.item}`
+        : `${m.navBar.height}, items ${m.navBar.item}`,
+  ],
+  [
+    "Toolbar",
+    (m) =>
+      `${m.toolbar.height}, items ${m.toolbar.item}, inset ${m.toolbar.inset}`,
+  ],
+  [
+    "Tab bar",
+    (m) =>
+      m.tabBar.height
+        ? `h ${m.tabBar.height}, inset ${m.tabBar.inset}, items ${m.tabBar.item}, labels ${m.tabBar.label}`
+        : "—",
+  ],
+  [
+    "Sheet",
+    (m) =>
+      m.sheet.grabber[0]
+        ? `r ${m.sheet.radius}, grabber ${m.sheet.grabber.join("×")}, scrim ${m.sheet.scrim}`
+        : `r ${m.sheet.radius}, scrim ${m.sheet.scrim}`,
+  ],
+  [
+    "Alert",
+    (m) =>
+      `w ${m.alert.width}, r ${m.alert.radius}, buttons ${m.alert.buttonHeight}, inset ${m.alert.buttonInset}, gap ${m.alert.buttonGap}`,
+  ],
+  [
+    "Action sheet",
+    (m) =>
+      `w ${m.actionSheet.width}, rows ${m.actionSheet.rowHeight}, r ${m.actionSheet.radius}`,
+  ],
+  [
+    "Menu",
+    (m) =>
+      `w ${m.menu.width}, items ${m.menu.itemHeight}, r ${m.menu.radius}, item r ${m.menu.itemRadius}`,
+  ],
+  ["Popover corner", (m) => m.popover.radius],
+  ["Dialog", (m) => `w ${m.dialog.width}, r ${m.dialog.radius}`],
+  [
+    "Split view sidebar / content",
+    (m) => `${m.splitView.sidebar} / ${m.splitView.content}`,
+  ],
+  ["Progress bar", (m) => m.progress.height],
+  [
+    "Activity indicator medium / large",
+    (m) => `${m.spinner.medium} / ${m.spinner.large}`,
+  ],
+  ["Badge", (m) => `h ${m.badge.height}, min-w ${m.badge.minWidth}`],
+  [
+    "Page control dot / gap",
+    (m) => `${m.pageControl.dot} / ${m.pageControl.gap}`,
+  ],
+  [
+    "Window",
+    (m) =>
+      m.window
+        ? `title bar ${m.window.titleBar}, r ${m.window.radius}, traffic lights ${m.window.trafficLight}`
+        : "—",
+  ],
+]
+
+const titles = { ios: "iOS 26", macos: "macOS 26", web: "Web" } as const
+
 export function LayoutPage() {
-  const ios = metrics.ios
-  const mac = metrics.macos
   return (
     <>
       <PageHeader
         title="Layout"
-        description="Hit targets, margins and the geometry of every control on iOS and macOS, as CSS variables the components read. Switching the platform swaps the whole table at runtime."
+        description="Hit targets, margins and the geometry of every control on iOS 26, macOS 26 and Apple’s web, as CSS variables the components read. Switching the platform swaps the whole table at runtime. iOS and macOS values were read from UIKit and AppKit on 2026-09-06; web values from apple.com and Apple’s web apps."
       />
       <Section
         title="Hit targets and margins"
         description="HIG Accessibility and Layout."
       >
         <TokenTable
-          columns={["Metric", "iOS", "macOS"]}
+          columns={["Metric", ...platforms.map((p) => titles[p])]}
           rows={[
             [
               "Hit target, default",
-              ios.hitTarget.default,
-              mac.hitTarget.default,
+              ...platforms.map((p) => metrics[p].hitTarget.default),
             ],
             [
               "Hit target, minimum",
-              ios.hitTarget.minimum,
-              mac.hitTarget.minimum,
+              ...platforms.map((p) => metrics[p].hitTarget.minimum),
             ],
             [
               "Layout margin",
-              `${ios.list.inset} (${ios.list.insetWide} from 414 pt)`,
-              mac.list.rowPaddingX,
+              `${metrics.ios.list.inset} (${metrics.ios.list.insetWide} from 414 pt)`,
+              metrics.macos.list.rowPaddingX,
+              "25 (40 from 1000 px)",
             ],
-            ["Padding around bezelled controls", "~12", "~12"],
-            ["Padding around bezel-less controls", "~24", "~24"],
+            ["Padding around bezelled controls", "~12", "~12", "~12"],
+            ["Padding around bezel-less controls", "~24", "~24", "~24"],
           ]}
         />
       </Section>
       <Section
         title="Controls"
-        description="Points. Values marked approximate in the research document are AppKit’s published sizes rounded for macOS 26."
+        description="Points. Rows the research document marks approximate have no Apple source yet."
       >
         <TokenTable
-          columns={["Control", "iOS", "macOS"]}
-          rows={[
-            [
-              "Button height mini / small / regular / large / xl",
-              Object.values(ios.buttonHeight).join(" / "),
-              Object.values(mac.buttonHeight).join(" / "),
-            ],
-            [
-              "Switch",
-              `${ios.switch.width}×${ios.switch.height}, thumb ${ios.switch.thumb}`,
-              `${mac.switch.width}×${mac.switch.height}, thumb ${mac.switch.thumb}`,
-            ],
-            [
-              "Checkbox",
-              `${ios.checkbox.size} ${ios.checkbox.shape}`,
-              `${mac.checkbox.size} ${mac.checkbox.shape}`,
-            ],
-            [
-              "Radio",
-              `${ios.radio.size}, dot ${ios.radio.dot}`,
-              `${mac.radio.size}, dot ${mac.radio.dot}`,
-            ],
-            [
-              "Slider track / thumb",
-              `${ios.slider.track} / ${ios.slider.thumb}`,
-              `${mac.slider.track} / ${mac.slider.thumb}`,
-            ],
-            [
-              "Stepper",
-              `${ios.stepper.width}×${ios.stepper.height}, r ${ios.stepper.radius}`,
-              `${mac.stepper.width}×${mac.stepper.height}`,
-            ],
-            [
-              "Segmented control",
-              `h ${ios.segmented.height}, inset ${ios.segmented.inset}`,
-              `h ${mac.segmented.height}, inset ${mac.segmented.inset}`,
-            ],
-            [
-              "Text field",
-              `h ${ios.textField.height}, r ${ios.textField.radius}`,
-              `h ${mac.textField.height}, r ${mac.textField.radius}`,
-            ],
-            [
-              "Search field",
-              `h ${ios.searchField.height}`,
-              `h ${mac.searchField.height}`,
-            ],
-            [
-              "List row",
-              `min ${ios.list.rowMinHeight}, pad ${ios.list.rowPaddingY}×${ios.list.rowPaddingX}, r ${ios.list.radius}`,
-              `min ${mac.list.rowMinHeight}, pad ${mac.list.rowPaddingY}×${mac.list.rowPaddingX}`,
-            ],
-            [
-              "Navigation bar",
-              `${ios.navBar.height} (+${ios.navBar.largeTitle} large title)`,
-              `title bar ${mac.navBar.height}`,
-            ],
-            ["Toolbar", ios.toolbar.height, mac.toolbar.height],
-            [
-              "Tab bar",
-              `h ${ios.tabBar.height}, inset ${ios.tabBar.inset}`,
-              "—",
-            ],
-            [
-              "Sheet",
-              `r ${ios.sheet.radius}, grabber ${ios.sheet.grabber.join("×")}, scrim ${ios.sheet.scrim}`,
-              `r ${mac.sheet.radius}`,
-            ],
-            [
-              "Alert",
-              `w ${ios.alert.width}, r ${ios.alert.radius}, buttons ${ios.alert.buttonHeight}`,
-              `w ${mac.alert.width}`,
-            ],
-            [
-              "Action sheet",
-              `rows ${ios.actionSheet.rowHeight}, cancel gap ${ios.actionSheet.cancelGap}`,
-              "popover",
-            ],
-            [
-              "Menu",
-              `w ${ios.menu.width}, item ${ios.menu.itemHeight}, r ${ios.menu.radius}`,
-              `w ${mac.menu.width}, item ${mac.menu.itemHeight}`,
-            ],
-            ["Dialog width", ios.dialog.width, mac.dialog.width],
-            [
-              "Split view sidebar / content",
-              `${ios.splitView.sidebar} / ${ios.splitView.content}`,
-              `${mac.splitView.sidebar} / ${mac.splitView.content}`,
-            ],
-            ["Progress bar", ios.progress.height, mac.progress.height],
-            [
-              "Activity indicator medium / large",
-              `${ios.spinner.medium} / ${ios.spinner.large}`,
-              `${mac.spinner.medium} / ${mac.spinner.large}`,
-            ],
-            [
-              "Badge",
-              `h ${ios.badge.height}, min-w ${ios.badge.minWidth}`,
-              "—",
-            ],
-            [
-              "Page control dot / gap",
-              `${ios.pageControl.dot} / ${ios.pageControl.gap}`,
-              "—",
-            ],
-          ]}
+          columns={["Control", ...platforms.map((p) => titles[p])]}
+          rows={rows.map(([label, read]) => [
+            label,
+            ...platforms.map((p) => read(metrics[p])),
+          ])}
         />
       </Section>
       <Section

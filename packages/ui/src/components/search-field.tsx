@@ -7,9 +7,10 @@ import { useRef, useState, type ComponentProps } from "react"
 import { Icon } from "./icon"
 
 /**
- * The search field (HIG › Search fields): a 36 pt capsule on the tertiary fill with the
- * magnifier, a "Search" placeholder, the clear button once there is text, and the Cancel
- * button while editing. Escape clears; Cancel clears and ends editing.
+ * The search field (HIG › Search fields). iOS 26: the 44 pt capsule on the tertiary fill with
+ * the magnifier at 12 pt, a "Search" placeholder, the clear button once there is text, and the
+ * Cancel button while editing; macOS 26: AppKit's 24 pt capsule on the bezel; the web the App
+ * Store's 32 px field. Escape clears; Cancel clears and ends editing.
  */
 type SearchFieldProps = Omit<
   ComponentProps<"input">,
@@ -54,7 +55,7 @@ function SearchField({
     >
       <span
         data-slot="search-field"
-        className="flex h-(--search-field-height) flex-1 items-center gap-1.5 rounded-full bg-fill-3 px-2 type-body text-label transition-[box-shadow] duration-(--duration-hover) focus-within:ring-3 focus-within:ring-ring/50"
+        className="flex h-(--search-field-height) flex-1 items-center gap-1.5 rounded-search bg-fill-3 ps-3 pe-2 text-[length:var(--text-field-font)] text-label transition-[box-shadow] duration-(--duration-hover) focus-within:ring-3 focus-within:ring-ring/50 macos:bg-background-3 macos:ps-2 macos:shadow-control web:border web:border-label-4 web:bg-background-3"
       >
         <Icon
           icon={Search01Icon}
@@ -101,7 +102,7 @@ function SearchField({
         <button
           type="button"
           data-slot="search-field-cancel"
-          className="shrink-0 px-1 type-body text-primary outline-none focus-visible:ring-4 focus-visible:ring-ring/60 active:opacity-60"
+          className="shrink-0 px-1 text-[length:var(--text-field-font)] text-primary outline-none focus-visible:ring-4 focus-visible:ring-ring/60 active:opacity-60"
           onMouseDown={(event) => event.preventDefault()}
           onClick={() => {
             update("")

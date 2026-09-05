@@ -28,8 +28,8 @@ export default function OverviewPage() {
   return (
     <>
       <PageHeader
-        title="Apple Design System"
-        description="Apple’s Human Interface Guidelines — the iOS 26 idiom with macOS as a switch — as a shadcn design system: tokens generated from Apple’s published values, components on Base UI, icons from Hugeicons."
+        title="Documentation"
+        description="Apple’s Human Interface Guidelines as a shadcn design system: iOS 26, macOS 26 and Apple’s web from one stylesheet, tokens generated from measured values, components on Base UI, icons from Hugeicons."
       />
       <Section
         title="Foundations"

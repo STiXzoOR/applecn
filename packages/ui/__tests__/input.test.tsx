@@ -13,21 +13,25 @@ import { Label } from "../src/components/label"
 import { Textarea } from "../src/components/textarea"
 
 describe("Input", () => {
-  test("is a rounded text field on the tertiary fill by default", () => {
+  test("is the bordered text field by default: the platform's height and corner, a hairline, on the tertiary background", () => {
     render(<Input aria-label="Name" />)
     const i = screen.getByRole("textbox", { name: "Name" })
     expect(i).toHaveAttribute("data-slot", "input")
+    expect(i).toHaveAttribute("data-variant", "bordered")
     expect(i.className).toContain("h-(--text-field-height)")
-    expect(i.className).toContain("rounded-(--text-field-radius)")
-    expect(i.className).toContain("bg-fill-3")
-    expect(i.className).toContain("type-body")
+    expect(i.className).toContain("rounded-field")
+    expect(i.className).toContain("border-[0.5px]")
+    expect(i.className).toContain("border-separator")
+    expect(i.className).toContain("bg-background-3")
+    expect(i.className).toContain("macos:shadow-control")
+    expect(i.className).toContain("text-[length:var(--text-field-font)]")
     expect(i.className).toContain("placeholder:text-placeholder")
   })
 
-  test("plain and bordered variants", () => {
+  test("plain and rounded (filled) variants", () => {
     expect(inputVariants({ variant: "plain" })).toContain("bg-transparent")
-    expect(inputVariants({ variant: "bordered" })).toContain("border-input")
-    expect(inputVariants({ variant: "bordered" })).toContain("bg-background")
+    expect(inputVariants({ variant: "rounded" })).toContain("bg-fill-3")
+    expect(inputVariants({ variant: "rounded" })).toContain("rounded-lg")
   })
 
   test("a clearable field shows the clear button only once there is text, and clears it", async () => {
@@ -48,9 +52,10 @@ describe("Textarea", () => {
     const t = screen.getByRole("textbox", { name: "Notes" })
     expect(t.tagName).toBe("TEXTAREA")
     expect(t).toHaveAttribute("data-slot", "textarea")
-    expect(t.className).toContain("rounded-lg")
-    expect(t.className).toContain("bg-fill-3")
-    expect(t.className).toContain("type-body")
+    expect(t.className).toContain("rounded-field")
+    expect(t.className).toContain("border-separator")
+    expect(t.className).toContain("bg-background-3")
+    expect(t.className).toContain("text-[length:var(--text-field-font)]")
   })
 })
 

@@ -26,6 +26,14 @@ export type TextStyleName =
   | "caption-1"
   | "caption-2"
 
+export interface ResponsiveSize {
+  /** Viewport width from which this size applies. */
+  readonly minWidth: number
+  readonly size: number
+  readonly leading: number
+  readonly tracking: number
+}
+
 export interface TextStyle {
   readonly name: TextStyleName
   /** Point size at the category (1 pt = 1 CSS px at the default text size). */
@@ -35,6 +43,12 @@ export interface TextStyle {
   readonly weight: FontWeight
   /** The weight the style takes when emphasized (SwiftUI `.bold()`). */
   readonly emphasized: FontWeight
+  /** Letter spacing in em; 0 where the variable system font handles optical sizing. */
+  readonly tracking?: number
+  /** Larger sizes at wider viewports (apple.com's headline breakpoints), ascending. */
+  readonly responsive?: readonly ResponsiveSize[]
+  /** The size below the first breakpoint (the base `size` is the widest). */
+  readonly compact?: Omit<ResponsiveSize, "minWidth">
 }
 
 export const textStyleNames: readonly TextStyleName[] = [
@@ -299,10 +313,99 @@ export const macosTextStyles: readonly TextStyle[] = [
   mac("caption-2", 10, 13, 500, 600),
 ]
 
+/**
+ * Apple's web type (apple.com, read 2026-09-06; research document §12). The static SF Pro
+ * webfont needs explicit tracking, and headlines step down at apple.com's 1068 and 734 px
+ * breakpoints: `size`/`leading` are the widest values, `responsive` the ladder from the
+ * narrowest breakpoint up, and `compact` the phone size.
+ */
+const web = (
+  name: TextStyleName,
+  size: number,
+  leading: number,
+  weight: FontWeight,
+  emphasized: FontWeight,
+  tracking: number,
+  steps?: {
+    readonly medium: readonly [number, number, number]
+    readonly compact: readonly [number, number, number]
+  }
+): TextStyle => ({
+  name,
+  size,
+  leading,
+  weight,
+  emphasized,
+  tracking,
+  ...(steps
+    ? {
+        responsive: [
+          {
+            minWidth: 735,
+            size: steps.medium[0],
+            leading: steps.medium[1],
+            tracking: steps.medium[2],
+          },
+          { minWidth: 1069, size, leading, tracking },
+        ],
+        compact: {
+          size: steps.compact[0],
+          leading: steps.compact[1],
+          tracking: steps.compact[2],
+        },
+      }
+    : {}),
+})
+
+export const webTextStyles: readonly TextStyle[] = [
+  /** `typography-headline`: 48/52 → 40/44 → 32/36. */
+  web("large-title", 48, 52, 600, 700, -0.003, {
+    medium: [40, 44, 0],
+    compact: [32, 36, 0.004],
+  }),
+  /** `typography-headline-reduced`: 40/44 → 32/36 → 28/32. */
+  web("title-1", 40, 44, 600, 700, 0, {
+    medium: [32, 36, 0.004],
+    compact: [28, 32, 0.007],
+  }),
+  /** `typography-tile-headline-reduced`: 32/36 → 28/32 → 24/28. */
+  web("title-2", 32, 36, 600, 700, 0.002, {
+    medium: [28, 32, 0.007],
+    compact: [24, 28, 0.009],
+  }),
+  /** `typography-callout`: 28/32 → 24/28 → 21/25. */
+  web("title-3", 28, 32, 600, 700, 0.007, {
+    medium: [24, 28, 0.009],
+    compact: [21, 25, 0.011],
+  }),
+  /** `typography-promo-subhead` in its semibold use: 21/25, 19/23 on phones. */
+  web("headline", 21, 25, 600, 700, 0.011, {
+    medium: [21, 25, 0.011],
+    compact: [19, 23, 0.012],
+  }),
+  /** `body`: 17 px at `line-height: 1.47059`, `-0.022em`. */
+  web("body", 17, 25, 400, 600, -0.022),
+  /** `typography-intro`: 21/25, 19/23 on phones. */
+  web("callout", 21, 25, 400, 600, 0.011, {
+    medium: [19, 23, 0.012],
+    compact: [19, 23, 0.012],
+  }),
+  /** `typography-tile-subhead-reduced`. */
+  web("subheadline", 19, 23, 400, 600, 0.012),
+  /** `typography-body-reduced`. */
+  web("footnote", 14, 20, 400, 600, -0.016),
+  /** `typography-caption`. */
+  web("caption-1", 12, 16, 400, 600, -0.01),
+  /** Eyebrows and labels: the caption at semibold. */
+  web("caption-2", 12, 16, 600, 700, -0.01),
+]
+
 /** Default and minimum point sizes per platform (HIG Typography). */
 export const platformSizes = {
   ios: { default: 17, minimum: 11 },
   macos: { default: 13, minimum: 10 },
+  /** apple.com's body and caption. */
+  web: { default: 17, minimum: 12 },
   tvos: { default: 29, minimum: 23 },
   visionos: { default: 17, minimum: 12 },
   watchos: { default: 16, minimum: 12 },

@@ -35,7 +35,7 @@ function DeleteNote(props: { third?: boolean }) {
 }
 
 describe("AlertDialog", () => {
-  test("is a 270 pt alert on thick material with left-aligned text and 44 pt buttons", async () => {
+  test("is the iOS 26 alert: 320 pt, 34 pt corners, glass, left-aligned text and 48 pt capsule actions inset 16", async () => {
     render(<DeleteNote />)
     await userEvent.click(screen.getByRole("button", { name: "Delete" }))
     const alert = await screen.findByRole("alertdialog", {
@@ -43,17 +43,30 @@ describe("AlertDialog", () => {
     })
     expect(alert).toHaveAttribute("data-slot", "alert-dialog-content")
     expect(alert.className).toContain("w-(--alert-width)")
-    expect(alert.className).toContain("rounded-4xl")
-    expect(alert.className).toContain("material-thick")
+    expect(alert.className).toContain("rounded-alert")
+    expect(alert.className).toContain("glass")
     expect(alert.className).toContain("text-start")
+    expect(alert.className).toContain("macos:text-center")
     expect(alert).toHaveAccessibleDescription("This can’t be undone.")
+    const title = screen.getByText("Delete Note?")
+    expect(title.className).toContain("text-[length:var(--alert-title-font)]")
+    expect(title.className).toContain("font-semibold")
+    expect(screen.getByText("This can’t be undone.").className).toContain(
+      "text-[length:var(--alert-message-font)]"
+    )
+    const actions = alert.querySelector('[data-slot="alert-dialog-actions"]')!
+    expect(actions.className).toContain("p-(--alert-button-inset)")
+    expect(actions.className).toContain("gap-(--alert-button-gap)")
     const del = screen.getByRole("button", { name: "Delete" })
     expect(del.className).toContain("h-(--alert-button-height)")
+    expect(del.className).toContain("rounded-full")
+    expect(del.className).toContain("bg-fill-3")
     expect(del.className).toContain("text-destructive")
     expect(del.className).toContain("font-semibold")
-    expect(
-      screen.getByRole("button", { name: "Cancel" }).className
-    ).not.toContain("font-semibold")
+    expect(del.className).toContain("macos:rounded-control")
+    const cancel = screen.getByRole("button", { name: "Cancel" })
+    expect(cancel.className).not.toContain("font-semibold")
+    expect(cancel.className).toContain("macos:bg-background-3")
   })
 
   test("two short actions sit side by side; three stack", async () => {

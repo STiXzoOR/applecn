@@ -1,29 +1,36 @@
 import { Text } from "@applecn/ui/components/text"
-import { radii } from "@applecn/ui/tokens/radii"
+import { platforms } from "@applecn/ui/tokens/metrics"
+import { radii, type RadiusStep } from "@applecn/ui/tokens/radii"
 
 import { PageHeader } from "@/components/doc/page-header"
 import { Section } from "@/components/doc/section"
 import { TokenTable } from "@/components/doc/token-table"
+
+const platformTitles = { ios: "iOS 26", macos: "macOS 26", web: "Web" } as const
+
+const steps = Object.keys(radii.ios.ladder) as RadiusStep[]
 
 export function ShapesPage() {
   return (
     <>
       <PageHeader
         title="Shapes"
-        description="shadcn’s Luma radius derivation from a 10 px base lands exactly on Apple’s ladder — 6, 8, 10, 14, 18, 22, 26 — plus the sheet radius, the app-icon mask and the capsule. Nested corners are concentric: inner = outer − inset."
+        description="Corners follow the platform. iOS 26 runs from 5 pt fields to 26 pt grouped lists and 34 pt alerts; macOS 26 keeps controls at 4–6 pt and windows at 16; Apple’s web uses the App Store’s 5–24 ladder. rounded-sm … rounded-4xl always mean the current platform’s ladder, and the semantic radii (rounded-card, rounded-menu, rounded-alert …) each control’s measured corner. Nested corners are concentric: inner = outer − inset."
       />
-      <Section title="Radius ladder">
+      <Section
+        title="Radius ladder"
+        description="Rendered with the current platform’s values; switch the platform in the toolbar to see the ladder change."
+      >
         <div className="grid grid-cols-4 gap-4 sm:grid-cols-7">
-          {Object.entries(radii.ladder).map(([step, px]) => (
+          {steps.map((step) => (
             <div key={step} className="flex flex-col items-center gap-2">
               <div
-                className="size-16 bg-primary"
-                style={{ borderRadius: px }}
+                className={`size-16 bg-primary rounded-${step}`}
                 aria-hidden="true"
               />
               <Text variant="caption-1">rounded-{step}</Text>
               <Text variant="caption-2" color="label-2">
-                {px}px
+                {platforms.map((p) => radii[p].ladder[step]).join(" · ")}
               </Text>
             </div>
           ))}
@@ -36,7 +43,9 @@ export function ShapesPage() {
               className="h-24 w-40 rounded-t-sheet bg-fill-2"
               aria-hidden="true"
             />
-            <Text variant="caption-1">rounded-sheet · {radii.sheet}px</Text>
+            <Text variant="caption-1">
+              rounded-sheet · {platforms.map((p) => radii[p].sheet).join(" · ")}
+            </Text>
           </div>
           <div className="flex flex-col items-center gap-2">
             <div
@@ -56,23 +65,34 @@ export function ShapesPage() {
       </Section>
       <Section
         title="Concentric corners"
-        description="A 26 pt card with 8 pt padding holds an 18 pt child; the child’s corner is the parent’s minus the inset."
+        description="A card with 8 pt padding holds a child whose corner is the parent’s minus the inset — the rule every iOS 26 sheet, toolbar and button follows."
       >
-        <div className="w-64 rounded-4xl bg-fill-2 p-2">
-          <div className="h-24 rounded-2xl bg-card" aria-hidden="true" />
+        <div className="w-64 rounded-card bg-fill-2 p-2">
+          <div
+            className="h-24 rounded-[calc(var(--radius-card)-0.5rem)] bg-card"
+            aria-hidden="true"
+          />
         </div>
       </Section>
-      <Section title="Values">
+      <Section
+        title="Values"
+        description="Points per platform. Sources: UIKit and AppKit view trees (§11), the App Store’s tokens (§5, §12)."
+      >
         <TokenTable
-          columns={["Token", "Value"]}
+          columns={["Token", ...platforms.map((p) => platformTitles[p])]}
           rows={[
-            ["--radius", `${radii.base}px`],
-            ...Object.entries(radii.ladder).map(([s, v]) => [
+            ...steps.map((s) => [
               `--radius-${s}`,
-              `${v}px`,
+              ...platforms.map((p) => `${radii[p].ladder[s]}px`),
             ]),
-            ["--radius-sheet", `${radii.sheet}px`],
-            ["--radius-icon", radii.icon],
+            ["--radius-sheet", ...platforms.map((p) => `${radii[p].sheet}px`)],
+            ["--radius-icon", radii.icon, radii.icon, radii.icon],
+            [
+              "--radius",
+              `${radii.base}px`,
+              `${radii.base}px`,
+              `${radii.base}px`,
+            ],
           ]}
         />
       </Section>

@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from "next"
 import "@applecn/ui/globals.css"
 import "./docs.css"
 
-import { AppearanceProvider } from "@/components/appearance"
+import { AppearanceProvider, appearanceScript } from "@/components/appearance"
 import { SITE_URL } from "@/lib/site"
 import { ThemeProvider } from "@/components/theme-provider"
 
@@ -30,6 +30,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: appearanceScript }} />
+      </head>
       <body className="min-h-dvh">
         <ThemeProvider>
           <AppearanceProvider>{children}</AppearanceProvider>
