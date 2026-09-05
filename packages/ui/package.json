@@ -6,7 +6,9 @@
   "scripts": {
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "tokens:build": "node scripts/build-css.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
@@ -22,16 +24,25 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@apple-ds/eslint-config": "workspace:*",
+    "@apple-ds/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
     "@turbo/gen": "^2.9.15",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@apple-ds/eslint-config": "workspace:*",
-    "@apple-ds/typescript-config": "workspace:*",
+    "@vitejs/plugin-react": "^6.1.1",
+    "axe-core": "^4.13.0",
     "eslint": "^9",
+    "jsdom": "^30.0.1",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^5.0.0",
+    "vitest-axe": "^0.1.0"
   },
   "exports": {
     "./globals.css": "./src/styles/globals.css",
