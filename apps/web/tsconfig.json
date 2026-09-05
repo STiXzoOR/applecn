@@ -1,9 +1,9 @@
 {
-  "extends": "@apple-ds/typescript-config/nextjs.json",
+  "extends": "@applecn/typescript-config/nextjs.json",
   "compilerOptions": {
     "paths": {
       "@/*": ["./*"],
-      "@apple-ds/ui/*": ["../../packages/ui/src/*"]
+      "@applecn/ui/*": ["../../packages/ui/src/*"]
     },
     "plugins": [
       {

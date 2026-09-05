@@ -14,8 +14,8 @@
     "components": "@/components",
     "hooks": "@/hooks",
     "lib": "@/lib",
-    "utils": "@apple-ds/ui/lib/utils",
-    "ui": "@apple-ds/ui/components"
+    "utils": "@applecn/ui/lib/utils",
+    "ui": "@applecn/ui/components"
   },
   "rtl": false,
   "menuColor": "default",

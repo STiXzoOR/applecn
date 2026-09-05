@@ -11,11 +11,11 @@
   },
   "iconLibrary": "hugeicons",
   "aliases": {
-    "components": "@apple-ds/ui/components",
-    "utils": "@apple-ds/ui/lib/utils",
-    "hooks": "@apple-ds/ui/hooks",
-    "lib": "@apple-ds/ui/lib",
-    "ui": "@apple-ds/ui/components"
+    "components": "@applecn/ui/components",
+    "utils": "@applecn/ui/lib/utils",
+    "hooks": "@applecn/ui/hooks",
+    "lib": "@applecn/ui/lib",
+    "ui": "@applecn/ui/components"
   },
   "rtl": false,
   "menuColor": "default",

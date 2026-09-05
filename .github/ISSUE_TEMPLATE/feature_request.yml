@@ -1,0 +1,28 @@
+name: Feature request
+description: A component, token or behaviour Apple has that applecn does not.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to build?
+      description: The use case, and which Apple control or pattern it corresponds to.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Apple source
+      description: HIG page, UIKit/AppKit API, or the Apple web page where the behaviour can be measured.
+      placeholder: "https://developer.apple.com/design/human-interface-guidelines/…"
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: API sketch or example if you have one.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered

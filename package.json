@@ -1,30 +1,42 @@
 {
-  "name": "apple-ds",
+  "name": "applecn",
   "version": "0.0.1",
   "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/STiXzoOR/applecn.git"
+  },
+  "homepage": "https://applecn.vercel.app",
+  "bugs": "https://github.com/STiXzoOR/applecn/issues",
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev --filter=@apple-ds/web",
-    "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,css,md,json}\"",
-    "format:check": "prettier --check \"**/*.{ts,tsx,css,md,json}\"",
+    "dev": "turbo dev --filter=@applecn/web",
+    "lint:check": "oxlint --type-aware .",
+    "lint:fix": "oxlint --type-aware --fix .",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check .",
     "typecheck": "turbo typecheck",
     "test": "turbo test",
-    "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build",
-    "tokens:build": "pnpm --filter @apple-ds/ui tokens:build",
-    "registry:build": "pnpm --filter @apple-ds/web registry:build",
-    "ui:add": "pnpm --filter @apple-ds/ui exec shadcn add"
+    "check": "pnpm lint:check && pnpm format:check && pnpm typecheck && pnpm test && pnpm build",
+    "tokens:build": "pnpm --filter @applecn/ui tokens:build",
+    "registry:build": "pnpm --filter @applecn/web registry:build",
+    "ui:add": "pnpm --filter @applecn/ui exec shadcn add",
+    "prepare": "lefthook install"
   },
   "devDependencies": {
-    "@apple-ds/eslint-config": "workspace:*",
-    "@apple-ds/typescript-config": "workspace:*",
-    "prettier": "^3.8.3",
-    "prettier-plugin-tailwindcss": "^0.8.0",
+    "@applecn/typescript-config": "workspace:*",
+    "@commitlint/cli": "21.2.2",
+    "@commitlint/config-conventional": "21.2.2",
+    "lefthook": "2.1.12",
+    "oxfmt": "0.66.0",
+    "oxlint": "1.81.0",
+    "oxlint-tsgolint": "7.0.2001",
     "turbo": "^2.9.18",
     "typescript": "^5"
   },
   "packageManager": "pnpm@10.33.4",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   }
 }
