@@ -63,7 +63,7 @@ function Nav({ pathname }: { pathname: string }) {
 export function DocsShell({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   return (
-    <div className="grid min-h-dvh grid-cols-1 lg:grid-cols-[var(--split-view-sidebar-width)_1fr]">
+    <div className="grid min-h-dvh grid-cols-1 bg-grouped-background-1 lg:grid-cols-[var(--split-view-sidebar-width)_1fr]">
       <Sidebar
         aria-label="Documentation"
         className="sticky top-0 hidden h-dvh w-auto border-e-[0.5px] border-separator lg:flex"

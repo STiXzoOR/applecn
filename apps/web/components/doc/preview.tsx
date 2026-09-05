@@ -5,7 +5,7 @@ export function Preview({ children }: { children: ReactNode }) {
   return (
     <div
       data-slot="preview"
-      className="flex min-h-40 items-center justify-center overflow-hidden rounded-4xl bg-grouped-background-1 p-6 hairline"
+      className="flex min-h-40 items-center justify-center overflow-hidden rounded-4xl bg-background p-6 hairline"
     >
       <div className="w-full">{children}</div>
     </div>
