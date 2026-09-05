@@ -5,8 +5,8 @@
  * `tokens.css` — the generated, single definition of every Apple token (colours, type, control
  * metrics, shape, motion, elevation, materials; light, dark, elevated, increased-contrast and
  * macOS scopes). This file only bridges those primitives into Tailwind's theme namespaces so
- * they become utilities (`bg-system-blue`, `text-body`, `rounded-sheet`, `shadow-thumb`,
- * `ease-sheet`), and adds the base styles and the material utilities.
+ * they become utilities (`bg-system-blue`, `rounded-sheet`, `shadow-thumb`, `ease-sheet`),
+ * defines the `type-*` text-style utilities, and adds the base styles and the material utilities.
  *
  * Never write a literal colour, size, radius or duration here or in a component: change the
  * token module, run `pnpm tokens:build`, and the value flows through.
@@ -31,39 +31,6 @@
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --font-heading: -apple-system, BlinkMacSystemFont, system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
 
-  --text-large-title: var(--type-large-title-size);
-  --text-large-title--line-height: var(--type-large-title-leading);
-  --text-large-title--font-weight: var(--type-large-title-weight);
-  --text-title-1: var(--type-title-1-size);
-  --text-title-1--line-height: var(--type-title-1-leading);
-  --text-title-1--font-weight: var(--type-title-1-weight);
-  --text-title-2: var(--type-title-2-size);
-  --text-title-2--line-height: var(--type-title-2-leading);
-  --text-title-2--font-weight: var(--type-title-2-weight);
-  --text-title-3: var(--type-title-3-size);
-  --text-title-3--line-height: var(--type-title-3-leading);
-  --text-title-3--font-weight: var(--type-title-3-weight);
-  --text-headline: var(--type-headline-size);
-  --text-headline--line-height: var(--type-headline-leading);
-  --text-headline--font-weight: var(--type-headline-weight);
-  --text-body: var(--type-body-size);
-  --text-body--line-height: var(--type-body-leading);
-  --text-body--font-weight: var(--type-body-weight);
-  --text-callout: var(--type-callout-size);
-  --text-callout--line-height: var(--type-callout-leading);
-  --text-callout--font-weight: var(--type-callout-weight);
-  --text-subheadline: var(--type-subheadline-size);
-  --text-subheadline--line-height: var(--type-subheadline-leading);
-  --text-subheadline--font-weight: var(--type-subheadline-weight);
-  --text-footnote: var(--type-footnote-size);
-  --text-footnote--line-height: var(--type-footnote-leading);
-  --text-footnote--font-weight: var(--type-footnote-weight);
-  --text-caption-1: var(--type-caption-1-size);
-  --text-caption-1--line-height: var(--type-caption-1-leading);
-  --text-caption-1--font-weight: var(--type-caption-1-weight);
-  --text-caption-2: var(--type-caption-2-size);
-  --text-caption-2--line-height: var(--type-caption-2-leading);
-  --text-caption-2--font-weight: var(--type-caption-2-weight);
 
   /* ---------- colour: shadcn vocabulary ---------- */
   --color-background: var(--background);
@@ -167,6 +134,76 @@
   --shadow-glass: var(--elevation-glass);
 }
 
+/* ---------- type styles ----------
+   Explicit utilities rather than `--text-*` theme entries: tailwind-merge cannot tell that `text-body` is a
+   size and not a colour, and would drop it against `text-label`. `type-body` has no conflict group. */
+
+@utility type-large-title {
+  font-size: var(--type-large-title-size);
+  line-height: var(--type-large-title-leading);
+  font-weight: var(--type-large-title-weight);
+}
+
+@utility type-title-1 {
+  font-size: var(--type-title-1-size);
+  line-height: var(--type-title-1-leading);
+  font-weight: var(--type-title-1-weight);
+}
+
+@utility type-title-2 {
+  font-size: var(--type-title-2-size);
+  line-height: var(--type-title-2-leading);
+  font-weight: var(--type-title-2-weight);
+}
+
+@utility type-title-3 {
+  font-size: var(--type-title-3-size);
+  line-height: var(--type-title-3-leading);
+  font-weight: var(--type-title-3-weight);
+}
+
+@utility type-headline {
+  font-size: var(--type-headline-size);
+  line-height: var(--type-headline-leading);
+  font-weight: var(--type-headline-weight);
+}
+
+@utility type-body {
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
+  font-weight: var(--type-body-weight);
+}
+
+@utility type-callout {
+  font-size: var(--type-callout-size);
+  line-height: var(--type-callout-leading);
+  font-weight: var(--type-callout-weight);
+}
+
+@utility type-subheadline {
+  font-size: var(--type-subheadline-size);
+  line-height: var(--type-subheadline-leading);
+  font-weight: var(--type-subheadline-weight);
+}
+
+@utility type-footnote {
+  font-size: var(--type-footnote-size);
+  line-height: var(--type-footnote-leading);
+  font-weight: var(--type-footnote-weight);
+}
+
+@utility type-caption-1 {
+  font-size: var(--type-caption-1-size);
+  line-height: var(--type-caption-1-leading);
+  font-weight: var(--type-caption-1-weight);
+}
+
+@utility type-caption-2 {
+  font-size: var(--type-caption-2-size);
+  line-height: var(--type-caption-2-leading);
+  font-weight: var(--type-caption-2-weight);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -180,7 +217,7 @@
   }
 
   body {
-    @apply bg-background font-sans text-body text-foreground;
+    @apply type-body bg-background font-sans text-foreground;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -302,6 +339,24 @@
     background-color: var(--background-3);
     backdrop-filter: none;
     box-shadow: var(--elevation-popover);
+  }
+}
+
+/* Prominent glass: the one tinted, primary action on a glass bar. Its own utility rather than glass + a
+   background override, so the paint order never depends on how Tailwind sorts two utilities. */
+@utility glass-prominent {
+  background-color: color-mix(in srgb, var(--primary) 85%, transparent);
+  color: var(--primary-foreground);
+  -webkit-backdrop-filter: blur(var(--material-glass-blur)) saturate(var(--material-glass-saturate));
+  backdrop-filter: blur(var(--material-glass-blur)) saturate(var(--material-glass-saturate));
+  box-shadow: var(--elevation-glass);
+  @media (prefers-reduced-transparency: reduce) {
+    background-color: var(--primary);
+    backdrop-filter: none;
+  }
+  :where([data-transparency="reduced"]) & {
+    background-color: var(--primary);
+    backdrop-filter: none;
   }
 }
 

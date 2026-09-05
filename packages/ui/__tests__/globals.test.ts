@@ -28,12 +28,14 @@ describe('globals.css', () => {
     expect(css).not.toMatch(/SF Pro/)
   })
 
-  test('bridges every text style into the Tailwind theme', () => {
+  test('defines a type-* utility per text style (outside the text-* namespace tailwind-merge misreads)', () => {
     for (const name of textStyleNames) {
-      expect(themeInline).toContain(`--text-${name}: var(--type-${name}-size);`)
-      expect(themeInline).toContain(`--text-${name}--line-height: var(--type-${name}-leading);`)
-      expect(themeInline).toContain(`--text-${name}--font-weight: var(--type-${name}-weight);`)
+      expect(css).toContain(`@utility type-${name} {`)
+      expect(css).toContain(`font-size: var(--type-${name}-size);`)
+      expect(css).toContain(`line-height: var(--type-${name}-leading);`)
+      expect(css).toContain(`font-weight: var(--type-${name}-weight);`)
     }
+    expect(themeInline).not.toContain('--text-body')
   })
 
   test('bridges the Apple colour primitives and the shadcn aliases', () => {
@@ -65,7 +67,7 @@ describe('globals.css', () => {
   })
 
   test('defines the material, glass and hairline utilities with reduced-transparency fallbacks', () => {
-    for (const name of ['material-ultra-thin', 'material-thin', 'material-regular', 'material-thick', 'glass', 'glass-clear']) {
+    for (const name of ['material-ultra-thin', 'material-thin', 'material-regular', 'material-thick', 'glass', 'glass-clear', 'glass-prominent']) {
       expect(css).toContain(`@utility ${name} {`)
     }
     expect(css).toContain('@utility hairline {')
