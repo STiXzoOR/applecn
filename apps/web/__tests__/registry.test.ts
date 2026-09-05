@@ -4,7 +4,7 @@ import { join } from "node:path"
 import { describe, expect, test } from "vitest"
 
 import { componentDocs } from "@/registry/index"
-import { SITE_URL } from "@/lib/site"
+import { REGISTRY_URL, SITE_URL } from "@/lib/site"
 import { buildRegistry } from "@/scripts/registry-data"
 
 const registry = buildRegistry()
@@ -30,6 +30,16 @@ describe("registry", () => {
     }
   })
 
+  test("registry dependencies are absolute URLs, so a bare name never resolves against shadcn's own registry", () => {
+    for (const item of registry.items) {
+      for (const dep of item.registryDependencies ?? []) {
+        expect(dep, item.name).toMatch(
+          new RegExp(`^${REGISTRY_URL}/[a-z0-9-]+\\.json$`)
+        )
+      }
+    }
+  })
+
   test("file paths are relative to the package with no traversal, so the CLI accepts them and derives the install location", () => {
     // shadcn rejects any `..` in a published path; `src/<dir>/<file>` resolves to
     // components/ui, hooks/ and lib/ in the consumer without a `target`.
@@ -44,7 +54,9 @@ describe("registry", () => {
 
   test("local imports become registry dependencies and packages become dependencies", () => {
     const tabs = registry.items.find((i) => i.name === "tabs")!
-    expect(tabs.registryDependencies).toContain("segmented-control")
+    expect(tabs.registryDependencies).toContain(
+      `${REGISTRY_URL}/segmented-control.json`
+    )
     expect(tabs.dependencies).toContain("@base-ui/react")
     const icon = registry.items.find((i) => i.name === "icon")!
     expect(icon.dependencies).toEqual(

@@ -510,7 +510,7 @@
         "cn"
       ],
       "registryDependencies": [
-        "use-media-query"
+        "https://applecn.vercel.app/r/use-media-query.json"
       ],
       "files": [
         {
@@ -612,7 +612,7 @@
         "cn"
       ],
       "registryDependencies": [
-        "icon"
+        "https://applecn.vercel.app/r/icon.json"
       ],
       "files": [
         {
@@ -633,8 +633,8 @@
         "cn"
       ],
       "registryDependencies": [
-        "icon",
-        "menu"
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/menu.json"
       ],
       "files": [
         {
@@ -670,7 +670,7 @@
         "cn"
       ],
       "registryDependencies": [
-        "icon"
+        "https://applecn.vercel.app/r/icon.json"
       ],
       "files": [
         {
@@ -688,7 +688,7 @@
         "cn"
       ],
       "registryDependencies": [
-        "icon"
+        "https://applecn.vercel.app/r/icon.json"
       ],
       "files": [
         {
@@ -758,7 +758,7 @@
         "cn"
       ],
       "registryDependencies": [
-        "icon"
+        "https://applecn.vercel.app/r/icon.json"
       ],
       "files": [
         {
@@ -808,7 +808,7 @@
         "cn"
       ],
       "registryDependencies": [
-        "icon"
+        "https://applecn.vercel.app/r/icon.json"
       ],
       "files": [
         {
@@ -845,7 +845,7 @@
         "cn"
       ],
       "registryDependencies": [
-        "icon"
+        "https://applecn.vercel.app/r/icon.json"
       ],
       "files": [
         {
@@ -864,8 +864,8 @@
         "cn"
       ],
       "registryDependencies": [
-        "icon",
-        "use-scroll-collapse"
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/use-scroll-collapse.json"
       ],
       "files": [
         {
@@ -949,7 +949,7 @@
         "cn"
       ],
       "registryDependencies": [
-        "icon"
+        "https://applecn.vercel.app/r/icon.json"
       ],
       "files": [
         {
@@ -986,7 +986,7 @@
         "cn"
       ],
       "registryDependencies": [
-        "icon"
+        "https://applecn.vercel.app/r/icon.json"
       ],
       "files": [
         {
@@ -1022,8 +1022,8 @@
         "cn"
       ],
       "registryDependencies": [
-        "dialog",
-        "use-media-query"
+        "https://applecn.vercel.app/r/dialog.json",
+        "https://applecn.vercel.app/r/use-media-query.json"
       ],
       "files": [
         {
@@ -1044,7 +1044,7 @@
         "cn"
       ],
       "registryDependencies": [
-        "icon"
+        "https://applecn.vercel.app/r/icon.json"
       ],
       "files": [
         {
@@ -1126,7 +1126,7 @@
         "cn"
       ],
       "registryDependencies": [
-        "icon"
+        "https://applecn.vercel.app/r/icon.json"
       ],
       "files": [
         {
@@ -1162,8 +1162,8 @@
         "cn"
       ],
       "registryDependencies": [
-        "badge",
-        "icon"
+        "https://applecn.vercel.app/r/badge.json",
+        "https://applecn.vercel.app/r/icon.json"
       ],
       "files": [
         {
@@ -1197,7 +1197,7 @@
         "cn"
       ],
       "registryDependencies": [
-        "segmented-control"
+        "https://applecn.vercel.app/r/segmented-control.json"
       ],
       "files": [
         {
@@ -1266,7 +1266,7 @@
         "cn"
       ],
       "registryDependencies": [
-        "icon"
+        "https://applecn.vercel.app/r/icon.json"
       ],
       "files": [
         {

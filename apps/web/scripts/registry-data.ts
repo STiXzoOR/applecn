@@ -3,7 +3,7 @@ import { join } from "node:path"
 
 import { tokenVars } from "@applecn/ui/tokens/css"
 
-import { SITE_URL } from "../lib/site.ts"
+import { REGISTRY_URL, SITE_URL } from "../lib/site.ts"
 import { componentDocs } from "../registry/index.ts"
 
 /**
@@ -64,8 +64,9 @@ function imports(source: string): {
         .split("/")
         .pop()!
         .replace(/\.tsx?$/, "")
+      // Absolute, so the CLI never resolves a bare name against shadcn's own registry.
       if (name !== "colors" && name !== "metrics" && name !== "typography")
-        registryDependencies.add(name)
+        registryDependencies.add(`${REGISTRY_URL}/${name}.json`)
     } else {
       const name = packageName(specifier)
       if (!IGNORED_PACKAGES.has(name)) dependencies.add(name)
