@@ -172,7 +172,7 @@ On `feat/apple-design-system`, in order, each passing `pnpm check`:
 
 1. `refactor(repo): rename apple-ds to applecn`
 2. `build(lint): replace eslint and prettier with oxlint and oxfmt`
-3. `chore(repo): community files, issue forms, CI and git hooks for public release`
+3. `chore(repo): community files, issue forms and CI for public release`
 4. `docs(skills): applecn agent skill and README for release`
 
 Nothing is pushed; no remote is created.
