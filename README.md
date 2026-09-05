@@ -1,12 +1,48 @@
-# applecn
+<h1 align="center">applecn</h1>
 
-Apple's Human Interface Guidelines — the iOS/iPadOS 26 Liquid Glass idiom by default, macOS 26 as a runtime switch — rebuilt as a **shadcn** design system on **Base UI** primitives with **Hugeicons**, in a private pnpm/Turborepo monorepo scaffolded by the shadcn CLI.
+<p align="center">
+  Apple's Human Interface Guidelines as a <a href="https://ui.shadcn.com">shadcn</a> design system.<br/>
+  The iOS 26 Liquid Glass idiom by default, macOS as a switch, on <a href="https://base-ui.com">Base UI</a> primitives with <a href="https://hugeicons.com">Hugeicons</a>. Copy, paste, own the code.
+</p>
 
-- `packages/ui` (`@applecn/ui`) — the tokens, the generated stylesheet, and 45 components.
-- `apps/web` (`@applecn/web`) — the design-system site: eight foundation pages rendered from the token data, a page per component with live examples and source, and a shadcn registry at `/r/*.json`.
-- `docs/` — the research (`docs/research/apple-design-system-reference.md`: every number and where it came from), the spec, and the plan.
+<p align="center">
+  <a href="https://applecn.vercel.app">Site</a> ·
+  <a href="https://applecn.vercel.app/foundations/color">Foundations</a> ·
+  <a href="https://applecn.vercel.app/components/button">Components</a> ·
+  <a href="CONTRIBUTING.md">Contributing</a>
+</p>
 
-## Run it
+## Install
+
+Register the namespace once in your `components.json`, then add the theme and any component:
+
+```json
+{ "registries": { "@applecn": "https://applecn.vercel.app/r/{name}.json" } }
+```
+
+```sh
+npx shadcn@latest add @applecn/apple      # the theme: every token, light and dark
+npx shadcn@latest add @applecn/button     # a component and its dependencies
+```
+
+Or by URL: `npx shadcn@latest add https://applecn.vercel.app/r/button.json`.
+
+## Features
+
+- **Exact values, with sources.** Colours, type, Dynamic Type, geometry and motion from the
+  HIG and UIKit; what Apple does not publish was measured from Apple's own web apps.
+  `docs/research/apple-design-system-reference.md` lists every number and where it came from.
+- **Tokens as data.** `packages/ui/src/tokens/*.ts` generate the stylesheet; tests fail if it
+  drifts.
+- **One switch per idiom.** `data-platform`, dark mode, elevated surfaces, Increase Contrast,
+  Reduce Transparency and Dynamic Type are handled in CSS.
+- **45 components on Base UI.** shadcn conventions, `data-slot`, `cva`, tests with axe.
+- **A registry and a site.** Every component page has live examples, source and an install
+  command.
+- **Agent-ready.** `npx skills add STiXzoOR/applecn` installs a skill that teaches coding
+  agents the registry and its rules.
+
+## Develop
 
 ```sh
 pnpm install
@@ -59,3 +95,25 @@ docs/superpowers/              spec and plan
 ```
 
 The repository is private; no remote is configured.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, the gate and the rules. Use
+[issues](https://github.com/STiXzoOR/applecn/issues) for bugs and requests and
+[discussions](https://github.com/STiXzoOR/applecn/discussions) for questions. By participating
+you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Security
+
+Do not open public issues for vulnerabilities; follow [SECURITY.md](SECURITY.md).
+
+## Trademarks
+
+Apple, iOS, iPadOS, macOS, SF Pro and SF Symbols are trademarks of Apple Inc. applecn is an
+independent open-source project and is not affiliated with, endorsed by or sponsored by Apple.
+It ships no Apple fonts, icons or artwork: the system font stack resolves to San Francisco on
+Apple devices, and Hugeicons stands in for SF Symbols.
+
+## License
+
+[MIT](LICENSE)

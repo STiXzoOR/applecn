@@ -161,7 +161,8 @@ Test-driven where there is behaviour:
   any tracked text file outside `docs/superpowers/` and `docs/research/` contains `apple-ds`;
   parses `README.md` and `.agents/skills/applecn/SKILL.md` for `@applecn/<name>` and
   `/r/<name>.json` mentions and fails if a name is not a registry item.
-- `apps/web/__tests__/docs.test.ts` gains a check that the Install blocks use `REGISTRY_URL`.
+- The same hygiene test also fails on any leftover `<your-host>`, which is how the Install
+  blocks are proven to read `REGISTRY_URL`.
 
 Everything else (toolchain, community files, CI) is verified by `pnpm check` being green and
 by running the new hooks once locally.

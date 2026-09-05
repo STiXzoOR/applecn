@@ -45,11 +45,21 @@ describe("repository hygiene", () => {
     expect(stale).toEqual([])
   })
 
-  test("every registry item the README installs exists", () => {
-    const items = new Set(buildRegistry().items.map((i) => i.name))
-    const readme = readFileSync(join(root, "README.md"), "utf8")
-    const mentioned = registryNamesIn(readme)
-    expect(mentioned.length).toBeGreaterThan(0)
-    expect(mentioned.filter((n) => !items.has(n))).toEqual([])
+  test.each(["README.md", ".agents/skills/applecn/SKILL.md"])(
+    "every registry item %s installs exists",
+    (file) => {
+      const items = new Set(buildRegistry().items.map((i) => i.name))
+      const mentioned = registryNamesIn(readFileSync(join(root, file), "utf8"))
+      expect(mentioned.length).toBeGreaterThan(0)
+      expect(mentioned.filter((n) => !items.has(n))).toEqual([])
+    }
+  )
+
+  test("the skill has the frontmatter the skills CLI needs", () => {
+    const skill = readFileSync(
+      join(root, ".agents/skills/applecn/SKILL.md"),
+      "utf8"
+    )
+    expect(skill).toMatch(/^---\nname: applecn\ndescription: /)
   })
 })

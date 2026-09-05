@@ -42,7 +42,7 @@
 - Produces: `SITE_URL: string`, `REGISTRY_URL: string`, `GITHUB_URL: string` from `apps/web/lib/site.ts`. Task 4's README and skill use the same literal host.
 - Produces: `apps/web/__tests__/repo.test.ts` with a `registryNamesIn(markdown: string): string[]` helper Task 4 extends.
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 Change the style test in `apps/web/__tests__/registry.test.ts` and add an identity test:
 
@@ -106,12 +106,12 @@ describe("repository hygiene", () => {
 })
 ```
 
-- [ ] **Step 2: Run the tests to verify they fail**
+- [x] **Step 2: Run the tests to verify they fail**
 
 Run: `pnpm --filter @apple-ds/web test -- repo registry`
 Expected: FAIL — `@/lib/site` cannot be resolved; `registry.name` is `"apple-ds"`; the stale-name list is long; `mentioned.length` is 0 (the README has no `@applecn/` or `/r/<name>.json` with the placeholder host — `<your-host>` breaks the pattern).
 
-- [ ] **Step 3: Create the site constant**
+- [x] **Step 3: Create the site constant**
 
 `apps/web/lib/site.ts`:
 
@@ -130,7 +130,7 @@ export const REGISTRY_URL = `${SITE_URL}/r`
 export const GITHUB_URL = "https://github.com/STiXzoOR/applecn"
 ```
 
-- [ ] **Step 4: Mechanical rename**
+- [x] **Step 4: Mechanical rename**
 
 ```bash
 cd /Users/stix/Projects/apple-ds
@@ -143,7 +143,7 @@ git grep -l 'apple-ds' -- . ':!docs/superpowers' ':!docs/research' ':!pnpm-lock.
 
 Expected: the last command prints nothing. (`@apple-ds/eslint-config` becomes `@applecn/eslint-config`; Task 2 deletes it.)
 
-- [ ] **Step 5: Titles and hosts**
+- [x] **Step 5: Titles and hosts**
 
 `apps/web/app/layout.tsx` — import `SITE_URL` and change `metadata`:
 
@@ -176,7 +176,7 @@ Add as the first line of `docs/superpowers/specs/2026-09-05-apple-design-system-
 > Renamed to **applecn** on 2026-09-05 (`@applecn/*`); see `docs/superpowers/specs/2026-09-05-applecn-public-release-design.md`. Package names below are historical.
 ```
 
-- [ ] **Step 6: Regenerate the lockfile and the registry**
+- [x] **Step 6: Regenerate the lockfile and the registry**
 
 ```bash
 pnpm install
@@ -186,12 +186,12 @@ git status --short | head -20
 
 Expected: `pnpm-lock.yaml` importer links now say `@applecn/...`; `apps/web/registry.json` has `"name": "applecn"` and the Vercel homepage.
 
-- [ ] **Step 7: Run the tests and the full gate**
+- [x] **Step 7: Run the tests and the full gate**
 
 Run: `pnpm --filter @applecn/web test` then `pnpm check`
 Expected: all green, including the existing `docs.test.ts` and `registry.test.ts` "committed registry.json is the generator output".
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add -A
@@ -220,7 +220,7 @@ Claude-Session: https://claude.ai/code/session_0144XmffgCpsCzS4Mx2UEmhH"
 
 - Produces: root scripts `lint:check`, `lint:fix`, `format`, `format:check`, `check`, `prepare`. Task 3's CI and CONTRIBUTING call `pnpm check`; Task 3's PR template names `pnpm check`.
 
-- [ ] **Step 1: Remove the old toolchain**
+- [x] **Step 1: Remove the old toolchain**
 
 ```bash
 command rm -r packages/eslint-config .eslintrc.js .prettierrc .prettierignore \
@@ -229,7 +229,7 @@ command rm -r packages/eslint-config .eslintrc.js .prettierrc .prettierignore \
 
 In `packages/ui/package.json` and `apps/web/package.json`: delete the `lint` and `format` scripts and the `@applecn/eslint-config` and `eslint` devDependencies. In `turbo.json`: delete the `lint` and `format` tasks. In the root `package.json` delete `@applecn/eslint-config`, `prettier`, `prettier-plugin-tailwindcss`.
 
-- [ ] **Step 2: Root package.json scripts and dependencies**
+- [x] **Step 2: Root package.json scripts and dependencies**
 
 ```json
 "scripts": {
@@ -263,7 +263,7 @@ In `packages/ui/package.json` and `apps/web/package.json`: delete the `lint` and
 
 `pnpm-workspace.yaml` `allowBuilds` gains `oxlint-tsgolint: true` and `lefthook: true`.
 
-- [ ] **Step 3: Write the configs**
+- [x] **Step 3: Write the configs**
 
 `.oxlintrc.json`:
 
@@ -463,7 +463,7 @@ trim_trailing_whitespace = false
 
 `.vscode/extensions.json`: `{ "recommendations": ["oxc.oxc-vscode", "bradlc.vscode-tailwindcss"] }`
 
-- [ ] **Step 4: Install and lint**
+- [x] **Step 4: Install and lint**
 
 ```bash
 pnpm install
@@ -472,7 +472,7 @@ pnpm lint:check
 
 Expected: 0 errors. Warnings are read one by one: fix real ones in code (only-warn used to hide everything), turn off a rule in `.oxlintrc.json` only when it is wrong for this codebase, and say which in the commit body.
 
-- [ ] **Step 5: Format and prove the swap is a no-op**
+- [x] **Step 5: Format and prove the swap is a no-op**
 
 ```bash
 pnpm format
@@ -482,7 +482,7 @@ git diff -U0 -- '*.tsx' | grep -E '^[-+].*className' | head
 
 Expected: a handful of files at most (`vitest.config.mts` quote style, `.mts` files were outside Prettier's glob). The className grep prints nothing: class order is unchanged. If it prints anything, the `stylesheet` path is wrong; fix it rather than accept the reorder.
 
-- [ ] **Step 6: Full gate and hooks**
+- [x] **Step 6: Full gate and hooks**
 
 ```bash
 pnpm check
@@ -491,7 +491,7 @@ pnpm exec lefthook install
 
 Expected: green. `.git/hooks/pre-commit` and `commit-msg` now exist.
 
-- [ ] **Step 7: Commit (this exercises both hooks)**
+- [x] **Step 7: Commit (this exercises both hooks)**
 
 ```bash
 git add -A
@@ -520,7 +520,7 @@ Claude-Session: https://claude.ai/code/session_0144XmffgCpsCzS4Mx2UEmhH"
 - Consumes: `pnpm check` from Task 2.
 - Produces: the section anchors `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md` that Task 4's README links.
 
-- [ ] **Step 1: License and manifest fields**
+- [x] **Step 1: License and manifest fields**
 
 `LICENSE`: the MIT text with `Copyright (c) 2026 Neoptolemos Kyriakou` (standard wording as in shadcn-labs/pdfcn's LICENSE).
 
@@ -532,7 +532,7 @@ Every `package.json`: `"license": "MIT"`; `packages/typescript-config/package.js
 "bugs": "https://github.com/STiXzoOR/applecn/issues"
 ```
 
-- [ ] **Step 2: CONTRIBUTING.md**
+- [x] **Step 2: CONTRIBUTING.md**
 
 ````md
 # Contributing to applecn
@@ -618,7 +618,7 @@ By participating you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ````
 
-- [ ] **Step 3: CODE_OF_CONDUCT.md and SECURITY.md**
+- [x] **Step 3: CODE_OF_CONDUCT.md and SECURITY.md**
 
 `CODE_OF_CONDUCT.md`: Contributor Covenant 2.1, fetched verbatim:
 
@@ -652,7 +652,7 @@ Out of scope: the Apple web properties the token values were measured from, and 
 automated scanners with no demonstrated impact.
 ```
 
-- [ ] **Step 4: .github**
+- [x] **Step 4: .github**
 
 `.github/CODEOWNERS`: `* @STiXzoOR`
 
@@ -844,7 +844,7 @@ jobs:
       - run: pnpm check
 ```
 
-- [ ] **Step 5: Verify**
+- [x] **Step 5: Verify**
 
 ```bash
 pnpm format:check
@@ -854,7 +854,7 @@ pnpm check
 
 Expected: every YAML parses; the gate is green (only Markdown, YAML and JSON fields changed).
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add -A
@@ -883,7 +883,7 @@ Claude-Session: https://claude.ai/code/session_0144XmffgCpsCzS4Mx2UEmhH"
 
 - Consumes: `registryNamesIn` from Task 1; `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md` from Task 3.
 
-- [ ] **Step 1: Extend the failing test**
+- [x] **Step 1: Extend the failing test**
 
 In `apps/web/__tests__/repo.test.ts` replace the README test with one over both documents:
 
@@ -907,12 +907,12 @@ test("the skill has the frontmatter the skills CLI needs", () => {
 })
 ```
 
-- [ ] **Step 2: Run to verify it fails**
+- [x] **Step 2: Run to verify it fails**
 
 Run: `pnpm --filter @applecn/web test -- repo`
 Expected: FAIL with ENOENT for `.agents/skills/applecn/SKILL.md`.
 
-- [ ] **Step 3: Generate the component list and write the skill**
+- [x] **Step 3: Generate the component list and write the skill**
 
 ```bash
 node -e '
@@ -1000,12 +1000,12 @@ Without the namespace, the URL form works: `npx shadcn@latest add https://applec
 
 ````
 
-- [ ] **Step 4: Run the tests**
+- [x] **Step 4: Run the tests**
 
 Run: `pnpm --filter @applecn/web test -- repo`
 Expected: PASS. If a generated line names an item that does not exist, the generator output is wrong, not the test.
 
-- [ ] **Step 5: README**
+- [x] **Step 5: README**
 
 Replace the top of `README.md` (everything above "## How it is built") with:
 
@@ -1089,11 +1089,11 @@ Apple devices, and Hugeicons stands in for SF Symbols.
 [MIT](LICENSE)
 ````
 
-- [ ] **Step 6: Notes outside the repo**
+- [x] **Step 6: Notes outside the repo**
 
 `git mv`-style rename in the vault: `~/Vault/Projects/apple-ds.md` → `~/Vault/Projects/applecn.md`, content updated to the new name, the toolchain and the release follow-ups; update `~/Vault/Projects/index.md`. Rewrite `~/.claude/projects/-Users-stix-Projects-apple-ds/memory/apple-ds-project.md` to the current state and update the pointer line in `MEMORY.md`.
 
-- [ ] **Step 7: Full gate and commit**
+- [x] **Step 7: Full gate and commit**
 
 ```bash
 pnpm check
