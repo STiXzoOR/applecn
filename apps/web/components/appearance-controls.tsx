@@ -9,6 +9,7 @@ import {
   Menu,
   MenuCheckboxItem,
   MenuContent,
+  MenuGroup,
   MenuLabel,
   MenuRadioGroup,
   MenuRadioItem,
@@ -56,26 +57,29 @@ export function AppearanceMenu() {
         <Icon icon={PaintBoardIcon} />
       </MenuTrigger>
       <MenuContent align="end">
-        <MenuLabel>Appearance</MenuLabel>
+        {/* Base UI group labels must sit inside a group or radio group. */}
         <MenuRadioGroup
           value={theme ?? "system"}
           onValueChange={(v) => setTheme(String(v))}
         >
+          <MenuLabel>Appearance</MenuLabel>
           <MenuRadioItem value="light">Light</MenuRadioItem>
           <MenuRadioItem value="dark">Dark</MenuRadioItem>
           <MenuRadioItem value="system">Automatic</MenuRadioItem>
         </MenuRadioGroup>
         <MenuSeparator />
-        <MenuLabel>Accessibility</MenuLabel>
-        <MenuCheckboxItem checked={contrast} onCheckedChange={setContrast}>
-          Increase Contrast
-        </MenuCheckboxItem>
-        <MenuCheckboxItem
-          checked={transparency}
-          onCheckedChange={setTransparency}
-        >
-          Reduce Transparency
-        </MenuCheckboxItem>
+        <MenuGroup>
+          <MenuLabel>Accessibility</MenuLabel>
+          <MenuCheckboxItem checked={contrast} onCheckedChange={setContrast}>
+            Increase Contrast
+          </MenuCheckboxItem>
+          <MenuCheckboxItem
+            checked={transparency}
+            onCheckedChange={setTransparency}
+          >
+            Reduce Transparency
+          </MenuCheckboxItem>
+        </MenuGroup>
       </MenuContent>
     </Menu>
   )
