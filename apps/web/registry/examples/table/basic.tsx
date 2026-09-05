@@ -1,10 +1,17 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@apple-ds/ui/components/table'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@apple-ds/ui/components/table"
 
 const files = [
-  ['Notes.txt', 'Today, 09:12', '2 KB'],
-  ['Photo.jpg', 'Yesterday', '1.4 MB'],
-  ['Budget.numbers', 'Aug 30', '312 KB'],
-  ['Deck.key', 'Aug 28', '24 MB'],
+  ["Notes.txt", "Today, 09:12", "2 KB"],
+  ["Photo.jpg", "Yesterday", "1.4 MB"],
+  ["Budget.numbers", "Aug 30", "312 KB"],
+  ["Deck.key", "Aug 28", "24 MB"],
 ]
 
 export default function TableBasic() {

@@ -1,8 +1,18 @@
-'use client'
+"use client"
 
-import { Delete02Icon, Folder01Icon, Note01Icon, StarIcon } from '@hugeicons/core-free-icons'
+import {
+  Delete02Icon,
+  Folder01Icon,
+  Note01Icon,
+  StarIcon,
+} from "@hugeicons/core-free-icons"
 
-import { Sidebar, SidebarGroup, SidebarHeader, SidebarItem } from '@apple-ds/ui/components/sidebar'
+import {
+  Sidebar,
+  SidebarGroup,
+  SidebarHeader,
+  SidebarItem,
+} from "@apple-ds/ui/components/sidebar"
 
 export default function SidebarBasic() {
   return (

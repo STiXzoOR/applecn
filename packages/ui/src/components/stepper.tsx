@@ -1,10 +1,10 @@
-'use client'
+"use client"
 
-import { NumberField as NumberFieldPrimitive } from '@base-ui/react/number-field'
-import { MinusSignIcon, PlusSignIcon } from '@hugeicons/core-free-icons'
-import { cn } from 'cn'
+import { NumberField as NumberFieldPrimitive } from "@base-ui/react/number-field"
+import { MinusSignIcon, PlusSignIcon } from "@hugeicons/core-free-icons"
+import { cn } from "cn"
 
-import { Icon } from './icon'
+import { Icon } from "./icon"
 
 /**
  * The stepper (HIG › Steppers): the 94×32 pt two-segment control. It shows no value itself —
@@ -12,11 +12,11 @@ import { Icon } from './icon'
  * tree for the keyboard and assistive technology, visually hidden.
  */
 type StepperProps = NumberFieldPrimitive.Root.Props & {
-  'aria-label': string
+  "aria-label": string
   className?: string
 }
 
-function Stepper({ className, 'aria-label': label, ...props }: StepperProps) {
+function Stepper({ className, "aria-label": label, ...props }: StepperProps) {
   return (
     <NumberFieldPrimitive.Root data-slot="stepper-root" {...props}>
       <NumberFieldPrimitive.Group
@@ -24,8 +24,8 @@ function Stepper({ className, 'aria-label': label, ...props }: StepperProps) {
         aria-label={label}
         data-slot="stepper"
         className={cn(
-          'inline-flex h-(--stepper-height) w-(--stepper-width) shrink-0 items-stretch overflow-hidden rounded-lg bg-fill-3',
-          className,
+          "inline-flex h-(--stepper-height) w-(--stepper-width) shrink-0 items-stretch overflow-hidden rounded-lg bg-fill-3",
+          className
         )}
       >
         <NumberFieldPrimitive.Decrement
@@ -35,8 +35,16 @@ function Stepper({ className, 'aria-label': label, ...props }: StepperProps) {
         >
           <Icon icon={MinusSignIcon} weight="bold" />
         </NumberFieldPrimitive.Decrement>
-        <span data-slot="stepper-divider" aria-hidden="true" className="my-1.5 w-[0.5px] bg-separator" />
-        <NumberFieldPrimitive.Input aria-label={label} data-slot="stepper-input" className="sr-only" />
+        <span
+          data-slot="stepper-divider"
+          aria-hidden="true"
+          className="my-1.5 w-[0.5px] bg-separator"
+        />
+        <NumberFieldPrimitive.Input
+          aria-label={label}
+          data-slot="stepper-input"
+          className="sr-only"
+        />
         <NumberFieldPrimitive.Increment
           aria-label="Increment"
           data-slot="stepper-increment"

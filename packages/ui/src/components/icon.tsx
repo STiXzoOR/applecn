@@ -1,7 +1,7 @@
-import { HugeiconsIcon } from '@hugeicons/react'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from 'cn'
-import type { ComponentProps } from 'react'
+import { HugeiconsIcon } from "@hugeicons/react"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "cn"
+import type { ComponentProps } from "react"
 
 /**
  * The one way an icon enters the system. Hugeicons stands in for SF Symbols with the same
@@ -10,16 +10,16 @@ import type { ComponentProps } from 'react'
  * the text weight through the stroke width. Decorative by default; pass `aria-label` to make
  * it an image with a name.
  */
-const iconVariants = cva('pointer-events-none shrink-0', {
+const iconVariants = cva("pointer-events-none shrink-0", {
   variants: {
     scale: {
-      small: 'size-[0.85em]',
-      medium: 'size-[1.2em]',
-      large: 'size-[1.5em]',
+      small: "size-[0.85em]",
+      medium: "size-[1.2em]",
+      large: "size-[1.5em]",
     },
   },
   defaultVariants: {
-    scale: 'medium',
+    scale: "medium",
   },
 })
 
@@ -31,13 +31,24 @@ const strokeWidths = {
 
 type IconWeight = keyof typeof strokeWidths
 
-type IconProps = Omit<ComponentProps<typeof HugeiconsIcon>, 'strokeWidth' | 'size'> &
+type IconProps = Omit<
+  ComponentProps<typeof HugeiconsIcon>,
+  "strokeWidth" | "size"
+> &
   VariantProps<typeof iconVariants> & {
     weight?: IconWeight
   }
 
-function Icon({ className, scale = 'medium', weight = 'regular', 'aria-label': label, ...props }: IconProps) {
-  const a11y = label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': true }
+function Icon({
+  className,
+  scale = "medium",
+  weight = "regular",
+  "aria-label": label,
+  ...props
+}: IconProps) {
+  const a11y = label
+    ? { role: "img", "aria-label": label }
+    : { "aria-hidden": true }
   return (
     <HugeiconsIcon
       data-slot="icon"

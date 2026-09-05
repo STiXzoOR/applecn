@@ -1,4 +1,4 @@
-import { Badge } from '@apple-ds/ui/components/badge'
+import { Badge } from "@apple-ds/ui/components/badge"
 
 export default function BadgeBasic() {
   return (

@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import {
   AlertDialog,
@@ -9,16 +9,20 @@ import {
   AlertDialogDescription,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@apple-ds/ui/components/alert-dialog'
-import { Button } from '@apple-ds/ui/components/button'
+} from "@apple-ds/ui/components/alert-dialog"
+import { Button } from "@apple-ds/ui/components/button"
 
 export default function AlertDialogBasic() {
   return (
     <AlertDialog>
-      <AlertDialogTrigger render={<Button variant="destructive" />}>Delete Note</AlertDialogTrigger>
+      <AlertDialogTrigger render={<Button variant="destructive" />}>
+        Delete Note
+      </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogTitle>Delete Note?</AlertDialogTitle>
-        <AlertDialogDescription>This note will be moved to Recently Deleted.</AlertDialogDescription>
+        <AlertDialogDescription>
+          This note will be moved to Recently Deleted.
+        </AlertDialogDescription>
         <AlertDialogActions>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction variant="destructive" preferred>

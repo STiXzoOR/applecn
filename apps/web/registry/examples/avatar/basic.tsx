@@ -1,4 +1,8 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@apple-ds/ui/components/avatar'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@apple-ds/ui/components/avatar"
 
 export default function AvatarBasic() {
   return (

@@ -1,7 +1,7 @@
-'use client'
+"use client"
 
-import { Tabs as TabsPrimitive } from '@base-ui/react/tabs'
-import { cn } from 'cn'
+import { Tabs as TabsPrimitive } from "@base-ui/react/tabs"
+import { cn } from "cn"
 
 /**
  * The segmented control (HIG › Segmented controls): a 32 pt capsule on the tertiary fill with a
@@ -9,19 +9,23 @@ import { cn } from 'cn'
  * so the same list drives `Tabs` panels; on its own it is a single-choice picker.
  */
 type SegmentedControlProps = TabsPrimitive.Root.Props & {
-  'aria-label'?: string
-  'aria-labelledby'?: string
+  "aria-label"?: string
+  "aria-labelledby"?: string
 }
 
 function SegmentedControl({
   className,
   children,
-  'aria-label': label,
-  'aria-labelledby': labelledBy,
+  "aria-label": label,
+  "aria-labelledby": labelledBy,
   ...props
 }: SegmentedControlProps) {
   return (
-    <TabsPrimitive.Root data-slot="segmented-control-root" className={cn('inline-flex', className)} {...props}>
+    <TabsPrimitive.Root
+      data-slot="segmented-control-root"
+      className={cn("inline-flex", className)}
+      {...props}
+    >
       <SegmentedControlList aria-label={label} aria-labelledby={labelledBy}>
         {children}
       </SegmentedControlList>
@@ -29,14 +33,18 @@ function SegmentedControl({
   )
 }
 
-function SegmentedControlList({ className, children, ...props }: TabsPrimitive.List.Props) {
+function SegmentedControlList({
+  className,
+  children,
+  ...props
+}: TabsPrimitive.List.Props) {
   return (
     <TabsPrimitive.List
       data-slot="segmented-control"
       activateOnFocus
       className={cn(
-        'relative inline-flex h-(--segmented-height) w-full items-stretch rounded-full bg-fill-3 p-(--segmented-inset)',
-        className,
+        "relative inline-flex h-(--segmented-height) w-full items-stretch rounded-full bg-fill-3 p-(--segmented-inset)",
+        className
       )}
       {...props}
     >
@@ -49,13 +57,16 @@ function SegmentedControlList({ className, children, ...props }: TabsPrimitive.L
   )
 }
 
-function SegmentedControlItem({ className, ...props }: TabsPrimitive.Tab.Props) {
+function SegmentedControlItem({
+  className,
+  ...props
+}: TabsPrimitive.Tab.Props) {
   return (
     <TabsPrimitive.Tab
       data-slot="segmented-control-item"
       className={cn(
-        'type-footnote relative z-10 flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 font-medium whitespace-nowrap text-label outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-40 data-active:font-semibold [&_svg]:pointer-events-none [&_svg]:shrink-0',
-        className,
+        "relative z-10 flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 type-footnote font-medium whitespace-nowrap text-label outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-40 data-active:font-semibold [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        className
       )}
       {...props}
     />

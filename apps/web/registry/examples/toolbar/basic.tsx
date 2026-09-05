@@ -1,8 +1,18 @@
-'use client'
+"use client"
 
-import { ArrowLeft01Icon, Bookmark01Icon, Share01Icon, Tick02Icon } from '@hugeicons/core-free-icons'
+import {
+  ArrowLeft01Icon,
+  Bookmark01Icon,
+  Share01Icon,
+  Tick02Icon,
+} from "@hugeicons/core-free-icons"
 
-import { Toolbar, ToolbarButton, ToolbarGroup, ToolbarSpacer } from '@apple-ds/ui/components/toolbar'
+import {
+  Toolbar,
+  ToolbarButton,
+  ToolbarGroup,
+  ToolbarSpacer,
+} from "@apple-ds/ui/components/toolbar"
 
 export default function ToolbarBasic() {
   return (

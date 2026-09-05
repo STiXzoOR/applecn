@@ -1,4 +1,4 @@
-import { Button } from '@apple-ds/ui/components/button'
+import { Button } from "@apple-ds/ui/components/button"
 
 export default function ButtonStyles() {
   return (

@@ -1,11 +1,11 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
+import { useState } from "react"
 
-import { PageControl } from '@apple-ds/ui/components/page-control'
-import { Text } from '@apple-ds/ui/components/text'
+import { PageControl } from "@apple-ds/ui/components/page-control"
+import { Text } from "@apple-ds/ui/components/text"
 
-const pages = ['Cupertino', 'London', 'Tokyo', 'Sydney']
+const pages = ["Cupertino", "London", "Tokyo", "Sydney"]
 
 export default function PageControlBasic() {
   const [index, setIndex] = useState(0)
@@ -14,7 +14,13 @@ export default function PageControlBasic() {
       <Text variant="title-1" emphasized color="inherit">
         {pages[index]}
       </Text>
-      <PageControl aria-label="Cities" count={pages.length} index={index} onIndexChange={setIndex} background="prominent" />
+      <PageControl
+        aria-label="Cities"
+        count={pages.length}
+        index={index}
+        onIndexChange={setIndex}
+        background="prominent"
+      />
     </div>
   )
 }

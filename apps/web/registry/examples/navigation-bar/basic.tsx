@@ -1,11 +1,14 @@
-'use client'
+"use client"
 
-import { MoreHorizontalCircle01Icon } from '@hugeicons/core-free-icons'
+import { MoreHorizontalCircle01Icon } from "@hugeicons/core-free-icons"
 
-import { Button } from '@apple-ds/ui/components/button'
-import { Icon } from '@apple-ds/ui/components/icon'
-import { List, ListRow, ListSection } from '@apple-ds/ui/components/list'
-import { NavigationBar, NavigationBarBackButton } from '@apple-ds/ui/components/navigation-bar'
+import { Button } from "@apple-ds/ui/components/button"
+import { Icon } from "@apple-ds/ui/components/icon"
+import { List, ListRow, ListSection } from "@apple-ds/ui/components/list"
+import {
+  NavigationBar,
+  NavigationBarBackButton,
+} from "@apple-ds/ui/components/navigation-bar"
 
 export default function NavigationBarBasic() {
   return (
@@ -22,8 +25,22 @@ export default function NavigationBarBasic() {
       >
         <List aria-label="Settings">
           <ListSection header="General">
-            {['About', 'Software Update', 'AirDrop', 'AirPlay & Continuity', 'Picture in Picture', 'CarPlay', 'Accessibility', 'Keyboard'].map((t) => (
-              <ListRow key={t} title={t} accessory="disclosure" onClick={() => {}} />
+            {[
+              "About",
+              "Software Update",
+              "AirDrop",
+              "AirPlay & Continuity",
+              "Picture in Picture",
+              "CarPlay",
+              "Accessibility",
+              "Keyboard",
+            ].map((t) => (
+              <ListRow
+                key={t}
+                title={t}
+                accessory="disclosure"
+                onClick={() => {}}
+              />
             ))}
           </ListSection>
         </List>

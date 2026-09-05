@@ -1,6 +1,6 @@
-'use client'
+"use client"
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react"
 
 interface ScrollCollapseOptions {
   /** How far under the top edge the sentinel must pass before the bar collapses, in px. */
@@ -17,14 +17,16 @@ function useScrollCollapse({ offset = 44 }: ScrollCollapseOptions = {}) {
   const [collapsed, setCollapsed] = useState(false)
 
   useEffect(() => {
-    if (!node || typeof IntersectionObserver === 'undefined') return
+    if (!node || typeof IntersectionObserver === "undefined") return
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          setCollapsed(!entry.isIntersecting && entry.boundingClientRect.top < 0)
+          setCollapsed(
+            !entry.isIntersecting && entry.boundingClientRect.top < 0
+          )
         }
       },
-      { rootMargin: `-${offset}px 0px 0px 0px`, threshold: 0 },
+      { rootMargin: `-${offset}px 0px 0px 0px`, threshold: 0 }
     )
     observer.observe(node)
     return () => observer.disconnect()

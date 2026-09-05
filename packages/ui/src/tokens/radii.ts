@@ -12,14 +12,14 @@ export const radii = {
     md: 8,
     lg: 10,
     xl: 14,
-    '2xl': 18,
-    '3xl': 22,
-    '4xl': 26,
+    "2xl": 18,
+    "3xl": 22,
+    "4xl": 26,
   },
   /** iOS 26 sheets follow the display corner; 40px is the web stand-in. */
   sheet: 40,
   /** App icon mask, as a ratio of the icon's side. */
-  icon: '22.37%',
+  icon: "22.37%",
   /** Capsules and circles. */
   capsule: 9999,
 } as const

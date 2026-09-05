@@ -1,7 +1,7 @@
-import { Add01Icon, Share01Icon } from '@hugeicons/core-free-icons'
+import { Add01Icon, Share01Icon } from "@hugeicons/core-free-icons"
 
-import { Button } from '@apple-ds/ui/components/button'
-import { Icon } from '@apple-ds/ui/components/icon'
+import { Button } from "@apple-ds/ui/components/button"
+import { Icon } from "@apple-ds/ui/components/icon"
 
 export default function ButtonShapes() {
   return (

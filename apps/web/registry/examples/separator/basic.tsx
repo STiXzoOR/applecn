@@ -1,5 +1,5 @@
-import { Separator } from '@apple-ds/ui/components/separator'
-import { Text } from '@apple-ds/ui/components/text'
+import { Separator } from "@apple-ds/ui/components/separator"
+import { Text } from "@apple-ds/ui/components/text"
 
 export default function SeparatorBasic() {
   return (

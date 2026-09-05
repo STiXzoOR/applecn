@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { describe, expect, test } from 'vitest'
+import { render, screen } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
+import { describe, expect, test } from "vitest"
 
 import {
   Dialog,
@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../src/components/dialog'
+} from "../src/components/dialog"
 
 function Rename() {
   return (
@@ -31,28 +31,30 @@ function Rename() {
   )
 }
 
-describe('Dialog', () => {
-  test('is a rounded card with a title and description wired to it', async () => {
+describe("Dialog", () => {
+  test("is a rounded card with a title and description wired to it", async () => {
     render(<Rename />)
-    await userEvent.click(screen.getByRole('button', { name: 'Rename' }))
-    const dialog = await screen.findByRole('dialog', { name: 'Rename Folder' })
-    expect(dialog).toHaveAttribute('data-slot', 'dialog-content')
-    expect(dialog).toHaveAccessibleDescription('Enter a new name.')
-    expect(dialog.className).toContain('rounded-4xl')
-    expect(dialog.className).toContain('bg-popover')
-    expect(dialog.className).toContain('shadow-window')
-    expect(dialog.querySelector('[data-slot="dialog-footer"]')).toContainElement(screen.getByRole('button', { name: 'Save' }))
+    await userEvent.click(screen.getByRole("button", { name: "Rename" }))
+    const dialog = await screen.findByRole("dialog", { name: "Rename Folder" })
+    expect(dialog).toHaveAttribute("data-slot", "dialog-content")
+    expect(dialog).toHaveAccessibleDescription("Enter a new name.")
+    expect(dialog.className).toContain("rounded-4xl")
+    expect(dialog.className).toContain("bg-popover")
+    expect(dialog.className).toContain("shadow-window")
+    expect(
+      dialog.querySelector('[data-slot="dialog-footer"]')
+    ).toContainElement(screen.getByRole("button", { name: "Save" }))
   })
 
-  test('Cancel and Escape dismiss it', async () => {
+  test("Cancel and Escape dismiss it", async () => {
     render(<Rename />)
-    await userEvent.click(screen.getByRole('button', { name: 'Rename' }))
-    await screen.findByRole('dialog')
-    await userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
-    expect(screen.queryByRole('dialog')).toBeNull()
-    await userEvent.click(screen.getByRole('button', { name: 'Rename' }))
-    await screen.findByRole('dialog')
-    await userEvent.keyboard('{Escape}')
-    expect(screen.queryByRole('dialog')).toBeNull()
+    await userEvent.click(screen.getByRole("button", { name: "Rename" }))
+    await screen.findByRole("dialog")
+    await userEvent.click(screen.getByRole("button", { name: "Cancel" }))
+    expect(screen.queryByRole("dialog")).toBeNull()
+    await userEvent.click(screen.getByRole("button", { name: "Rename" }))
+    await screen.findByRole("dialog")
+    await userEvent.keyboard("{Escape}")
+    expect(screen.queryByRole("dialog")).toBeNull()
   })
 })

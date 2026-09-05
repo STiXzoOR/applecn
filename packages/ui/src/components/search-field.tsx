@@ -1,17 +1,20 @@
-'use client'
+"use client"
 
-import { Cancel01Icon, Search01Icon } from '@hugeicons/core-free-icons'
-import { cn } from 'cn'
-import { useRef, useState, type ComponentProps } from 'react'
+import { Cancel01Icon, Search01Icon } from "@hugeicons/core-free-icons"
+import { cn } from "cn"
+import { useRef, useState, type ComponentProps } from "react"
 
-import { Icon } from './icon'
+import { Icon } from "./icon"
 
 /**
  * The search field (HIG › Search fields): a 36 pt capsule on the tertiary fill with the
  * magnifier, a "Search" placeholder, the clear button once there is text, and the Cancel
  * button while editing. Escape clears; Cancel clears and ends editing.
  */
-type SearchFieldProps = Omit<ComponentProps<'input'>, 'type' | 'value' | 'defaultValue' | 'onChange'> & {
+type SearchFieldProps = Omit<
+  ComponentProps<"input">,
+  "type" | "value" | "defaultValue" | "onChange"
+> & {
   value?: string
   defaultValue?: string
   onValueChange?: (value: string) => void
@@ -23,11 +26,11 @@ type SearchFieldProps = Omit<ComponentProps<'input'>, 'type' | 'value' | 'defaul
 function SearchField({
   className,
   value,
-  defaultValue = '',
+  defaultValue = "",
   onValueChange,
-  placeholder = 'Search',
+  placeholder = "Search",
   showsCancelButton = true,
-  cancelLabel = 'Cancel',
+  cancelLabel = "Cancel",
   onFocus,
   onBlur,
   onKeyDown,
@@ -37,7 +40,7 @@ function SearchField({
   const [internal, setInternal] = useState(defaultValue)
   const [focused, setFocused] = useState(false)
   const current = value ?? internal
-  const editing = focused || current !== ''
+  const editing = focused || current !== ""
 
   const update = (next: string) => {
     setInternal(next)
@@ -45,12 +48,19 @@ function SearchField({
   }
 
   return (
-    <div data-slot="search-field-root" className={cn('flex w-full items-center gap-2', className)}>
+    <div
+      data-slot="search-field-root"
+      className={cn("flex w-full items-center gap-2", className)}
+    >
       <span
         data-slot="search-field"
-        className="type-body flex h-(--search-field-height) flex-1 items-center gap-1.5 rounded-full bg-fill-3 px-2 text-label transition-[box-shadow] duration-(--duration-hover) focus-within:ring-3 focus-within:ring-ring/50"
+        className="flex h-(--search-field-height) flex-1 items-center gap-1.5 rounded-full bg-fill-3 px-2 type-body text-label transition-[box-shadow] duration-(--duration-hover) focus-within:ring-3 focus-within:ring-ring/50"
       >
-        <Icon icon={Search01Icon} data-slot="search-field-icon" className="text-label-2" />
+        <Icon
+          icon={Search01Icon}
+          data-slot="search-field-icon"
+          className="text-label-2"
+        />
         <input
           ref={inputRef}
           type="search"
@@ -68,12 +78,12 @@ function SearchField({
             onBlur?.(event)
           }}
           onKeyDown={(event) => {
-            if (event.key === 'Escape') update('')
+            if (event.key === "Escape") update("")
             onKeyDown?.(event)
           }}
           {...props}
         />
-        {current !== '' ? (
+        {current !== "" ? (
           <button
             type="button"
             tabIndex={-1}
@@ -81,7 +91,7 @@ function SearchField({
             data-slot="search-field-clear"
             className="flex size-5 shrink-0 items-center justify-center rounded-full bg-gray-3 text-white outline-none"
             onMouseDown={(event) => event.preventDefault()}
-            onClick={() => update('')}
+            onClick={() => update("")}
           >
             <Icon icon={Cancel01Icon} weight="bold" className="size-2.5" />
           </button>
@@ -91,10 +101,10 @@ function SearchField({
         <button
           type="button"
           data-slot="search-field-cancel"
-          className="type-body shrink-0 px-1 text-primary outline-none focus-visible:ring-3 focus-visible:ring-ring/50 active:opacity-60"
+          className="shrink-0 px-1 type-body text-primary outline-none focus-visible:ring-3 focus-visible:ring-ring/50 active:opacity-60"
           onMouseDown={(event) => event.preventDefault()}
           onClick={() => {
-            update('')
+            update("")
             setFocused(false)
             inputRef.current?.blur()
           }}

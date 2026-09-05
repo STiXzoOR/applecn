@@ -48,7 +48,7 @@ apple-ds/                      pnpm workspace + Turborepo (scaffolded by `shadcn
 
 ### 5.1 Idioms and the platform switch
 
-iOS/iPadOS 26 is the default idiom: it is the most completely specified platform (Dynamic Type tables, colour tables, control sizes). macOS 26 is available as `<PlatformProvider platform="macos">`, which sets `data-platform="macos"` on a wrapper; the stylesheet re-maps the type scale and control metrics under that attribute. Components read the platform from context only where the *structure* differs (checkbox circle vs square, action sheet vs popover); everything else is CSS.
+iOS/iPadOS 26 is the default idiom: it is the most completely specified platform (Dynamic Type tables, colour tables, control sizes). macOS 26 is available as `<PlatformProvider platform="macos">`, which sets `data-platform="macos"` on a wrapper; the stylesheet re-maps the type scale and control metrics under that attribute. Components read the platform from context only where the _structure_ differs (checkbox circle vs square, action sheet vs popover); everything else is CSS.
 
 ### 5.2 Type
 
@@ -77,79 +77,79 @@ Utilities `material-ultra-thin|thin|regular|thick` (content layer) and `glass`, 
 
 ### 5.7 Geometry (iOS default → macOS)
 
-| Control | iOS 26 | macOS 26 |
-|---|---|---|
-| Button height mini/small/regular/large/xl | 28/32/44/52/64 | 16/20/24/28/34 (approx.) |
-| Button shape | capsule; circle icon-only | rounded 6 (Tahoe capsule for large) |
-| Switch | 51×31, thumb 27, green | 38×22, thumb 20 (approx.) |
-| Checkbox | 22 circle (list) | 14 square r 3.5 |
-| Radio | 22 circle | 14 circle |
-| Slider | track 4, thumb 28 | track 4, knob 20 |
-| Stepper | 94×32 r 8 | — |
-| Segmented control | h 32, capsule, inset 2 | h 22 r 6 |
-| Text field | row 44 / standalone 36 r 10 | h 22 r 6 |
-| Search field | h 36 capsule | h 22 r 6 |
-| Inset grouped list | inset 16 (20 ≥ 414), r 26, row ≥ 44, pad 11×16 | sidebar rows 28 r 6 |
-| Nav bar | 44, large title +52 | title bar 28, toolbar 52 |
-| Tab bar | floating capsule 64, inset 21, label 11 | — |
-| Sheet | r 40, grabber 36×5, scrim .4, detents 50/100 % | dialog r 26 |
-| Alert | w 270 r 26, buttons 44, thick material | w 260 |
-| Action sheet | rows 56, r 26, cancel 8 below | popover |
-| Menu | w 250, item 44, r 26, leading glyphs | item 22 r 12 |
-| Popover | r 26, arrow 13×6.5 | r 12 |
-| Progress bar | h 4 r 2 | h 4 |
-| Activity indicator | 20 / 37 | 16 / 32 |
-| Badge | h 18, min-w 18, red | — |
-| Page control | dots 7, gap 9 | — |
-| Hit target | 44 min 28 | 28 min 20 |
+| Control                                   | iOS 26                                         | macOS 26                            |
+| ----------------------------------------- | ---------------------------------------------- | ----------------------------------- |
+| Button height mini/small/regular/large/xl | 28/32/44/52/64                                 | 16/20/24/28/34 (approx.)            |
+| Button shape                              | capsule; circle icon-only                      | rounded 6 (Tahoe capsule for large) |
+| Switch                                    | 51×31, thumb 27, green                         | 38×22, thumb 20 (approx.)           |
+| Checkbox                                  | 22 circle (list)                               | 14 square r 3.5                     |
+| Radio                                     | 22 circle                                      | 14 circle                           |
+| Slider                                    | track 4, thumb 28                              | track 4, knob 20                    |
+| Stepper                                   | 94×32 r 8                                      | —                                   |
+| Segmented control                         | h 32, capsule, inset 2                         | h 22 r 6                            |
+| Text field                                | row 44 / standalone 36 r 10                    | h 22 r 6                            |
+| Search field                              | h 36 capsule                                   | h 22 r 6                            |
+| Inset grouped list                        | inset 16 (20 ≥ 414), r 26, row ≥ 44, pad 11×16 | sidebar rows 28 r 6                 |
+| Nav bar                                   | 44, large title +52                            | title bar 28, toolbar 52            |
+| Tab bar                                   | floating capsule 64, inset 21, label 11        | —                                   |
+| Sheet                                     | r 40, grabber 36×5, scrim .4, detents 50/100 % | dialog r 26                         |
+| Alert                                     | w 270 r 26, buttons 44, thick material         | w 260                               |
+| Action sheet                              | rows 56, r 26, cancel 8 below                  | popover                             |
+| Menu                                      | w 250, item 44, r 26, leading glyphs           | item 22 r 12                        |
+| Popover                                   | r 26, arrow 13×6.5                             | r 12                                |
+| Progress bar                              | h 4 r 2                                        | h 4                                 |
+| Activity indicator                        | 20 / 37                                        | 16 / 32                             |
+| Badge                                     | h 18, min-w 18, red                            | —                                   |
+| Page control                              | dots 7, gap 9                                  | —                                   |
+| Hit target                                | 44 min 28                                      | 28 min 20                           |
 
 ### 5.8 Component inventory
 
 Every row is one file in `packages/ui/src/components/`, one test file, one docs entry with live examples.
 
-| Component | Base UI / basis | Apple counterpart |
-|---|---|---|
-| text | element | Labels / text styles |
-| icon | Hugeicons wrapper | SF Symbols (scales small/medium/large, weights) |
-| material, glass | element | Materials, Liquid Glass |
-| separator | Separator | Separators (0.5 px) |
-| button | Button | Buttons (filled, tinted, gray, bordered, plain, glass, glass-prominent, destructive; sizes; shapes) |
-| toggle | Toggle | Toggle buttons |
-| badge | element | Badges, capsule tags |
-| spinner | element | Activity indicator |
-| progress | Progress | Progress bars, circular progress |
-| switch | Switch | Toggle (switch) |
-| checkbox | Checkbox | Checkbox / list checkmark |
-| radio-group | RadioGroup | Radio buttons |
-| slider | Slider | Sliders |
-| stepper | NumberField | Steppers |
-| segmented-control | Tabs list | Segmented controls |
-| tabs | Tabs | Tab views |
-| input, textarea, field, label | Input, Field | Text fields, text views |
-| search-field | Input | Search fields |
-| select | Select | Pickers (menu), pop-up buttons |
-| menu | Menu | Menus, pull-down buttons |
-| context-menu | ContextMenu | Context menus |
-| popover | Popover | Popovers |
-| tooltip | Tooltip | Tooltips |
-| alert-dialog | AlertDialog | Alerts |
-| action-sheet | Drawer / Popover | Action sheets |
-| sheet | Drawer / Dialog | Sheets (detents, grabber) |
-| dialog | Dialog | macOS sheets, iPad form sheets |
-| list | composition | Lists (plain, grouped, inset grouped, sidebar) |
-| card | element | Group boxes |
-| table | element | macOS tables |
-| disclosure-group | Collapsible | Disclosure controls |
-| page-control | element | Page controls |
-| navigation-bar | composition + hook | Navigation bars (large title collapse) |
-| tab-bar | composition | Floating tab bar (minimise, search) |
-| toolbar | Toolbar | Toolbars |
-| sidebar | composition | Sidebars |
-| split-view | composition | Split views |
-| empty | element | ContentUnavailableView |
-| skeleton | element | Redacted placeholders |
-| avatar | Avatar | Contact monograms |
-| kbd | element | Keyboard shortcuts in menus |
+| Component                     | Base UI / basis    | Apple counterpart                                                                                   |
+| ----------------------------- | ------------------ | --------------------------------------------------------------------------------------------------- |
+| text                          | element            | Labels / text styles                                                                                |
+| icon                          | Hugeicons wrapper  | SF Symbols (scales small/medium/large, weights)                                                     |
+| material, glass               | element            | Materials, Liquid Glass                                                                             |
+| separator                     | Separator          | Separators (0.5 px)                                                                                 |
+| button                        | Button             | Buttons (filled, tinted, gray, bordered, plain, glass, glass-prominent, destructive; sizes; shapes) |
+| toggle                        | Toggle             | Toggle buttons                                                                                      |
+| badge                         | element            | Badges, capsule tags                                                                                |
+| spinner                       | element            | Activity indicator                                                                                  |
+| progress                      | Progress           | Progress bars, circular progress                                                                    |
+| switch                        | Switch             | Toggle (switch)                                                                                     |
+| checkbox                      | Checkbox           | Checkbox / list checkmark                                                                           |
+| radio-group                   | RadioGroup         | Radio buttons                                                                                       |
+| slider                        | Slider             | Sliders                                                                                             |
+| stepper                       | NumberField        | Steppers                                                                                            |
+| segmented-control             | Tabs list          | Segmented controls                                                                                  |
+| tabs                          | Tabs               | Tab views                                                                                           |
+| input, textarea, field, label | Input, Field       | Text fields, text views                                                                             |
+| search-field                  | Input              | Search fields                                                                                       |
+| select                        | Select             | Pickers (menu), pop-up buttons                                                                      |
+| menu                          | Menu               | Menus, pull-down buttons                                                                            |
+| context-menu                  | ContextMenu        | Context menus                                                                                       |
+| popover                       | Popover            | Popovers                                                                                            |
+| tooltip                       | Tooltip            | Tooltips                                                                                            |
+| alert-dialog                  | AlertDialog        | Alerts                                                                                              |
+| action-sheet                  | Drawer / Popover   | Action sheets                                                                                       |
+| sheet                         | Drawer / Dialog    | Sheets (detents, grabber)                                                                           |
+| dialog                        | Dialog             | macOS sheets, iPad form sheets                                                                      |
+| list                          | composition        | Lists (plain, grouped, inset grouped, sidebar)                                                      |
+| card                          | element            | Group boxes                                                                                         |
+| table                         | element            | macOS tables                                                                                        |
+| disclosure-group              | Collapsible        | Disclosure controls                                                                                 |
+| page-control                  | element            | Page controls                                                                                       |
+| navigation-bar                | composition + hook | Navigation bars (large title collapse)                                                              |
+| tab-bar                       | composition        | Floating tab bar (minimise, search)                                                                 |
+| toolbar                       | Toolbar            | Toolbars                                                                                            |
+| sidebar                       | composition        | Sidebars                                                                                            |
+| split-view                    | composition        | Split views                                                                                         |
+| empty                         | element            | ContentUnavailableView                                                                              |
+| skeleton                      | element            | Redacted placeholders                                                                               |
+| avatar                        | Avatar             | Contact monograms                                                                                   |
+| kbd                           | element            | Keyboard shortcuts in menus                                                                         |
 
 ### 5.9 Testing and gates
 

@@ -1,7 +1,7 @@
-'use client'
+"use client"
 
-import { Checkbox } from '@apple-ds/ui/components/checkbox'
-import { Label } from '@apple-ds/ui/components/label'
+import { Checkbox } from "@apple-ds/ui/components/checkbox"
+import { Label } from "@apple-ds/ui/components/label"
 
 export default function CheckboxBasic() {
   return (

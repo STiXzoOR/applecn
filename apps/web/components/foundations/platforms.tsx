@@ -1,14 +1,14 @@
-import { Button } from '@apple-ds/ui/components/button'
-import { Checkbox } from '@apple-ds/ui/components/checkbox'
-import { Input } from '@apple-ds/ui/components/input'
-import { Label } from '@apple-ds/ui/components/label'
-import { Switch } from '@apple-ds/ui/components/switch'
-import { Text } from '@apple-ds/ui/components/text'
-import { PlatformProvider } from '@apple-ds/ui/lib/platform'
+import { Button } from "@apple-ds/ui/components/button"
+import { Checkbox } from "@apple-ds/ui/components/checkbox"
+import { Input } from "@apple-ds/ui/components/input"
+import { Label } from "@apple-ds/ui/components/label"
+import { Switch } from "@apple-ds/ui/components/switch"
+import { Text } from "@apple-ds/ui/components/text"
+import { PlatformProvider } from "@apple-ds/ui/lib/platform"
 
-import { PlatformSwitch } from '@/components/appearance-controls'
-import { PageHeader } from '@/components/doc/page-header'
-import { Section } from '@/components/doc/section'
+import { PlatformSwitch } from "@/components/appearance-controls"
+import { PageHeader } from "@/components/doc/page-header"
+import { Section } from "@/components/doc/section"
 
 function Sample() {
   return (
@@ -25,7 +25,12 @@ function Sample() {
           <Checkbox defaultChecked /> Remember
         </Label>
       </div>
-      <Input aria-label="Name" placeholder="Name" variant="bordered" className="max-w-xs" />
+      <Input
+        aria-label="Name"
+        placeholder="Name"
+        variant="bordered"
+        className="max-w-xs"
+      />
     </div>
   )
 }
@@ -39,7 +44,10 @@ export function PlatformsPage() {
       >
         <PlatformSwitch className="w-48" />
       </PageHeader>
-      <Section title="Side by side" description="The same components under each platform.">
+      <Section
+        title="Side by side"
+        description="The same components under each platform."
+      >
         <div className="grid gap-4 md:grid-cols-2">
           <div className="flex flex-col gap-2">
             <Text variant="headline">iOS</Text>
@@ -55,8 +63,14 @@ export function PlatformsPage() {
           </div>
         </div>
       </Section>
-      <Section title="What changes" description="Type sizes (17 → 13 body), control heights (44 → 24 regular), the checkbox shape, list row height (44 → 28), and the sheet, alert, menu and dialog geometry. Colours do not change.">
-        <Text color="label-2">Everything is CSS: the platform is stamped on the document root so portaled overlays inherit it too.</Text>
+      <Section
+        title="What changes"
+        description="Type sizes (17 → 13 body), control heights (44 → 24 regular), the checkbox shape, list row height (44 → 28), and the sheet, alert, menu and dialog geometry. Colours do not change."
+      >
+        <Text color="label-2">
+          Everything is CSS: the platform is stamped on the document root so
+          portaled overlays inherit it too.
+        </Text>
       </Section>
     </>
   )

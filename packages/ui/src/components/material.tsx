@@ -1,29 +1,34 @@
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from 'cn'
-import type { ComponentProps } from 'react'
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "cn"
+import type { ComponentProps } from "react"
 
 /**
  * A content-layer material: a translucent surface that blurs what is behind it. Thicker
  * materials give text more contrast; thinner ones keep the background present. For bars,
  * sheets and menus use `Glass` instead.
  */
-const materialVariants = cva('', {
+const materialVariants = cva("", {
   variants: {
     thickness: {
-      'ultra-thin': 'material-ultra-thin',
-      thin: 'material-thin',
-      regular: 'material-regular',
-      thick: 'material-thick',
+      "ultra-thin": "material-ultra-thin",
+      thin: "material-thin",
+      regular: "material-regular",
+      thick: "material-thick",
     },
   },
   defaultVariants: {
-    thickness: 'regular',
+    thickness: "regular",
   },
 })
 
-type MaterialProps = ComponentProps<'div'> & VariantProps<typeof materialVariants>
+type MaterialProps = ComponentProps<"div"> &
+  VariantProps<typeof materialVariants>
 
-function Material({ className, thickness = 'regular', ...props }: MaterialProps) {
+function Material({
+  className,
+  thickness = "regular",
+  ...props
+}: MaterialProps) {
   return (
     <div
       data-slot="material"

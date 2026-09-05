@@ -1,5 +1,5 @@
-import { Kbd } from '@apple-ds/ui/components/kbd'
-import { Text } from '@apple-ds/ui/components/text'
+import { Kbd } from "@apple-ds/ui/components/kbd"
+import { Text } from "@apple-ds/ui/components/text"
 
 export default function KbdBasic() {
   return (

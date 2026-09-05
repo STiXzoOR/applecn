@@ -1,8 +1,16 @@
-import type { ReactNode } from 'react'
+import type { ReactNode } from "react"
 
-import { Text } from '@apple-ds/ui/components/text'
+import { Text } from "@apple-ds/ui/components/text"
 
-export function PageHeader({ title, description, children }: { title: string; description: string; children?: ReactNode }) {
+export function PageHeader({
+  title,
+  description,
+  children,
+}: {
+  title: string
+  description: string
+  children?: ReactNode
+}) {
   return (
     <header data-slot="page-header" className="flex flex-col gap-3 pb-8">
       <Text as="h1" variant="large-title" emphasized>

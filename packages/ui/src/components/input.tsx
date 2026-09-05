@@ -1,12 +1,12 @@
-'use client'
+"use client"
 
-import { Input as InputPrimitive } from '@base-ui/react/input'
-import { Cancel01Icon } from '@hugeicons/core-free-icons'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from 'cn'
-import { useState } from 'react'
+import { Input as InputPrimitive } from "@base-ui/react/input"
+import { Cancel01Icon } from "@hugeicons/core-free-icons"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "cn"
+import { useState } from "react"
 
-import { Icon } from './icon'
+import { Icon } from "./icon"
 
 /**
  * The text field (HIG › Text fields). `rounded` is the iOS standalone field on the tertiary
@@ -14,19 +14,20 @@ import { Icon } from './icon'
  * adds the iOS clear button at the trailing end once there is text.
  */
 const inputVariants = cva(
-  'type-body w-full min-w-0 text-label transition-[box-shadow,background-color] duration-(--duration-hover) outline-none placeholder:text-placeholder focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-40 aria-invalid:ring-3 aria-invalid:ring-destructive/30 file:type-subheadline file:me-2 file:border-0 file:bg-transparent file:font-medium',
+  "w-full min-w-0 type-body text-label transition-[box-shadow,background-color] duration-(--duration-hover) outline-none file:me-2 file:border-0 file:bg-transparent file:type-subheadline file:font-medium placeholder:text-placeholder focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-40 aria-invalid:ring-3 aria-invalid:ring-destructive/30",
   {
     variants: {
       variant: {
-        rounded: 'h-(--text-field-height) rounded-lg bg-fill-3 px-3',
-        plain: 'h-(--text-field-height) bg-transparent px-0',
-        bordered: 'h-(--text-field-height) rounded-md border border-input bg-background px-2 shadow-control',
+        rounded: "h-(--text-field-height) rounded-lg bg-fill-3 px-3",
+        plain: "h-(--text-field-height) bg-transparent px-0",
+        bordered:
+          "h-(--text-field-height) rounded-md border border-input bg-background px-2 shadow-control",
       },
     },
     defaultVariants: {
-      variant: 'rounded',
+      variant: "rounded",
     },
-  },
+  }
 )
 
 type InputProps = InputPrimitive.Props &
@@ -39,7 +40,7 @@ type InputProps = InputPrimitive.Props &
 
 function Input({
   className,
-  variant = 'rounded',
+  variant = "rounded",
   clearable = false,
   onClear,
   value,
@@ -47,7 +48,7 @@ function Input({
   onValueChange,
   ...props
 }: InputProps) {
-  const [internal, setInternal] = useState<string>(String(defaultValue ?? ''))
+  const [internal, setInternal] = useState<string>(String(defaultValue ?? ""))
   const current = value !== undefined ? String(value) : internal
 
   if (!clearable) {
@@ -65,11 +66,14 @@ function Input({
   }
 
   return (
-    <span data-slot="input-clearable" className="relative inline-flex w-full items-center">
+    <span
+      data-slot="input-clearable"
+      className="relative inline-flex w-full items-center"
+    >
       <InputPrimitive
         data-slot="input"
         data-variant={variant}
-        className={cn(inputVariants({ variant }), 'pe-9', className)}
+        className={cn(inputVariants({ variant }), "pe-9", className)}
         value={current}
         onValueChange={(next, details) => {
           setInternal(next)
@@ -77,7 +81,7 @@ function Input({
         }}
         {...props}
       />
-      {current !== '' ? (
+      {current !== "" ? (
         <button
           type="button"
           tabIndex={-1}
@@ -86,7 +90,7 @@ function Input({
           className="absolute inset-y-0 end-2 my-auto flex size-5 items-center justify-center rounded-full bg-gray-3 text-white outline-none"
           onMouseDown={(event) => event.preventDefault()}
           onClick={() => {
-            setInternal('')
+            setInternal("")
             onClear?.()
           }}
         >

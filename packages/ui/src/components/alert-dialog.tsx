@@ -1,9 +1,9 @@
-'use client'
+"use client"
 
-import { AlertDialog as AlertDialogPrimitive } from '@base-ui/react/alert-dialog'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from 'cn'
-import { Children, type ComponentProps } from 'react'
+import { AlertDialog as AlertDialogPrimitive } from "@base-ui/react/alert-dialog"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "cn"
+import { Children, type ComponentProps } from "react"
 
 /**
  * Alerts (HIG › Alerts): a 270 pt card on thick material with a title, an optional message,
@@ -16,22 +16,28 @@ function AlertDialog(props: AlertDialogPrimitive.Root.Props) {
 }
 
 function AlertDialogTrigger(props: AlertDialogPrimitive.Trigger.Props) {
-  return <AlertDialogPrimitive.Trigger data-slot="alert-dialog-trigger" {...props} />
+  return (
+    <AlertDialogPrimitive.Trigger data-slot="alert-dialog-trigger" {...props} />
+  )
 }
 
-function AlertDialogContent({ className, children, ...props }: AlertDialogPrimitive.Popup.Props) {
+function AlertDialogContent({
+  className,
+  children,
+  ...props
+}: AlertDialogPrimitive.Popup.Props) {
   return (
     <AlertDialogPrimitive.Portal>
       <AlertDialogPrimitive.Backdrop
         data-slot="alert-dialog-backdrop"
-        className="fixed inset-0 z-50 bg-black/20 duration-(--duration-overlay) data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 motion-reduce:animate-none"
+        className="fixed inset-0 z-50 bg-black/20 duration-(--duration-overlay) motion-reduce:animate-none data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0"
       />
       <AlertDialogPrimitive.Popup
         data-slot="alert-dialog-content"
         data-elevated=""
         className={cn(
-          'material-thick fixed top-1/2 left-1/2 z-50 flex w-(--alert-width) max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-4xl text-start text-label shadow-window outline-none duration-(--duration-overlay) ease-(--ease-standard) data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 motion-reduce:animate-none',
-          className,
+          "fixed top-1/2 left-1/2 z-50 flex w-(--alert-width) max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-4xl material-thick text-start text-label shadow-window duration-(--duration-overlay) ease-(--ease-standard) outline-none motion-reduce:animate-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+          className
         )}
         {...props}
       >
@@ -41,43 +47,66 @@ function AlertDialogContent({ className, children, ...props }: AlertDialogPrimit
   )
 }
 
-function AlertDialogTitle({ className, ...props }: AlertDialogPrimitive.Title.Props) {
-  return <AlertDialogPrimitive.Title data-slot="alert-dialog-title" className={cn('type-headline px-4 pt-5 pb-4 text-label', className)} {...props} />
+function AlertDialogTitle({
+  className,
+  ...props
+}: AlertDialogPrimitive.Title.Props) {
+  return (
+    <AlertDialogPrimitive.Title
+      data-slot="alert-dialog-title"
+      className={cn("px-4 pt-5 pb-4 type-headline text-label", className)}
+      {...props}
+    />
+  )
 }
 
-function AlertDialogDescription({ className, ...props }: AlertDialogPrimitive.Description.Props) {
+function AlertDialogDescription({
+  className,
+  ...props
+}: AlertDialogPrimitive.Description.Props) {
   return (
     <AlertDialogPrimitive.Description
       data-slot="alert-dialog-description"
-      className={cn('type-footnote -mt-3 px-4 pb-4 text-label-2', className)}
+      className={cn("-mt-3 px-4 pb-4 type-footnote text-label-2", className)}
       {...props}
     />
   )
 }
 
 /** A text field row inside the alert (password prompts). */
-function AlertDialogField({ className, ...props }: ComponentProps<'div'>) {
-  return <div data-slot="alert-dialog-field" className={cn('-mt-1 px-4 pb-4', className)} {...props} />
+function AlertDialogField({ className, ...props }: ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="alert-dialog-field"
+      className={cn("-mt-1 px-4 pb-4", className)}
+      {...props}
+    />
+  )
 }
 
-type AlertDialogActionsProps = ComponentProps<'div'> & {
+type AlertDialogActionsProps = ComponentProps<"div"> & {
   /** Force a layout; by default two actions sit side by side and three or more stack. */
-  layout?: 'horizontal' | 'stacked'
+  layout?: "horizontal" | "stacked"
 }
 
-function AlertDialogActions({ className, layout, children, ...props }: AlertDialogActionsProps) {
+function AlertDialogActions({
+  className,
+  layout,
+  children,
+  ...props
+}: AlertDialogActionsProps) {
   const count = Children.toArray(children).filter(Boolean).length
-  const resolved = layout ?? (count <= 2 ? 'horizontal' : 'stacked')
+  const resolved = layout ?? (count <= 2 ? "horizontal" : "stacked")
   return (
     <div
       data-slot="alert-dialog-actions"
       data-layout={resolved}
       className={cn(
-        'border-t-[0.5px] border-separator',
-        resolved === 'horizontal'
-          ? 'grid grid-cols-2 [&>*+*]:border-s-[0.5px] [&>*+*]:border-separator'
-          : 'flex flex-col [&>*+*]:border-t-[0.5px] [&>*+*]:border-separator',
-        className,
+        "border-t-[0.5px] border-separator",
+        resolved === "horizontal"
+          ? "grid grid-cols-2 [&>*+*]:border-s-[0.5px] [&>*+*]:border-separator"
+          : "flex flex-col [&>*+*]:border-t-[0.5px] [&>*+*]:border-separator",
+        className
       )}
       {...props}
     >
@@ -87,43 +116,59 @@ function AlertDialogActions({ className, layout, children, ...props }: AlertDial
 }
 
 const alertDialogActionVariants = cva(
-  'type-body flex h-(--alert-button-height) min-w-0 items-center justify-center truncate px-3 outline-none select-none focus-visible:bg-fill-4 active:bg-fill-3 disabled:opacity-40',
+  "flex h-(--alert-button-height) min-w-0 items-center justify-center truncate px-3 type-body outline-none select-none focus-visible:bg-fill-4 active:bg-fill-3 disabled:opacity-40",
   {
     variants: {
       variant: {
-        default: 'text-primary',
-        destructive: 'text-destructive',
+        default: "text-primary",
+        destructive: "text-destructive",
       },
       preferred: {
-        true: 'font-semibold',
-        false: '',
+        true: "font-semibold",
+        false: "",
       },
     },
     defaultVariants: {
-      variant: 'default',
+      variant: "default",
       preferred: false,
     },
-  },
+  }
 )
 
-type AlertDialogActionProps = AlertDialogPrimitive.Close.Props & VariantProps<typeof alertDialogActionVariants>
+type AlertDialogActionProps = AlertDialogPrimitive.Close.Props &
+  VariantProps<typeof alertDialogActionVariants>
 
-function AlertDialogAction({ className, variant = 'default', preferred = false, ...props }: AlertDialogActionProps) {
+function AlertDialogAction({
+  className,
+  variant = "default",
+  preferred = false,
+  ...props
+}: AlertDialogActionProps) {
   return (
     <AlertDialogPrimitive.Close
       data-slot="alert-dialog-action"
       data-variant={variant}
-      className={cn(alertDialogActionVariants({ variant, preferred }), className)}
+      className={cn(
+        alertDialogActionVariants({ variant, preferred }),
+        className
+      )}
       {...props}
     />
   )
 }
 
-function AlertDialogCancel({ className, preferred = false, ...props }: Omit<AlertDialogActionProps, 'variant'>) {
+function AlertDialogCancel({
+  className,
+  preferred = false,
+  ...props
+}: Omit<AlertDialogActionProps, "variant">) {
   return (
     <AlertDialogPrimitive.Close
       data-slot="alert-dialog-cancel"
-      className={cn(alertDialogActionVariants({ variant: 'default', preferred }), className)}
+      className={cn(
+        alertDialogActionVariants({ variant: "default", preferred }),
+        className
+      )}
       {...props}
     />
   )

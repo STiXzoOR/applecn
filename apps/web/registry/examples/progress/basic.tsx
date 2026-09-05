@@ -1,8 +1,13 @@
-'use client'
+"use client"
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react"
 
-import { Progress, ProgressCircular, ProgressLabel, ProgressValue } from '@apple-ds/ui/components/progress'
+import {
+  Progress,
+  ProgressCircular,
+  ProgressLabel,
+  ProgressValue,
+} from "@apple-ds/ui/components/progress"
 
 export default function ProgressBasic() {
   const [value, setValue] = useState(20)

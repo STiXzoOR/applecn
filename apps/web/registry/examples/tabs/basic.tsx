@@ -1,7 +1,12 @@
-'use client'
+"use client"
 
-import { Tabs, TabsList, TabsPanel, TabsTab } from '@apple-ds/ui/components/tabs'
-import { Text } from '@apple-ds/ui/components/text'
+import {
+  Tabs,
+  TabsList,
+  TabsPanel,
+  TabsTab,
+} from "@apple-ds/ui/components/tabs"
+import { Text } from "@apple-ds/ui/components/text"
 
 export default function TabsBasic() {
   return (

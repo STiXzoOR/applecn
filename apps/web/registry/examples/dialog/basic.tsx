@@ -1,6 +1,6 @@
-'use client'
+"use client"
 
-import { Button } from '@apple-ds/ui/components/button'
+import { Button } from "@apple-ds/ui/components/button"
 import {
   Dialog,
   DialogClose,
@@ -10,8 +10,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@apple-ds/ui/components/dialog'
-import { Input } from '@apple-ds/ui/components/input'
+} from "@apple-ds/ui/components/dialog"
+import { Input } from "@apple-ds/ui/components/input"
 
 export default function DialogBasic() {
   return (
@@ -20,12 +20,16 @@ export default function DialogBasic() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Rename Folder</DialogTitle>
-          <DialogDescription>Enter a new name for “Projects”.</DialogDescription>
+          <DialogDescription>
+            Enter a new name for “Projects”.
+          </DialogDescription>
         </DialogHeader>
         <Input aria-label="Name" defaultValue="Projects" variant="bordered" />
         <DialogFooter>
           <DialogClose render={<Button size="small" />}>Rename</DialogClose>
-          <DialogClose render={<Button size="small" variant="gray" />}>Cancel</DialogClose>
+          <DialogClose render={<Button size="small" variant="gray" />}>
+            Cancel
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

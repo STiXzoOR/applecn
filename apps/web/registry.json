@@ -354,8 +354,8 @@
         },
         "@utility material-ultra-thin": {
           "background-color": "var(--material-ultra-thin-bg)",
-          "-webkit-backdrop-filter": "blur(var(--material-ultra-thin-blur)) saturate(var(--material-ultra-thin-saturate))",
-          "backdrop-filter": "blur(var(--material-ultra-thin-blur)) saturate(var(--material-ultra-thin-saturate))",
+          "-webkit-backdrop-filter": "blur(var(--material-ultra-thin-blur))\n    saturate(var(--material-ultra-thin-saturate))",
+          "backdrop-filter": "blur(var(--material-ultra-thin-blur))\n    saturate(var(--material-ultra-thin-saturate))",
           "@media (prefers-reduced-transparency: reduce)": {
             "background-color": "var(--background-3)",
             "backdrop-filter": "none"
@@ -367,8 +367,8 @@
         },
         "@utility material-thin": {
           "background-color": "var(--material-thin-bg)",
-          "-webkit-backdrop-filter": "blur(var(--material-thin-blur)) saturate(var(--material-thin-saturate))",
-          "backdrop-filter": "blur(var(--material-thin-blur)) saturate(var(--material-thin-saturate))",
+          "-webkit-backdrop-filter": "blur(var(--material-thin-blur))\n    saturate(var(--material-thin-saturate))",
+          "backdrop-filter": "blur(var(--material-thin-blur))\n    saturate(var(--material-thin-saturate))",
           "@media (prefers-reduced-transparency: reduce)": {
             "background-color": "var(--background-3)",
             "backdrop-filter": "none"
@@ -380,8 +380,8 @@
         },
         "@utility material-regular": {
           "background-color": "var(--material-regular-bg)",
-          "-webkit-backdrop-filter": "blur(var(--material-regular-blur)) saturate(var(--material-regular-saturate))",
-          "backdrop-filter": "blur(var(--material-regular-blur)) saturate(var(--material-regular-saturate))",
+          "-webkit-backdrop-filter": "blur(var(--material-regular-blur))\n    saturate(var(--material-regular-saturate))",
+          "backdrop-filter": "blur(var(--material-regular-blur))\n    saturate(var(--material-regular-saturate))",
           "@media (prefers-reduced-transparency: reduce)": {
             "background-color": "var(--background-3)",
             "backdrop-filter": "none"
@@ -393,8 +393,8 @@
         },
         "@utility material-thick": {
           "background-color": "var(--material-thick-bg)",
-          "-webkit-backdrop-filter": "blur(var(--material-thick-blur)) saturate(var(--material-thick-saturate))",
-          "backdrop-filter": "blur(var(--material-thick-blur)) saturate(var(--material-thick-saturate))",
+          "-webkit-backdrop-filter": "blur(var(--material-thick-blur))\n    saturate(var(--material-thick-saturate))",
+          "backdrop-filter": "blur(var(--material-thick-blur))\n    saturate(var(--material-thick-saturate))",
           "@media (prefers-reduced-transparency: reduce)": {
             "background-color": "var(--background-3)",
             "backdrop-filter": "none"
@@ -406,8 +406,8 @@
         },
         "@utility glass": {
           "background-color": "var(--material-glass-bg)",
-          "-webkit-backdrop-filter": "blur(var(--material-glass-blur)) saturate(var(--material-glass-saturate))",
-          "backdrop-filter": "blur(var(--material-glass-blur)) saturate(var(--material-glass-saturate))",
+          "-webkit-backdrop-filter": "blur(var(--material-glass-blur))\n    saturate(var(--material-glass-saturate))",
+          "backdrop-filter": "blur(var(--material-glass-blur))\n    saturate(var(--material-glass-saturate))",
           "box-shadow": "var(--elevation-glass)",
           "@media (prefers-reduced-transparency: reduce)": {
             "background-color": "var(--background-3)",
@@ -422,8 +422,8 @@
         },
         "@utility glass-clear": {
           "background-color": "var(--material-glass-clear-bg)",
-          "-webkit-backdrop-filter": "blur(var(--material-glass-clear-blur)) saturate(var(--material-glass-clear-saturate))",
-          "backdrop-filter": "blur(var(--material-glass-clear-blur)) saturate(var(--material-glass-clear-saturate))",
+          "-webkit-backdrop-filter": "blur(var(--material-glass-clear-blur))\n    saturate(var(--material-glass-clear-saturate))",
+          "backdrop-filter": "blur(var(--material-glass-clear-blur))\n    saturate(var(--material-glass-clear-saturate))",
           "box-shadow": "var(--elevation-glass)",
           "@media (prefers-reduced-transparency: reduce)": {
             "background-color": "var(--background-3)",
@@ -439,8 +439,8 @@
         "@utility glass-prominent": {
           "background-color": "color-mix(in srgb, var(--primary) 85%, transparent)",
           "color": "var(--primary-foreground)",
-          "-webkit-backdrop-filter": "blur(var(--material-glass-blur)) saturate(var(--material-glass-saturate))",
-          "backdrop-filter": "blur(var(--material-glass-blur)) saturate(var(--material-glass-saturate))",
+          "-webkit-backdrop-filter": "blur(var(--material-glass-blur))\n    saturate(var(--material-glass-saturate))",
+          "backdrop-filter": "blur(var(--material-glass-blur))\n    saturate(var(--material-glass-saturate))",
           "box-shadow": "var(--elevation-glass)",
           "@media (prefers-reduced-transparency: reduce)": {
             "background-color": "var(--primary)",
@@ -1296,6 +1296,9 @@
       "type": "registry:lib",
       "title": "cn",
       "description": "Class merging.",
+      "dependencies": [
+        "cn"
+      ],
       "files": [
         {
           "path": "../../packages/ui/src/lib/utils.ts",

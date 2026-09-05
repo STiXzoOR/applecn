@@ -1,8 +1,8 @@
-import { Home01Icon } from '@hugeicons/core-free-icons'
+import { Home01Icon } from "@hugeicons/core-free-icons"
 
-import { Glass } from '@apple-ds/ui/components/glass'
-import { Icon } from '@apple-ds/ui/components/icon'
-import { Text } from '@apple-ds/ui/components/text'
+import { Glass } from "@apple-ds/ui/components/glass"
+import { Icon } from "@apple-ds/ui/components/icon"
+import { Text } from "@apple-ds/ui/components/text"
 
 export default function GlassBasic() {
   return (
@@ -22,7 +22,11 @@ export default function GlassBasic() {
           Prominent
         </Text>
       </Glass>
-      <Glass shape="circle" interactive className="flex size-11 items-center justify-center">
+      <Glass
+        shape="circle"
+        interactive
+        className="flex size-11 items-center justify-center"
+      >
         <Icon icon={Home01Icon} aria-label="Home" />
       </Glass>
     </div>

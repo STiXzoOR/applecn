@@ -1,9 +1,13 @@
-'use client'
+"use client"
 
-import { FilterIcon, TextBoldIcon, TextItalicIcon } from '@hugeicons/core-free-icons'
+import {
+  FilterIcon,
+  TextBoldIcon,
+  TextItalicIcon,
+} from "@hugeicons/core-free-icons"
 
-import { Icon } from '@apple-ds/ui/components/icon'
-import { Toggle } from '@apple-ds/ui/components/toggle'
+import { Icon } from "@apple-ds/ui/components/icon"
+import { Toggle } from "@apple-ds/ui/components/toggle"
 
 export default function ToggleBasic() {
   return (

@@ -1,28 +1,34 @@
-import { render, screen } from '@testing-library/react'
-import { expect, test } from 'vitest'
+import { render, screen } from "@testing-library/react"
+import { expect, test } from "vitest"
 
-import { PlatformProvider, usePlatform } from '../src/lib/platform'
+import { PlatformProvider, usePlatform } from "../src/lib/platform"
 
 function Probe() {
   const platform = usePlatform()
   return <span data-testid="probe">{platform}</span>
 }
 
-test('the platform defaults to ios', () => {
+test("the platform defaults to ios", () => {
   render(<Probe />)
-  expect(screen.getByTestId('probe')).toHaveTextContent('ios')
+  expect(screen.getByTestId("probe")).toHaveTextContent("ios")
 })
 
-test('the provider exposes macos and stamps data-platform on its wrapper', () => {
+test("the provider exposes macos and stamps data-platform on its wrapper", () => {
   render(
     <PlatformProvider platform="macos">
       <Probe />
-    </PlatformProvider>,
+    </PlatformProvider>
   )
-  const probe = screen.getByTestId('probe')
-  expect(probe).toHaveTextContent('macos')
-  expect(probe.closest('[data-platform]')).toHaveAttribute('data-platform', 'macos')
-  expect(probe.closest('[data-platform]')).toHaveAttribute('data-slot', 'platform')
+  const probe = screen.getByTestId("probe")
+  expect(probe).toHaveTextContent("macos")
+  expect(probe.closest("[data-platform]")).toHaveAttribute(
+    "data-platform",
+    "macos"
+  )
+  expect(probe.closest("[data-platform]")).toHaveAttribute(
+    "data-slot",
+    "platform"
+  )
 })
 
 test('the ios provider stamps data-platform="ios" so nested providers can switch back', () => {
@@ -31,9 +37,12 @@ test('the ios provider stamps data-platform="ios" so nested providers can switch
       <PlatformProvider platform="ios">
         <Probe />
       </PlatformProvider>
-    </PlatformProvider>,
+    </PlatformProvider>
   )
-  const probe = screen.getByTestId('probe')
-  expect(probe).toHaveTextContent('ios')
-  expect(probe.closest('[data-platform]')).toHaveAttribute('data-platform', 'ios')
+  const probe = screen.getByTestId("probe")
+  expect(probe).toHaveTextContent("ios")
+  expect(probe.closest("[data-platform]")).toHaveAttribute(
+    "data-platform",
+    "ios"
+  )
 })

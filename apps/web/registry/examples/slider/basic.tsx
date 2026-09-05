@@ -1,9 +1,9 @@
-'use client'
+"use client"
 
-import { Sun01Icon, Sun03Icon } from '@hugeicons/core-free-icons'
+import { Sun01Icon, Sun03Icon } from "@hugeicons/core-free-icons"
 
-import { Icon } from '@apple-ds/ui/components/icon'
-import { Slider } from '@apple-ds/ui/components/slider'
+import { Icon } from "@apple-ds/ui/components/icon"
+import { Slider } from "@apple-ds/ui/components/slider"
 
 export default function SliderBasic() {
   return (

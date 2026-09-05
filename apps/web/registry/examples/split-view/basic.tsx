@@ -1,13 +1,30 @@
-import { Mail01Icon } from '@hugeicons/core-free-icons'
+import { Mail01Icon } from "@hugeicons/core-free-icons"
 
-import { Empty, EmptyDescription, EmptyIcon, EmptyTitle } from '@apple-ds/ui/components/empty'
-import { List, ListRow, ListSection } from '@apple-ds/ui/components/list'
-import { Sidebar, SidebarGroup, SidebarItem } from '@apple-ds/ui/components/sidebar'
-import { SplitView, SplitViewContent, SplitViewDetail, SplitViewSidebar } from '@apple-ds/ui/components/split-view'
+import {
+  Empty,
+  EmptyDescription,
+  EmptyIcon,
+  EmptyTitle,
+} from "@apple-ds/ui/components/empty"
+import { List, ListRow, ListSection } from "@apple-ds/ui/components/list"
+import {
+  Sidebar,
+  SidebarGroup,
+  SidebarItem,
+} from "@apple-ds/ui/components/sidebar"
+import {
+  SplitView,
+  SplitViewContent,
+  SplitViewDetail,
+  SplitViewSidebar,
+} from "@apple-ds/ui/components/split-view"
 
 export default function SplitViewBasic() {
   return (
-    <SplitView columns={3} className="h-80 overflow-hidden rounded-4xl bg-background">
+    <SplitView
+      columns={3}
+      className="h-80 overflow-hidden rounded-4xl bg-background"
+    >
       <SplitViewSidebar>
         <Sidebar aria-label="Mailboxes" className="w-full">
           <SidebarGroup label="Mailboxes">

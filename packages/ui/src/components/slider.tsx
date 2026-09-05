@@ -1,8 +1,8 @@
-'use client'
+"use client"
 
-import { Slider as SliderPrimitive } from '@base-ui/react/slider'
-import { cn } from 'cn'
-import type { ReactNode } from 'react'
+import { Slider as SliderPrimitive } from "@base-ui/react/slider"
+import { cn } from "cn"
+import type { ReactNode } from "react"
 
 /**
  * The slider (HIG › Sliders): a 4 pt track that fills from the minimum to a 28 pt white thumb
@@ -13,7 +13,7 @@ type SliderProps = SliderPrimitive.Root.Props & {
   minimumValueLabel?: ReactNode
   /** Image or glyph at the maximum end (trailing). */
   maximumValueLabel?: ReactNode
-  'aria-label'?: string
+  "aria-label"?: string
 }
 
 function Slider({
@@ -24,15 +24,22 @@ function Slider({
   max = 100,
   minimumValueLabel,
   maximumValueLabel,
-  'aria-label': label,
+  "aria-label": label,
   ...props
 }: SliderProps) {
-  const values = Array.isArray(value) ? value : Array.isArray(defaultValue) ? defaultValue : [value ?? defaultValue ?? min]
+  const values = Array.isArray(value)
+    ? value
+    : Array.isArray(defaultValue)
+      ? defaultValue
+      : [value ?? defaultValue ?? min]
 
   return (
     <SliderPrimitive.Root
       data-slot="slider"
-      className={cn('flex items-center gap-3 data-horizontal:w-full data-vertical:h-full', className)}
+      className={cn(
+        "flex items-center gap-3 data-horizontal:w-full data-vertical:h-full",
+        className
+      )}
       defaultValue={defaultValue}
       value={value}
       min={min}
@@ -41,7 +48,11 @@ function Slider({
       {...props}
     >
       {minimumValueLabel ? (
-        <span data-slot="slider-minimum-label" aria-hidden="true" className="flex shrink-0 items-center text-label-2">
+        <span
+          data-slot="slider-minimum-label"
+          aria-hidden="true"
+          className="flex shrink-0 items-center text-label-2"
+        >
           {minimumValueLabel}
         </span>
       ) : null}
@@ -65,7 +76,11 @@ function Slider({
         ))}
       </SliderPrimitive.Control>
       {maximumValueLabel ? (
-        <span data-slot="slider-maximum-label" aria-hidden="true" className="flex shrink-0 items-center text-label-2">
+        <span
+          data-slot="slider-maximum-label"
+          aria-hidden="true"
+          className="flex shrink-0 items-center text-label-2"
+        >
           {maximumValueLabel}
         </span>
       ) : null}

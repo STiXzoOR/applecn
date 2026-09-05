@@ -1,8 +1,12 @@
-'use client'
+"use client"
 
-import { Copy01Icon, Delete02Icon, Share01Icon } from '@hugeicons/core-free-icons'
+import {
+  Copy01Icon,
+  Delete02Icon,
+  Share01Icon,
+} from "@hugeicons/core-free-icons"
 
-import { Button } from '@apple-ds/ui/components/button'
+import { Button } from "@apple-ds/ui/components/button"
 import {
   Menu,
   MenuCheckboxItem,
@@ -14,7 +18,7 @@ import {
   MenuSubContent,
   MenuSubTrigger,
   MenuTrigger,
-} from '@apple-ds/ui/components/menu'
+} from "@apple-ds/ui/components/menu"
 
 export default function MenuBasic() {
   return (

@@ -1,49 +1,82 @@
-'use client'
+"use client"
 
-import { Collapsible as CollapsiblePrimitive } from '@base-ui/react/collapsible'
-import { ArrowDown01Icon } from '@hugeicons/core-free-icons'
-import type { IconSvgElement } from '@hugeicons/react'
-import { cn } from 'cn'
-import type { ComponentProps, ReactNode } from 'react'
+import { Collapsible as CollapsiblePrimitive } from "@base-ui/react/collapsible"
+import { ArrowDown01Icon } from "@hugeicons/core-free-icons"
+import type { IconSvgElement } from "@hugeicons/react"
+import { cn } from "cn"
+import type { ComponentProps, ReactNode } from "react"
 
-import { Icon } from './icon'
+import { Icon } from "./icon"
 
 /**
  * Sidebars (HIG › Sidebars): a navigation list on the regular material along the leading edge,
  * with labelled, optionally collapsible groups, tinted symbols and the current item filled.
  * Row heights follow the platform (44 pt on iPad, 28 pt on macOS).
  */
-function Sidebar({ className, ...props }: ComponentProps<'nav'>) {
+function Sidebar({ className, ...props }: ComponentProps<"nav">) {
   return (
     <nav
       data-slot="sidebar"
-      className={cn('material-regular flex h-full w-60 shrink-0 flex-col gap-4 overflow-y-auto p-3 text-label', className)}
+      className={cn(
+        "flex h-full w-60 shrink-0 flex-col gap-4 overflow-y-auto material-regular p-3 text-label",
+        className
+      )}
       {...props}
     />
   )
 }
 
-function SidebarHeader({ className, ...props }: ComponentProps<'div'>) {
-  return <div data-slot="sidebar-header" className={cn('type-title-2 px-2 py-1 font-bold text-label', className)} {...props} />
+function SidebarHeader({ className, ...props }: ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="sidebar-header"
+      className={cn("px-2 py-1 type-title-2 font-bold text-label", className)}
+      {...props}
+    />
+  )
 }
 
-function SidebarFooter({ className, ...props }: ComponentProps<'div'>) {
-  return <div data-slot="sidebar-footer" className={cn('mt-auto flex flex-col gap-1', className)} {...props} />
+function SidebarFooter({ className, ...props }: ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="sidebar-footer"
+      className={cn("mt-auto flex flex-col gap-1", className)}
+      {...props}
+    />
+  )
 }
 
-type SidebarGroupProps = ComponentProps<'div'> & {
+type SidebarGroupProps = ComponentProps<"div"> & {
   label?: ReactNode
   collapsible?: boolean
   defaultOpen?: boolean
 }
 
-const groupLabelClassName = 'type-caption-1 flex w-full items-center justify-between px-2 pb-1 font-semibold text-label-3'
+const groupLabelClassName =
+  "type-caption-1 flex w-full items-center justify-between px-2 pb-1 font-semibold text-label-3"
 
-function SidebarGroup({ className, label, collapsible = false, defaultOpen = true, children, ...props }: SidebarGroupProps) {
+function SidebarGroup({
+  className,
+  label,
+  collapsible = false,
+  defaultOpen = true,
+  children,
+  ...props
+}: SidebarGroupProps) {
   if (collapsible) {
     return (
-      <CollapsiblePrimitive.Root defaultOpen={defaultOpen} data-slot="sidebar-group" className={cn('group/sidebar-group flex flex-col', className)}>
-        <CollapsiblePrimitive.Trigger data-slot="sidebar-group-label" className={cn(groupLabelClassName, 'rounded-md outline-none focus-visible:ring-3 focus-visible:ring-ring/50')}>
+      <CollapsiblePrimitive.Root
+        defaultOpen={defaultOpen}
+        data-slot="sidebar-group"
+        className={cn("group/sidebar-group flex flex-col", className)}
+      >
+        <CollapsiblePrimitive.Trigger
+          data-slot="sidebar-group-label"
+          className={cn(
+            groupLabelClassName,
+            "rounded-md outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+          )}
+        >
           {label}
           <Icon
             icon={ArrowDown01Icon}
@@ -51,14 +84,21 @@ function SidebarGroup({ className, label, collapsible = false, defaultOpen = tru
             className="transition-transform duration-(--duration-press) group-data-open/sidebar-group:rotate-180 motion-reduce:transition-none"
           />
         </CollapsiblePrimitive.Trigger>
-        <CollapsiblePrimitive.Panel data-slot="sidebar-group-items" className="flex flex-col gap-0.5">
+        <CollapsiblePrimitive.Panel
+          data-slot="sidebar-group-items"
+          className="flex flex-col gap-0.5"
+        >
           {children}
         </CollapsiblePrimitive.Panel>
       </CollapsiblePrimitive.Root>
     )
   }
   return (
-    <div data-slot="sidebar-group" className={cn('flex flex-col', className)} {...props}>
+    <div
+      data-slot="sidebar-group"
+      className={cn("flex flex-col", className)}
+      {...props}
+    >
       {label ? (
         <div data-slot="sidebar-group-label" className={groupLabelClassName}>
           {label}
@@ -71,32 +111,56 @@ function SidebarGroup({ className, label, collapsible = false, defaultOpen = tru
   )
 }
 
-type SidebarItemProps = ComponentProps<'button'> & {
+type SidebarItemProps = ComponentProps<"button"> & {
   icon?: IconSvgElement
   href?: string
   current?: boolean
 }
 
-function SidebarItem({ className, icon, href, current = false, children, ...props }: SidebarItemProps) {
+function SidebarItem({
+  className,
+  icon,
+  href,
+  current = false,
+  children,
+  ...props
+}: SidebarItemProps) {
   const itemClassName = cn(
-    'type-body flex h-(--list-row-min-height) w-full items-center gap-3 rounded-lg px-2 text-start text-label outline-none select-none hover:bg-fill-4 focus-visible:ring-3 focus-visible:ring-ring/50 aria-[current=page]:bg-fill-3 aria-[current=page]:font-medium aria-[current=true]:bg-fill-3 aria-[current=true]:font-medium',
-    className,
+    "flex h-(--list-row-min-height) w-full items-center gap-3 rounded-lg px-2 text-start type-body text-label outline-none select-none hover:bg-fill-4 focus-visible:ring-3 focus-visible:ring-ring/50 aria-[current=page]:bg-fill-3 aria-[current=page]:font-medium aria-[current=true]:bg-fill-3 aria-[current=true]:font-medium",
+    className
   )
   const content = (
     <>
-      {icon ? <Icon icon={icon} data-slot="sidebar-item-icon" className="text-primary" /> : null}
+      {icon ? (
+        <Icon
+          icon={icon}
+          data-slot="sidebar-item-icon"
+          className="text-primary"
+        />
+      ) : null}
       <span className="truncate">{children}</span>
     </>
   )
   if (href) {
     return (
-      <a href={href} data-slot="sidebar-item" aria-current={current ? 'page' : undefined} className={itemClassName}>
+      <a
+        href={href}
+        data-slot="sidebar-item"
+        aria-current={current ? "page" : undefined}
+        className={itemClassName}
+      >
         {content}
       </a>
     )
   }
   return (
-    <button type="button" data-slot="sidebar-item" aria-current={current ? 'true' : undefined} className={itemClassName} {...props}>
+    <button
+      type="button"
+      data-slot="sidebar-item"
+      aria-current={current ? "true" : undefined}
+      className={itemClassName}
+      {...props}
+    >
       {content}
     </button>
   )

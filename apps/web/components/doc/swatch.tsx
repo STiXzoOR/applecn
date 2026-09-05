@@ -1,9 +1,21 @@
-import { Text } from '@apple-ds/ui/components/text'
+import { Text } from "@apple-ds/ui/components/text"
 
-export function Swatch({ name, value, className }: { name: string; value: string; className?: string }) {
+export function Swatch({
+  name,
+  value,
+  className,
+}: {
+  name: string
+  value: string
+  className?: string
+}) {
   return (
     <div className={className}>
-      <div className="h-14 rounded-2xl hairline" style={{ backgroundColor: value }} aria-hidden="true" />
+      <div
+        className="h-14 rounded-2xl hairline"
+        style={{ backgroundColor: value }}
+        aria-hidden="true"
+      />
       <Text variant="caption-1" className="mt-1.5">
         {name}
       </Text>

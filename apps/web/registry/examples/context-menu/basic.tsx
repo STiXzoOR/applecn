@@ -1,9 +1,19 @@
-'use client'
+"use client"
 
-import { Copy01Icon, Delete02Icon, Share01Icon } from '@hugeicons/core-free-icons'
+import {
+  Copy01Icon,
+  Delete02Icon,
+  Share01Icon,
+} from "@hugeicons/core-free-icons"
 
-import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuSeparator, ContextMenuTrigger } from '@apple-ds/ui/components/context-menu'
-import { Text } from '@apple-ds/ui/components/text'
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "@apple-ds/ui/components/context-menu"
+import { Text } from "@apple-ds/ui/components/text"
 
 export default function ContextMenuBasic() {
   return (

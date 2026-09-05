@@ -1,9 +1,20 @@
-'use client'
+"use client"
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@apple-ds/ui/components/select'
-import { Text } from '@apple-ds/ui/components/text'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@apple-ds/ui/components/select"
+import { Text } from "@apple-ds/ui/components/text"
 
-const repeat = { never: 'Never', daily: 'Every Day', weekly: 'Every Week', monthly: 'Every Month' }
+const repeat = {
+  never: "Never",
+  daily: "Every Day",
+  weekly: "Every Week",
+  monthly: "Every Month",
+}
 
 export default function SelectBasic() {
   return (

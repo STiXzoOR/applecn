@@ -1,6 +1,6 @@
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from 'cn'
-import type { ComponentProps } from 'react'
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "cn"
+import type { ComponentProps } from "react"
 
 /**
  * The activity indicator (HIG › Progress indicators): eight bars fading around a circle,
@@ -8,29 +8,34 @@ import type { ComponentProps } from 'react'
  * motion and stays a static glyph.
  */
 const spinnerVariants = cva(
-  'relative inline-block shrink-0 animate-spin text-label-2 [animation-duration:0.8s] [animation-timing-function:steps(8)] motion-reduce:animate-none motion-reduce:[&>*]:animate-none',
+  "relative inline-block shrink-0 animate-spin text-label-2 [animation-duration:0.8s] [animation-timing-function:steps(8)] motion-reduce:animate-none motion-reduce:[&>*]:animate-none",
   {
     variants: {
       size: {
-        medium: 'size-(--spinner-medium)',
-        large: 'size-(--spinner-large)',
+        medium: "size-(--spinner-medium)",
+        large: "size-(--spinner-large)",
       },
     },
     defaultVariants: {
-      size: 'medium',
+      size: "medium",
     },
-  },
+  }
 )
 
 const BARS = [0, 1, 2, 3, 4, 5, 6, 7] as const
 
-type SpinnerProps = ComponentProps<'span'> &
+type SpinnerProps = ComponentProps<"span"> &
   VariantProps<typeof spinnerVariants> & {
     /** The accessible name; "Loading" by default. */
     label?: string
   }
 
-function Spinner({ className, size = 'medium', label = 'Loading', ...props }: SpinnerProps) {
+function Spinner({
+  className,
+  size = "medium",
+  label = "Loading",
+  ...props
+}: SpinnerProps) {
   return (
     <span
       data-slot="spinner"

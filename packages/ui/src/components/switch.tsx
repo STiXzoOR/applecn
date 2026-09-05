@@ -1,8 +1,8 @@
-'use client'
+"use client"
 
-import { Switch as SwitchPrimitive } from '@base-ui/react/switch'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from 'cn'
+import { Switch as SwitchPrimitive } from "@base-ui/react/switch"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "cn"
 
 /**
  * The switch (HIG › Toggles): 51×31 pt with a 27 pt thumb on iOS, 38×22 on macOS, from the
@@ -10,23 +10,24 @@ import { cn } from 'cn'
  * in list rows, where the row text is the label.
  */
 const switchVariants = cva(
-  'peer group/switch relative inline-flex h-(--switch-height) w-(--switch-width) shrink-0 items-center rounded-full transition-[background-color] duration-(--duration-hover) ease-(--ease-standard) outline-none focus-visible:ring-3 focus-visible:ring-ring/50 data-disabled:cursor-not-allowed data-disabled:opacity-40 data-unchecked:bg-fill',
+  "peer group/switch relative inline-flex h-(--switch-height) w-(--switch-width) shrink-0 items-center rounded-full transition-[background-color] duration-(--duration-hover) ease-(--ease-standard) outline-none focus-visible:ring-3 focus-visible:ring-ring/50 data-unchecked:bg-fill data-disabled:cursor-not-allowed data-disabled:opacity-40",
   {
     variants: {
       color: {
-        green: 'data-checked:bg-system-green',
-        tint: 'data-checked:bg-primary',
+        green: "data-checked:bg-system-green",
+        tint: "data-checked:bg-primary",
       },
     },
     defaultVariants: {
-      color: 'green',
+      color: "green",
     },
-  },
+  }
 )
 
-type SwitchProps = SwitchPrimitive.Root.Props & VariantProps<typeof switchVariants>
+type SwitchProps = SwitchPrimitive.Root.Props &
+  VariantProps<typeof switchVariants>
 
-function Switch({ className, color = 'green', ...props }: SwitchProps) {
+function Switch({ className, color = "green", ...props }: SwitchProps) {
   return (
     <SwitchPrimitive.Root
       data-slot="switch"

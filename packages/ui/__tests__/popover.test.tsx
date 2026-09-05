@@ -1,11 +1,17 @@
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { describe, expect, test } from 'vitest'
+import { render, screen } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
+import { describe, expect, test } from "vitest"
 
-import { Popover, PopoverContent, PopoverDescription, PopoverTitle, PopoverTrigger } from '../src/components/popover'
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverTitle,
+  PopoverTrigger,
+} from "../src/components/popover"
 
-describe('Popover', () => {
-  test('opens a dialog with an arrow pointing at its trigger, and closes on an outside press', async () => {
+describe("Popover", () => {
+  test("opens a dialog with an arrow pointing at its trigger, and closes on an outside press", async () => {
     render(
       <div>
         <Popover>
@@ -16,16 +22,16 @@ describe('Popover', () => {
           </PopoverContent>
         </Popover>
         <button type="button">Outside</button>
-      </div>,
+      </div>
     )
-    await userEvent.click(screen.getByRole('button', { name: 'Info' }))
-    const popover = await screen.findByRole('dialog', { name: 'Calendar' })
-    expect(popover).toHaveAttribute('data-slot', 'popover-content')
-    expect(popover.className).toContain('rounded-4xl')
-    expect(popover.className).toContain('material-regular')
-    expect(popover.className).toContain('shadow-popover')
+    await userEvent.click(screen.getByRole("button", { name: "Info" }))
+    const popover = await screen.findByRole("dialog", { name: "Calendar" })
+    expect(popover).toHaveAttribute("data-slot", "popover-content")
+    expect(popover.className).toContain("rounded-4xl")
+    expect(popover.className).toContain("material-regular")
+    expect(popover.className).toContain("shadow-popover")
     expect(popover.querySelector('[data-slot="popover-arrow"]')).not.toBeNull()
-    await userEvent.click(screen.getByRole('button', { name: 'Outside' }))
-    expect(screen.queryByRole('dialog')).toBeNull()
+    await userEvent.click(screen.getByRole("button", { name: "Outside" }))
+    expect(screen.queryByRole("dialog")).toBeNull()
   })
 })

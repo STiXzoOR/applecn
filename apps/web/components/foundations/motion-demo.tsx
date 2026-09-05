@@ -1,10 +1,18 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
+import { useState } from "react"
 
-import { Text } from '@apple-ds/ui/components/text'
+import { Text } from "@apple-ds/ui/components/text"
 
-export function MotionDemo({ name, easing, duration }: { name: string; easing: string; duration: number }) {
+export function MotionDemo({
+  name,
+  easing,
+  duration,
+}: {
+  name: string
+  easing: string
+  duration: number
+}) {
   const [on, setOn] = useState(false)
   return (
     <button
@@ -22,7 +30,10 @@ export function MotionDemo({ name, easing, duration }: { name: string; easing: s
       <div className="relative h-6">
         <div
           className="absolute top-0 size-6 rounded-full bg-primary"
-          style={{ transform: on ? 'translateX(calc(100% * 8))' : 'translateX(0)', transition: `transform ${duration}ms ${easing}` }}
+          style={{
+            transform: on ? "translateX(calc(100% * 8))" : "translateX(0)",
+            transition: `transform ${duration}ms ${easing}`,
+          }}
           aria-hidden="true"
         />
       </div>

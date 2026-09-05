@@ -1,5 +1,5 @@
-import { Input } from '@apple-ds/ui/components/input'
-import { Label } from '@apple-ds/ui/components/label'
+import { Input } from "@apple-ds/ui/components/input"
+import { Label } from "@apple-ds/ui/components/label"
 
 export default function LabelBasic() {
   return (

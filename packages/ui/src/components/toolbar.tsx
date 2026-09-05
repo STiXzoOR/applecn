@@ -1,12 +1,12 @@
-'use client'
+"use client"
 
-import { Toolbar as ToolbarPrimitive } from '@base-ui/react/toolbar'
-import type { IconSvgElement } from '@hugeicons/react'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from 'cn'
-import { createContext, useContext, type ComponentProps } from 'react'
+import { Toolbar as ToolbarPrimitive } from "@base-ui/react/toolbar"
+import type { IconSvgElement } from "@hugeicons/react"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "cn"
+import { createContext, useContext, type ComponentProps } from "react"
 
-import { Icon } from './icon'
+import { Icon } from "./icon"
 
 /**
  * Toolbars (HIG › Toolbars) under Liquid Glass: items sit in floating glass groups, each a
@@ -16,15 +16,19 @@ import { Icon } from './icon'
 const GroupContext = createContext(false)
 
 type ToolbarProps = ToolbarPrimitive.Root.Props & {
-  placement?: 'top' | 'bottom'
+  placement?: "top" | "bottom"
 }
 
-function Toolbar({ className, placement = 'top', ...props }: ToolbarProps) {
+function Toolbar({ className, placement = "top", ...props }: ToolbarProps) {
   return (
     <ToolbarPrimitive.Root
       data-slot="toolbar"
       data-placement={placement}
-      className={cn('flex min-h-(--toolbar-height) items-center gap-2 px-4', placement === 'bottom' && 'pb-[env(safe-area-inset-bottom)]', className)}
+      className={cn(
+        "flex min-h-(--toolbar-height) items-center gap-2 px-4",
+        placement === "bottom" && "pb-[env(safe-area-inset-bottom)]",
+        className
+      )}
       {...props}
     />
   )
@@ -33,38 +37,51 @@ function Toolbar({ className, placement = 'top', ...props }: ToolbarProps) {
 function ToolbarGroup({ className, ...props }: ToolbarPrimitive.Group.Props) {
   return (
     <GroupContext.Provider value={true}>
-      <ToolbarPrimitive.Group data-slot="toolbar-group" className={cn('glass flex items-center gap-1 rounded-full p-1', className)} {...props} />
+      <ToolbarPrimitive.Group
+        data-slot="toolbar-group"
+        className={cn(
+          "flex items-center gap-1 rounded-full glass p-1",
+          className
+        )}
+        {...props}
+      />
     </GroupContext.Provider>
   )
 }
 
 const toolbarButtonVariants = cva(
-  'pressable flex size-(--control-height-regular) shrink-0 items-center justify-center rounded-full outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-40 [&_svg]:size-6',
+  "flex size-(--control-height-regular) shrink-0 pressable items-center justify-center rounded-full outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-40 [&_svg]:size-6",
   {
     variants: {
       prominent: {
-        true: 'glass-prominent',
-        false: 'text-primary hover:bg-fill-4',
+        true: "glass-prominent",
+        false: "text-primary hover:bg-fill-4",
       },
       grouped: {
-        true: '',
-        false: '',
+        true: "",
+        false: "",
       },
     },
-    compoundVariants: [{ prominent: false, grouped: false, class: 'glass' }],
+    compoundVariants: [{ prominent: false, grouped: false, class: "glass" }],
     defaultVariants: {
       prominent: false,
       grouped: false,
     },
-  },
+  }
 )
 
 type ToolbarButtonProps = ToolbarPrimitive.Button.Props &
-  Omit<VariantProps<typeof toolbarButtonVariants>, 'grouped'> & {
+  Omit<VariantProps<typeof toolbarButtonVariants>, "grouped"> & {
     icon?: IconSvgElement
   }
 
-function ToolbarButton({ className, prominent = false, icon, children, ...props }: ToolbarButtonProps) {
+function ToolbarButton({
+  className,
+  prominent = false,
+  icon,
+  children,
+  ...props
+}: ToolbarButtonProps) {
   const grouped = useContext(GroupContext)
   return (
     <ToolbarPrimitive.Button
@@ -79,25 +96,45 @@ function ToolbarButton({ className, prominent = false, icon, children, ...props 
   )
 }
 
-function ToolbarSeparator({ className, ...props }: ToolbarPrimitive.Separator.Props) {
-  return <ToolbarPrimitive.Separator data-slot="toolbar-separator" className={cn('mx-1 h-6 w-[0.5px] bg-separator', className)} {...props} />
-}
-
-type ToolbarSpacerProps = ComponentProps<'div'> & {
-  kind?: 'flexible' | 'fixed'
-}
-
-function ToolbarSpacer({ className, kind = 'flexible', ...props }: ToolbarSpacerProps) {
+function ToolbarSeparator({
+  className,
+  ...props
+}: ToolbarPrimitive.Separator.Props) {
   return (
-    <div
-      data-slot="toolbar-spacer"
-      data-kind={kind}
-      aria-hidden="true"
-      className={cn(kind === 'flexible' ? 'flex-1' : 'w-5 shrink-0', className)}
+    <ToolbarPrimitive.Separator
+      data-slot="toolbar-separator"
+      className={cn("mx-1 h-6 w-[0.5px] bg-separator", className)}
       {...props}
     />
   )
 }
 
-export { Toolbar, ToolbarButton, ToolbarGroup, ToolbarSeparator, ToolbarSpacer, toolbarButtonVariants }
+type ToolbarSpacerProps = ComponentProps<"div"> & {
+  kind?: "flexible" | "fixed"
+}
+
+function ToolbarSpacer({
+  className,
+  kind = "flexible",
+  ...props
+}: ToolbarSpacerProps) {
+  return (
+    <div
+      data-slot="toolbar-spacer"
+      data-kind={kind}
+      aria-hidden="true"
+      className={cn(kind === "flexible" ? "flex-1" : "w-5 shrink-0", className)}
+      {...props}
+    />
+  )
+}
+
+export {
+  Toolbar,
+  ToolbarButton,
+  ToolbarGroup,
+  ToolbarSeparator,
+  ToolbarSpacer,
+  toolbarButtonVariants,
+}
 export type { ToolbarButtonProps, ToolbarProps, ToolbarSpacerProps }

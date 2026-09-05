@@ -1,8 +1,14 @@
-'use client'
+"use client"
 
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react"
 
-import { PlatformProvider, type Platform } from '@apple-ds/ui/lib/platform'
+import { PlatformProvider, type Platform } from "@apple-ds/ui/lib/platform"
 
 /**
  * The site's appearance settings: the platform idiom, increased contrast and reduced
@@ -19,7 +25,7 @@ interface Appearance {
 }
 
 const AppearanceContext = createContext<Appearance>({
-  platform: 'ios',
+  platform: "ios",
   contrast: false,
   transparency: false,
   setPlatform: () => {},
@@ -27,16 +33,27 @@ const AppearanceContext = createContext<Appearance>({
   setTransparency: () => {},
 })
 
-const KEY = 'apple-ds:appearance'
+const KEY = "apple-ds:appearance"
 
-function read(): { platform: Platform; contrast: boolean; transparency: boolean } {
+function read(): {
+  platform: Platform
+  contrast: boolean
+  transparency: boolean
+} {
   try {
-    const raw = typeof window !== 'undefined' ? window.localStorage.getItem(KEY) : null
-    if (raw) return { platform: 'ios', contrast: false, transparency: false, ...JSON.parse(raw) }
+    const raw =
+      typeof window !== "undefined" ? window.localStorage.getItem(KEY) : null
+    if (raw)
+      return {
+        platform: "ios",
+        contrast: false,
+        transparency: false,
+        ...JSON.parse(raw),
+      }
   } catch {
     // storage unavailable
   }
-  return { platform: 'ios', contrast: false, transparency: false }
+  return { platform: "ios", contrast: false, transparency: false }
 }
 
 export function AppearanceProvider({ children }: { children: ReactNode }) {
@@ -45,9 +62,9 @@ export function AppearanceProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const root = document.documentElement
     root.dataset.platform = state.platform
-    if (state.contrast) root.dataset.contrast = 'more'
+    if (state.contrast) root.dataset.contrast = "more"
     else delete root.dataset.contrast
-    if (state.transparency) root.dataset.transparency = 'reduced'
+    if (state.transparency) root.dataset.transparency = "reduced"
     else delete root.dataset.transparency
     try {
       window.localStorage.setItem(KEY, JSON.stringify(state))
@@ -60,7 +77,8 @@ export function AppearanceProvider({ children }: { children: ReactNode }) {
     ...state,
     setPlatform: (platform) => setState((s) => ({ ...s, platform })),
     setContrast: (contrast) => setState((s) => ({ ...s, contrast })),
-    setTransparency: (transparency) => setState((s) => ({ ...s, transparency })),
+    setTransparency: (transparency) =>
+      setState((s) => ({ ...s, transparency })),
   }
 
   return (

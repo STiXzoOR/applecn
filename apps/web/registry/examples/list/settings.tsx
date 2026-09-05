@@ -1,10 +1,15 @@
-'use client'
+"use client"
 
-import { Airplane01Icon, Bluetooth, Notification01Icon, Wifi01Icon } from '@hugeicons/core-free-icons'
+import {
+  Airplane01Icon,
+  Bluetooth,
+  Notification01Icon,
+  Wifi01Icon,
+} from "@hugeicons/core-free-icons"
 
-import { Icon } from '@apple-ds/ui/components/icon'
-import { List, ListRow, ListSection } from '@apple-ds/ui/components/list'
-import { Switch } from '@apple-ds/ui/components/switch'
+import { Icon } from "@apple-ds/ui/components/icon"
+import { List, ListRow, ListSection } from "@apple-ds/ui/components/list"
+import { Switch } from "@apple-ds/ui/components/switch"
 
 const tile = (color: string) => `${color} text-white`
 
@@ -12,21 +17,33 @@ export default function ListSettings() {
   return (
     <div className="rounded-4xl bg-grouped-background-1">
       <List aria-label="Settings">
-        <ListSection header="Connections" footer="Wi-Fi and Bluetooth stay on for Find My.">
+        <ListSection
+          header="Connections"
+          footer="Wi-Fi and Bluetooth stay on for Find My."
+        >
           <ListRow
-            leading={<Icon icon={Airplane01Icon} className={tile('bg-system-orange')} />}
+            leading={
+              <Icon
+                icon={Airplane01Icon}
+                className={tile("bg-system-orange")}
+              />
+            }
             title="Airplane Mode"
             trailing={<Switch aria-label="Airplane Mode" />}
           />
           <ListRow
-            leading={<Icon icon={Wifi01Icon} className={tile('bg-system-blue')} />}
+            leading={
+              <Icon icon={Wifi01Icon} className={tile("bg-system-blue")} />
+            }
             title="Wi-Fi"
             value="Home"
             accessory="disclosure"
             onClick={() => {}}
           />
           <ListRow
-            leading={<Icon icon={Bluetooth} className={tile('bg-system-blue')} />}
+            leading={
+              <Icon icon={Bluetooth} className={tile("bg-system-blue")} />
+            }
             title="Bluetooth"
             value="On"
             accessory="disclosure"
@@ -35,7 +52,12 @@ export default function ListSettings() {
         </ListSection>
         <ListSection header="Notifications">
           <ListRow
-            leading={<Icon icon={Notification01Icon} className={tile('bg-system-red')} />}
+            leading={
+              <Icon
+                icon={Notification01Icon}
+                className={tile("bg-system-red")}
+              />
+            }
             title="Notifications"
             subtitle="Deliver quietly"
             accessory="disclosure"
