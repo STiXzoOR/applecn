@@ -98,7 +98,7 @@ export const componentDocs: ComponentDoc[] = [
     name: "button",
     title: "Button",
     description:
-      "Filled, tinted, gray, bordered, plain, glass and destructive buttons in the five control sizes.",
+      "Filled, tinted, gray, bordered, plain, glass and destructive buttons in the five control sizes — a 34 pt capsule on iOS 26, a 24 pt rounded rectangle on macOS 26, apple.com’s 36 px pill on the web.",
     group: "controls",
     apple: { name: "Buttons", hig: hig("buttons") },
     primitive: "Button",
@@ -152,7 +152,7 @@ export const componentDocs: ComponentDoc[] = [
     name: "switch",
     title: "Switch",
     description:
-      "The 51×31 pt switch with a 27 pt thumb, green or tinted when on.",
+      "The iOS 26 switch: a 63×28 pt track with a 37×24 oval knob that stretches while pressed; 54×24 on macOS 26. Green or tinted when on.",
     group: "forms",
     apple: { name: "Toggles (switch)", hig: hig("toggles") },
     primitive: "Switch",
@@ -162,7 +162,7 @@ export const componentDocs: ComponentDoc[] = [
     name: "checkbox",
     title: "Checkbox",
     description:
-      "A circular checkbox on iOS, a rounded square on macOS, with a mixed state.",
+      "A 22 pt circle on iOS, a 16 pt rounded square on the bezel on macOS 26, with a mixed state.",
     group: "forms",
     apple: { name: "Checkboxes", hig: hig("toggles") },
     primitive: "Checkbox",
@@ -171,7 +171,8 @@ export const componentDocs: ComponentDoc[] = [
   {
     name: "radio-group",
     title: "Radio group",
-    description: "Two to five mutually exclusive options as tinted rings.",
+    description:
+      "Two to five mutually exclusive options as rings that fill with the tint and show a white dot.",
     group: "forms",
     apple: { name: "Radio buttons", hig: hig("toggles") },
     primitive: "RadioGroup",
@@ -181,7 +182,7 @@ export const componentDocs: ComponentDoc[] = [
     name: "slider",
     title: "Slider",
     description:
-      "A 4 pt track with a 28 pt thumb and optional images at either end.",
+      "A 6 pt track with the 37×24 pill knob on iOS 26 (a 20×16 oval on macOS 26) and optional images at either end.",
     group: "forms",
     apple: { name: "Sliders", hig: hig("sliders") },
     primitive: "Slider",
@@ -190,7 +191,8 @@ export const componentDocs: ComponentDoc[] = [
   {
     name: "stepper",
     title: "Stepper",
-    description: "The 94×32 pt two-segment control for incremental values.",
+    description:
+      "The 94×32 pt capsule with − and + halves on iOS 26; AppKit’s 20×26 vertical stepper on macOS 26.",
     group: "forms",
     apple: { name: "Steppers", hig: hig("steppers") },
     primitive: "NumberField",
@@ -199,7 +201,8 @@ export const componentDocs: ComponentDoc[] = [
   {
     name: "segmented-control",
     title: "Segmented control",
-    description: "A capsule of equal segments with a sliding white selection.",
+    description:
+      "Equal segments with a sliding selection: a white pill in a 32 pt capsule on iOS 26, the accent fill in a 24 pt rounded rectangle on macOS 26.",
     group: "forms",
     apple: { name: "Segmented controls", hig: hig("segmented-controls") },
     primitive: "Tabs",
@@ -218,7 +221,7 @@ export const componentDocs: ComponentDoc[] = [
     name: "input",
     title: "Input",
     description:
-      "The text field: rounded, plain in a list, or bordered on macOS, with the iOS clear button.",
+      "The bordered text field on every platform — 34 pt with 5 pt corners on iOS 26, AppKit’s 24 pt bezel, the App Store’s 32 px field — plus filled and plain variants and the iOS clear button.",
     group: "forms",
     apple: { name: "Text fields", hig: hig("text-fields") },
     primitive: "Input",
@@ -260,7 +263,7 @@ export const componentDocs: ComponentDoc[] = [
     name: "search-field",
     title: "Search field",
     description:
-      "A capsule with the magnifier, a clear button and Cancel while editing.",
+      "The 44 pt capsule search field of iOS 26 with the magnifier, clear and Cancel; AppKit’s 24 pt capsule on macOS.",
     group: "forms",
     apple: { name: "Search fields", hig: hig("search-fields") },
     primitive: "element",
@@ -270,7 +273,7 @@ export const componentDocs: ComponentDoc[] = [
     name: "select",
     title: "Select",
     description:
-      "The menu picker and the macOS pop-up button, opening a glass menu with leading check marks.",
+      "The menu picker: a tinted inline value on iOS, AppKit’s pop-up button bezel on macOS 26, a pill on the web, opening a glass menu with leading check marks.",
     group: "forms",
     apple: { name: "Pickers, pop-up buttons", hig: hig("pickers") },
     primitive: "Select",
@@ -281,7 +284,7 @@ export const componentDocs: ComponentDoc[] = [
     name: "menu",
     title: "Menu",
     description:
-      "A 250 pt glass menu of 44 pt rows with leading glyphs, group bands, check marks and submenus.",
+      "Liquid Glass menus: 250 pt panels of 44 pt rows with leading glyphs on iOS 26; AppKit’s 24 pt rows, hairlines and accent highlight on macOS 26.",
     group: "overlays",
     apple: { name: "Menus, pull-down buttons", hig: hig("menus") },
     primitive: "Menu",
@@ -301,7 +304,7 @@ export const componentDocs: ComponentDoc[] = [
     name: "popover",
     title: "Popover",
     description:
-      "A transient card on the regular material with an arrow pointing at its control.",
+      "A transient Liquid Glass card with an arrow, on the platform’s popover corner.",
     group: "overlays",
     apple: { name: "Popovers", hig: hig("popovers") },
     primitive: "Popover",
@@ -320,7 +323,7 @@ export const componentDocs: ComponentDoc[] = [
     name: "alert-dialog",
     title: "Alert",
     description:
-      "The 270 pt alert on thick material with up to three actions, side by side or stacked.",
+      "The iOS 26 alert: 320 pt, 34 pt corners, Liquid Glass, left-aligned text and 48 pt capsule actions; AppKit’s 260 pt alert with 28 pt push buttons on macOS.",
     group: "overlays",
     apple: { name: "Alerts", hig: hig("alerts") },
     primitive: "AlertDialog",
@@ -333,7 +336,7 @@ export const componentDocs: ComponentDoc[] = [
     name: "action-sheet",
     title: "Action sheet",
     description:
-      "Choices related to an action: a bottom sheet on phones, a popover on wider screens.",
+      "Choices related to an action: the iOS 26 card with 48 pt capsule actions from the bottom on a phone, a popover anchored to the control from the sm breakpoint.",
     group: "overlays",
     apple: { name: "Action sheets", hig: hig("action-sheets") },
     primitive: "Drawer, Popover",
@@ -352,7 +355,8 @@ export const componentDocs: ComponentDoc[] = [
   {
     name: "dialog",
     title: "Dialog",
-    description: "A modal card: the macOS sheet and the iPad form sheet.",
+    description:
+      "A modal card: the macOS sheet and the iPad form sheet, on the platform’s dialog corner and width.",
     group: "overlays",
     apple: { name: "Sheets (macOS), form sheets", hig: hig("sheets") },
     primitive: "Dialog",
@@ -363,7 +367,7 @@ export const componentDocs: ComponentDoc[] = [
     name: "navigation-bar",
     title: "Navigation bar",
     description:
-      "The 44 pt bar with a large title that collapses into it as content scrolls under.",
+      "A 54 pt row with 44 pt glass platters and the 34 pt large title that collapses as content scrolls under it.",
     group: "navigation",
     apple: { name: "Navigation bars", hig: hig("toolbars") },
     primitive: "element",
@@ -373,7 +377,7 @@ export const componentDocs: ComponentDoc[] = [
     name: "tab-bar",
     title: "Tab bar",
     description:
-      "The floating Liquid Glass capsule of tabs with a separate search button and a minimized state.",
+      "The iOS 26 tab bar: a 62 pt Liquid Glass platter inset 21 pt with 54 pt items, the current one on a tinted lens, and a separate search circle; minimises on scroll.",
     group: "navigation",
     apple: { name: "Tab bars", hig: hig("tab-bars") },
     primitive: "element",
@@ -383,7 +387,7 @@ export const componentDocs: ComponentDoc[] = [
     name: "toolbar",
     title: "Toolbar",
     description:
-      "Floating glass groups of circular buttons with one prominent action.",
+      "Items in floating glass platters — 44 pt circles inset 4 on iOS 26, 28 pt on macOS and the web — with the prominent action filled.",
     group: "navigation",
     apple: { name: "Toolbars", hig: hig("toolbars") },
     primitive: "Toolbar",
@@ -393,7 +397,7 @@ export const componentDocs: ComponentDoc[] = [
     name: "sidebar",
     title: "Sidebar",
     description:
-      "A navigation list on the regular material with labelled, collapsible groups.",
+      "A navigation list on the regular material: 44 pt rows on iPad, AppKit’s 28 pt rows with 6 pt corners on macOS 26, Music’s 34 pt rows on the web.",
     group: "navigation",
     apple: { name: "Sidebars", hig: hig("sidebars") },
     primitive: "Collapsible",
@@ -423,7 +427,7 @@ export const componentDocs: ComponentDoc[] = [
     name: "list",
     title: "List",
     description:
-      "Plain, grouped, inset grouped and sidebar lists with rows, accessories and sections.",
+      "Plain, grouped, inset grouped and sidebar lists with rows, accessories and sections — 26 pt corners and 52 pt rows on iOS 26, 10 pt corners and 28 pt rows on macOS 26.",
     group: "content",
     apple: { name: "Lists and tables", hig: hig("lists-and-tables") },
     primitive: "element",
@@ -435,7 +439,8 @@ export const componentDocs: ComponentDoc[] = [
   {
     name: "card",
     title: "Card",
-    description: "A group box on the grouped card surface.",
+    description:
+      "A group box on the grouped card surface with the platform’s card corner.",
     group: "content",
     apple: { name: "Boxes", hig: hig("boxes") },
     primitive: "element",

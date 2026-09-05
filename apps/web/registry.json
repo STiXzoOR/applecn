@@ -600,7 +600,7 @@
       "name": "action-sheet",
       "type": "registry:ui",
       "title": "Action sheet",
-      "description": "Choices related to an action: a bottom sheet on phones, a popover on wider screens.",
+      "description": "Choices related to an action: the iOS 26 card with 48 pt capsule actions from the bottom on a phone, a popover anchored to the control from the sm breakpoint.",
       "dependencies": [
         "@base-ui/react",
         "cn"
@@ -619,7 +619,7 @@
       "name": "alert-dialog",
       "type": "registry:ui",
       "title": "Alert",
-      "description": "The 270 pt alert on thick material with up to three actions, side by side or stacked.",
+      "description": "The iOS 26 alert: 320 pt, 34 pt corners, Liquid Glass, left-aligned text and 48 pt capsule actions; AppKit’s 260 pt alert with 28 pt push buttons on macOS.",
       "dependencies": [
         "@base-ui/react",
         "class-variance-authority",
@@ -669,7 +669,7 @@
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
-      "description": "Filled, tinted, gray, bordered, plain, glass and destructive buttons in the five control sizes.",
+      "description": "Filled, tinted, gray, bordered, plain, glass and destructive buttons in the five control sizes — a 34 pt capsule on iOS 26, a 24 pt rounded rectangle on macOS 26, apple.com’s 36 px pill on the web.",
       "dependencies": [
         "@base-ui/react",
         "class-variance-authority",
@@ -686,7 +686,7 @@
       "name": "card",
       "type": "registry:ui",
       "title": "Card",
-      "description": "A group box on the grouped card surface.",
+      "description": "A group box on the grouped card surface with the platform’s card corner.",
       "dependencies": [
         "cn"
       ],
@@ -701,7 +701,7 @@
       "name": "checkbox",
       "type": "registry:ui",
       "title": "Checkbox",
-      "description": "A circular checkbox on iOS, a rounded square on macOS, with a mixed state.",
+      "description": "A 22 pt circle on iOS, a 16 pt rounded square on the bezel on macOS 26, with a mixed state.",
       "dependencies": [
         "@base-ui/react",
         "@hugeicons/core-free-icons",
@@ -743,7 +743,7 @@
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",
-      "description": "A modal card: the macOS sheet and the iPad form sheet.",
+      "description": "A modal card: the macOS sheet and the iPad form sheet, on the platform’s dialog corner and width.",
       "dependencies": [
         "@base-ui/react",
         "cn"
@@ -846,7 +846,7 @@
       "name": "input",
       "type": "registry:ui",
       "title": "Input",
-      "description": "The text field: rounded, plain in a list, or bordered on macOS, with the iOS clear button.",
+      "description": "The bordered text field on every platform — 34 pt with 5 pt corners on iOS 26, AppKit’s 24 pt bezel, the App Store’s 32 px field — plus filled and plain variants and the iOS clear button.",
       "dependencies": [
         "@base-ui/react",
         "@hugeicons/core-free-icons",
@@ -897,7 +897,7 @@
       "name": "list",
       "type": "registry:ui",
       "title": "List",
-      "description": "Plain, grouped, inset grouped and sidebar lists with rows, accessories and sections.",
+      "description": "Plain, grouped, inset grouped and sidebar lists with rows, accessories and sections — 26 pt corners and 52 pt rows on iOS 26, 10 pt corners and 28 pt rows on macOS 26.",
       "dependencies": [
         "@hugeicons/core-free-icons",
         "class-variance-authority",
@@ -933,7 +933,7 @@
       "name": "menu",
       "type": "registry:ui",
       "title": "Menu",
-      "description": "A 250 pt glass menu of 44 pt rows with leading glyphs, group bands, check marks and submenus.",
+      "description": "Liquid Glass menus: 250 pt panels of 44 pt rows with leading glyphs on iOS 26; AppKit’s 24 pt rows, hairlines and accent highlight on macOS 26.",
       "dependencies": [
         "@base-ui/react",
         "@hugeicons/core-free-icons",
@@ -954,7 +954,7 @@
       "name": "navigation-bar",
       "type": "registry:ui",
       "title": "Navigation bar",
-      "description": "The 44 pt bar with a large title that collapses into it as content scrolls under.",
+      "description": "A 54 pt row with 44 pt glass platters and the 34 pt large title that collapses as content scrolls under it.",
       "dependencies": [
         "@hugeicons/core-free-icons",
         "cn"
@@ -990,7 +990,7 @@
       "name": "popover",
       "type": "registry:ui",
       "title": "Popover",
-      "description": "A transient card on the regular material with an arrow pointing at its control.",
+      "description": "A transient Liquid Glass card with an arrow, on the platform’s popover corner.",
       "dependencies": [
         "@base-ui/react",
         "cn"
@@ -1023,7 +1023,7 @@
       "name": "radio-group",
       "type": "registry:ui",
       "title": "Radio group",
-      "description": "Two to five mutually exclusive options as tinted rings.",
+      "description": "Two to five mutually exclusive options as rings that fill with the tint and show a white dot.",
       "dependencies": [
         "@base-ui/react",
         "cn"
@@ -1039,7 +1039,7 @@
       "name": "search-field",
       "type": "registry:ui",
       "title": "Search field",
-      "description": "A capsule with the magnifier, a clear button and Cancel while editing.",
+      "description": "The 44 pt capsule search field of iOS 26 with the magnifier, clear and Cancel; AppKit’s 24 pt capsule on macOS.",
       "dependencies": [
         "@hugeicons/core-free-icons",
         "cn"
@@ -1058,7 +1058,7 @@
       "name": "segmented-control",
       "type": "registry:ui",
       "title": "Segmented control",
-      "description": "A capsule of equal segments with a sliding white selection.",
+      "description": "Equal segments with a sliding selection: a white pill in a 32 pt capsule on iOS 26, the accent fill in a 24 pt rounded rectangle on macOS 26.",
       "dependencies": [
         "@base-ui/react",
         "cn"
@@ -1074,7 +1074,7 @@
       "name": "select",
       "type": "registry:ui",
       "title": "Select",
-      "description": "The menu picker and the macOS pop-up button, opening a glass menu with leading check marks.",
+      "description": "The menu picker: a tinted inline value on iOS, AppKit’s pop-up button bezel on macOS 26, a pill on the web, opening a glass menu with leading check marks.",
       "dependencies": [
         "@base-ui/react",
         "@hugeicons/core-free-icons",
@@ -1132,7 +1132,7 @@
       "name": "sidebar",
       "type": "registry:ui",
       "title": "Sidebar",
-      "description": "A navigation list on the regular material with labelled, collapsible groups.",
+      "description": "A navigation list on the regular material: 44 pt rows on iPad, AppKit’s 28 pt rows with 6 pt corners on macOS 26, Music’s 34 pt rows on the web.",
       "dependencies": [
         "@base-ui/react",
         "@hugeicons/core-free-icons",
@@ -1168,7 +1168,7 @@
       "name": "slider",
       "type": "registry:ui",
       "title": "Slider",
-      "description": "A 4 pt track with a 28 pt thumb and optional images at either end.",
+      "description": "A 6 pt track with the 37×24 pill knob on iOS 26 (a 20×16 oval on macOS 26) and optional images at either end.",
       "dependencies": [
         "@base-ui/react",
         "cn"
@@ -1215,7 +1215,7 @@
       "name": "stepper",
       "type": "registry:ui",
       "title": "Stepper",
-      "description": "The 94×32 pt two-segment control for incremental values.",
+      "description": "The 94×32 pt capsule with − and + halves on iOS 26; AppKit’s 20×26 vertical stepper on macOS 26.",
       "dependencies": [
         "@base-ui/react",
         "@hugeicons/core-free-icons",
@@ -1236,7 +1236,7 @@
       "name": "switch",
       "type": "registry:ui",
       "title": "Switch",
-      "description": "The 51×31 pt switch with a 27 pt thumb, green or tinted when on.",
+      "description": "The iOS 26 switch: a 63×28 pt track with a 37×24 oval knob that stretches while pressed; 54×24 on macOS 26. Green or tinted when on.",
       "dependencies": [
         "@base-ui/react",
         "class-variance-authority",
@@ -1253,7 +1253,7 @@
       "name": "tab-bar",
       "type": "registry:ui",
       "title": "Tab bar",
-      "description": "The floating Liquid Glass capsule of tabs with a separate search button and a minimized state.",
+      "description": "The iOS 26 tab bar: a 62 pt Liquid Glass platter inset 21 pt with 54 pt items, the current one on a tinted lens, and a separate search circle; minimises on scroll.",
       "dependencies": [
         "@hugeicons/react",
         "cn"
@@ -1355,7 +1355,7 @@
       "name": "toolbar",
       "type": "registry:ui",
       "title": "Toolbar",
-      "description": "Floating glass groups of circular buttons with one prominent action.",
+      "description": "Items in floating glass platters — 44 pt circles inset 4 on iOS 26, 28 pt on macOS and the web — with the prominent action filled.",
       "dependencies": [
         "@base-ui/react",
         "@hugeicons/react",
