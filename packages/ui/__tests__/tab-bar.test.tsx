@@ -38,7 +38,8 @@ describe('TabBar', () => {
       </TabBar>,
     )
     expect(screen.getByRole('button', { name: 'Home' })).toHaveAttribute('aria-current', 'true')
-    expect(screen.getByRole('button', { name: 'You', hidden: true })).not.toBeVisible()
+    // A hidden element has no accessible name, so find the minimized tab by its label text.
+    expect(screen.getByText('You').closest('button')).not.toBeVisible()
     await userEvent.click(screen.getByRole('button', { name: 'Home' }))
     expect(onValueChange).toHaveBeenCalledWith('home')
   })

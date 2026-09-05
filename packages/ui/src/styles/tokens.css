@@ -157,6 +157,8 @@
   --menu-width: 250px;
   --menu-item-height: 44px;
   --dialog-width: 540px;
+  --split-view-sidebar-width: 320px;
+  --split-view-content-width: 375px;
   --popover-arrow-width: 13px;
   --popover-arrow-height: 6.5px;
   --progress-height: 4px;
@@ -625,6 +627,8 @@
   --menu-width: 200px;
   --menu-item-height: 22px;
   --dialog-width: 480px;
+  --split-view-sidebar-width: 240px;
+  --split-view-content-width: 320px;
   --popover-arrow-width: 13px;
   --popover-arrow-height: 6.5px;
   --progress-height: 4px;

@@ -16,9 +16,11 @@ describe('List', () => {
         </ListSection>
       </List>,
     )
-    const list = screen.getByRole('list', { name: 'Settings' })
-    expect(list.closest('[data-slot="list"]')).toHaveAttribute('data-style', 'inset-grouped')
-    const group = list.closest('[data-slot="list-section-group"]')!
+    const list = screen.getByRole('group', { name: 'Settings' })
+    expect(list).toHaveAttribute('data-slot', 'list')
+    expect(list).toHaveAttribute('data-style', 'inset-grouped')
+    expect(screen.getByRole('list')).toHaveAttribute('data-slot', 'list-section-group')
+    const group = screen.getByText('Wi-Fi').closest('[data-slot="list-section-group"]')!
     expect(group.className).toContain('mx-(--list-inset)')
     expect(group.className).toContain('rounded-4xl')
     expect(group.className).toContain('bg-card')

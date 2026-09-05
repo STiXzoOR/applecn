@@ -175,6 +175,8 @@ function controlLines(m: ControlMetrics): Line[] {
     ['menu-width', px(m.menu.width)],
     ['menu-item-height', px(m.menu.itemHeight)],
     ['dialog-width', px(m.dialog.width)],
+    ['split-view-sidebar-width', px(m.splitView.sidebar)],
+    ['split-view-content-width', px(m.splitView.content)],
     ['popover-arrow-width', px(m.popover.arrow[0])],
     ['popover-arrow-height', px(m.popover.arrow[1])],
     ['progress-height', px(m.progress.height)],
