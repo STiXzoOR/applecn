@@ -221,9 +221,10 @@ function shapeLines(): Line[] {
     // these primitives into them, so the primitives carry different names to avoid a cycle.
     ["sheet-radius", px(radii.sheet)],
     ["icon-radius", radii.icon],
-    ...Object.entries(radii.ladder).map(
-      ([step, value]): Line => [`corner-${step}`, px(value)]
-    ),
+    ...Object.entries(radii.ladder).map(([step, value]): Line => [
+      `corner-${step}`,
+      px(value),
+    ]),
   ]
 }
 

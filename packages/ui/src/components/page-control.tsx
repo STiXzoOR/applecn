@@ -63,6 +63,7 @@ function PageControl({
   }
 
   return (
+    // oxlint-disable-next-line jsx-a11y/interactive-supports-focus -- the dots are the focusable tabs; keys bubble up
     <div
       role="tablist"
       data-slot="page-control"

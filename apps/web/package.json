@@ -7,8 +7,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "examples:build": "node scripts/examples-index.ts",
@@ -27,7 +25,6 @@
     "shiki": "^4.4.3"
   },
   "devDependencies": {
-    "@applecn/eslint-config": "workspace:^",
     "@applecn/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.1",
@@ -37,7 +34,6 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.1.1",
-    "eslint": "^9",
     "jsdom": "^30.0.1",
     "typescript": "^5",
     "vitest": "^5.0.0",

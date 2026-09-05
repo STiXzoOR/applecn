@@ -1,0 +1,16 @@
+# Staged files: oxlint's safe fixes, then oxfmt, in that order so they never race on a file.
+pre-commit:
+  jobs:
+    - name: lint
+      glob: "*.{js,jsx,ts,tsx,mjs,cjs,mts,cts}"
+      run: pnpm exec oxlint --fix --no-error-on-unmatched-pattern {staged_files}
+      stage_fixed: true
+    - name: format
+      glob: "*.{js,jsx,ts,tsx,mjs,cjs,mts,cts,json,jsonc,md,css,yml,yaml}"
+      run: pnpm exec oxfmt --no-error-on-unmatched-pattern {staged_files}
+      stage_fixed: true
+
+commit-msg:
+  jobs:
+    - name: commitlint
+      run: pnpm exec commitlint --edit {1}

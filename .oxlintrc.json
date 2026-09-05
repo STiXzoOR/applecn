@@ -1,0 +1,101 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "import",
+    "jsx-a11y",
+    "nextjs",
+    "oxc",
+    "promise",
+    "react",
+    "typescript",
+    "unicorn",
+    "vitest"
+  ],
+  "categories": {
+    "correctness": "warn",
+    "suspicious": "warn",
+    "perf": "warn"
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2026": true
+  },
+  "rules": {
+    "curly": "off",
+    "eqeqeq": [
+      "warn",
+      "always",
+      {
+        "null": "ignore"
+      }
+    ],
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
+    "import/no-unassigned-import": "off",
+    "jsx-a11y/heading-has-content": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "jsx-a11y/prefer-tag-over-role": "off",
+    "no-debugger": "error",
+    "no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_",
+        "ignoreRestSiblings": true
+      }
+    ],
+    "no-var": "error",
+    "oxc/no-map-spread": "off",
+    "prefer-const": "error",
+    "react/display-name": "off",
+    "react/exhaustive-deps": "warn",
+    "react/jsx-key": "error",
+    "react/jsx-no-target-blank": "error",
+    "react/no-array-index-key": "off",
+    "react/no-unescaped-entities": "off",
+    "react/no-unknown-property": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/rules-of-hooks": "error",
+    "react/style-prop-object": "off",
+    "typescript/consistent-type-imports": [
+      "error",
+      {
+        "disallowTypeAnnotations": false
+      }
+    ],
+    "typescript/no-explicit-any": "off",
+    "typescript/no-non-null-assertion": "off",
+    "typescript/no-require-imports": "error",
+    "typescript/no-unsafe-type-assertion": "off",
+    "unicorn/consistent-function-scoping": "off",
+    "unicorn/no-array-sort": "off",
+    "vitest/require-mock-type-parameters": "off",
+    "vitest/valid-expect": "off"
+  },
+  "overrides": [
+    {
+      "files": ["apps/web/**/*.{ts,tsx}"],
+      "rules": {
+        "nextjs/no-html-link-for-pages": "off",
+        "nextjs/no-img-element": "off",
+        "nextjs/no-sync-scripts": "error",
+        "nextjs/no-head-element": "warn",
+        "nextjs/no-async-client-component": "warn"
+      }
+    }
+  ],
+  "ignorePatterns": [
+    "**/*.config.{js,mjs,ts,mts}",
+    "**/.next/**",
+    "**/.turbo/**",
+    "**/node_modules/**",
+    "**/next-env.d.ts",
+    "apps/web/public/**",
+    "apps/web/registry/examples.generated.ts",
+    "docs/**"
+  ]
+}

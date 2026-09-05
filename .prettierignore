@@ -1,8 +1,0 @@
-pnpm-lock.yaml
-.pnpm-store/
-
-# generated
-packages/ui/src/styles/tokens.css
-apps/web/registry.json
-apps/web/registry/examples.generated.ts
-apps/web/public/r/

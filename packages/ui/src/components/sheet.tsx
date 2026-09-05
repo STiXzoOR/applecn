@@ -79,7 +79,7 @@ function SheetClose({ className, ...props }: DialogPrimitive.Close.Props) {
     <DrawerPrimitive.Close
       data-slot="sheet-close"
       className={closeClassName}
-      {...(props as DrawerPrimitive.Close.Props)}
+      {...props}
     />
   )
 }
@@ -174,7 +174,7 @@ function SheetTitle({ className, ...props }: DialogPrimitive.Title.Props) {
     <DrawerPrimitive.Title
       data-slot="sheet-title"
       className={titleClassName}
-      {...(props as DrawerPrimitive.Title.Props)}
+      {...props}
     />
   )
 }
@@ -195,7 +195,7 @@ function SheetDescription({
     <DrawerPrimitive.Description
       data-slot="sheet-description"
       className={descriptionClassName}
-      {...(props as DrawerPrimitive.Description.Props)}
+      {...props}
     />
   )
 }

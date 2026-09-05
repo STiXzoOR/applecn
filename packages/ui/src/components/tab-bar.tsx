@@ -5,6 +5,7 @@ import { cn } from "cn"
 import {
   createContext,
   useContext,
+  useMemo,
   type ComponentProps,
   type ReactNode,
 } from "react"
@@ -51,8 +52,12 @@ function TabBar({
       extras.push(child)
     else if (child) items.push(child)
   }
+  const context = useMemo(
+    () => ({ value, onValueChange, minimized }),
+    [value, onValueChange, minimized]
+  )
   return (
-    <TabBarContext.Provider value={{ value, onValueChange, minimized }}>
+    <TabBarContext.Provider value={context}>
       <nav
         data-slot="tab-bar"
         data-minimized={minimized || undefined}

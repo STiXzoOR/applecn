@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process"
-import { readFileSync } from "node:fs"
+import { existsSync, readFileSync } from "node:fs"
 import { join } from "node:path"
 
 import { describe, expect, test } from "vitest"
@@ -15,6 +15,8 @@ const tracked = execFileSync("git", ["ls-files", "-z"], { cwd: root })
 /** History: the earlier spec and plan, and the verbatim research captures. */
 const history = /^(docs\/superpowers\/|docs\/research\/)/
 const binary = /\.(png|jpg|jpeg|gif|webp|ico|woff2?|ttf|otf)$/
+/** This file names the strings it hunts for. */
+const self = "apps/web/__tests__/repo.test.ts"
 
 /**
  * Registry item names the install commands mention: `@applecn/<name>` on a
@@ -35,7 +37,8 @@ export function registryNamesIn(markdown: string): string[] {
 describe("repository hygiene", () => {
   test("no tracked file outside the history folders still says apple-ds or <your-host>", () => {
     const stale = tracked.filter((f) => {
-      if (history.test(f) || binary.test(f)) return false
+      if (f === self || history.test(f) || binary.test(f)) return false
+      if (!existsSync(join(root, f))) return false // deleted, not yet committed
       const text = readFileSync(join(root, f), "utf8")
       return text.includes("apple-ds") || text.includes("<your-host>")
     })

@@ -1,0 +1,29 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  // Prettier-compatible: the tree was formatted with these values, so the swap is a no-op.
+  "printWidth": 80,
+  "tabWidth": 2,
+  "semi": false,
+  "singleQuote": false,
+  "trailingComma": "es5",
+  "endOfLine": "lf",
+  "sortPackageJson": false,
+  // Same algorithm as prettier-plugin-tailwindcss; the stylesheet is Tailwind v4's entry.
+  "sortTailwindcss": {
+    "stylesheet": "packages/ui/src/styles/globals.css",
+    "functions": ["cn", "cva"],
+  },
+  // Generated files are regenerated, never edited; docs/research holds verbatim captures.
+  "ignorePatterns": [
+    "pnpm-lock.yaml",
+    "**/node_modules/**",
+    "**/.next/**",
+    "**/.turbo/**",
+    "apps/web/public/**",
+    "apps/web/registry.json",
+    "apps/web/registry/examples.generated.ts",
+    "packages/ui/src/styles/tokens.css",
+    "docs/research/**",
+    "**/AGENTS.md",
+  ],
+}

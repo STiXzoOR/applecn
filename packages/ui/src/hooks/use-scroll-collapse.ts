@@ -17,7 +17,7 @@ function useScrollCollapse({ offset = 44 }: ScrollCollapseOptions = {}) {
   const [collapsed, setCollapsed] = useState(false)
 
   useEffect(() => {
-    if (!node || typeof IntersectionObserver === "undefined") return
+    if (!node || typeof IntersectionObserver === "undefined") return undefined
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {

@@ -4,6 +4,7 @@ import {
   createContext,
   useContext,
   useEffect,
+  useMemo,
   useState,
   type ReactNode,
 } from "react"
@@ -73,13 +74,16 @@ export function AppearanceProvider({ children }: { children: ReactNode }) {
     }
   }, [state])
 
-  const value: Appearance = {
-    ...state,
-    setPlatform: (platform) => setState((s) => ({ ...s, platform })),
-    setContrast: (contrast) => setState((s) => ({ ...s, contrast })),
-    setTransparency: (transparency) =>
-      setState((s) => ({ ...s, transparency })),
-  }
+  const value = useMemo<Appearance>(
+    () => ({
+      ...state,
+      setPlatform: (platform) => setState((s) => ({ ...s, platform })),
+      setContrast: (contrast) => setState((s) => ({ ...s, contrast })),
+      setTransparency: (transparency) =>
+        setState((s) => ({ ...s, transparency })),
+    }),
+    [state]
+  )
 
   return (
     <AppearanceContext.Provider value={value}>

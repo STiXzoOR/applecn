@@ -3,6 +3,8 @@ packages:
   - "packages/*"
 
 allowBuilds:
+  lefthook: true
+  oxlint-tsgolint: true
   sharp: true
   unrs-resolver: true
   msw: false
