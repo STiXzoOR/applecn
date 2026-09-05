@@ -11,7 +11,7 @@ import { cn } from "cn"
  * (icon-only). Every button has a press state and dims to 40 % when disabled.
  */
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center gap-1.5 border border-transparent bg-clip-padding font-semibold whitespace-nowrap transition-[background-color,transform,opacity,box-shadow] duration-(--duration-press) ease-(--ease-standard) outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/50 active:scale-[0.97] active:opacity-80 disabled:pointer-events-none disabled:opacity-40 aria-invalid:ring-3 aria-invalid:ring-destructive/30 motion-reduce:active:scale-100 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "group/button inline-flex shrink-0 items-center justify-center gap-1.5 border border-transparent bg-clip-padding font-semibold whitespace-nowrap transition-[background-color,transform,opacity,box-shadow] duration-(--duration-press) ease-(--ease-standard) outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 active:scale-[0.97] active:opacity-80 disabled:pointer-events-none disabled:opacity-40 aria-invalid:ring-3 aria-invalid:ring-destructive/30 motion-reduce:active:scale-100 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       variant: {

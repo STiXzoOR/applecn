@@ -18,7 +18,7 @@ describe("Input", () => {
     const i = screen.getByRole("textbox", { name: "Name" })
     expect(i).toHaveAttribute("data-slot", "input")
     expect(i.className).toContain("h-(--text-field-height)")
-    expect(i.className).toContain("rounded-lg")
+    expect(i.className).toContain("rounded-(--text-field-radius)")
     expect(i.className).toContain("bg-fill-3")
     expect(i.className).toContain("type-body")
     expect(i.className).toContain("placeholder:text-placeholder")

@@ -1,7 +1,9 @@
 /**
- * Control geometry per platform, in points. iOS values are UIKit runtime values or HIG
- * tables; macOS values marked in the research document as approximations are AppKit's
- * published pre-Tahoe sizes rounded up for macOS 26. Source: research §3 and §6.
+ * Control geometry per platform, in points. iOS values are UIKit runtime values or HIG tables,
+ * with the radii Apple publishes nowhere taken from its web tokens (xlarge 24). The macOS
+ * platform is Apple's desktop web idiom, measured on apps.apple.com, music.apple.com,
+ * tv.apple.com and apple.com on 2026-09-05; the few values with no web counterpart (switch,
+ * stepper, alert width) are AppKit's and are marked in the research document.
  */
 
 export type Platform = "ios" | "macos"
@@ -91,7 +93,7 @@ const ios: ControlMetrics = {
   list: {
     inset: 16,
     insetWide: 20,
-    radius: 26,
+    radius: 24,
     rowMinHeight: 44,
     rowPaddingY: 11,
     rowPaddingX: 16,
@@ -100,13 +102,13 @@ const ios: ControlMetrics = {
   navBar: { height: 44, largeTitle: 52 },
   tabBar: { height: 64, inset: 21 },
   toolbar: { height: 44 },
-  sheet: { radius: 40, grabber: [36, 5], scrim: 0.4 },
-  alert: { width: 270, radius: 26, buttonHeight: 44 },
-  actionSheet: { rowHeight: 56, radius: 26, cancelGap: 8 },
-  menu: { width: 250, itemHeight: 44, radius: 26 },
+  sheet: { radius: 40, grabber: [36, 5], scrim: 0.45 },
+  alert: { width: 270, radius: 24, buttonHeight: 44 },
+  actionSheet: { rowHeight: 56, radius: 24, cancelGap: 8 },
+  menu: { width: 250, itemHeight: 44, radius: 24 },
   dialog: { width: 540 },
   splitView: { sidebar: 320, content: 375 },
-  popover: { radius: 26, arrow: [13, 6.5] },
+  popover: { radius: 24, arrow: [13, 6.5] },
   progress: { height: 4 },
   spinner: { medium: 20, large: 37 },
   badge: { height: 18, minWidth: 18 },
@@ -115,33 +117,43 @@ const ios: ControlMetrics = {
 }
 
 const macos: ControlMetrics = {
-  buttonHeight: { mini: 16, small: 20, regular: 24, large: 28, xl: 34 },
+  /** Music's 24 and 28 pt buttons, its 36 pt pill, TV's 40 pt pill, apple.com's 44 pt CTA. */
+  buttonHeight: { mini: 24, small: 28, regular: 36, large: 40, xl: 44 },
   switch: { width: 38, height: 22, thumb: 20 },
   checkbox: { size: 14, shape: "square" },
   radio: { size: 14, dot: 6 },
-  slider: { track: 4, thumb: 20 },
+  /** TV's player scrubber. */
+  slider: { track: 5, thumb: 13 },
   stepper: { width: 13, height: 22, radius: 4 },
-  segmented: { height: 22, inset: 1 },
-  textField: { height: 22, radius: 6 },
-  searchField: { height: 22 },
+  /** TV's `--selectHeight`. */
+  segmented: { height: 32, inset: 2 },
+  /** The App Store's search field. */
+  textField: { height: 32, radius: 4 },
+  searchField: { height: 32 },
+  /** Music's sidebar rows (34 pt, 8 pt corners, 3 pt padding). */
   list: {
     inset: 0,
     insetWide: 0,
-    radius: 6,
-    rowMinHeight: 28,
-    rowPaddingY: 4,
+    radius: 8,
+    rowMinHeight: 34,
+    rowPaddingY: 3,
     rowPaddingX: 8,
     iconTile: 16,
   },
-  navBar: { height: 28, largeTitle: 0 },
+  /** TV's and Music's header bar. */
+  navBar: { height: 52, largeTitle: 0 },
   tabBar: { height: 0, inset: 0 },
   toolbar: { height: 52 },
-  sheet: { radius: 26, grabber: [0, 0], scrim: 0.25 },
-  alert: { width: 260, radius: 12, buttonHeight: 24 },
-  actionSheet: { rowHeight: 22, radius: 12, cancelGap: 0 },
-  menu: { width: 200, itemHeight: 22, radius: 12 },
-  dialog: { width: 480 },
-  splitView: { sidebar: 240, content: 320 },
+  /** Dialogs on every Apple property: 10 pt corners under the .45 scrim. */
+  sheet: { radius: 10, grabber: [0, 0], scrim: 0.45 },
+  alert: { width: 260, radius: 10, buttonHeight: 28 },
+  actionSheet: { rowHeight: 44, radius: 12, cancelGap: 0 },
+  /** TV's popover menus: 44 pt rows, 200 pt max width. */
+  menu: { width: 200, itemHeight: 44, radius: 12 },
+  /** The App Store's Version History modal. */
+  dialog: { width: 691 },
+  /** The App Store's sidebar. */
+  splitView: { sidebar: 260, content: 320 },
   popover: { radius: 12, arrow: [13, 6.5] },
   progress: { height: 4 },
   spinner: { medium: 16, large: 32 },

@@ -61,8 +61,8 @@ describe("globals.css", () => {
   })
 
   test("keeps the Luma radius derivation and adds the sheet and icon radii", () => {
-    expect(themeInline).toContain("--radius-sm: calc(var(--radius) * 0.6);")
-    expect(themeInline).toContain("--radius-4xl: calc(var(--radius) * 2.6);")
+    expect(themeInline).toContain("--radius-sm: var(--corner-sm);")
+    expect(themeInline).toContain("--radius-4xl: var(--corner-4xl);")
     expect(themeInline).toContain("--radius-sheet: var(--sheet-radius);")
     expect(themeInline).toContain("--radius-icon: var(--icon-radius);")
   })
@@ -73,6 +73,8 @@ describe("globals.css", () => {
     expect(themeInline).toContain("--ease-spring-bouncy: var(--spring-bouncy);")
     expect(themeInline).toContain("--shadow-thumb: var(--elevation-thumb);")
     expect(themeInline).toContain("--shadow-glass: var(--elevation-glass);")
+    expect(themeInline).toContain("--shadow-dialog: var(--elevation-dialog);")
+    expect(themeInline).toContain("--ease-menu: var(--easing-menu);")
   })
 
   test("defines the material, glass and hairline utilities with reduced-transparency fallbacks", () => {
@@ -90,6 +92,8 @@ describe("globals.css", () => {
     expect(css).toContain("@utility hairline {")
     expect(css).toContain("prefers-reduced-transparency: reduce")
     expect(css).toContain('[data-transparency="reduced"]')
+    expect(css).toContain("var(--material-glass-fallback)")
+    expect(css).toContain("var(--material-regular-fallback)")
   })
 
   test("base layer: tap highlight, optical sizing, coarse-pointer input size, Dynamic Type root", () => {

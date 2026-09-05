@@ -66,7 +66,7 @@ function SheetTrigger(props: DialogPrimitive.Trigger.Props) {
 function SheetClose({ className, ...props }: DialogPrimitive.Close.Props) {
   const presentation = useSheetPresentation()
   const closeClassName = cn(
-    "type-body text-primary outline-none focus-visible:ring-3 focus-visible:ring-ring/50 active:opacity-60",
+    "type-body text-primary outline-none focus-visible:ring-4 focus-visible:ring-ring/60 active:opacity-60",
     className
   )
   return presentation === "dialog" ? (
@@ -133,7 +133,7 @@ function SheetContent({
           data-detent={detent}
           data-elevated=""
           className={cn(
-            "fixed inset-x-0 bottom-0 z-50 flex [translate:0_var(--drawer-swipe-movement-y)] flex-col bg-popover text-label shadow-window transition-transform duration-(--duration-sheet) ease-(--ease-sheet) will-change-transform outline-none data-ending-style:translate-y-full data-starting-style:translate-y-full data-swiping:duration-0 motion-reduce:transition-none",
+            "fixed inset-x-0 bottom-0 z-50 flex [translate:0_var(--drawer-swipe-movement-y)] flex-col bg-popover text-label shadow-dialog transition-transform duration-(--duration-sheet) ease-(--ease-sheet) will-change-transform outline-none data-ending-style:translate-y-full data-starting-style:translate-y-full data-swiping:duration-0 motion-reduce:transition-none",
             detent === "medium"
               ? "mx-2 mb-[max(0.5rem,env(safe-area-inset-bottom))] h-[50dvh] rounded-sheet"
               : "max-h-[calc(100dvh-var(--nav-bar-height))] rounded-t-sheet pb-[env(safe-area-inset-bottom)]",

@@ -52,7 +52,7 @@ function TooltipContent({
           data-elevated=""
           role="tooltip"
           className={cn(
-            "z-50 inline-flex w-fit max-w-xs origin-(--transform-origin) items-center gap-1.5 rounded-md material-thick px-2 py-1 type-caption-1 text-label shadow-popover duration-(--duration-hover) ease-(--ease-standard) motion-reduce:animate-none data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
+            "z-50 inline-flex w-fit max-w-xs origin-(--transform-origin) items-center gap-1.5 rounded-md material-thick px-2 py-1 type-caption-1 text-label shadow-glass duration-(--duration-hover) ease-(--ease-standard) motion-reduce:animate-none data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
             className
           )}
           {...props}

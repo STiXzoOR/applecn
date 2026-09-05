@@ -1,9 +1,10 @@
 import type { Rgb, Rgba } from "./colors.ts"
 
 /**
- * Materials: the four content-layer thicknesses and the two Liquid Glass variants, as a
- * background colour per appearance plus the backdrop blur and saturation. All values are
- * web approximations of Apple's private effect parameters (research §4).
+ * Materials, measured from Apple's web CSS (2026-09-05): the four content-layer thicknesses and
+ * the two Liquid Glass variants, each as a tint per appearance, a backdrop blur and saturation,
+ * and the opaque fallback Apple ships for browsers without backdrop-filter and for Reduce
+ * Transparency (`--fallbackMaterialBG`, `--glassMaterialBackground-*_IC`).
  */
 
 export type MaterialName =
@@ -27,49 +28,73 @@ export interface Material {
   readonly blur: number
   /** Backdrop saturation multiplier. */
   readonly saturate: number
+  /** The opaque stand-in under Reduce Transparency. */
+  readonly fallback: {
+    readonly light: MaterialTint
+    readonly dark: MaterialTint
+  }
 }
 
-const lightTint = (alpha: number): MaterialTint => ({
-  rgb: [255, 255, 255],
-  alpha,
-})
-const darkTint = (alpha: number): MaterialTint => ({ rgb: [37, 37, 37], alpha })
+const tint = (rgb: Rgb, alpha: number): MaterialTint => ({ rgb, alpha })
+
+/** `--fallbackMaterialBG`: white and near-black at 97 %. */
+const contentFallback = {
+  light: tint([255, 255, 255], 0.97),
+  dark: tint([31, 31, 31], 0.97),
+}
+/** `--glassMaterialBackground-*_IC`: the increased-contrast, opaque glass. */
+const glassFallback = {
+  light: tint([242, 242, 242], 1),
+  dark: tint([14, 14, 14], 1),
+}
 
 export const materials: Readonly<Record<MaterialName, Material>> = {
+  /** The App Store's translucent control (white 25 % over `saturate(180%) blur(10px)`); TV's dark counterpart. */
   "ultra-thin": {
-    light: lightTint(0.55),
-    dark: darkTint(0.3),
+    light: tint([255, 255, 255], 0.25),
+    dark: tint([0, 0, 0], 0.3),
     blur: 10,
     saturate: 1.8,
+    fallback: contentFallback,
   },
+  /** Music's and TV's glass tiles (`saturate(1.9) blur(60px)` over 48 % / 50 %). */
   thin: {
-    light: lightTint(0.7),
-    dark: darkTint(0.45),
+    light: tint([246, 246, 246], 0.48),
+    dark: tint([40, 40, 40], 0.5),
+    blur: 60,
+    saturate: 1.8,
+    fallback: contentFallback,
+  },
+  /** apple.com's global nav (`rgba(250,250,252,.8)` / `rgba(22,22,23,.8)` over `saturate(180%) blur(20px)`). */
+  regular: {
+    light: tint([250, 250, 252], 0.8),
+    dark: tint([22, 22, 23], 0.8),
     blur: 20,
     saturate: 1.8,
+    fallback: contentFallback,
   },
-  regular: {
-    light: lightTint(0.82),
-    dark: darkTint(0.62),
-    blur: 30,
-    saturate: 1.8,
-  },
+  /** Music's player bar (`--playerBackground`: 88 %). */
   thick: {
-    light: lightTint(0.93),
-    dark: darkTint(0.8),
-    blur: 40,
+    light: tint([255, 255, 255], 0.88),
+    dark: tint([45, 45, 45], 0.88),
+    blur: 60,
     saturate: 1.8,
+    fallback: contentFallback,
   },
+  /** Music's floating sidebar: `--glassMaterialBackground` behind `saturate(2.2) blur(16px)`. */
   glass: {
-    light: lightTint(0.5),
-    dark: { rgb: [40, 40, 40], alpha: 0.5 },
+    light: tint([245, 245, 247], 0.55),
+    dark: tint([38, 38, 40], 0.6),
     blur: 16,
-    saturate: 1.6,
+    saturate: 2.2,
+    fallback: glassFallback,
   },
+  /** The App Store's translucent button over artwork: white 25 %, `saturate(180%) blur(10px)`. */
   "glass-clear": {
-    light: lightTint(0.2),
-    dark: { rgb: [0, 0, 0], alpha: 0.3 },
-    blur: 8,
-    saturate: 1.4,
+    light: tint([255, 255, 255], 0.25),
+    dark: tint([255, 255, 255], 0.25),
+    blur: 10,
+    saturate: 1.8,
+    fallback: glassFallback,
   },
 }

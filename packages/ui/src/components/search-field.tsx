@@ -101,7 +101,7 @@ function SearchField({
         <button
           type="button"
           data-slot="search-field-cancel"
-          className="shrink-0 px-1 type-body text-primary outline-none focus-visible:ring-3 focus-visible:ring-ring/50 active:opacity-60"
+          className="shrink-0 px-1 type-body text-primary outline-none focus-visible:ring-4 focus-visible:ring-ring/60 active:opacity-60"
           onMouseDown={(event) => event.preventDefault()}
           onClick={() => {
             update("")

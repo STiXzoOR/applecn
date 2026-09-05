@@ -14,14 +14,15 @@ import { Icon } from "./icon"
  * adds the iOS clear button at the trailing end once there is text.
  */
 const inputVariants = cva(
-  "w-full min-w-0 type-body text-label transition-[box-shadow,background-color] duration-(--duration-hover) outline-none file:me-2 file:border-0 file:bg-transparent file:type-subheadline file:font-medium placeholder:text-placeholder focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-40 aria-invalid:ring-3 aria-invalid:ring-destructive/30",
+  "w-full min-w-0 type-body text-label transition-[box-shadow,background-color] duration-(--duration-hover) outline-none file:me-2 file:border-0 file:bg-transparent file:type-subheadline file:font-medium placeholder:text-placeholder focus-visible:ring-4 focus-visible:ring-ring/60 disabled:pointer-events-none disabled:opacity-40 aria-invalid:ring-3 aria-invalid:ring-destructive/30",
   {
     variants: {
       variant: {
-        rounded: "h-(--text-field-height) rounded-lg bg-fill-3 px-3",
+        rounded:
+          "h-(--text-field-height) rounded-(--text-field-radius) bg-fill-3 px-3",
         plain: "h-(--text-field-height) bg-transparent px-0",
         bordered:
-          "h-(--text-field-height) rounded-md border border-input bg-background px-2 shadow-control",
+          "h-(--text-field-height) rounded-(--text-field-radius) border border-input bg-background px-2 shadow-control",
       },
     },
     defaultVariants: {

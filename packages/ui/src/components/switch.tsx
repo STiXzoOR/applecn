@@ -10,7 +10,7 @@ import { cn } from "cn"
  * in list rows, where the row text is the label.
  */
 const switchVariants = cva(
-  "peer group/switch relative inline-flex h-(--switch-height) w-(--switch-width) shrink-0 items-center rounded-full transition-[background-color] duration-(--duration-hover) ease-(--ease-standard) outline-none focus-visible:ring-3 focus-visible:ring-ring/50 data-unchecked:bg-fill data-disabled:cursor-not-allowed data-disabled:opacity-40",
+  "peer group/switch relative inline-flex h-(--switch-height) w-(--switch-width) shrink-0 items-center rounded-full transition-[background-color] duration-(--duration-hover) ease-(--ease-standard) outline-none focus-visible:ring-4 focus-visible:ring-ring/60 data-unchecked:bg-fill data-disabled:cursor-not-allowed data-disabled:opacity-40",
   {
     variants: {
       color: {

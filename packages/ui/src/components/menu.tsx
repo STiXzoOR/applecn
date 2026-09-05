@@ -14,7 +14,7 @@ import { Icon } from "./icon"
  * on selected items and chevrons on submenus. Shared class strings feed `ContextMenu`.
  */
 const menuContentClassName =
-  "glass z-50 max-h-(--available-height) min-w-(--menu-width) origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-4xl p-1 text-label shadow-menu outline-none duration-(--duration-overlay) ease-(--ease-standard) data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 motion-reduce:animate-none"
+  "glass z-50 max-h-(--available-height) min-w-(--menu-width) origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-4xl p-1 text-label shadow-glass macos:rounded-xl outline-none duration-(--duration-overlay) ease-(--ease-standard) data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 motion-reduce:animate-none"
 
 const menuItemClassName =
   "type-body group/menu-item relative flex h-(--menu-item-height) w-full cursor-default items-center gap-3 rounded-3xl px-4 text-label outline-hidden select-none focus:bg-fill-3 data-highlighted:bg-fill-3 data-disabled:pointer-events-none data-disabled:opacity-40 data-[variant=destructive]:text-destructive [&_svg]:pointer-events-none [&_svg]:shrink-0"

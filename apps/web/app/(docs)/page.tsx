@@ -39,7 +39,7 @@ export default function OverviewPage() {
             <Link
               key={page.slug}
               href={`/foundations/${page.slug}`}
-              className="group rounded-4xl outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+              className="group rounded-4xl outline-none focus-visible:ring-4 focus-visible:ring-ring/60"
             >
               <Card className="h-full transition-[background-color] duration-(--duration-hover) group-hover:bg-fill-3">
                 <CardHeader>
@@ -66,7 +66,7 @@ export default function OverviewPage() {
                     <Link
                       key={d.name}
                       href={`/components/${d.name}`}
-                      className="rounded-full bg-fill-3 px-3 py-1.5 type-subheadline font-medium text-primary outline-none hover:bg-fill-2 focus-visible:ring-3 focus-visible:ring-ring/50"
+                      className="rounded-full bg-fill-3 px-3 py-1.5 type-subheadline font-medium text-primary outline-none hover:bg-fill-2 focus-visible:ring-4 focus-visible:ring-ring/60"
                     >
                       {d.title}
                     </Link>

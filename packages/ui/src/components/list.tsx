@@ -168,7 +168,7 @@ function ListRow({
       {leading ? (
         <span
           data-slot="list-row-leading"
-          className="flex size-(--list-icon-tile) shrink-0 items-center justify-center rounded-[7px] [&_svg]:size-[70%]"
+          className="flex size-(--list-icon-tile) shrink-0 items-center justify-center rounded-md [&_svg]:size-[70%]"
         >
           {leading}
         </span>

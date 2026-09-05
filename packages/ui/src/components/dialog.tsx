@@ -25,7 +25,7 @@ const dialogBackdropClassName =
   "fixed inset-0 z-50 [background-color:rgb(0_0_0/var(--sheet-scrim))] duration-(--duration-overlay) data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 motion-reduce:animate-none"
 
 const dialogPopupClassName =
-  "fixed top-1/2 left-1/2 z-50 flex w-[calc(100%-2rem)] max-w-(--dialog-width) -translate-x-1/2 -translate-y-1/2 flex-col gap-4 rounded-4xl bg-popover p-6 text-label shadow-window outline-none duration-(--duration-overlay) ease-(--ease-standard) data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 motion-reduce:animate-none"
+  "fixed top-1/2 left-1/2 z-50 flex w-[calc(100%-2rem)] max-w-(--dialog-width) -translate-x-1/2 -translate-y-1/2 flex-col gap-4 rounded-lg bg-popover p-6 text-label shadow-dialog outline-none duration-(--duration-overlay) ease-(--ease-standard) data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 motion-reduce:animate-none"
 
 function DialogContent({ className, ...props }: DialogPrimitive.Popup.Props) {
   return (

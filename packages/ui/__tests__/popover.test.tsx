@@ -29,7 +29,7 @@ describe("Popover", () => {
     expect(popover).toHaveAttribute("data-slot", "popover-content")
     expect(popover.className).toContain("rounded-4xl")
     expect(popover.className).toContain("material-regular")
-    expect(popover.className).toContain("shadow-popover")
+    expect(popover.className).toContain("shadow-glass")
     expect(popover.querySelector('[data-slot="popover-arrow"]')).not.toBeNull()
     await userEvent.click(screen.getByRole("button", { name: "Outside" }))
     expect(screen.queryByRole("dialog")).toBeNull()

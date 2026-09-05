@@ -65,7 +65,7 @@ function SegmentedControlItem({
     <TabsPrimitive.Tab
       data-slot="segmented-control-item"
       className={cn(
-        "relative z-10 flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 type-footnote font-medium whitespace-nowrap text-label outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-40 data-active:font-semibold [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "relative z-10 flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 type-footnote font-medium whitespace-nowrap text-label outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 disabled:opacity-40 data-active:font-semibold [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className
       )}
       {...props}

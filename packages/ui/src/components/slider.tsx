@@ -71,7 +71,7 @@ function Slider({
             key={index}
             data-slot="slider-thumb"
             aria-label={values.length === 1 ? label : undefined}
-            className="block size-(--slider-thumb) shrink-0 rounded-full bg-white shadow-thumb transition-[box-shadow] duration-(--duration-press) select-none focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-hidden disabled:pointer-events-none"
+            className="block size-(--slider-thumb) shrink-0 rounded-full bg-white shadow-thumb transition-[box-shadow] duration-(--duration-press) select-none focus-visible:ring-4 focus-visible:ring-ring/60 focus-visible:outline-hidden disabled:pointer-events-none"
           />
         ))}
       </SliderPrimitive.Control>

@@ -11,7 +11,7 @@ import {
   white,
   type Rgba,
 } from "./colors.ts"
-import { elevation } from "./elevation.ts"
+import { elevation, type AdaptiveShadow } from "./elevation.ts"
 import { materials } from "./materials.ts"
 import { metrics, type ControlMetrics, type Platform } from "./metrics.ts"
 import { durations, easings, springs } from "./motion.ts"
@@ -175,6 +175,7 @@ function controlLines(m: ControlMetrics): Line[] {
     ["segmented-height", px(m.segmented.height)],
     ["segmented-inset", px(m.segmented.inset)],
     ["text-field-height", px(m.textField.height)],
+    ["text-field-radius", px(m.textField.radius)],
     ["search-field-height", px(m.searchField.height)],
     ["list-inset", px(m.list.inset)],
     ["list-radius", px(m.list.radius)],
@@ -220,6 +221,9 @@ function shapeLines(): Line[] {
     // these primitives into them, so the primitives carry different names to avoid a cycle.
     ["sheet-radius", px(radii.sheet)],
     ["icon-radius", radii.icon],
+    ...Object.entries(radii.ladder).map(
+      ([step, value]): Line => [`corner-${step}`, px(value)]
+    ),
   ]
 }
 
@@ -239,19 +243,28 @@ function motionLines(): Line[] {
   ]
 }
 
-function elevationLines(): Line[] {
+function elevationLines(appearance: Appearance, onlyAdaptive = false): Line[] {
   const toKebab = (s: string) =>
     s.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)
-  return Object.entries(elevation).map(([name, value]) => [
-    `elevation-${toKebab(name)}`,
-    value,
-  ])
+  const lines: Line[] = []
+  for (const [name, value] of Object.entries(elevation) as [
+    string,
+    string | AdaptiveShadow,
+  ][]) {
+    if (typeof value === "string") {
+      if (!onlyAdaptive) lines.push([`elevation-${toKebab(name)}`, value])
+    } else {
+      lines.push([`elevation-${toKebab(name)}`, value[appearance]])
+    }
+  }
+  return lines
 }
 
 function materialLines(appearance: Appearance): Line[] {
   const lines: Line[] = []
   for (const [name, m] of Object.entries(materials)) {
     lines.push([`material-${name}-bg`, css(m[appearance])])
+    lines.push([`material-${name}-fallback`, css(m.fallback[appearance])])
     if (appearance === "light") {
       lines.push([`material-${name}-blur`, px(m.blur)])
       lines.push([`material-${name}-saturate`, String(m.saturate)])
@@ -276,12 +289,13 @@ export function tokenVars(appearance: Appearance): Record<string, string> {
           ...shapeLines(),
           ...platformLines("ios"),
           ...motionLines(),
-          ...elevationLines(),
+          ...elevationLines("light"),
           ...materialLines("light"),
         ]
       : [
           ...primitives("dark"),
           ...semanticAliases("dark"),
+          ...elevationLines("dark", true),
           ...materialLines("dark"),
         ]
   return Object.fromEntries(lines)
@@ -301,7 +315,7 @@ export function renderTokensCss(): string {
       ...shapeLines(),
       ...platformLines("ios"),
       ...motionLines(),
-      ...elevationLines(),
+      ...elevationLines("light"),
       ...materialLines("light"),
     ])
   )
@@ -313,6 +327,7 @@ export function renderTokensCss(): string {
     block(".dark", [
       ...primitives("dark"),
       ...semanticAliases("dark"),
+      ...elevationLines("dark", true),
       ...materialLines("dark"),
     ])
   )

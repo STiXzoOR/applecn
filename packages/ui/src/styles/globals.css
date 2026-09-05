@@ -5,7 +5,7 @@
  * `tokens.css` — the generated, single definition of every Apple token (colours, type, control
  * metrics, shape, motion, elevation, materials; light, dark, elevated, increased-contrast and
  * macOS scopes). This file only bridges those primitives into Tailwind's theme namespaces so
- * they become utilities (`bg-system-blue`, `rounded-sheet`, `shadow-thumb`, `ease-sheet`),
+ * they become utilities (`bg-system-blue`, `rounded-4xl`, `shadow-glass`, `ease-menu`),
  * defines the `type-*` text-style utilities, and adds the base styles and the material utilities.
  *
  * Never write a literal colour, size, radius or duration here or in a component: change the
@@ -108,13 +108,13 @@
   --color-link: var(--link);
 
   /* ---------- shape: shadcn's Luma derivation, unmodified, plus Apple's two extras ---------- */
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-sm: var(--corner-sm);
+  --radius-md: var(--corner-md);
+  --radius-lg: var(--corner-lg);
+  --radius-xl: var(--corner-xl);
+  --radius-2xl: var(--corner-2xl);
+  --radius-3xl: var(--corner-3xl);
+  --radius-4xl: var(--corner-4xl);
   --radius-sheet: var(--sheet-radius);
   --radius-icon: var(--icon-radius);
 
@@ -122,6 +122,8 @@
   --ease-standard: var(--easing-standard);
   --ease-sheet: var(--easing-sheet);
   --ease-nav: var(--easing-nav);
+  --ease-transform: var(--easing-transform);
+  --ease-menu: var(--easing-menu);
   --ease-spring-smooth: var(--spring-smooth);
   --ease-spring-snappy: var(--spring-snappy);
   --ease-spring-bouncy: var(--spring-bouncy);
@@ -132,10 +134,12 @@
   --shadow-control: var(--elevation-control);
   --shadow-card-small: var(--elevation-card-small);
   --shadow-card-medium: var(--elevation-card-medium);
-  --shadow-menu: var(--elevation-menu);
-  --shadow-popover: var(--elevation-popover);
-  --shadow-window: var(--elevation-window);
+  --shadow-lift: var(--elevation-lift);
+  --shadow-artwork: var(--elevation-artwork);
+  --shadow-hero-icon: var(--elevation-hero-icon);
+  --shadow-mobile-bar: var(--elevation-mobile-bar);
   --shadow-glass: var(--elevation-glass);
+  --shadow-dialog: var(--elevation-dialog);
 
   /* ---------- animations ---------- */
   @keyframes progress-indeterminate {
@@ -271,11 +275,11 @@
   backdrop-filter: blur(var(--material-ultra-thin-blur))
     saturate(var(--material-ultra-thin-saturate));
   @media (prefers-reduced-transparency: reduce) {
-    background-color: var(--background-3);
+    background-color: var(--material-ultra-thin-fallback);
     backdrop-filter: none;
   }
   :where([data-transparency="reduced"]) & {
-    background-color: var(--background-3);
+    background-color: var(--material-ultra-thin-fallback);
     backdrop-filter: none;
   }
 }
@@ -287,11 +291,11 @@
   backdrop-filter: blur(var(--material-thin-blur))
     saturate(var(--material-thin-saturate));
   @media (prefers-reduced-transparency: reduce) {
-    background-color: var(--background-3);
+    background-color: var(--material-thin-fallback);
     backdrop-filter: none;
   }
   :where([data-transparency="reduced"]) & {
-    background-color: var(--background-3);
+    background-color: var(--material-thin-fallback);
     backdrop-filter: none;
   }
 }
@@ -303,11 +307,11 @@
   backdrop-filter: blur(var(--material-regular-blur))
     saturate(var(--material-regular-saturate));
   @media (prefers-reduced-transparency: reduce) {
-    background-color: var(--background-3);
+    background-color: var(--material-regular-fallback);
     backdrop-filter: none;
   }
   :where([data-transparency="reduced"]) & {
-    background-color: var(--background-3);
+    background-color: var(--material-regular-fallback);
     backdrop-filter: none;
   }
 }
@@ -319,11 +323,11 @@
   backdrop-filter: blur(var(--material-thick-blur))
     saturate(var(--material-thick-saturate));
   @media (prefers-reduced-transparency: reduce) {
-    background-color: var(--background-3);
+    background-color: var(--material-thick-fallback);
     backdrop-filter: none;
   }
   :where([data-transparency="reduced"]) & {
-    background-color: var(--background-3);
+    background-color: var(--material-thick-fallback);
     backdrop-filter: none;
   }
 }
@@ -338,14 +342,14 @@
     saturate(var(--material-glass-saturate));
   box-shadow: var(--elevation-glass);
   @media (prefers-reduced-transparency: reduce) {
-    background-color: var(--background-3);
+    background-color: var(--material-glass-fallback);
     backdrop-filter: none;
-    box-shadow: var(--elevation-popover);
+    box-shadow: var(--elevation-dialog);
   }
   :where([data-transparency="reduced"]) & {
-    background-color: var(--background-3);
+    background-color: var(--material-glass-fallback);
     backdrop-filter: none;
-    box-shadow: var(--elevation-popover);
+    box-shadow: var(--elevation-dialog);
   }
 }
 
@@ -357,14 +361,14 @@
     saturate(var(--material-glass-clear-saturate));
   box-shadow: var(--elevation-glass);
   @media (prefers-reduced-transparency: reduce) {
-    background-color: var(--background-3);
+    background-color: var(--material-glass-clear-fallback);
     backdrop-filter: none;
-    box-shadow: var(--elevation-popover);
+    box-shadow: var(--elevation-dialog);
   }
   :where([data-transparency="reduced"]) & {
-    background-color: var(--background-3);
+    background-color: var(--material-glass-clear-fallback);
     backdrop-filter: none;
-    box-shadow: var(--elevation-popover);
+    box-shadow: var(--elevation-dialog);
   }
 }
 

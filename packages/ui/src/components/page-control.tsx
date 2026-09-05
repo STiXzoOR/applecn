@@ -80,7 +80,7 @@ function PageControl({
           aria-label={`Page ${i + 1}`}
           tabIndex={i === index ? 0 : -1}
           data-slot="page-control-dot"
-          className="size-(--page-control-dot) rounded-full bg-label-4 transition-colors duration-(--duration-press) outline-none focus-visible:ring-3 focus-visible:ring-ring/50 aria-selected:bg-label"
+          className="size-(--page-control-dot) rounded-full bg-label-4 transition-colors duration-(--duration-press) outline-none focus-visible:ring-4 focus-visible:ring-ring/60 aria-selected:bg-label"
           onClick={() => move(i)}
         />
       ))}

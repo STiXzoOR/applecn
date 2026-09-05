@@ -64,7 +64,7 @@ describe("renderTokensCss", () => {
     expect(root).toContain("--type-headline-emphasized: 600;")
     const mac = section('[data-platform="macos"]')
     expect(mac).toContain("--type-body-size: calc(13 * var(--pt));")
-    expect(mac).toContain("--control-height-regular: 24px;")
+    expect(mac).toContain("--control-height-regular: 36px;")
   })
 
   test("control metrics as CSS variables", () => {
@@ -73,10 +73,23 @@ describe("renderTokensCss", () => {
     expect(root).toContain("--switch-width: 51px;")
     expect(root).toContain("--list-inset: 16px;")
     expect(root).toContain("--sheet-radius: 40px;")
-    expect(root).toContain("--easing-sheet: cubic-bezier(0.32, 0.72, 0, 1);")
-    expect(root).toContain("--duration-press: 120ms;")
+    expect(root).toContain("--corner-sm: 5px;")
+    expect(root).toContain("--corner-4xl: 24px;")
+    expect(root).toContain("--text-field-radius: 10px;")
+    expect(root).toContain("--material-glass-fallback: rgb(242 242 242);")
+    expect(root).toContain("--easing-sheet: cubic-bezier(0.52, 0.16, 0.24, 1);")
+    expect(root).toContain("--duration-press: 100ms;")
     expect(root).toContain(
       "--elevation-thumb: 0 3px 8px rgb(0 0 0 / 0.15), 0 3px 1px rgb(0 0 0 / 0.06);"
+    )
+    expect(root).toContain(
+      "--elevation-glass: inset 0 0 0 1px rgb(0 0 0 / 0.05), 0 10px 40px rgb(0 0 0 / 0.1);"
+    )
+    expect(section(".dark")).toContain(
+      "--elevation-glass: inset 0 0 0 1px rgb(255 255 255 / 0.2), 0 10px 40px rgb(0 0 0 / 0.2);"
+    )
+    expect(section(".dark")).toContain(
+      "--material-glass-fallback: rgb(14 14 14);"
     )
   })
 

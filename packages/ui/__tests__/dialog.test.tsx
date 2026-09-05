@@ -38,9 +38,9 @@ describe("Dialog", () => {
     const dialog = await screen.findByRole("dialog", { name: "Rename Folder" })
     expect(dialog).toHaveAttribute("data-slot", "dialog-content")
     expect(dialog).toHaveAccessibleDescription("Enter a new name.")
-    expect(dialog.className).toContain("rounded-4xl")
+    expect(dialog.className).toContain("rounded-lg")
     expect(dialog.className).toContain("bg-popover")
-    expect(dialog.className).toContain("shadow-window")
+    expect(dialog.className).toContain("shadow-dialog")
     expect(
       dialog.querySelector('[data-slot="dialog-footer"]')
     ).toContainElement(screen.getByRole("button", { name: "Save" }))

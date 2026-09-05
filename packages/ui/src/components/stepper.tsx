@@ -31,7 +31,7 @@ function Stepper({ className, "aria-label": label, ...props }: StepperProps) {
         <NumberFieldPrimitive.Decrement
           aria-label="Decrement"
           data-slot="stepper-decrement"
-          className="flex flex-1 items-center justify-center text-label transition-[background-color] duration-(--duration-press) outline-none hover:bg-fill-4 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:ring-inset active:bg-fill-2 disabled:pointer-events-none disabled:opacity-30"
+          className="flex flex-1 items-center justify-center text-label transition-[background-color] duration-(--duration-press) outline-none hover:bg-fill-4 focus-visible:ring-4 focus-visible:ring-ring/60 focus-visible:ring-inset active:bg-fill-2 disabled:pointer-events-none disabled:opacity-30"
         >
           <Icon icon={MinusSignIcon} weight="bold" />
         </NumberFieldPrimitive.Decrement>
@@ -48,7 +48,7 @@ function Stepper({ className, "aria-label": label, ...props }: StepperProps) {
         <NumberFieldPrimitive.Increment
           aria-label="Increment"
           data-slot="stepper-increment"
-          className="flex flex-1 items-center justify-center text-label transition-[background-color] duration-(--duration-press) outline-none hover:bg-fill-4 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:ring-inset active:bg-fill-2 disabled:pointer-events-none disabled:opacity-30"
+          className="flex flex-1 items-center justify-center text-label transition-[background-color] duration-(--duration-press) outline-none hover:bg-fill-4 focus-visible:ring-4 focus-visible:ring-ring/60 focus-visible:ring-inset active:bg-fill-2 disabled:pointer-events-none disabled:opacity-30"
         >
           <Icon icon={PlusSignIcon} weight="bold" />
         </NumberFieldPrimitive.Increment>

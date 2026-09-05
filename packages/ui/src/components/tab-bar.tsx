@@ -100,7 +100,7 @@ function TabBarItem({
   const current = context.value === value
   const hidden = context.minimized && !current
   const itemClassName = cn(
-    "relative flex min-w-11 flex-col items-center justify-center gap-0.5 rounded-full px-3 type-caption-2 font-medium text-label-2 outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/50 aria-[current=page]:text-primary aria-[current=true]:text-primary [&_svg]:size-6",
+    "relative flex min-w-11 flex-col items-center justify-center gap-0.5 rounded-full px-3 type-caption-2 font-medium text-label-2 outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 aria-[current=page]:text-primary aria-[current=true]:text-primary [&_svg]:size-6",
     className
   )
   const content = (
@@ -162,7 +162,7 @@ function TabBarSearch({
   ...props
 }: TabBarSearchProps) {
   const searchClassName = cn(
-    "flex size-(--tab-bar-height) shrink-0 pressable items-center justify-center rounded-full glass text-label outline-none focus-visible:ring-3 focus-visible:ring-ring/50 [&_svg]:size-6",
+    "flex size-(--tab-bar-height) shrink-0 pressable items-center justify-center rounded-full glass text-label outline-none focus-visible:ring-4 focus-visible:ring-ring/60 [&_svg]:size-6",
     className
   )
   if (href) {

@@ -59,7 +59,7 @@ describe("Sheet", () => {
     const sheet = await screen.findByRole("dialog", { name: "New Event" })
     expect(sheet).toHaveAttribute("data-presentation", "dialog")
     expect(sheet.querySelector('[data-slot="sheet-grabber"]')).toBeNull()
-    expect(sheet.className).toContain("rounded-4xl")
+    expect(sheet.className).toContain("rounded-lg")
   })
 
   test("Cancel and Escape dismiss it", async () => {

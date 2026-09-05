@@ -74,7 +74,7 @@ function SidebarGroup({
           data-slot="sidebar-group-label"
           className={cn(
             groupLabelClassName,
-            "rounded-md outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+            "rounded-md outline-none focus-visible:ring-4 focus-visible:ring-ring/60"
           )}
         >
           {label}
@@ -126,7 +126,7 @@ function SidebarItem({
   ...props
 }: SidebarItemProps) {
   const itemClassName = cn(
-    "flex h-(--list-row-min-height) w-full items-center gap-3 rounded-lg px-2 text-start type-body text-label outline-none select-none hover:bg-fill-4 focus-visible:ring-3 focus-visible:ring-ring/50 aria-[current=page]:bg-fill-3 aria-[current=page]:font-medium aria-[current=true]:bg-fill-3 aria-[current=true]:font-medium",
+    "flex h-(--list-row-min-height) w-full items-center gap-3 rounded-md px-2 text-start type-body text-label outline-none select-none hover:bg-fill-4 focus-visible:ring-4 focus-visible:ring-ring/60 aria-[current=page]:bg-fill-3 aria-[current=page]:font-medium aria-[current=true]:bg-fill-3 aria-[current=true]:font-medium",
     className
   )
   const content = (

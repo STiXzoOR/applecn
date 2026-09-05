@@ -65,7 +65,7 @@ function PopoverContent({
           data-slot="popover-content"
           data-elevated=""
           className={cn(
-            "z-50 flex w-72 origin-(--transform-origin) flex-col gap-3 rounded-4xl material-regular p-4 text-label shadow-popover outline-hidden duration-(--duration-overlay) ease-(--ease-standard) motion-reduce:animate-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+            "z-50 flex w-72 origin-(--transform-origin) flex-col gap-3 rounded-4xl material-regular p-4 text-label shadow-glass outline-hidden duration-(--duration-overlay) ease-(--ease-standard) motion-reduce:animate-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
             className
           )}
           {...props}

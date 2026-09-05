@@ -32,7 +32,7 @@ function DisclosureGroupTrigger({
     <CollapsiblePrimitive.Trigger
       data-slot="disclosure-group-trigger"
       className={cn(
-        "flex w-full items-center justify-between gap-2 py-2 text-start type-body text-label outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-40",
+        "flex w-full items-center justify-between gap-2 py-2 text-start type-body text-label outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 disabled:opacity-40",
         className
       )}
       {...props}
