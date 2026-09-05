@@ -38,6 +38,16 @@ export interface Registry {
   items: RegistryItem[]
 }
 
+export interface PublishedFile extends RegistryFile {
+  content: string
+}
+
+/** What `public/r/<name>.json` holds: the item plus each file's content. */
+export interface PublishedItem extends Omit<RegistryItem, "files"> {
+  $schema: string
+  files: PublishedFile[]
+}
+
 /** Where the package lives relative to this app; `shadcn build` runs with it as cwd. */
 const UI_PACKAGE = "../../packages/ui"
 const IGNORED_PACKAGES = new Set(["react", "react-dom"])
@@ -99,6 +109,27 @@ function item(
     ...(dependencies.length ? { dependencies } : {}),
     ...(registryDependencies.length ? { registryDependencies } : {}),
     files: [{ path, type: `registry:${kind}` }],
+  }
+}
+
+/**
+ * The content a consumer receives. Components import siblings relatively (`./dialog`), which
+ * survives the copy into `components/ui/`, but `../hooks/<name>` would point at
+ * `components/hooks/`. The CLI maps `@/hooks/…` and `@/lib/…` to the consumer's aliases, so
+ * those two directories are rewritten to that form; the package sources stay relative.
+ */
+export function publishedContent(source: string): string {
+  return source.replace(/from "\.\.\/(hooks|lib)\//g, 'from "@/$1/')
+}
+
+export function publishItem(entry: RegistryItem): PublishedItem {
+  return {
+    $schema: "https://ui.shadcn.com/schema/registry-item.json",
+    ...entry,
+    files: entry.files.map((file) => ({
+      ...file,
+      content: publishedContent(readSource(`${UI_PACKAGE}/${file.path}`)),
+    })),
   }
 }
 

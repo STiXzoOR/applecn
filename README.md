@@ -62,7 +62,7 @@ Other scripts: `pnpm test`, `pnpm tokens:build` (regenerate `tokens.css` after e
 
 **Components.** shadcn conventions on Base UI: `data-slot` on every element, `cva` variants, `cn`, no `forwardRef`. Overlays adapt to the viewport — a `Sheet` is a bottom sheet with a grabber and detents on a phone and a centred card from `sm`; an `ActionSheet` becomes a popover. Tab bars, toolbars and menus float on Liquid Glass. Each component has a test that checks roles, states, keyboard behaviour and runs axe.
 
-**Registry.** `apps/web/scripts/registry.ts` reads the package sources and writes `registry.json` (dependencies from imports, an `apple` style item with every token as `cssVars` and the utilities as `css`); `shadcn build` turns it into `public/r/<name>.json` at build time.
+**Registry.** `apps/web/scripts/registry.ts` reads the package sources and writes `registry.json` (dependencies from imports, an `apple` style item with every token as `cssVars` and the utilities as `css`); the same script writes `public/r/<name>.json` with each file's content, rewriting `../hooks/…` imports to `@/hooks/…` so the CLI maps them to the consumer's aliases.
 
 ```sh
 npx shadcn@latest add https://applecn.vercel.app/r/apple.json      # the theme
