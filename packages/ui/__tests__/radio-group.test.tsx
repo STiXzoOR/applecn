@@ -46,7 +46,7 @@ describe("RadioGroup", () => {
     )
   })
 
-  test("the item is a ring that fills with the tint and shows a dot when selected", () => {
+  test("the item is a ring that fills with the tint and shows a white dot when selected", () => {
     render(<Sizes />)
     const item = screen.getByRole("radio", { name: "Medium" })
     expect(item).toHaveAttribute("data-slot", "radio-group-item")
@@ -54,7 +54,10 @@ describe("RadioGroup", () => {
     expect(item.className).toContain("rounded-full")
     expect(item.className).toContain("border-gray-3")
     expect(item.className).toContain("data-checked:border-primary")
+    expect(item.className).toContain("data-checked:bg-primary")
+    expect(item.className).toContain("macos:bg-background-3")
     const dot = item.querySelector('[data-slot="radio-group-indicator"] span')!
     expect(dot.className).toContain("size-(--radio-dot)")
+    expect(dot.className).toContain("bg-white")
   })
 })

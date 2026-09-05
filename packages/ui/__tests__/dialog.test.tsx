@@ -38,7 +38,8 @@ describe("Dialog", () => {
     const dialog = await screen.findByRole("dialog", { name: "Rename Folder" })
     expect(dialog).toHaveAttribute("data-slot", "dialog-content")
     expect(dialog).toHaveAccessibleDescription("Enter a new name.")
-    expect(dialog.className).toContain("rounded-lg")
+    expect(dialog.className).toContain("rounded-dialog")
+    expect(dialog.className).toContain("max-w-(--dialog-width)")
     expect(dialog.className).toContain("bg-popover")
     expect(dialog.className).toContain("shadow-dialog")
     expect(

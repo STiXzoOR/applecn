@@ -32,7 +32,10 @@ describe("Sidebar", () => {
     const starred = screen.getByRole("link", { name: "Starred" })
     expect(starred).toHaveAttribute("aria-current", "page")
     expect(starred.className).toContain("aria-[current=page]:bg-fill-3")
-    expect(starred.className).toContain("h-(--list-row-min-height)")
+    expect(starred.className).toContain("h-(--sidebar-row-height)")
+    expect(starred.className).toContain("rounded-sidebar")
+    expect(starred.className).toContain("text-[length:var(--sidebar-font)]")
+    expect(nav.className).toContain("w-(--sidebar-width)")
     expect(
       starred
         .querySelector('[data-slot="sidebar-item-icon"]')!

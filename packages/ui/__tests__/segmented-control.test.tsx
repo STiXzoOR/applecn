@@ -39,21 +39,26 @@ describe("SegmentedControl", () => {
     )
   })
 
-  test("is a 32 pt capsule with a 2 pt inset and a sliding white indicator", () => {
+  test("is a 32 pt capsule on iOS (24 pt, 6 pt corners on macOS) with a 2 pt inset and a sliding white indicator", () => {
     render(<Range />)
     const list = screen.getByRole("tablist")
     expect(list.className).toContain("h-(--segmented-height)")
     expect(list.className).toContain("p-(--segmented-inset)")
-    expect(list.className).toContain("rounded-full")
+    expect(list.className).toContain("rounded-segmented")
     expect(list.className).toContain("bg-fill-3")
     const indicator = list.querySelector(
       '[data-slot="segmented-control-indicator"]'
     )!
-    expect(indicator.className).toContain("rounded-full")
+    expect(indicator.className).toContain(
+      "rounded-[calc(var(--radius-segmented)-var(--segmented-inset))]"
+    )
     expect(indicator.className).toContain("bg-background")
     expect(indicator.className).toContain("shadow-segment")
+    expect(indicator.className).toContain("macos:bg-primary")
     const tab = screen.getByRole("tab", { name: "Day" })
-    expect(tab.className).toContain("type-footnote")
+    expect(tab.className).toContain("text-[length:var(--segmented-font)]")
+    expect(tab.className).toContain("font-medium")
     expect(tab.className).toContain("data-active:font-semibold")
+    expect(tab.className).toContain("macos:data-active:text-white")
   })
 })

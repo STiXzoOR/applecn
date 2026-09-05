@@ -185,8 +185,10 @@
           "segmented-height": "32px",
           "segmented-inset": "2px",
           "segmented-radius": "1000px",
+          "segmented-font": "calc(13 * var(--pt))",
           "text-field-height": "34px",
           "text-field-radius": "5px",
+          "text-field-font": "calc(17 * var(--pt))",
           "search-field-height": "44px",
           "search-field-radius": "1000px",
           "list-inset": "16px",
@@ -195,15 +197,19 @@
           "list-row-padding-y": "15px",
           "list-row-padding-x": "16px",
           "list-icon-tile": "30px",
+          "list-font": "calc(17 * var(--pt))",
+          "list-subtitle-font": "calc(15 * var(--pt))",
           "list-header-font": "calc(17 * var(--pt))",
           "list-footer-font": "calc(13 * var(--pt))",
           "sidebar-width": "320px",
           "sidebar-row-height": "44px",
           "sidebar-radius": "10px",
+          "sidebar-font": "calc(17 * var(--pt))",
           "card-radius": "26px",
           "nav-bar-height": "54px",
           "nav-bar-large-title": "52px",
           "nav-bar-item": "44px",
+          "nav-bar-title-font": "calc(17 * var(--pt))",
           "tab-bar-height": "62px",
           "tab-bar-inset": "21px",
           "tab-bar-item": "54px",
@@ -220,6 +226,8 @@
           "alert-button-height": "48px",
           "alert-button-inset": "16px",
           "alert-button-gap": "8px",
+          "alert-title-font": "calc(17 * var(--pt))",
+          "alert-message-font": "calc(13 * var(--pt))",
           "action-sheet-width": "320px",
           "action-sheet-row-height": "48px",
           "action-sheet-radius": "34px",
@@ -230,6 +238,7 @@
           "menu-radius": "26px",
           "menu-item-radius": "22px",
           "menu-padding": "4px",
+          "menu-font": "calc(17 * var(--pt))",
           "dialog-width": "540px",
           "dialog-radius": "34px",
           "split-view-sidebar-width": "320px",
@@ -1213,7 +1222,8 @@
         "cn"
       ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/icon.json"
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/platform.json"
       ],
       "files": [
         {

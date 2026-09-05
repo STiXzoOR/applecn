@@ -32,11 +32,14 @@ describe("Select (menu picker)", () => {
     expect(trigger).toHaveTextContent("Apple")
     await userEvent.click(trigger)
     const listbox = await screen.findByRole("listbox")
-    expect(listbox.className).toContain("rounded-4xl")
+    expect(listbox.className).toContain("rounded-menu")
     expect(listbox.className).toContain("glass")
     expect(listbox.className).toContain("min-w-(--menu-width)")
+    expect(listbox.className).toContain("p-(--menu-padding)")
     const pear = screen.getByRole("option", { name: "Pear" })
     expect(pear.className).toContain("h-(--menu-item-height)")
+    expect(pear.className).toContain("rounded-menu-item")
+    expect(pear.className).toContain("text-[length:var(--menu-font)]")
     await userEvent.click(pear)
     expect(trigger).toHaveTextContent("Pear")
   })
@@ -47,7 +50,13 @@ describe("Select (menu picker)", () => {
     )
     expect(selectTriggerVariants({ variant: "popup" })).toContain("bg-fill-3")
     expect(selectTriggerVariants({ variant: "popup" })).toContain(
-      "h-(--text-field-height)"
+      "h-(--control-height-regular)"
+    )
+    expect(selectTriggerVariants({ variant: "popup" })).toContain(
+      "rounded-control"
+    )
+    expect(selectTriggerVariants({ variant: "popup" })).toContain(
+      "macos:bg-background-3"
     )
     render(<Fruit />)
     expect(

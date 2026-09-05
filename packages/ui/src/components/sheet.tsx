@@ -161,7 +161,7 @@ function SheetContent({
 function SheetTitle({ className, ...props }: DialogPrimitive.Title.Props) {
   const presentation = useSheetPresentation()
   const titleClassName = cn(
-    "truncate text-center type-headline text-label",
+    "truncate text-center text-[length:var(--nav-bar-title-font)] font-semibold text-label",
     className
   )
   return presentation === "dialog" ? (
@@ -218,7 +218,7 @@ function SheetToolbar({
     <div
       data-slot="sheet-toolbar"
       className={cn(
-        "grid h-(--nav-bar-height) shrink-0 grid-cols-[1fr_auto_1fr] items-center gap-2 px-4",
+        "grid h-(--nav-bar-height) shrink-0 grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 macos:h-12",
         className
       )}
       {...props}

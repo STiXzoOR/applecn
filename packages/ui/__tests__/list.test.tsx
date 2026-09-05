@@ -38,14 +38,15 @@ describe("List", () => {
       .getByText("Wi-Fi")
       .closest('[data-slot="list-section-group"]')!
     expect(group.className).toContain("mx-(--list-inset)")
-    expect(group.className).toContain("rounded-4xl")
+    expect(group.className).toContain("rounded-list")
     expect(group.className).toContain("bg-card")
     expect(screen.getAllByRole("listitem")).toHaveLength(2)
     const header = screen.getByText("Connections")
-    expect(header.className).toContain("type-subheadline")
+    expect(header.className).toContain("text-[length:var(--list-header-font)]")
+    expect(header.className).toContain("font-semibold")
     expect(header.className).toContain("text-label-2")
     expect(screen.getByText("Wi-Fi is on.").className).toContain(
-      "type-footnote"
+      "text-[length:var(--list-footer-font)]"
     )
   })
 
@@ -66,6 +67,8 @@ describe("List", () => {
     expect(row).toHaveAttribute("href", "/wifi")
     expect(row.className).toContain("min-h-(--list-row-min-height)")
     expect(row.className).toContain("px-(--list-row-padding-x)")
+    expect(row.className).toContain("py-(--list-row-padding-y)")
+    expect(row.className).toContain("text-[length:var(--list-font)]")
     expect(row.querySelector('[data-slot="list-row-accessory"]')).not.toBeNull()
     expect(screen.getByText("Home").className).toContain("text-label-2")
   })

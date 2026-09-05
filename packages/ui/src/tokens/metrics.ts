@@ -57,8 +57,14 @@ export interface ControlMetrics {
     readonly height: number
     readonly inset: number
     readonly radius: number
+    /** Segment label size in points. */
+    readonly font: number
   }
-  readonly textField: { readonly height: number; readonly radius: number }
+  readonly textField: {
+    readonly height: number
+    readonly radius: number
+    readonly font: number
+  }
   readonly searchField: { readonly height: number; readonly radius: number }
   readonly list: {
     readonly inset: number
@@ -68,7 +74,9 @@ export interface ControlMetrics {
     readonly rowPaddingY: number
     readonly rowPaddingX: number
     readonly iconTile: number
-    /** Section header text size, in points. */
+    /** Row text, subtitle, section header and footer sizes, in points. */
+    readonly font: number
+    readonly subtitleFont: number
     readonly headerFont: number
     readonly footerFont: number
   }
@@ -76,6 +84,7 @@ export interface ControlMetrics {
     readonly width: number
     readonly rowHeight: number
     readonly radius: number
+    readonly font: number
   }
   readonly card: { readonly radius: number }
   readonly navBar: {
@@ -83,6 +92,7 @@ export interface ControlMetrics {
     readonly largeTitle: number
     /** Bar item (platter) size. */
     readonly item: number
+    readonly titleFont: number
   }
   readonly tabBar: {
     readonly height: number
@@ -107,6 +117,8 @@ export interface ControlMetrics {
     readonly buttonHeight: number
     readonly buttonInset: number
     readonly buttonGap: number
+    readonly titleFont: number
+    readonly messageFont: number
   }
   readonly actionSheet: {
     readonly width: number
@@ -121,6 +133,7 @@ export interface ControlMetrics {
     readonly radius: number
     readonly itemRadius: number
     readonly padding: number
+    readonly font: number
   }
   readonly dialog: { readonly width: number; readonly radius: number }
   readonly splitView: { readonly sidebar: number; readonly content: number }
@@ -167,9 +180,9 @@ const ios: ControlMetrics = {
     radius: CAPSULE,
     orientation: "horizontal",
   },
-  segmented: { height: 32, inset: 2, radius: CAPSULE },
-  /** UITextField `.roundedRect`: 34 tall, radius 5, hairline border. */
-  textField: { height: 34, radius: 5 },
+  segmented: { height: 32, inset: 2, radius: CAPSULE, font: 13 },
+  /** UITextField `.roundedRect`: 34 tall, radius 5, hairline border, 17 pt text. */
+  textField: { height: 34, radius: 5, font: 17 },
   /** UISearchBar's field: a 44 pt capsule. */
   searchField: { height: 44, radius: CAPSULE },
   /** Inset grouped: 20 from the edge (16 on ≤ 375 pt phones), 26 pt corners, 52 pt rows. */
@@ -181,14 +194,16 @@ const ios: ControlMetrics = {
     rowPaddingY: 15,
     rowPaddingX: 16,
     iconTile: 30,
+    font: 17,
+    subtitleFont: 15,
     headerFont: 17,
     footerFont: 13,
   },
   /** iPadOS sidebars: 320 wide, 44 pt rows, 10 pt corners **approx.** */
-  sidebar: { width: 320, rowHeight: 44, radius: 10 },
+  sidebar: { width: 320, rowHeight: 44, radius: 10, font: 17 },
   card: { radius: 26 },
   /** 54 pt row with 44 pt glass platters; the 52 pt large title below it. */
-  navBar: { height: 54, largeTitle: 52, item: 44 },
+  navBar: { height: 54, largeTitle: 52, item: 44, titleFont: 17 },
   /** The floating glass platter: 62 tall, inset 21, 54 pt items inset 4, 10 pt labels. */
   tabBar: { height: 62, inset: 21, item: 54, itemInset: 4, label: 10 },
   toolbar: { height: 52, item: 44, inset: 4 },
@@ -201,10 +216,19 @@ const ios: ControlMetrics = {
     buttonHeight: 48,
     buttonInset: 16,
     buttonGap: 8,
+    titleFont: 17,
+    messageFont: 13,
   },
   actionSheet: { width: 320, rowHeight: 48, radius: 34, inset: 16, gap: 8 },
   /** Width and rows as before; the radius follows the 26 pt list corner **approx.** */
-  menu: { width: 250, itemHeight: 44, radius: 26, itemRadius: 22, padding: 4 },
+  menu: {
+    width: 250,
+    itemHeight: 44,
+    radius: 26,
+    itemRadius: 22,
+    padding: 4,
+    font: 17,
+  },
   /** iPad form sheet; radius **approx.** */
   dialog: { width: 540, radius: 34 },
   splitView: { sidebar: 320, content: 375 },
@@ -231,8 +255,8 @@ const macos: ControlMetrics = {
   slider: { track: 4, thumbWidth: 20, thumbHeight: 16 },
   /** NSStepper regular: 20×26, stacked arrows. */
   stepper: { width: 20, height: 26, radius: 5, orientation: "vertical" },
-  segmented: { height: 24, inset: 2, radius: 6 },
-  textField: { height: 24, radius: 6 },
+  segmented: { height: 24, inset: 2, radius: 6, font: 13 },
+  textField: { height: 24, radius: 6, font: 13 },
   searchField: { height: 24, radius: CAPSULE },
   /** Grouped forms (System Settings): white groups on the window, 10 pt corners **approx.**, 28 pt rows. */
   list: {
@@ -243,14 +267,16 @@ const macos: ControlMetrics = {
     rowPaddingY: 4,
     rowPaddingX: 10,
     iconTile: 20,
+    font: 13,
+    subtitleFont: 11,
     headerFont: 13,
     footerFont: 11,
   },
-  /** Source lists: 24 pt rows with spacing (28), 6 pt selection corners. */
-  sidebar: { width: 240, rowHeight: 28, radius: 6 },
+  /** Source lists: 24 pt rows with spacing (28), 6 pt selection corners, 13 pt text. */
+  sidebar: { width: 240, rowHeight: 28, radius: 6, font: 13 },
   card: { radius: 10 },
   /** The unified title/toolbar area; items are 28 pt glass capsules. */
-  navBar: { height: 52, largeTitle: 0, item: 28 },
+  navBar: { height: 52, largeTitle: 0, item: 28, titleFont: 13 },
   tabBar: { height: 0, inset: 0, item: 0, itemInset: 0, label: 0 },
   toolbar: { height: 52, item: 28, inset: 0 },
   /** Modal sheets: radius **approx.**, no grabber. */
@@ -262,11 +288,20 @@ const macos: ControlMetrics = {
     buttonHeight: 28,
     buttonInset: 16,
     buttonGap: 8,
+    titleFont: 13,
+    messageFont: 11,
   },
   /** Action sheets become popovers on macOS. */
   actionSheet: { width: 260, rowHeight: 24, radius: 12, inset: 5, gap: 0 },
   /** NSMenu: 24 pt items with 5 pt padding (a one-item menu is 34); width and radius **approx.** */
-  menu: { width: 200, itemHeight: 24, radius: 12, itemRadius: 5, padding: 5 },
+  menu: {
+    width: 200,
+    itemHeight: 24,
+    radius: 12,
+    itemRadius: 5,
+    padding: 5,
+    font: 13,
+  },
   dialog: { width: 480, radius: 16 },
   splitView: { sidebar: 240, content: 320 },
   /** **approx.** */
@@ -302,9 +337,9 @@ const web: ControlMetrics = {
   /** Store quantity steppers **approx.** */
   stepper: { width: 64, height: 28, radius: 6, orientation: "horizontal" },
   /** TV's `--selectHeight`, a pill. */
-  segmented: { height: 32, inset: 2, radius: CAPSULE },
+  segmented: { height: 32, inset: 2, radius: CAPSULE, font: 14 },
   /** The App Store's fields: 32 tall, xsmall corners. */
-  textField: { height: 32, radius: 5 },
+  textField: { height: 32, radius: 5, font: 14 },
   searchField: { height: 32, radius: CAPSULE },
   /** Web-app lists: 44 pt rows, medium corners. */
   list: {
@@ -315,15 +350,17 @@ const web: ControlMetrics = {
     rowPaddingY: 8,
     rowPaddingX: 16,
     iconTile: 28,
+    font: 15,
+    subtitleFont: 13,
     headerFont: 17,
     footerFont: 12,
   },
-  /** Music's sidebar: 34 pt rows with 8 pt corners; the App Store's 260 pt width. */
-  sidebar: { width: 260, rowHeight: 34, radius: 8 },
+  /** Music's sidebar: 34 pt rows with 8 pt corners and 14 pt text; the App Store's 260 pt width. */
+  sidebar: { width: 260, rowHeight: 34, radius: 8, font: 14 },
   /** The App Store's large corner. */
   card: { radius: 17 },
   /** apple.com's global nav (48 below 834 px). */
-  navBar: { height: 44, largeTitle: 0, item: 36 },
+  navBar: { height: 44, largeTitle: 0, item: 36, titleFont: 17 },
   tabBar: { height: 0, inset: 0, item: 0, itemInset: 0, label: 0 },
   /** Music's and TV's 52 px headers. */
   toolbar: { height: 52, item: 28, inset: 0 },
@@ -335,10 +372,19 @@ const web: ControlMetrics = {
     buttonHeight: 36,
     buttonInset: 20,
     buttonGap: 8,
+    titleFont: 17,
+    messageFont: 14,
   },
   actionSheet: { width: 260, rowHeight: 44, radius: 12, inset: 4, gap: 0 },
-  /** TV's popover menus: 44 px rows, 200 px max. */
-  menu: { width: 200, itemHeight: 44, radius: 12, itemRadius: 8, padding: 4 },
+  /** TV's popover menus: 44 px rows, 200 px max, 14 px text. */
+  menu: {
+    width: 200,
+    itemHeight: 44,
+    radius: 12,
+    itemRadius: 8,
+    padding: 4,
+    font: 14,
+  },
   /** The App Store's Version History modal. */
   dialog: { width: 691, radius: 10 },
   splitView: { sidebar: 260, content: 320 },

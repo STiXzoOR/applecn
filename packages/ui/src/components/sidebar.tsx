@@ -11,14 +11,15 @@ import { Icon } from "./icon"
 /**
  * Sidebars (HIG › Sidebars): a navigation list on the regular material along the leading edge,
  * with labelled, optionally collapsible groups, tinted symbols and the current item filled.
- * Row heights follow the platform (44 pt on iPad, 28 pt on macOS).
+ * Width, row height, corner and text size follow the platform (320/44/10 on iPad, AppKit's
+ * 240/28/6 on macOS 26, Music's 260/34/8 on the web).
  */
 function Sidebar({ className, ...props }: ComponentProps<"nav">) {
   return (
     <nav
       data-slot="sidebar"
       className={cn(
-        "flex h-full w-60 shrink-0 flex-col gap-4 overflow-y-auto material-regular p-3 text-label",
+        "flex h-full w-(--sidebar-width) shrink-0 flex-col gap-4 overflow-y-auto material-regular p-3 text-label",
         className
       )}
       {...props}
@@ -53,7 +54,7 @@ type SidebarGroupProps = ComponentProps<"div"> & {
 }
 
 const groupLabelClassName =
-  "type-caption-1 flex w-full items-center justify-between px-2 pb-1 font-semibold text-label-3"
+  "flex w-full items-center justify-between px-2 pb-1 type-caption-1 font-semibold text-label-3 macos:text-label-2"
 
 function SidebarGroup({
   className,
@@ -126,7 +127,7 @@ function SidebarItem({
   ...props
 }: SidebarItemProps) {
   const itemClassName = cn(
-    "flex h-(--list-row-min-height) w-full items-center gap-3 rounded-md px-2 text-start type-body text-label outline-none select-none hover:bg-fill-4 focus-visible:ring-4 focus-visible:ring-ring/60 aria-[current=page]:bg-fill-3 aria-[current=page]:font-medium aria-[current=true]:bg-fill-3 aria-[current=true]:font-medium",
+    "flex h-(--sidebar-row-height) w-full items-center gap-2.5 rounded-sidebar px-2 text-start text-[length:var(--sidebar-font)] leading-none text-label outline-none select-none hover:bg-fill-4 focus-visible:ring-4 focus-visible:ring-ring/60 aria-[current=page]:bg-fill-3 aria-[current=page]:font-medium aria-[current=true]:bg-fill-3 aria-[current=true]:font-medium macos:gap-2",
     className
   )
   const content = (

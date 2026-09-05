@@ -58,10 +58,14 @@ describe("Menu", () => {
     await userEvent.click(screen.getByRole("button", { name: "Actions" }))
     const menu = await screen.findByRole("menu")
     expect(menu.className).toContain("min-w-(--menu-width)")
-    expect(menu.className).toContain("rounded-4xl")
+    expect(menu.className).toContain("rounded-menu")
+    expect(menu.className).toContain("p-(--menu-padding)")
     expect(menu.className).toContain("glass")
     const copy = screen.getByRole("menuitem", { name: /Copy/ })
     expect(copy.className).toContain("h-(--menu-item-height)")
+    expect(copy.className).toContain("rounded-menu-item")
+    expect(copy.className).toContain("text-[length:var(--menu-font)]")
+    expect(copy.className).toContain("macos:data-highlighted:bg-selection")
     expect(copy.querySelector('[data-slot="menu-shortcut"]')).toHaveTextContent(
       "⌘C"
     )
@@ -71,5 +75,7 @@ describe("Menu", () => {
     const separator = menu.querySelector('[data-slot="menu-separator"]')!
     expect(separator.className).toContain("h-2")
     expect(separator.className).toContain("bg-fill-4")
+    expect(separator.className).toContain("macos:h-[0.5px]")
+    expect(separator.className).toContain("macos:bg-separator")
   })
 })

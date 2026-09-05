@@ -48,7 +48,12 @@ describe("iOS 26 metrics (UIKit on the iPhone 17 Pro simulator, 2026-09-06)", ()
     expect(ios.slider).toEqual({ track: 6, thumbWidth: 37, thumbHeight: 24 })
   })
   test("segmented control and stepper are 32 pt capsules", () => {
-    expect(ios.segmented).toEqual({ height: 32, inset: 2, radius: 1000 })
+    expect(ios.segmented).toEqual({
+      height: 32,
+      inset: 2,
+      radius: 1000,
+      font: 13,
+    })
     expect(ios.stepper).toEqual({
       width: 94,
       height: 32,
@@ -57,7 +62,7 @@ describe("iOS 26 metrics (UIKit on the iPhone 17 Pro simulator, 2026-09-06)", ()
     })
   })
   test("fields: the 34 pt rounded-rect text field (radius 5) and the 44 pt search capsule", () => {
-    expect(ios.textField).toEqual({ height: 34, radius: 5 })
+    expect(ios.textField).toEqual({ height: 34, radius: 5, font: 17 })
     expect(ios.searchField).toEqual({ height: 44, radius: 1000 })
   })
   test("inset grouped lists: inset 20, radius 26, rows 52 with 15×16 padding, 17 pt headers", () => {
@@ -68,12 +73,19 @@ describe("iOS 26 metrics (UIKit on the iPhone 17 Pro simulator, 2026-09-06)", ()
     expect(ios.list.rowPaddingY).toBe(15)
     expect(ios.list.rowPaddingX).toBe(16)
     expect(ios.list.iconTile).toBe(30)
+    expect(ios.list.font).toBe(17)
+    expect(ios.list.subtitleFont).toBe(15)
     expect(ios.list.headerFont).toBe(17)
     expect(ios.list.footerFont).toBe(13)
     expect(ios.card.radius).toBe(26)
   })
   test("bars: 54 pt nav row with 44 pt platters, the 62 pt floating tab bar, 52 pt toolbars", () => {
-    expect(ios.navBar).toEqual({ height: 54, largeTitle: 52, item: 44 })
+    expect(ios.navBar).toEqual({
+      height: 54,
+      largeTitle: 52,
+      item: 44,
+      titleFont: 17,
+    })
     expect(ios.tabBar).toEqual({
       height: 62,
       inset: 21,
@@ -90,6 +102,8 @@ describe("iOS 26 metrics (UIKit on the iPhone 17 Pro simulator, 2026-09-06)", ()
       buttonHeight: 48,
       buttonInset: 16,
       buttonGap: 8,
+      titleFont: 17,
+      messageFont: 13,
     })
     expect(ios.actionSheet).toEqual({
       width: 320,
@@ -106,6 +120,7 @@ describe("iOS 26 metrics (UIKit on the iPhone 17 Pro simulator, 2026-09-06)", ()
       radius: 26,
       itemRadius: 22,
       padding: 4,
+      font: 17,
     })
     expect(ios.popover.radius).toBe(26)
     expect(ios.sheet.grabber).toEqual([36, 5])
@@ -165,8 +180,8 @@ describe("macOS 26 metrics (AppKit on Tahoe 26.6, 2026-09-06)", () => {
     expect(mac.slider).toEqual({ track: 4, thumbWidth: 20, thumbHeight: 16 })
   })
   test("segmented 24 (radius 6), text field 24 (radius 6), search 24 capsule, stepper 20×26 vertical", () => {
-    expect(mac.segmented).toEqual({ height: 24, inset: 2, radius: 6 })
-    expect(mac.textField).toEqual({ height: 24, radius: 6 })
+    expect(mac.segmented).toEqual({ height: 24, inset: 2, radius: 6, font: 13 })
+    expect(mac.textField).toEqual({ height: 24, radius: 6, font: 13 })
     expect(mac.searchField).toEqual({ height: 24, radius: 1000 })
     expect(mac.stepper).toEqual({
       width: 20,
@@ -182,6 +197,7 @@ describe("macOS 26 metrics (AppKit on Tahoe 26.6, 2026-09-06)", () => {
       radius: 12,
       itemRadius: 5,
       padding: 5,
+      font: 13,
     })
     expect(mac.alert).toEqual({
       width: 260,
@@ -189,16 +205,28 @@ describe("macOS 26 metrics (AppKit on Tahoe 26.6, 2026-09-06)", () => {
       buttonHeight: 28,
       buttonInset: 16,
       buttonGap: 8,
+      titleFont: 13,
+      messageFont: 11,
     })
   })
   test("windows: 32 pt title bar, 52 pt unified toolbar, 14 pt traffic lights", () => {
     expect(mac.window).toEqual({ titleBar: 32, radius: 16, trafficLight: 14 })
     expect(mac.toolbar).toEqual({ height: 52, item: 28, inset: 0 })
-    expect(mac.navBar).toEqual({ height: 52, largeTitle: 0, item: 28 })
+    expect(mac.navBar).toEqual({
+      height: 52,
+      largeTitle: 0,
+      item: 28,
+      titleFont: 13,
+    })
     expect(mac.tabBar.height).toBe(0)
   })
   test("sidebar rows are 28 with 6 pt corners; grouped forms use 10 pt corners", () => {
-    expect(mac.sidebar).toEqual({ width: 240, rowHeight: 28, radius: 6 })
+    expect(mac.sidebar).toEqual({
+      width: 240,
+      rowHeight: 28,
+      radius: 6,
+      font: 13,
+    })
     expect(mac.list.radius).toBe(10)
     expect(mac.list.rowMinHeight).toBe(28)
     expect(mac.hitTarget).toEqual({ default: 28, minimum: 20 })
@@ -234,21 +262,37 @@ describe("web metrics (apple.com and Apple's web apps, 2026-09-05/06)", () => {
     })
   })
   test("web-app controls: 32 pt fields, 34 pt sidebar rows with 8 pt corners, 44 pt menu rows", () => {
-    expect(web.textField).toEqual({ height: 32, radius: 5 })
+    expect(web.textField).toEqual({ height: 32, radius: 5, font: 14 })
     expect(web.searchField).toEqual({ height: 32, radius: 1000 })
-    expect(web.sidebar).toEqual({ width: 260, rowHeight: 34, radius: 8 })
+    expect(web.sidebar).toEqual({
+      width: 260,
+      rowHeight: 34,
+      radius: 8,
+      font: 14,
+    })
     expect(web.menu).toEqual({
       width: 200,
       itemHeight: 44,
       radius: 12,
       itemRadius: 8,
       padding: 4,
+      font: 14,
     })
     expect(web.slider).toEqual({ track: 5, thumbWidth: 13, thumbHeight: 13 })
-    expect(web.segmented).toEqual({ height: 32, inset: 2, radius: 1000 })
+    expect(web.segmented).toEqual({
+      height: 32,
+      inset: 2,
+      radius: 1000,
+      font: 14,
+    })
   })
   test("bars: the 44 pt global nav, 52 pt web-app headers; dialogs 10 pt corners, the 691 pt content modal", () => {
-    expect(web.navBar).toEqual({ height: 44, largeTitle: 0, item: 36 })
+    expect(web.navBar).toEqual({
+      height: 44,
+      largeTitle: 0,
+      item: 36,
+      titleFont: 17,
+    })
     expect(web.toolbar).toEqual({ height: 52, item: 28, inset: 0 })
     expect(web.dialog).toEqual({ width: 691, radius: 10 })
     expect(web.sheet.radius).toBe(24)
