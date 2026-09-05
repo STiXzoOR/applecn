@@ -5,7 +5,11 @@ import { describe, expect, test } from "vitest"
 
 import { componentDocs } from "@/registry/index"
 import { REGISTRY_URL, SITE_URL } from "@/lib/site"
-import { buildRegistry } from "@/scripts/registry-data"
+import {
+  buildRegistry,
+  publishItem,
+  publishedContent,
+} from "@/scripts/registry-data"
 
 const registry = buildRegistry()
 
@@ -92,6 +96,36 @@ describe("registry", () => {
         .map((i) => i.name)
         .sort()
     ).toEqual(["contrast", "platform", "utils"])
+  })
+
+  test("published content rewrites cross-directory relative imports to the alias form the CLI maps", () => {
+    const source = [
+      'import { useIsDesktop } from "../hooks/use-media-query"',
+      'import { platform } from "../lib/platform"',
+      'import { Dialog } from "./dialog"',
+      'import { cn } from "cn"',
+    ].join("\n")
+    expect(publishedContent(source).split("\n")).toEqual([
+      'import { useIsDesktop } from "@/hooks/use-media-query"',
+      'import { platform } from "@/lib/platform"',
+      'import { Dialog } from "./dialog"',
+      'import { cn } from "cn"',
+    ])
+  })
+
+  test("published items carry each file's content and never a ../ import", () => {
+    const sheet = publishItem(registry.items.find((i) => i.name === "sheet")!)
+    expect(sheet.$schema).toBe(
+      "https://ui.shadcn.com/schema/registry-item.json"
+    )
+    expect(sheet.files[0]!.content).toContain('from "@/hooks/use-media-query"')
+    for (const item of registry.items) {
+      for (const file of publishItem(item).files) {
+        expect(file.content, `${item.name}: ${file.path}`).not.toMatch(
+          /from "\.\.\//
+        )
+      }
+    }
   })
 
   test("the committed registry.json is the generator output", () => {
