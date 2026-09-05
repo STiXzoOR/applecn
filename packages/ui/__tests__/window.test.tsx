@@ -14,6 +14,10 @@ describe("Window", () => {
     const win = screen.getByRole("region", { name: "Finder" })
     expect(win).toHaveAttribute("data-slot", "window")
     expect(win.className).toContain("rounded-window")
+    expect(win.closest("[data-platform]")).toHaveAttribute(
+      "data-platform",
+      "macos"
+    )
     expect(win.className).toContain("shadow-dialog")
     const bar = win.querySelector('[data-slot="window-title-bar"]')!
     expect(bar.className).toContain("h-(--window-title-bar)")

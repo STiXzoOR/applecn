@@ -18,9 +18,23 @@
 @import "./tokens.css";
 
 @custom-variant dark (&:is(.dark *));
-@custom-variant ios (&:is([data-platform="ios"], [data-platform="ios"] *));
-@custom-variant macos (&:is([data-platform="macos"], [data-platform="macos"] *));
-@custom-variant web (&:is([data-platform="web"], [data-platform="web"] *));
+/* Platform variants query the inherited `--platform` (set by tokens.css under each
+   `[data-platform]`), so the nearest PlatformProvider wins even when providers nest. */
+@custom-variant ios {
+  @container style(--platform: ios) {
+    @slot;
+  }
+}
+@custom-variant macos {
+  @container style(--platform: macos) {
+    @slot;
+  }
+}
+@custom-variant web {
+  @container style(--platform: web) {
+    @slot;
+  }
+}
 
 @source "../../../apps/**/*.{ts,tsx}";
 @source "../../../components/**/*.{ts,tsx}";

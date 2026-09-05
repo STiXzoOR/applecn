@@ -80,15 +80,26 @@ describe("renderTokensCss", () => {
     )
   })
 
-  test("the iOS block repeats the defaults so a nested iOS provider resets a macOS ancestor", () => {
+  test("the iOS block repeats the defaults so a nested iOS provider resets a macOS or web ancestor", () => {
     const ios = section('[data-platform="ios"]')
     expect(ios).toContain("--control-height-regular: 34px;")
     expect(ios).toContain("--type-body-size: calc(17 * var(--pt));")
     expect(ios).toContain("--corner-4xl: 26px;")
+    expect(ios).toContain("--label: rgb(0 0 0);")
+    expect(ios).toContain("--label-2: rgb(60 60 67 / 0.6);")
+    expect(ios).toContain("--separator: rgb(60 60 67 / 0.29);")
+    expect(ios).toContain("--accent-color: var(--system-blue);")
+    expect(ios).toContain("--primary: var(--accent-color);")
+    expect(out).toMatch(
+      /\.dark\[data-platform="ios"\],\s*\.dark \[data-platform="ios"\][^]*--label: rgb\(255 255 255\);/
+    )
   })
 
   test("platform colour overrides: AppKit's labels on macOS, apple.com's palette on the web, dark too", () => {
     const mac = section('[data-platform="macos"]')
+    expect(mac).toContain("--platform: macos;")
+    expect(section(":root")).toContain("--platform: ios;")
+    expect(section('[data-platform="web"]')).toContain("--platform: web;")
     expect(mac).toContain("--label: rgb(0 0 0 / 0.85);")
     expect(mac).toContain("--separator: rgb(0 0 0 / 0.1);")
     expect(mac).toContain("--primary: var(--accent-color);")

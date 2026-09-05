@@ -72,6 +72,7 @@
   --sidebar-accent-foreground: var(--label);
   --sidebar-border: var(--separator);
   --sidebar-ring: var(--accent-color);
+  --platform: ios;
   --radius: 0.625rem;
   --sheet-radius: 40px;
   --icon-radius: 22.37%;
@@ -642,6 +643,58 @@
 }
 
 [data-platform="ios"] {
+  --label: rgb(0 0 0);
+  --label-2: rgb(60 60 67 / 0.6);
+  --label-3: rgb(60 60 67 / 0.3);
+  --label-4: rgb(60 60 67 / 0.18);
+  --placeholder: rgb(60 60 67 / 0.3);
+  --fill: rgb(120 120 128 / 0.2);
+  --fill-2: rgb(120 120 128 / 0.16);
+  --fill-3: rgb(118 118 128 / 0.12);
+  --fill-4: rgb(116 116 128 / 0.08);
+  --background-1: rgb(255 255 255);
+  --background-2: rgb(242 242 247);
+  --background-3: rgb(255 255 255);
+  --grouped-background-1: rgb(242 242 247);
+  --grouped-background-2: rgb(255 255 255);
+  --grouped-background-3: rgb(242 242 247);
+  --separator: rgb(60 60 67 / 0.29);
+  --separator-opaque: rgb(198 198 200);
+  --link: rgb(0 122 255);
+  --accent-color: var(--system-blue);
+  --selection: var(--system-blue);
+  --background: var(--background-1);
+  --foreground: var(--label);
+  --card: var(--grouped-background-2);
+  --card-foreground: var(--label);
+  --popover: var(--background-1);
+  --popover-foreground: var(--label);
+  --primary: var(--accent-color);
+  --primary-foreground: var(--white);
+  --secondary: var(--fill-3);
+  --secondary-foreground: var(--label);
+  --muted: var(--background-2);
+  --muted-foreground: var(--label-2);
+  --accent: var(--fill-4);
+  --accent-foreground: var(--label);
+  --destructive: var(--system-red);
+  --border: var(--separator);
+  --input: var(--fill-3);
+  --ring: var(--accent-color);
+  --chart-1: var(--system-blue);
+  --chart-2: var(--system-green);
+  --chart-3: var(--system-orange);
+  --chart-4: var(--system-purple);
+  --chart-5: var(--system-red);
+  --sidebar: var(--grouped-background-1);
+  --sidebar-foreground: var(--label);
+  --sidebar-primary: var(--accent-color);
+  --sidebar-primary-foreground: var(--white);
+  --sidebar-accent: var(--fill-3);
+  --sidebar-accent-foreground: var(--label);
+  --sidebar-border: var(--separator);
+  --sidebar-ring: var(--accent-color);
+  --platform: ios;
   --radius: 0.625rem;
   --sheet-radius: 40px;
   --icon-radius: 22.37%;
@@ -827,6 +880,61 @@
   }
 }
 
+.dark[data-platform="ios"],
+.dark [data-platform="ios"] {
+  --label: rgb(255 255 255);
+  --label-2: rgb(235 235 245 / 0.6);
+  --label-3: rgb(235 235 245 / 0.3);
+  --label-4: rgb(235 235 245 / 0.16);
+  --placeholder: rgb(235 235 245 / 0.3);
+  --fill: rgb(120 120 128 / 0.36);
+  --fill-2: rgb(120 120 128 / 0.32);
+  --fill-3: rgb(118 118 128 / 0.24);
+  --fill-4: rgb(118 118 128 / 0.18);
+  --background-1: rgb(0 0 0);
+  --background-2: rgb(28 28 30);
+  --background-3: rgb(44 44 46);
+  --grouped-background-1: rgb(0 0 0);
+  --grouped-background-2: rgb(28 28 30);
+  --grouped-background-3: rgb(44 44 46);
+  --separator: rgb(84 84 88 / 0.6);
+  --separator-opaque: rgb(56 56 58);
+  --link: rgb(9 132 255);
+  --accent-color: var(--system-blue);
+  --selection: var(--system-blue);
+  --background: var(--background-1);
+  --foreground: var(--label);
+  --card: var(--grouped-background-2);
+  --card-foreground: var(--label);
+  --popover: var(--background-2);
+  --popover-foreground: var(--label);
+  --primary: var(--accent-color);
+  --primary-foreground: var(--white);
+  --secondary: var(--fill-3);
+  --secondary-foreground: var(--label);
+  --muted: var(--background-2);
+  --muted-foreground: var(--label-2);
+  --accent: var(--fill-4);
+  --accent-foreground: var(--label);
+  --destructive: var(--system-red);
+  --border: var(--separator);
+  --input: var(--fill-3);
+  --ring: var(--accent-color);
+  --chart-1: var(--system-blue);
+  --chart-2: var(--system-green);
+  --chart-3: var(--system-orange);
+  --chart-4: var(--system-purple);
+  --chart-5: var(--system-red);
+  --sidebar: var(--grouped-background-1);
+  --sidebar-foreground: var(--label);
+  --sidebar-primary: var(--accent-color);
+  --sidebar-primary-foreground: var(--white);
+  --sidebar-accent: var(--fill-3);
+  --sidebar-accent-foreground: var(--label);
+  --sidebar-border: var(--separator);
+  --sidebar-ring: var(--accent-color);
+}
+
 [data-platform="macos"] {
   --label: rgb(0 0 0 / 0.85);
   --label-2: rgb(0 0 0 / 0.5);
@@ -872,6 +980,7 @@
   --sidebar-accent-foreground: var(--label);
   --sidebar-border: var(--separator);
   --sidebar-ring: var(--accent-color);
+  --platform: macos;
   --radius: 0.625rem;
   --sheet-radius: 16px;
   --icon-radius: 22.37%;
@@ -1151,6 +1260,7 @@
   --sidebar-accent-foreground: var(--label);
   --sidebar-border: var(--separator);
   --sidebar-ring: var(--accent-color);
+  --platform: web;
   --radius: 0.625rem;
   --sheet-radius: 24px;
   --icon-radius: 22.37%;

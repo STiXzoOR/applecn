@@ -79,8 +79,21 @@ describe("registry", () => {
     expect(style.cssVars?.dark?.["system-blue"]).toBe("rgb(0 145 255)")
     expect(style.cssVars?.light?.primary).toBe("var(--accent-color)")
     expect(Object.keys(style.css ?? {})).toEqual(
-      expect.arrayContaining(["@utility type-body", "@utility glass"])
+      expect.arrayContaining([
+        "@utility type-body",
+        "@utility glass",
+        '[data-platform="macos"]',
+        '[data-platform="web"]',
+        '.dark[data-platform="web"], .dark [data-platform="web"]',
+        "@media (width >= 1069px)",
+      ])
     )
+    const macos = style.css?.['[data-platform="macos"]'] as Record<
+      string,
+      string
+    >
+    expect(macos["--control-height-regular"]).toBe("24px")
+    expect(macos["--platform"]).toBe("macos")
   })
 
   test("ships the hooks and lib modules", () => {
@@ -89,13 +102,18 @@ describe("registry", () => {
         .filter((i) => i.type === "registry:hook")
         .map((i) => i.name)
         .sort()
-    ).toEqual(["use-media-query", "use-scroll-collapse"])
+    ).toEqual([
+      "use-color-scheme",
+      "use-media-query",
+      "use-reduced-motion",
+      "use-scroll-collapse",
+    ])
     expect(
       registry.items
         .filter((i) => i.type === "registry:lib")
         .map((i) => i.name)
         .sort()
-    ).toEqual(["contrast", "platform", "utils"])
+    ).toEqual(["contrast", "detect-platform", "platform", "utils"])
   })
 
   test("published content rewrites cross-directory relative imports to the alias form the CLI maps", () => {

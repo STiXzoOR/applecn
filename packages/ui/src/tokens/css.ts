@@ -127,6 +127,31 @@ function elevatedPrimitives(): Line[] {
   ]
 }
 
+/**
+ * The iOS values of every role a platform can override, so a nested iOS provider inside a
+ * macOS or web one gets Apple's baseline colours back rather than inheriting the ancestor's.
+ */
+const iosColors: PlatformColors = {
+  label: labels.label,
+  "label-2": labels["label-2"],
+  "label-3": labels["label-3"],
+  "label-4": labels["label-4"],
+  placeholder: labels.placeholder,
+  fill: fills.fill,
+  "fill-2": fills["fill-2"],
+  "fill-3": fills["fill-3"],
+  "fill-4": fills["fill-4"],
+  "background-1": backgrounds.background,
+  "background-2": backgrounds["background-2"],
+  "background-3": backgrounds["background-3"],
+  "grouped-background-1": groupedBackgrounds["grouped-background"],
+  "grouped-background-2": groupedBackgrounds["grouped-background-2"],
+  "grouped-background-3": groupedBackgrounds["grouped-background-3"],
+  separator: separators.separator,
+  "separator-opaque": separators["separator-opaque"],
+  link,
+}
+
 /** A platform's colour overrides for one appearance (research document §11 and §12). */
 function platformColorLines(
   colors: PlatformColors,
@@ -141,6 +166,8 @@ function platformColorLines(
       lines.push(["accent-color", pickAppearance(value, appearance)])
     else lines.push([name, pickAppearance(value, appearance)])
   }
+  if (!colors.accent) lines.push(["accent-color", "var(--system-blue)"])
+  if (!colors.selection) lines.push(["selection", "var(--system-blue)"])
   return lines
 }
 
@@ -402,6 +429,9 @@ function materialLines(appearance: Appearance): Line[] {
 
 /** Everything that changes with the platform and not the appearance. */
 const platformLines = (platform: Platform): Line[] => [
+  // Read by the `ios:`, `macos:` and `web:` variants through a container style query, so the
+  // nearest provider wins even when providers nest.
+  ["platform", platform],
   ...shapeLines(platform),
   ...typeLines(textStyles[platform]),
   ...controlLines(metrics[platform]),
@@ -485,15 +515,11 @@ export function renderTokensCss(): string {
 
   for (const platform of platforms) {
     const selector = platformSelector(platform)
-    const colors = platform === "ios" ? undefined : platformColors[platform]
+    const colors = platform === "ios" ? iosColors : platformColors[platform]
     parts.push(
       block(selector, [
-        ...(colors
-          ? [
-              ...platformColorLines(colors, "light"),
-              ...semanticAliases("light"),
-            ]
-          : []),
+        ...platformColorLines(colors, "light"),
+        ...semanticAliases("light"),
         ...platformLines(platform),
       ])
     )
@@ -501,13 +527,12 @@ export function renderTokensCss(): string {
       parts.push(
         `@media (width >= 414px) {\n${block(selector, [["list-inset", px(metrics.ios.list.insetWide)]], "  ")}\n}`
       )
-    if (colors)
-      parts.push(
-        block(darkPlatformSelector(platform), [
-          ...platformColorLines(colors, "dark"),
-          ...semanticAliases("dark"),
-        ])
-      )
+    parts.push(
+      block(darkPlatformSelector(platform), [
+        ...platformColorLines(colors, "dark"),
+        ...semanticAliases("dark"),
+      ])
+    )
     parts.push(...responsiveTypeBlocks(selector, textStyles[platform]))
   }
 
@@ -516,4 +541,43 @@ export function renderTokensCss(): string {
   )
 
   return parts.join("\n\n") + "\n"
+}
+
+/**
+ * The platform scopes as a nested object for the registry's style item (`css`), so a project
+ * that installs the theme can switch idioms with `data-platform` the way the site does. Keys
+ * are selectors or at-rules; values are declarations with their `--` prefix.
+ */
+export function tokenPlatformCss(): Record<string, unknown> {
+  const declarations = (lines: readonly Line[]) =>
+    Object.fromEntries(lines.map(([n, v]) => [`--${n}`, v]))
+  const out: Record<string, unknown> = {}
+  for (const platform of platforms) {
+    const selector = platformSelector(platform)
+    const colors = platform === "ios" ? iosColors : platformColors[platform]
+    out[selector] = declarations([
+      ...platformColorLines(colors, "light"),
+      ...semanticAliases("light"),
+      ...platformLines(platform),
+    ])
+    out[darkPlatformSelector(platform).replace(",\n", ", ")] = declarations([
+      ...platformColorLines(colors, "dark"),
+      ...semanticAliases("dark"),
+    ])
+    const byBreakpoint = new Map<number, Line[]>()
+    for (const s of textStyles[platform]) {
+      for (const step of s.responsive ?? []) {
+        const lines = byBreakpoint.get(step.minWidth) ?? []
+        lines.push([`type-${s.name}-size`, pt(step.size)])
+        lines.push([`type-${s.name}-leading`, pt(step.leading)])
+        lines.push([`type-${s.name}-tracking`, em(step.tracking)])
+        byBreakpoint.set(step.minWidth, lines)
+      }
+    }
+    for (const [minWidth, lines] of byBreakpoint) {
+      const key = `@media (width >= ${minWidth}px)`
+      out[key] = { ...(out[key] as object), [selector]: declarations(lines) }
+    }
+  }
+  return out
 }

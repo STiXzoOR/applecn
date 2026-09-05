@@ -35,9 +35,14 @@ function Nav({ pathname }: { pathname: string }) {
     <>
       <SidebarHeader>
         <Link href="/" className="outline-none focus-visible:underline">
-          Apple Design System
+          applecn
         </Link>
       </SidebarHeader>
+      <SidebarGroup>
+        <SidebarItem href="/docs" current={pathname === "/docs"}>
+          Overview
+        </SidebarItem>
+      </SidebarGroup>
       {docsNav.map((group) => (
         <SidebarGroup key={group.title} label={group.title}>
           {group.items.map((item) => (

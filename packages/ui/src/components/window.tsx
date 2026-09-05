@@ -1,11 +1,14 @@
 import { cn } from "cn"
 import type { ComponentProps, ReactNode } from "react"
 
+import { PlatformProvider } from "../lib/platform"
+
 /**
  * A macOS 26 window (HIG › Windows): 16 pt corners, the dialog shadow, a 32 pt title bar with
  * the 14 pt close, minimise and zoom lights at the leading edge — or, with `toolbar`, the
  * 52 pt unified title and toolbar with items on either side of the title. For framing
- * examples and marketing pages; the content area is yours.
+ * examples and marketing pages; the content area is yours. A window is a macOS thing, so it
+ * sets the macOS idiom for everything inside it whatever the page's platform.
  */
 function Window({
   className,
@@ -13,15 +16,17 @@ function Window({
   ...props
 }: ComponentProps<"section">) {
   return (
-    <section
-      data-slot="window"
-      aria-label={label}
-      className={cn(
-        "flex w-full flex-col overflow-hidden rounded-window bg-background text-label shadow-dialog",
-        className
-      )}
-      {...props}
-    />
+    <PlatformProvider platform="macos">
+      <section
+        data-slot="window"
+        aria-label={label}
+        className={cn(
+          "flex w-full flex-col overflow-hidden rounded-window bg-background text-label shadow-dialog",
+          className
+        )}
+        {...props}
+      />
+    </PlatformProvider>
   )
 }
 
