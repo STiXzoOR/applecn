@@ -206,6 +206,24 @@ export interface SearchFieldTokens {
   readonly borderColor: string
 }
 
+/**
+ * The bordered field shell shared by `Input`'s `bordered` variant, `Textarea` and
+ * `PasscodeField`'s boxes: a 0.5px separator hairline on iOS and macOS — macOS alone carrying
+ * the control bezel shadow — widening to a 1px label-4 border on the web. The same race
+ * `combobox`'s field resolved.
+ */
+export interface FieldBorderTokens {
+  readonly borderWidth: number
+  readonly borderColor: string
+  readonly shadow: string
+}
+
+/** `PasscodeField`'s boxes: the shared field border, plus their own height and width. */
+export interface PasscodeFieldTokens extends FieldBorderTokens {
+  readonly height: string
+  readonly width: string
+}
+
 export interface ComponentTokens {
   readonly checkbox: Bezel
   readonly radio: Bezel
@@ -218,6 +236,7 @@ export interface ComponentTokens {
   readonly colorWell: ColorWellTokens
   readonly toolbar: ToolbarTokens
   readonly searchField: SearchFieldTokens
+  readonly passcodeField: PasscodeFieldTokens
 }
 
 const iosBezel: Bezel = {
@@ -638,6 +657,48 @@ const webSearchField: SearchFieldTokens = {
   borderColor: "var(--label-4)",
 }
 
+// Measured 2026-09-06/07: the bordered field keeps its resting 0.5px separator hairline on iOS
+// and macOS — macOS alone carrying the control bezel shadow; only the web widens it to a 1px
+// label-4 border (docs/research/apple-design-system-reference.md §text fields).
+const iosFieldBorder: FieldBorderTokens = {
+  borderWidth: 0.5,
+  borderColor: "var(--separator)",
+  shadow: "none",
+}
+
+const macosFieldBorder: FieldBorderTokens = {
+  borderWidth: 0.5,
+  borderColor: "var(--separator)",
+  shadow: "var(--elevation-control)",
+}
+
+const webFieldBorder: FieldBorderTokens = {
+  borderWidth: 1,
+  borderColor: "var(--label-4)",
+  shadow: "none",
+}
+
+// Measured 2026-09-07: the box narrows from 2.5rem to 2rem on macOS; its height reads the same
+// alert-button height as the rest of the platform off macOS, where it steps to the large
+// control height instead (docs/research/apple-design-system-reference.md §passcode fields).
+const iosPasscodeField: PasscodeFieldTokens = {
+  ...iosFieldBorder,
+  height: "var(--alert-button-height)",
+  width: "2.5rem",
+}
+
+const macosPasscodeField: PasscodeFieldTokens = {
+  ...macosFieldBorder,
+  height: "var(--control-height-large)",
+  width: "2rem",
+}
+
+const webPasscodeField: PasscodeFieldTokens = {
+  ...webFieldBorder,
+  height: "var(--alert-button-height)",
+  width: "2.5rem",
+}
+
 export const componentTokens: Record<Platform, ComponentTokens> = {
   ios: {
     checkbox: iosBezel,
@@ -651,6 +712,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     colorWell: iosColorWell,
     toolbar: iosToolbar,
     searchField: iosSearchField,
+    passcodeField: iosPasscodeField,
   },
   macos: {
     checkbox: macosBezel,
@@ -664,6 +726,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     colorWell: macosColorWell,
     toolbar: macosToolbar,
     searchField: macosSearchField,
+    passcodeField: macosPasscodeField,
   },
   web: {
     checkbox: webBezel,
@@ -677,6 +740,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     colorWell: webColorWell,
     toolbar: webToolbar,
     searchField: webSearchField,
+    passcodeField: webPasscodeField,
   },
 }
 
@@ -799,6 +863,18 @@ const searchFieldLines = (s: SearchFieldTokens): Line[] => [
   ["search-field-border-color", s.borderColor],
 ]
 
+const fieldBorderLines = (name: string, f: FieldBorderTokens): Line[] => [
+  [`${name}-border-width`, `${f.borderWidth}px`],
+  [`${name}-border-color`, f.borderColor],
+  [`${name}-shadow`, f.shadow],
+]
+
+const passcodeFieldLines = (p: PasscodeFieldTokens): Line[] => [
+  ["passcode-field-height", p.height],
+  ["passcode-field-width", p.width],
+  ...fieldBorderLines("passcode-field", p),
+]
+
 /** Every component appearance token for one idiom, as CSS variable lines. */
 export function componentLines(platform: Platform): Line[] {
   const t = componentTokens[platform]
@@ -814,5 +890,6 @@ export function componentLines(platform: Platform): Line[] {
     ...colorWellLines(t.colorWell),
     ...toolbarLines(t.toolbar),
     ...searchFieldLines(t.searchField),
+    ...passcodeFieldLines(t.passcodeField),
   ]
 }

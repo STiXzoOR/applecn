@@ -47,7 +47,7 @@ function PasscodeField({
           key={i}
           data-slot="passcode-field-input"
           aria-label={`Digit ${i + 1}`}
-          className="h-(--alert-button-height) w-10 rounded-field border-[0.5px] border-separator bg-background-3 text-center text-[length:var(--control-font-large)] font-medium text-label transition-[box-shadow] duration-(--duration-hover) outline-none focus-visible:ring-4 focus-visible:ring-ring/60 macos:h-(--control-height-large) macos:w-8 macos:shadow-control web:border web:border-label-4"
+          className="h-(--passcode-field-height) w-(--passcode-field-width) rounded-field border-(length:--passcode-field-border-width) border-(--passcode-field-border-color) bg-background-3 text-center text-[length:var(--control-font-large)] font-medium text-label shadow-(--passcode-field-shadow) transition-[box-shadow] duration-(--duration-hover) outline-none focus-visible:ring-4 focus-visible:ring-ring/60"
         />
       ))}
     </OTPFieldPrimitive.Root>

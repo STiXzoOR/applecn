@@ -913,7 +913,12 @@
           "--search-field-padding-start": "0.75rem",
           "--search-field-shadow": "none",
           "--search-field-border-width": "0px",
-          "--search-field-border-color": "transparent"
+          "--search-field-border-color": "transparent",
+          "--passcode-field-height": "var(--alert-button-height)",
+          "--passcode-field-width": "2.5rem",
+          "--passcode-field-border-width": "0.5px",
+          "--passcode-field-border-color": "var(--separator)",
+          "--passcode-field-shadow": "none"
         },
         ".dark[data-platform=\"ios\"], .dark [data-platform=\"ios\"]": {
           "--label": "rgb(255 255 255)",
@@ -1278,7 +1283,12 @@
           "--search-field-padding-start": "0.5rem",
           "--search-field-shadow": "var(--elevation-control)",
           "--search-field-border-width": "0px",
-          "--search-field-border-color": "transparent"
+          "--search-field-border-color": "transparent",
+          "--passcode-field-height": "var(--control-height-large)",
+          "--passcode-field-width": "2rem",
+          "--passcode-field-border-width": "0.5px",
+          "--passcode-field-border-color": "var(--separator)",
+          "--passcode-field-shadow": "var(--elevation-control)"
         },
         ".dark[data-platform=\"macos\"], .dark [data-platform=\"macos\"]": {
           "--label": "rgb(255 255 255 / 0.85)",
@@ -1643,7 +1653,12 @@
           "--search-field-padding-start": "0.75rem",
           "--search-field-shadow": "none",
           "--search-field-border-width": "1px",
-          "--search-field-border-color": "var(--label-4)"
+          "--search-field-border-color": "var(--label-4)",
+          "--passcode-field-height": "var(--alert-button-height)",
+          "--passcode-field-width": "2.5rem",
+          "--passcode-field-border-width": "1px",
+          "--passcode-field-border-color": "var(--label-4)",
+          "--passcode-field-shadow": "none"
         },
         ".dark[data-platform=\"web\"], .dark [data-platform=\"web\"]": {
           "--label": "rgb(245 245 247)",

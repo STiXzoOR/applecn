@@ -533,3 +533,52 @@ describe("search field appearance tokens", () => {
     expect(lines).toContainEqual(["search-field-border-width", "0px"])
   })
 })
+
+describe("passcode field appearance tokens", () => {
+  test("shares the bordered field's 0.5px separator hairline off the web, control shadow on macOS", () => {
+    expect(componentTokens.ios.passcodeField.borderWidth).toBe(0.5)
+    expect(componentTokens.macos.passcodeField.borderWidth).toBe(0.5)
+    expect(componentTokens.web.passcodeField.borderWidth).toBe(1)
+    expect(componentTokens.ios.passcodeField.borderColor).toBe(
+      "var(--separator)"
+    )
+    expect(componentTokens.web.passcodeField.borderColor).toBe("var(--label-4)")
+    expect(componentTokens.macos.passcodeField.shadow).toBe(
+      "var(--elevation-control)"
+    )
+    expect(componentTokens.ios.passcodeField.shadow).toBe("none")
+  })
+
+  test("the box narrows from 2.5rem to 2rem on macOS, and its height reads the alert button height off macOS", () => {
+    expect(componentTokens.ios.passcodeField.width).toBe("2.5rem")
+    expect(componentTokens.macos.passcodeField.width).toBe("2rem")
+    expect(componentTokens.web.passcodeField.width).toBe("2.5rem")
+    expect(componentTokens.ios.passcodeField.height).toBe(
+      "var(--alert-button-height)"
+    )
+    expect(componentTokens.macos.passcodeField.height).toBe(
+      "var(--control-height-large)"
+    )
+    expect(componentTokens.web.passcodeField.height).toBe(
+      "var(--alert-button-height)"
+    )
+  })
+
+  test("emits kebab-case CSS variable lines", () => {
+    const lines = componentLines("macos")
+    expect(lines).toContainEqual([
+      "passcode-field-height",
+      "var(--control-height-large)",
+    ])
+    expect(lines).toContainEqual(["passcode-field-width", "2rem"])
+    expect(lines).toContainEqual(["passcode-field-border-width", "0.5px"])
+    expect(lines).toContainEqual([
+      "passcode-field-border-color",
+      "var(--separator)",
+    ])
+    expect(lines).toContainEqual([
+      "passcode-field-shadow",
+      "var(--elevation-control)",
+    ])
+  })
+})

@@ -19,7 +19,15 @@ describe("PasscodeField", () => {
     const inputs = group.querySelectorAll("input")
     expect(inputs).toHaveLength(4)
     expect(inputs[0]!.className).toContain("rounded-field")
-    expect(inputs[0]!.className).toContain("border-separator")
+    expect(inputs[0]!.className).toContain(
+      "border-(length:--passcode-field-border-width)"
+    )
+    expect(inputs[0]!.className).toContain(
+      "border-(--passcode-field-border-color)"
+    )
+    expect(inputs[0]!.className).toContain("h-(--passcode-field-height)")
+    expect(inputs[0]!.className).toContain("w-(--passcode-field-width)")
+    expect(inputs[0]!.className).toContain("shadow-(--passcode-field-shadow)")
     await userEvent.click(inputs[0]!)
     await userEvent.keyboard("12")
     expect(onChange).toHaveBeenLastCalledWith("12", expect.anything())
