@@ -1,0 +1,367 @@
+# Full shadcn parity, Apple fidelity — design spec
+
+Date: 2026-09-07. Approved by the owner in session on 2026-09-07 after a brainstorming pass.
+Extends `2026-09-05-apple-design-system-design.md` (the design system itself) and
+`2026-09-05-applecn-public-release-design.md` (the rename and toolchain); supersedes neither.
+
+## 1. Goal
+
+applecn is a shadcn fork. A developer who knows shadcn must be able to install applecn and find
+every primitive they already know, under the name they already know, with the exports and
+composition they already know — and have it look and behave like Apple's version of that control
+on iOS 26, macOS 26 or apple.com.
+
+Two things follow, and they are the whole spec:
+
+1. **Structural parity with shadcn.** Every primitive shadcn ships, applecn ships: same item name,
+   same exported sub-components, same composition, same props where the underlying primitive
+   allows. No divergence for the sake of Apple's vocabulary.
+2. **Apple fidelity, undiminished.** Every measured number in `docs/research/apple-design-system-reference.md`
+   still holds after the refactor. Parity is names, exports and composition. It is never pixels.
+
+Where Apple has a control shadcn has no analogue for, applecn adds it — built on shadcn primitives
+and following shadcn conventions, never as a parallel implementation.
+
+## 2. Non-goals
+
+- Publishing an npm package. Everything ships through the shadcn registry, including the CSS. See §6.4.
+- Changing any token value. The measured metrics are the asset; this spec moves where they are read
+  from, never what they say.
+- Runtime idiom switching as a default. It survives as an opt-in (§6.2), but a consumer installs one
+  idiom unless they ask for more.
+- Apple's fonts or SF Symbols. Unchanged from the original spec.
+
+## 3. The parity rule
+
+> Where shadcn ships a primitive, applecn ships **that** primitive — shadcn's name, shadcn's exports,
+> shadcn's semantics — styled as Apple. Where Apple has something shadcn does not, applecn adds it
+> **on top of** a shadcn primitive, under Apple's name. Nothing is ever renamed away from shadcn to
+> be more Apple.
+
+Three consequences worth stating, because each reverses an earlier decision in this repo:
+
+- `sheet` means shadcn's edge panel (`side` = top/right/bottom/left). Today's bottom sheet becomes
+  `drawer`. This is a silent breaking change for anyone who installed `@applecn/sheet`; it is taken
+  now because the project is pre-announcement and the cost only grows.
+- `typography` means shadcn's prose styles. Apple's eleven text styles remain a separate `text`
+  component built on it.
+- `item` means shadcn's row primitive. Apple's inset-grouped `list` is built on it.
+
+## 4. Findings that motivate this
+
+Measured on 2026-09-07 against the registry as published at commit `c67c4d3`.
+
+### 4.1 applecn does not currently install correctly
+
+The published `apple` style item carries 31 css keys — the `@utility` blocks and the
+`[data-platform=…]` token scopes — and is missing three things a consumer needs:
+
+- **`@custom-variant ios` / `macos` / `web` are not shipped.** Every `ios:` / `macos:` / `web:` class
+  in the 64 installed components compiles to nothing. A fresh install silently renders the iOS base
+  styling with the macOS and web idioms dead — the premise of the library.
+- **`tw-animate-css` is neither declared nor shipped**, though `globals.css` imports it. `animate-in`,
+  `animate-out`, `fade-in-0` and `zoom-in-95` do nothing in a consumer project, so every overlay
+  animation is silently absent.
+- **The `@layer base` block is not shipped** — Dynamic Type via `-apple-system-body`, the 16 px
+  coarse-pointer input rule, `touch-action: manipulation`.
+
+Two further divergences from shadcn convention:
+
+- All 64 components do `import { cn } from "cn"`, an npm package. Every shadcn component does
+  `import { cn } from "@/lib/utils"`. A `lib/utils.ts` item is registered and unused.
+- Components import siblings relatively (`from "./icon"`). shadcn uses `@/components/ui/icon`. The
+  build rewrites `../hooks/` and `../lib/` but leaves `./`.
+
+### 4.2 The platform variants are unnecessary
+
+All 160 `ios:` / `macos:` / `web:` usages across 25 files were classified by CSS property:
+
+| property group                                                      | usages |
+| ------------------------------------------------------------------- | ------ |
+| spacing                                                             | 28     |
+| background-color                                                    | 28     |
+| color                                                               | 20     |
+| box-shadow                                                          | 16     |
+| font-weight                                                         | 13     |
+| border-color                                                        | 12     |
+| border-width                                                        | 11     |
+| sizing                                                              | 10     |
+| border-radius                                                       | 9      |
+| motion                                                              | 4      |
+| other (5 × `type-caption-1`, 3 × arbitrary property, 1 × translate) | 9      |
+
+**None changes layout or structure.** Every usage is paint or metric, so every one is expressible as
+a semantic token whose value the idiom supplies. Distinct `(component, state, property)` slots: **103**.
+**39 of 64 components need no change** — they are already purely token-driven. The work concentrates
+in twelve files: menu, select, combobox, button, alert-dialog, color-well, menubar, search-field,
+context-menu, checkbox, radio-group, passcode-field.
+
+Because the tokens already ship as `[data-platform=…]` scopes, deleting the variants loses nothing:
+install one theme and one scope applies; install all three and runtime switching still works.
+
+### 4.3 The custom CSS that must stay, and why
+
+Twenty-one custom utilities remain after this spec's two deletions (§6.3). Three of those become
+`@theme` entries, leaving eighteen as `@utility` blocks:
+
+- **`type-*` (11).** They cannot become `@theme --text-*` entries. Measured with the repo's own `cn`:
+  `cn("text-body", "text-label")` → `text-label` (the size is dropped) and `cn("text-label", "text-body")`
+  → `text-body` (the colour is dropped). The conflict is **prefix-based, not name-based**:
+  `cn("text-fg-label", "text-body")` → `text-body`, so renaming the colour ramp fixes nothing. Teaching
+  the merger requires a per-project `cn build` step, which is exactly the config burden copy-paste
+  exists to avoid. `cn("type-body", "text-label")` keeps both. The current design is correct.
+- **`material-*` (4) and `glass*` (3).** Each carries two independent reduced-transparency fallbacks —
+  the OS `prefers-reduced-transparency` media query and applecn's own `[data-transparency="reduced"]`
+  setting — each overriding background, backdrop-filter and, for glass, box-shadow. Inlined that is
+  ~8 classes per call site plus a custom variant, and any site that forgets them is an accessibility
+  regression. `glass` has ~47 uses.
+- **`hairline*` (3).** Optionally moved to `@theme` shadow entries. Note this is cosmetic only:
+  `cn("shadow-hairline", "shadow-lg")` keeps both, so a theme entry gets no better conflict handling
+  than a utility does.
+
+shadcn itself ships nine `@custom-variant`s and roughly twenty `@utility` blocks in
+`shadcn/tailwind.css`, so custom CSS is not a divergence from shadcn — the registry `css` field is
+the convention for delivering it.
+
+### 4.4 `segmented-control` duplicates `toggle-group`
+
+Their tracks are character-identical (`h-(--segmented-height) rounded-segmented bg-fill-3
+p-(--segmented-inset)`), as are the item radius, padding, font token, weight and focus ring. They
+differ only in how selection is drawn — `toggle-group` moves a background on the pressed item,
+`segmented-control` slides a `Tabs.Indicator` — and in semantics (`role="group"` vs `role="tablist"`).
+
+A systematic sweep for components sharing a token family found this to be the **only** true
+duplication. `--menu-*`, `--control-*`, `--text-field-*`, `--alert-*` and `--list-*` are shared design
+language across primitives shadcn also ships separately; `--progress-*` across meter and progress is
+legitimate because `role="meter"` and `role="progressbar"` mean different things.
+
+### 4.5 The existing 64 are not verified per idiom
+
+On 2026-09-07 a checked checkbox and a selected radio were found to be **invisible on the web idiom** —
+shipped, with 277 tests passing. The cause was a cascade collision now guarded by
+`packages/ui/__tests__/platform-state-cascade.test.ts`, but nothing verifies the general case: that
+each component's states are visually distinct, and its measured metrics correct, on each of the three
+idioms. "All primitives working properly" is not currently a checkable claim.
+
+## 5. Catalogue
+
+86 components. 43 parity, 21 to build, 22 Apple. Every one of the 64 that exist today is accounted
+for below exactly once.
+
+### 5.1 Parity, name already correct (38)
+
+accordion, alert-dialog, avatar, badge, breadcrumb, button, button-group, card, carousel, checkbox,
+combobox, context-menu, dialog, empty, field, input, kbd, label, menubar, navigation-menu, popover,
+progress, radio-group, scroll-area, select, separator, sidebar, skeleton, slider, spinner, switch,
+table, tabs, textarea, toast, toggle, toggle-group, tooltip.
+
+Each still needs its **export surface** audited against shadcn's. Known gaps: `alert-dialog` is
+missing `AlertDialogHeader`, `AlertDialogFooter`, `AlertDialogOverlay`, `AlertDialogPortal`;
+today's `sheet`, once renamed to `drawer` (§5.2), is missing `DrawerHeader` and `DrawerFooter`, and
+carries the Apple-specific `SheetSection` and `SheetToolbar` which are kept alongside. `dialog`
+already matches shadcn exactly.
+
+### 5.2 Parity, rename (5)
+
+| from               | to              | note                                                                                                         |
+| ------------------ | --------------- | ------------------------------------------------------------------------------------------------------------ |
+| `menu`             | `dropdown-menu` |                                                                                                              |
+| `preview-card`     | `hover-card`    |                                                                                                              |
+| `passcode-field`   | `input-otp`     |                                                                                                              |
+| `disclosure-group` | `collapsible`   |                                                                                                              |
+| `sheet`            | `drawer`        | today's bottom sheet **is** shadcn's Drawer; the name `sheet` is then freed for the edge panel built in §5.4 |
+
+### 5.3 Parity, fold (1)
+
+`segmented-control` folds into `toggle-group`, which takes the sliding indicator (the truer iOS
+behaviour). `tabs` carries the same segmented styling for the case that drives panels. Net: one
+component deleted.
+
+### 5.4 To build — shadcn primitives applecn lacks (14)
+
+alert, aspect-ratio, calendar, chart, command, data-table, date-picker, input-group, item,
+native-select, pagination, resizable, sheet (edge panel), typography.
+
+`drawer` is not here: it is §5.2's rename of today's bottom sheet.
+
+Each has an Apple original to measure: `UICalendarView`/`NSDatePicker` for calendar and date-picker,
+Spotlight for command, `NSTableView` for data-table, Swift Charts for chart, the iOS notification
+banner for alert, apple.com's own pagination, the macOS draggable split divider for resizable.
+
+`chart` and `data-table` are each a subsystem; they are sub-phases of §7.3, not single tasks.
+
+### 5.5 To build — shadcn's AI set (7)
+
+attachment, bubble, direction, marker, message, message-scroller, questionnaire. Last, because they
+are a product surface rather than primitives.
+
+### 5.6 Apple compositions on a shadcn base (13)
+
+| applecn          | built on                      | Apple reference                               |
+| ---------------- | ----------------------------- | --------------------------------------------- |
+| `list`           | `item`                        | inset grouped list, 26 pt corners, 52 pt rows |
+| `lockup`         | `item`                        | media + title + description                   |
+| `search-field`   | `input-group`                 | 44 pt capsule, magnifier addon, clear, cancel |
+| `stepper`        | `input-group`                 | 94 × 32 capsule, −/+ as `InputGroupButton`    |
+| `color-well`     | `input-group`                 |                                               |
+| `split-view`     | `resizable`                   | gains the drag it never had                   |
+| `checkbox-group` | `field` (FieldSet/FieldGroup) | macOS text-style hierarchy                    |
+| `tab-bar`        | `tabs`                        | platter 62 inset 21, items 54, labels 10      |
+| `action-sheet`   | `drawer`                      | 48 pt capsule actions from the bottom         |
+| `page-control`   | `pagination`                  | iOS dots                                      |
+| `text`           | `typography`                  | the eleven text styles                        |
+| `toolbar`        | `button-group`                | partial — grouped actions                     |
+| `link`           | `typography`                  |                                               |
+
+### 5.7 Genuinely Apple-only (7)
+
+`navigation-bar`, `window`, `meter`, `rating`, `icon`, and the two utilities `glass` and `material`.
+
+### 5.8 New Apple primitives (2)
+
+- **`responsive-dialog`** — drawer below `sm`, dialog from `sm`.
+- **`responsive-alert-dialog`** — action sheet below `sm`, alert dialog from `sm`. The action sheet is
+  correct here: iOS presents a destructive confirmation as an action sheet, not a drawer.
+
+Both follow shadcn's export shape exactly: `ResponsiveDialog`, `ResponsiveDialogTrigger`,
+`ResponsiveDialogContent`, `ResponsiveDialogHeader`, `ResponsiveDialogFooter`, `ResponsiveDialogTitle`,
+`ResponsiveDialogDescription`, `ResponsiveDialogClose`.
+
+Delegation follows today's `sheet.tsx`: `useIsDesktop()` picks the primitive and a context tells the
+parts which to render. The alternative — render both, hide one with CSS — gives two focus traps and
+duplicate DOM, and is rejected. The media query is JS, so the trigger renders before the breakpoint
+is known; this is harmless because content is portaled and exists only while open.
+
+## 6. Architecture
+
+### 6.1 Detokenised components
+
+Every `ios:` / `macos:` / `web:` class is replaced by a semantic token read with Tailwind's
+`(--var)` syntax. Example, from `checkbox.tsx`:
+
+```diff
+- macos:border macos:shadow-control macos:data-unchecked:border-label-3
+- macos:data-unchecked:bg-background-3
+- web:border web:data-unchecked:border-label-4 web:data-unchecked:bg-background-3
++ border-(length:--checkbox-border-width) shadow-(--checkbox-shadow)
++ data-unchecked:border-(--checkbox-border) data-unchecked:bg-(--checkbox-bg)
+```
+
+The three `@custom-variant` blocks are then deleted from `globals.css`. New tokens are generated from
+`packages/ui/src/tokens/*.ts` like every other token, so `tokens.css` stays generated and tested.
+
+### 6.2 Three themes
+
+Three `registry:theme` items — `@applecn/ios`, `@applecn/macos`, `@applecn/web` — each carrying one
+idiom's `[data-platform=…]` scope as `cssVars`. Default install is one idiom:
+
+```bash
+npx shadcn@latest add @applecn/ios
+```
+
+Installing more than one keeps runtime switching working, because the scopes coexist and
+`PlatformProvider` only sets `data-platform`. The docs site installs all three.
+
+The `@applecn/apple` style item remains, now meaning "all three idioms plus the shared layer", so
+existing instructions keep working.
+
+### 6.3 CSS surface
+
+- Delete `knob` and `pressable`. Both are fully expressible in stock utilities, and `pressable`
+  duplicates what `button.tsx` already writes inline (`active:scale-[0.97] active:opacity-80 …
+motion-reduce:active:scale-100`) while being used in only four files.
+- Move `hairline`, `hairline-t`, `hairline-b` to `@theme` shadow entries.
+- Keep `type-*` (11), `material-*` (4), `glass*` (3) as `@utility`, for the reasons in §4.3.
+- Utilities stay **unprefixed**, matching shadcn's own `shimmer`, `scroll-fade`, `no-scrollbar`.
+
+### 6.4 Registry-only distribution
+
+No npm package. With the variants gone, everything a consumer needs travels through the registry:
+`cssVars` for tokens, `css` for the remaining utilities and the base layer, `dependencies` for
+`tw-animate-css` and the rest. This is how every third-party shadcn registry ships custom CSS. The
+trade — CSS fixes arrive by re-running the CLI rather than a version bump — is the copy-paste bargain.
+
+The style item must additionally ship what §4.1 found missing: the `@layer base` block, and
+`tw-animate-css` declared as a dependency of the items that use it.
+
+### 6.5 shadcn conventions in component source
+
+- `import { cn } from "@/lib/utils"`, with `lib/utils.ts` shipping `clsx` + `tailwind-merge`.
+- Sibling imports become `@/components/ui/<name>`; the registry build rewrites them like it already
+  rewrites `../hooks/` and `../lib/`.
+- The install command is the namespaced short form (`npx shadcn@latest add @applecn/checkbox`)
+  everywhere. Today the landing page and the docs disagree.
+
+## 7. Phases
+
+Each phase ends green on `pnpm check` and is a separate PR.
+
+### 7.1 Detokenise and make installable
+
+103 tokens, 25 component files, the three variants deleted, §6.3 CSS changes, §6.5 convention
+changes, the three theme items.
+
+**Acceptance:** a scratch Next app, created outside this repo, runs
+`npx shadcn@latest add @applecn/ios` and a set of components, and renders them correctly with
+animations, base styles and macOS/web idioms all working. This is the test §4.1 would have failed.
+
+### 7.2 Apple-fidelity audit harness
+
+A harness that renders every registry example under each of the three idioms and asserts:
+
+- states that must differ visually do — checked ≠ unchecked background, selected ≠ unselected,
+  disabled dimmed, indicator present;
+- the measured metrics hold — control heights, corner radii, type sizes match the token fixtures.
+
+Then fix what it finds. Also audit all 42 parity components' export surfaces against shadcn's.
+
+**Acceptance:** the harness fails when the §4.5 checkbox bug is reintroduced by reverting its fix.
+
+### 7.3 Renames, fold, and the 15 builds
+
+The four renames of §5.2, the `segmented-control` fold of §5.3, then the 15 primitives of §5.4.
+`chart` and `data-table` are sub-phases. Each new component is born under the §7.2 harness.
+
+### 7.4 Rebuild the Apple layer
+
+The 13 compositions of §5.6 onto their shadcn bases, and the two new primitives of §5.8. This phase
+deletes more code than it adds.
+
+**Acceptance:** no measured metric changes. §7.2 is the gate.
+
+### 7.5 Docs 1:1 with shadcn, and brand
+
+Component pages follow shadcn's anatomy: Installation (CLI/Manual tabs) → Usage → Examples → API
+Reference, with prev/next and an "On This Page" rail. A Get Started section: Installation,
+components.json, Theming, Dark Mode, CLI, Monorepo, llms.txt. An alias table so a shadcn user
+searching "Dropdown Menu" finds it.
+
+Brand starts from nothing — there is no logo, OG image, apple-touch-icon, manifest or
+`metadata.icons` in the repo today.
+
+### 7.6 The AI set
+
+The seven primitives of §5.5.
+
+## 8. Risks
+
+- **Fidelity regression during §7.4.** Rebuilding thirteen Apple components on shadcn bases is where
+  measured numbers are most likely to drift. Mitigated by §7.2 being a hard gate, and by the token
+  fixtures that already fail when a value drifts from the research document.
+- **API expectations from name parity.** A user installing `dropdown-menu` will reach for
+  `<DropdownMenuTrigger asChild>` and find Base UI's `render=`. shadcn ships Base UI variants of its
+  own; §7.2's export audit must compare against _those_, not the Radix originals, and any remaining
+  delta must be documented on the component page.
+- **The `sheet` → `drawer` rename is silent.** Anyone who installed `@applecn/sheet` and re-runs the
+  CLI gets a different component. Accepted: pre-announcement, and the cost only grows.
+- **Scope.** 22 components to build, 13 to rebuild. The phases are independently shippable
+  specifically so this can stop after any of them and still leave the project better than it started.
+
+## 9. Verification
+
+- `pnpm check` — oxlint, oxfmt, tsc, vitest, build — green at every phase.
+- `packages/ui/__tests__/platform-state-cascade.test.ts` keeps the §4.5 class of bug out.
+- The §7.2 harness is the fidelity gate.
+- The §7.1 scratch-app install is the parity gate.
+- Token fixtures in `packages/ui/src/tokens/__tests__/` keep every measured number tied to
+  `docs/research/apple-design-system-reference.md`.
