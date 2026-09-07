@@ -19,6 +19,11 @@ describe("Toggle", () => {
     expect(toggleVariants()).toContain("data-pressed:text-primary")
   })
 
+  test("label weight and press-down scale read the platform tokens", () => {
+    expect(toggleVariants()).toContain("font-(--toggle-font-weight)")
+    expect(toggleVariants()).toContain("active:scale-(--toggle-active-scale)")
+  })
+
   test("sizes read the platform control heights and the shape defaults to the platform's", () => {
     expect(toggleVariants({ size: "small" })).toContain(
       "h-(--control-height-small)"

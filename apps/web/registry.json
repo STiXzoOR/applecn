@@ -921,7 +921,9 @@
           "--passcode-field-shadow": "none",
           "--toggle-group-pressed-bg": "var(--background)",
           "--toggle-group-pressed-text": "var(--label)",
-          "--toggle-group-pressed-shadow": "var(--elevation-segment)"
+          "--toggle-group-pressed-shadow": "var(--elevation-segment)",
+          "--toggle-font-weight": "600",
+          "--toggle-active-scale": "0.97"
         },
         ".dark[data-platform=\"ios\"], .dark [data-platform=\"ios\"]": {
           "--label": "rgb(255 255 255)",
@@ -1294,7 +1296,9 @@
           "--passcode-field-shadow": "var(--elevation-control)",
           "--toggle-group-pressed-bg": "var(--primary)",
           "--toggle-group-pressed-text": "white",
-          "--toggle-group-pressed-shadow": "none"
+          "--toggle-group-pressed-shadow": "none",
+          "--toggle-font-weight": "400",
+          "--toggle-active-scale": "1"
         },
         ".dark[data-platform=\"macos\"], .dark [data-platform=\"macos\"]": {
           "--label": "rgb(255 255 255 / 0.85)",
@@ -1667,7 +1671,9 @@
           "--passcode-field-shadow": "none",
           "--toggle-group-pressed-bg": "var(--background)",
           "--toggle-group-pressed-text": "var(--label)",
-          "--toggle-group-pressed-shadow": "var(--elevation-segment)"
+          "--toggle-group-pressed-shadow": "var(--elevation-segment)",
+          "--toggle-font-weight": "400",
+          "--toggle-active-scale": "0.97"
         },
         ".dark[data-platform=\"web\"], .dark [data-platform=\"web\"]": {
           "--label": "rgb(245 245 247)",

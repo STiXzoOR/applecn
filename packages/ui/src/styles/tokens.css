@@ -968,6 +968,8 @@
   --toggle-group-pressed-bg: var(--background);
   --toggle-group-pressed-text: var(--label);
   --toggle-group-pressed-shadow: var(--elevation-segment);
+  --toggle-font-weight: 600;
+  --toggle-active-scale: 0.97;
 }
 
 @media (width >= 414px) {
@@ -1350,6 +1352,8 @@
   --toggle-group-pressed-bg: var(--primary);
   --toggle-group-pressed-text: white;
   --toggle-group-pressed-shadow: none;
+  --toggle-font-weight: 400;
+  --toggle-active-scale: 1;
 }
 
 .dark[data-platform="macos"],
@@ -1726,6 +1730,8 @@
   --toggle-group-pressed-bg: var(--background);
   --toggle-group-pressed-text: var(--label);
   --toggle-group-pressed-shadow: var(--elevation-segment);
+  --toggle-font-weight: 400;
+  --toggle-active-scale: 0.97;
 }
 
 .dark[data-platform="web"],

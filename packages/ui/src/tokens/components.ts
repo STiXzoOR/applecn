@@ -238,6 +238,12 @@ export interface ToggleGroupTokens {
   }
 }
 
+/** The standalone toggle button's label weight and press-down scale. */
+export interface ToggleTokens {
+  readonly fontWeight: string
+  readonly activeScale: string
+}
+
 export interface ComponentTokens {
   readonly checkbox: Bezel
   readonly radio: Bezel
@@ -252,6 +258,7 @@ export interface ComponentTokens {
   readonly searchField: SearchFieldTokens
   readonly passcodeField: PasscodeFieldTokens
   readonly toggleGroup: ToggleGroupTokens
+  readonly toggle: ToggleTokens
 }
 
 const iosBezel: Bezel = {
@@ -734,6 +741,13 @@ const iosToggleGroup: ToggleGroupTokens = { pressed: iosSegmentPress }
 const macosToggleGroup: ToggleGroupTokens = { pressed: macosSegmentPress }
 const webToggleGroup: ToggleGroupTokens = { pressed: iosSegmentPress }
 
+// Measured 2026-09-06/07: iOS stays semibold at full press-down scale; macOS holds still at
+// normal weight; the web keeps iOS's press-down scale but drops to normal weight, matching
+// apple.com's toggle buttons (docs/research/apple-design-system-reference.md §toggles).
+const iosToggle: ToggleTokens = { fontWeight: "600", activeScale: "0.97" }
+const macosToggle: ToggleTokens = { fontWeight: "400", activeScale: "1" }
+const webToggle: ToggleTokens = { fontWeight: "400", activeScale: "0.97" }
+
 export const componentTokens: Record<Platform, ComponentTokens> = {
   ios: {
     checkbox: iosBezel,
@@ -749,6 +763,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     searchField: iosSearchField,
     passcodeField: iosPasscodeField,
     toggleGroup: iosToggleGroup,
+    toggle: iosToggle,
   },
   macos: {
     checkbox: macosBezel,
@@ -764,6 +779,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     searchField: macosSearchField,
     passcodeField: macosPasscodeField,
     toggleGroup: macosToggleGroup,
+    toggle: macosToggle,
   },
   web: {
     checkbox: webBezel,
@@ -779,6 +795,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     searchField: webSearchField,
     passcodeField: webPasscodeField,
     toggleGroup: webToggleGroup,
+    toggle: webToggle,
   },
 }
 
@@ -919,6 +936,11 @@ const toggleGroupLines = (g: ToggleGroupTokens): Line[] => [
   ["toggle-group-pressed-shadow", g.pressed.shadow],
 ]
 
+const toggleLines = (t: ToggleTokens): Line[] => [
+  ["toggle-font-weight", t.fontWeight],
+  ["toggle-active-scale", t.activeScale],
+]
+
 /** Every component appearance token for one idiom, as CSS variable lines. */
 export function componentLines(platform: Platform): Line[] {
   const t = componentTokens[platform]
@@ -936,5 +958,6 @@ export function componentLines(platform: Platform): Line[] {
     ...searchFieldLines(t.searchField),
     ...passcodeFieldLines(t.passcodeField),
     ...toggleGroupLines(t.toggleGroup),
+    ...toggleLines(t.toggle),
   ]
 }

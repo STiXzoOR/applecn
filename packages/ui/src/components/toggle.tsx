@@ -10,7 +10,7 @@ import { cn } from "../lib/utils"
  * button metrics. Use a `Switch` inside list rows.
  */
 const toggleVariants = cva(
-  "group/toggle inline-flex shrink-0 items-center justify-center gap-1.5 bg-transparent leading-none font-semibold whitespace-nowrap text-foreground transition-[background-color,transform,opacity] duration-(--duration-press) ease-(--ease-standard) outline-none select-none hover:bg-fill-4 focus-visible:ring-4 focus-visible:ring-ring/60 active:scale-[0.97] disabled:pointer-events-none disabled:opacity-40 data-pressed:bg-primary/15 data-pressed:text-primary motion-reduce:active:scale-100 macos:font-normal macos:active:scale-100 web:font-normal [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "group/toggle inline-flex shrink-0 items-center justify-center gap-1.5 bg-transparent leading-none font-(--toggle-font-weight) whitespace-nowrap text-foreground transition-[background-color,transform,opacity] duration-(--duration-press) ease-(--ease-standard) outline-none select-none hover:bg-fill-4 focus-visible:ring-4 focus-visible:ring-ring/60 active:scale-(--toggle-active-scale) disabled:pointer-events-none disabled:opacity-40 data-pressed:bg-primary/15 data-pressed:text-primary motion-reduce:active:scale-100 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       size: {

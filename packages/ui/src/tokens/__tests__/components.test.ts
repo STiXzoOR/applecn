@@ -607,3 +607,20 @@ describe("toggle group appearance tokens", () => {
     expect(lines).toContainEqual(["toggle-group-pressed-shadow", "none"])
   })
 })
+
+describe("toggle appearance tokens", () => {
+  test("iOS stays semibold at full press-down scale; macOS holds still at normal weight; the web keeps the press scale at normal weight", () => {
+    expect(componentTokens.ios.toggle.fontWeight).toBe("600")
+    expect(componentTokens.macos.toggle.fontWeight).toBe("400")
+    expect(componentTokens.web.toggle.fontWeight).toBe("400")
+    expect(componentTokens.ios.toggle.activeScale).toBe("0.97")
+    expect(componentTokens.macos.toggle.activeScale).toBe("1")
+    expect(componentTokens.web.toggle.activeScale).toBe("0.97")
+  })
+
+  test("emits kebab-case CSS variable lines", () => {
+    const lines = componentLines("web")
+    expect(lines).toContainEqual(["toggle-font-weight", "400"])
+    expect(lines).toContainEqual(["toggle-active-scale", "0.97"])
+  })
+})
