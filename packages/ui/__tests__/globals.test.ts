@@ -21,12 +21,8 @@ describe("globals.css", () => {
     expect([...positions].sort((a, b) => a - b)).toEqual(positions)
   })
 
-  test("declares the dark variant and the platform variants as style queries, so the nearest provider wins", () => {
+  test("declares the dark variant", () => {
     expect(css).toContain("@custom-variant dark (&:is(.dark *));")
-    for (const platform of ["ios", "macos", "web"]) {
-      expect(css).toContain(`@custom-variant ${platform} {`)
-      expect(css).toContain(`@container style(--platform: ${platform})`)
-    }
   })
 
   test("uses the system font stack, never a named SF family", () => {
@@ -108,5 +104,13 @@ describe("globals.css", () => {
     expect(css).toMatch(
       /@supports \(font: -apple-system-body\)[^]*font: -apple-system-body;/
     )
+  })
+
+  test("the idiom variants are gone; idioms are tokens now", () => {
+    expect(css).not.toContain("@custom-variant ios")
+    expect(css).not.toContain("@custom-variant macos")
+    expect(css).not.toContain("@custom-variant web")
+    // dark stays: it is shadcn's, not ours.
+    expect(css).toContain("@custom-variant dark")
   })
 })

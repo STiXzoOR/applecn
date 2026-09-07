@@ -430,8 +430,8 @@ function materialLines(appearance: Appearance): Line[] {
 
 /** Everything that changes with the platform and not the appearance. */
 const platformLines = (platform: Platform): Line[] => [
-  // Read by the `ios:`, `macos:` and `web:` variants through a container style query, so the
-  // nearest provider wins even when providers nest.
+  // Read by tokens.css under each `[data-platform]`, so the nearest provider wins even when
+  // providers nest.
   ["platform", platform],
   ...shapeLines(platform),
   ...typeLines(textStyles[platform]),
