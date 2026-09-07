@@ -42,7 +42,7 @@ function NavigationBar({
       >
         <div
           data-slot="navigation-bar-row"
-          className="sticky top-0 z-40 grid h-(--nav-bar-height) grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 transition-[background-color,box-shadow] duration-(--duration-nav) ease-(--ease-nav) group-data-[collapsed=true]/nav:material-thin group-data-[collapsed=true]/nav:hairline-b"
+          className="sticky top-0 z-40 grid h-(--nav-bar-height) grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 transition-[background-color,box-shadow] duration-(--duration-nav) ease-(--ease-nav) group-data-[collapsed=true]/nav:material-thin group-data-[collapsed=true]/nav:shadow-hairline-b"
         >
           <div
             data-slot="navigation-bar-leading"
@@ -105,7 +105,7 @@ function NavigationBarBackButton({
   ...props
 }: NavigationBarBackButtonProps) {
   const buttonClassName = cn(
-    "flex size-(--nav-bar-item) pressable items-center justify-center rounded-(--navigation-bar-back-radius) glass text-primary outline-none focus-visible:ring-4 focus-visible:ring-ring/60",
+    "flex size-(--nav-bar-item) items-center justify-center rounded-(--navigation-bar-back-radius) glass text-primary transition-[transform,opacity,background-color] duration-(--duration-press) ease-(--ease-standard) outline-none focus-visible:ring-4 focus-visible:ring-ring/60 active:scale-[0.97] active:opacity-80 motion-reduce:active:scale-100",
     className
   )
   if (href) {

@@ -21,7 +21,7 @@ const glassVariants = cva("relative", {
       circle: "aspect-square rounded-full",
     },
     interactive: {
-      true: "pressable",
+      true: "transition-[transform,opacity,background-color] duration-(--duration-press) ease-(--ease-standard) active:scale-[0.97] active:opacity-80 motion-reduce:active:scale-100",
       false: "",
     },
   },

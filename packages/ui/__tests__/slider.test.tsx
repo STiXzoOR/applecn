@@ -30,7 +30,7 @@ describe("Slider", () => {
     const thumb = container.querySelector('[data-slot="slider-thumb"]')!
     expect(thumb.className).toContain("w-(--slider-thumb-width)")
     expect(thumb.className).toContain("h-(--slider-thumb-height)")
-    expect(thumb.className).toContain("knob")
+    expect(thumb.className).toContain("shadow-(--elevation-thumb)")
     expect(thumb.className).toContain("data-dragging:scale-110")
   })
 

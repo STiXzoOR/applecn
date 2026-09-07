@@ -24,7 +24,7 @@ describe("Switch", () => {
     const thumb = s.querySelector('[data-slot="switch-thumb"]')!
     expect(thumb.className).toContain("w-(--switch-thumb-width)")
     expect(thumb.className).toContain("h-(--switch-thumb-height)")
-    expect(thumb.className).toContain("knob")
+    expect(thumb.className).toContain("shadow-(--elevation-thumb)")
     expect(thumb.className).toContain("start-(--switch-inset)")
     expect(thumb.className).toContain(
       "data-checked:translate-x-[calc(var(--switch-width)-var(--switch-thumb-width)-2*var(--switch-inset))]"

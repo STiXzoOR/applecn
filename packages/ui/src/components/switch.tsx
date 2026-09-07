@@ -39,7 +39,7 @@ function Switch({ className, color = "green", ...props }: SwitchProps) {
     >
       <SwitchPrimitive.Thumb
         data-slot="switch-thumb"
-        className="pointer-events-none absolute start-(--switch-inset) block h-(--switch-thumb-height) w-(--switch-thumb-width) knob group-active/switch:w-[calc(var(--switch-thumb-width)+6px)] data-checked:translate-x-[calc(var(--switch-width)-var(--switch-thumb-width)-2*var(--switch-inset))] group-active/switch:data-checked:translate-x-[calc(var(--switch-width)-var(--switch-thumb-width)-2*var(--switch-inset)-6px)] rtl:data-checked:-translate-x-[calc(var(--switch-width)-var(--switch-thumb-width)-2*var(--switch-inset))] data-unchecked:translate-x-0"
+        className="pointer-events-none absolute start-(--switch-inset) block h-(--switch-thumb-height) w-(--switch-thumb-width) rounded-full bg-white shadow-(--elevation-thumb) transition-[width,transform,translate,box-shadow] duration-(--duration-hover) ease-(--spring-snappy) group-active/switch:w-[calc(var(--switch-thumb-width)+6px)] motion-reduce:transition-none data-checked:translate-x-[calc(var(--switch-width)-var(--switch-thumb-width)-2*var(--switch-inset))] group-active/switch:data-checked:translate-x-[calc(var(--switch-width)-var(--switch-thumb-width)-2*var(--switch-inset)-6px)] rtl:data-checked:-translate-x-[calc(var(--switch-width)-var(--switch-thumb-width)-2*var(--switch-inset))] data-unchecked:translate-x-0"
       />
     </SwitchPrimitive.Root>
   )

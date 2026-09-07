@@ -37,6 +37,8 @@ describe("Glass", () => {
     expect(glassVariants({ variant: "prominent" })).toContain("glass-prominent")
     expect(glassVariants({ shape: "rounded" })).toContain("rounded-4xl")
     expect(glassVariants({ shape: "circle" })).toContain("aspect-square")
-    expect(glassVariants({ interactive: true })).toContain("pressable")
+    expect(glassVariants({ interactive: true })).toContain(
+      "active:scale-[0.97]"
+    )
   })
 })

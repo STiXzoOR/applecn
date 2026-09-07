@@ -57,7 +57,7 @@ function WindowTitleBar({
       data-slot="window-title-bar"
       data-toolbar={toolbar || undefined}
       className={cn(
-        "grid shrink-0 grid-cols-[1fr_auto_1fr] items-center gap-3 bg-background-2 px-3 hairline-b",
+        "grid shrink-0 grid-cols-[1fr_auto_1fr] items-center gap-3 bg-background-2 px-3 shadow-hairline-b",
         toolbar ? "h-(--toolbar-height)" : "h-(--window-title-bar)",
         className
       )}

@@ -79,7 +79,7 @@ export function BrowserFrame({
     >
       <div
         aria-hidden="true"
-        className="flex h-11 shrink-0 items-center gap-3 bg-background-2 px-4 hairline-b"
+        className="flex h-11 shrink-0 items-center gap-3 bg-background-2 px-4 shadow-hairline-b"
       >
         <span className="flex items-center gap-2">
           <span className="size-3 rounded-full bg-system-red" />

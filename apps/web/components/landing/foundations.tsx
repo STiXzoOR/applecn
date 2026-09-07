@@ -65,7 +65,7 @@ export function Foundations() {
               {systemColors.map((c) => (
                 <li key={c.name} className="flex flex-col items-center gap-1.5">
                   <span
-                    className="block aspect-square w-full rounded-lg hairline"
+                    className="block aspect-square w-full rounded-lg shadow-hairline"
                     style={{ backgroundColor: `var(--system-${c.name})` }}
                     title={c.name}
                   />

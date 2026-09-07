@@ -44,7 +44,7 @@ export function Footer() {
   return (
     <footer
       data-slot="footer"
-      className="bg-background-2 px-6 py-10 hairline-t"
+      className="bg-background-2 px-6 py-10 shadow-hairline-t"
     >
       <div className="mx-auto flex max-w-5xl flex-col gap-8">
         <div className="grid gap-8 sm:grid-cols-3">
@@ -71,7 +71,7 @@ export function Footer() {
             </div>
           ))}
         </div>
-        <div className="flex flex-col gap-1 pt-4 hairline-t">
+        <div className="flex flex-col gap-1 pt-4 shadow-hairline-t">
           <Text variant="caption-1" color="label-3">
             applecn is an independent open-source project and is not affiliated
             with or endorsed by Apple Inc. Apple, iOS, macOS, the Human

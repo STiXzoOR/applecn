@@ -51,7 +51,7 @@ function ToolbarGroup({ className, ...props }: ToolbarPrimitive.Group.Props) {
 }
 
 const toolbarButtonVariants = cva(
-  "flex size-(--toolbar-item) shrink-0 pressable items-center justify-center rounded-(--toolbar-control-radius) outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 disabled:opacity-40 [&_svg]:size-(--toolbar-button-icon-size)",
+  "flex size-(--toolbar-item) shrink-0 items-center justify-center rounded-(--toolbar-control-radius) transition-[transform,opacity,background-color] duration-(--duration-press) ease-(--ease-standard) outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 active:scale-[0.97] active:opacity-80 disabled:opacity-40 motion-reduce:active:scale-100 [&_svg]:size-(--toolbar-button-icon-size)",
   {
     variants: {
       prominent: {

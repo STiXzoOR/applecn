@@ -73,7 +73,7 @@ function Slider({
             key={index}
             data-slot="slider-thumb"
             aria-label={values.length === 1 ? label : undefined}
-            className="block h-(--slider-thumb-height) w-(--slider-thumb-width) shrink-0 knob select-none focus-visible:ring-4 focus-visible:ring-ring/60 focus-visible:outline-hidden disabled:pointer-events-none data-dragging:scale-110"
+            className="block h-(--slider-thumb-height) w-(--slider-thumb-width) shrink-0 rounded-full bg-white shadow-(--elevation-thumb) transition-[width,transform,translate,box-shadow] duration-(--duration-hover) ease-(--spring-snappy) select-none focus-visible:ring-4 focus-visible:ring-ring/60 focus-visible:outline-hidden disabled:pointer-events-none data-dragging:scale-110 motion-reduce:transition-none"
           />
         ))}
       </SliderPrimitive.Control>

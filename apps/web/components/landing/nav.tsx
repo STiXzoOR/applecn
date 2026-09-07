@@ -36,7 +36,7 @@ export function LandingNav() {
     <nav
       aria-label="Site"
       data-slot="landing-nav"
-      className="sticky top-0 z-40 flex h-(--nav-bar-height) w-full items-center material-regular hairline-b"
+      className="sticky top-0 z-40 flex h-(--nav-bar-height) w-full items-center material-regular shadow-hairline-b"
     >
       <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-2 px-6">
         <NextLink

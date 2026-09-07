@@ -152,6 +152,24 @@ function utilities(css: string): Record<string, unknown> {
   return result
 }
 
+/**
+ * Parses the plain `@theme { … }` block (not the large `@theme inline { … }` mapping, which
+ * stays internal) into the flat declarations the registry's `css` field expects.
+ */
+function theme(css: string): Record<string, unknown> {
+  const match = /@theme\s*\{/.exec(css)
+  if (!match) return {}
+  const start = match.index + match[0].length
+  let depth = 1
+  let end = start
+  while (depth > 0 && end < css.length) {
+    if (css[end] === "{") depth++
+    if (css[end] === "}") depth--
+    end++
+  }
+  return { "@theme": parseBlock(css.slice(start, end - 1)) }
+}
+
 function parseBlock(body: string): Record<string, unknown> {
   const out: Record<string, unknown> = {}
   let i = 0
@@ -266,16 +284,18 @@ export function buildRegistry(): Registry {
     ),
   ]
 
+  const globalsCss = readSource(`${UI_PACKAGE}/src/styles/globals.css`)
   const style: RegistryItem = {
     name: "apple",
     type: "registry:style",
     title: "Apple",
     description:
-      "Every Apple token as CSS variables (light and dark) plus the type, material, glass, hairline and press utilities.",
+      "Every Apple token as CSS variables (light and dark) plus the type, material and glass utilities and the hairline shadow tokens.",
     files: [],
     cssVars: { light: tokenVars("light"), dark: tokenVars("dark") },
     css: {
-      ...utilities(readSource(`${UI_PACKAGE}/src/styles/globals.css`)),
+      ...utilities(globalsCss),
+      ...theme(globalsCss),
       ...tokenPlatformCss(),
     },
   }

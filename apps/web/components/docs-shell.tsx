@@ -70,7 +70,7 @@ export function DocsShell({ children }: { children: ReactNode }) {
           <Nav pathname={pathname} />
         </Sidebar>
         <div className="flex min-w-0 flex-col">
-          <div className="sticky top-0 z-30 flex h-(--nav-bar-height) items-center gap-2 material-thin px-4 hairline-b lg:px-8">
+          <div className="sticky top-0 z-30 flex h-(--nav-bar-height) items-center gap-2 material-thin px-4 shadow-hairline-b lg:px-8">
             <SidebarTrigger />
             <div className="flex-1" />
             <PlatformSwitch className="shrink-0" />

@@ -93,6 +93,22 @@ describe("registry", () => {
     expect(macos["--platform"]).toBe("macos")
   })
 
+  test("ships the hairline shadows from the plain @theme block, not the @theme inline mapping", () => {
+    const style = registry.items.find((i) => i.type === "registry:style")!
+    const theme = style.css?.["@theme"] as Record<string, string>
+    expect(theme["--shadow-hairline"]).toBe("0 0 0 0.5px var(--separator)")
+    expect(theme["--shadow-hairline-t"]).toBe(
+      "inset 0 0.5px 0 var(--separator)"
+    )
+    expect(theme["--shadow-hairline-b"]).toBe(
+      "inset 0 -0.5px 0 var(--separator)"
+    )
+    // the large `@theme inline { … }` mapping is a separate block and must not ship as a
+    // side effect of extracting the plain one.
+    expect(theme["--color-background"]).toBeUndefined()
+    expect(Object.keys(style.css ?? {})).not.toContain("@theme inline")
+  })
+
   test("ships the hooks and lib modules", () => {
     expect(
       registry.items

@@ -12,7 +12,7 @@ export function Swatch({
   return (
     <div className={className}>
       <div
-        className="h-14 rounded-2xl hairline"
+        className="h-14 rounded-2xl shadow-hairline"
         style={{ backgroundColor: value }}
         aria-hidden="true"
       />

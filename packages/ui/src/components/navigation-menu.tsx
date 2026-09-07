@@ -25,7 +25,7 @@ function NavigationMenu({
     <NavigationMenuPrimitive.Root
       data-slot="navigation-menu"
       className={cn(
-        "relative z-40 flex h-(--nav-bar-height) w-full items-center material-regular px-4 text-label hairline-b",
+        "relative z-40 flex h-(--nav-bar-height) w-full items-center material-regular px-4 text-label shadow-hairline-b",
         className
       )}
       {...props}

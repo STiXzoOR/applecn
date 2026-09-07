@@ -168,7 +168,7 @@ function TabBarSearch({
   ...props
 }: TabBarSearchProps) {
   const searchClassName = cn(
-    "flex size-(--tab-bar-height) shrink-0 pressable items-center justify-center rounded-full glass text-label outline-none focus-visible:ring-4 focus-visible:ring-ring/60 [&_svg]:size-6",
+    "flex size-(--tab-bar-height) shrink-0 items-center justify-center rounded-full glass text-label transition-[transform,opacity,background-color] duration-(--duration-press) ease-(--ease-standard) outline-none focus-visible:ring-4 focus-visible:ring-ring/60 active:scale-[0.97] active:opacity-80 motion-reduce:active:scale-100 [&_svg]:size-6",
     className
   )
   if (href) {

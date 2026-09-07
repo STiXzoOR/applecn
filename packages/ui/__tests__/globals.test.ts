@@ -76,7 +76,7 @@ describe("globals.css", () => {
     expect(themeInline).toContain("--ease-menu: var(--easing-menu);")
   })
 
-  test("defines the material, glass and hairline utilities with reduced-transparency fallbacks", () => {
+  test("defines the material and glass utilities with reduced-transparency fallbacks", () => {
     for (const name of [
       "material-ultra-thin",
       "material-thin",
@@ -88,7 +88,6 @@ describe("globals.css", () => {
     ]) {
       expect(css).toContain(`@utility ${name} {`)
     }
-    expect(css).toContain("@utility hairline {")
     expect(css).toContain("prefers-reduced-transparency: reduce")
     expect(css).toContain('[data-transparency="reduced"]')
     expect(css).toContain("var(--material-glass-fallback)")
@@ -112,5 +111,14 @@ describe("globals.css", () => {
     expect(css).not.toContain("@custom-variant web")
     // dark stays: it is shadcn's, not ours.
     expect(css).toContain("@custom-variant dark")
+  })
+
+  test("knob and pressable are gone; both were stock utilities in disguise", () => {
+    expect(css).not.toContain("@utility knob")
+    expect(css).not.toContain("@utility pressable")
+    expect(css).not.toContain("@utility hairline")
+    expect(css).toContain("--shadow-hairline:")
+    expect(css).toContain("--shadow-hairline-t:")
+    expect(css).toContain("--shadow-hairline-b:")
   })
 })
