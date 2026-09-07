@@ -52,14 +52,19 @@ describe("SegmentedControl", () => {
     expect(indicator.className).toContain(
       "rounded-[calc(var(--radius-segmented)-var(--segmented-inset))]"
     )
-    expect(indicator.className).toContain("bg-background")
-    expect(indicator.className).toContain("shadow-segment")
-    expect(indicator.className).toContain("macos:bg-primary")
+    expect(indicator.className).toContain(
+      "bg-(--segmented-control-indicator-bg)"
+    )
+    expect(indicator.className).toContain(
+      "shadow-(--segmented-control-indicator-shadow)"
+    )
     const tab = screen.getByRole("tab", { name: "Day" })
     expect(tab.className).toContain("text-[length:var(--segmented-font)]")
     expect(tab.className).toContain("font-medium")
     expect(tab.className).toContain("data-active:font-semibold")
-    expect(tab.className).toContain("macos:data-active:text-white")
+    expect(tab.className).toContain(
+      "data-active:text-(--segmented-control-item-active-text)"
+    )
   })
 })
 

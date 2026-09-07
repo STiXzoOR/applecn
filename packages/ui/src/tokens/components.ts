@@ -244,6 +244,21 @@ export interface ToggleTokens {
   readonly activeScale: string
 }
 
+/**
+ * The segmented control's sliding indicator and active label — the same white/shadowed vs.
+ * accent-filled race as `ToggleGroupTokens`, kept separate since this component is folded away
+ * in a later phase.
+ */
+export interface SegmentedControlTokens {
+  readonly indicator: {
+    readonly bg: string
+    readonly shadow: string
+  }
+  readonly item: {
+    readonly activeText: string
+  }
+}
+
 export interface ComponentTokens {
   readonly checkbox: Bezel
   readonly radio: Bezel
@@ -260,6 +275,7 @@ export interface ComponentTokens {
   readonly toggleGroup: ToggleGroupTokens
   readonly toggle: ToggleTokens
   readonly textarea: FieldBorderTokens
+  readonly segmentedControl: SegmentedControlTokens
 }
 
 const iosBezel: Bezel = {
@@ -749,6 +765,19 @@ const iosToggle: ToggleTokens = { fontWeight: "600", activeScale: "0.97" }
 const macosToggle: ToggleTokens = { fontWeight: "400", activeScale: "1" }
 const webToggle: ToggleTokens = { fontWeight: "400", activeScale: "0.97" }
 
+// The same white/shadowed vs. accent-filled race as ToggleGroup's pressed segment.
+const iosSegmentedControl: SegmentedControlTokens = {
+  indicator: { bg: iosSegmentPress.bg, shadow: iosSegmentPress.shadow },
+  item: { activeText: iosSegmentPress.text },
+}
+
+const macosSegmentedControl: SegmentedControlTokens = {
+  indicator: { bg: macosSegmentPress.bg, shadow: macosSegmentPress.shadow },
+  item: { activeText: macosSegmentPress.text },
+}
+
+const webSegmentedControl: SegmentedControlTokens = iosSegmentedControl
+
 export const componentTokens: Record<Platform, ComponentTokens> = {
   ios: {
     checkbox: iosBezel,
@@ -766,6 +795,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     toggleGroup: iosToggleGroup,
     toggle: iosToggle,
     textarea: iosFieldBorder,
+    segmentedControl: iosSegmentedControl,
   },
   macos: {
     checkbox: macosBezel,
@@ -783,6 +813,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     toggleGroup: macosToggleGroup,
     toggle: macosToggle,
     textarea: macosFieldBorder,
+    segmentedControl: macosSegmentedControl,
   },
   web: {
     checkbox: webBezel,
@@ -800,6 +831,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     toggleGroup: webToggleGroup,
     toggle: webToggle,
     textarea: webFieldBorder,
+    segmentedControl: webSegmentedControl,
   },
 }
 
@@ -922,6 +954,12 @@ const searchFieldLines = (s: SearchFieldTokens): Line[] => [
   ["search-field-border-color", s.borderColor],
 ]
 
+const segmentedControlLines = (s: SegmentedControlTokens): Line[] => [
+  ["segmented-control-indicator-bg", s.indicator.bg],
+  ["segmented-control-indicator-shadow", s.indicator.shadow],
+  ["segmented-control-item-active-text", s.item.activeText],
+]
+
 const fieldBorderLines = (name: string, f: FieldBorderTokens): Line[] => [
   [`${name}-border-width`, `${f.borderWidth}px`],
   [`${name}-border-color`, f.borderColor],
@@ -964,5 +1002,6 @@ export function componentLines(platform: Platform): Line[] {
     ...toggleGroupLines(t.toggleGroup),
     ...toggleLines(t.toggle),
     ...fieldBorderLines("textarea", t.textarea),
+    ...segmentedControlLines(t.segmentedControl),
   ]
 }

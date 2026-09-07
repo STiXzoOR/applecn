@@ -52,7 +52,7 @@ function SegmentedControlList({
     >
       <TabsPrimitive.Indicator
         data-slot="segmented-control-indicator"
-        className="absolute top-(--segmented-inset) bottom-(--segmented-inset) left-0 w-(--active-tab-width) translate-x-(--active-tab-left) rounded-[calc(var(--radius-segmented)-var(--segmented-inset))] bg-background shadow-segment transition-[translate,width] duration-(--duration-overlay) ease-(--ease-standard) motion-reduce:transition-none macos:bg-primary macos:shadow-none"
+        className="absolute top-(--segmented-inset) bottom-(--segmented-inset) left-0 w-(--active-tab-width) translate-x-(--active-tab-left) rounded-[calc(var(--radius-segmented)-var(--segmented-inset))] bg-(--segmented-control-indicator-bg) shadow-(--segmented-control-indicator-shadow) transition-[translate,width] duration-(--duration-overlay) ease-(--ease-standard) motion-reduce:transition-none"
       />
       {children}
     </TabsPrimitive.List>
@@ -67,7 +67,7 @@ function SegmentedControlItem({
     <TabsPrimitive.Tab
       data-slot="segmented-control-item"
       className={cn(
-        "relative z-10 flex min-w-0 flex-1 items-center justify-center gap-1.5 overflow-hidden rounded-[calc(var(--radius-segmented)-var(--segmented-inset))] px-3 text-[length:var(--segmented-font)] leading-none font-medium whitespace-nowrap text-label transition-[color] duration-(--duration-press) outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 disabled:opacity-40 data-active:font-semibold macos:data-active:text-white [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "relative z-10 flex min-w-0 flex-1 items-center justify-center gap-1.5 overflow-hidden rounded-[calc(var(--radius-segmented)-var(--segmented-inset))] px-3 text-[length:var(--segmented-font)] leading-none font-medium whitespace-nowrap text-label transition-[color] duration-(--duration-press) outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 disabled:opacity-40 data-active:font-semibold data-active:text-(--segmented-control-item-active-text) [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className
       )}
       {...props}

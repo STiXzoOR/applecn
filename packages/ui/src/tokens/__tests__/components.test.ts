@@ -645,3 +645,41 @@ describe("textarea appearance tokens", () => {
     expect(lines).toContainEqual(["textarea-shadow", "none"])
   })
 })
+
+describe("segmented control appearance tokens", () => {
+  test("the sliding indicator is the same white/shadowed vs. accent-filled race as ToggleGroup", () => {
+    expect(componentTokens.ios.segmentedControl.indicator.bg).toBe(
+      "var(--background)"
+    )
+    expect(componentTokens.macos.segmentedControl.indicator.bg).toBe(
+      "var(--primary)"
+    )
+    expect(componentTokens.ios.segmentedControl.indicator.shadow).toBe(
+      "var(--elevation-segment)"
+    )
+    expect(componentTokens.macos.segmentedControl.indicator.shadow).toBe("none")
+  })
+
+  test("the active label stays the resting label colour off macOS, which turns it white", () => {
+    expect(componentTokens.ios.segmentedControl.item.activeText).toBe(
+      "var(--label)"
+    )
+    expect(componentTokens.web.segmentedControl.item.activeText).toBe(
+      "var(--label)"
+    )
+    expect(componentTokens.macos.segmentedControl.item.activeText).toBe("white")
+  })
+
+  test("emits kebab-case CSS variable lines", () => {
+    const lines = componentLines("macos")
+    expect(lines).toContainEqual([
+      "segmented-control-indicator-bg",
+      "var(--primary)",
+    ])
+    expect(lines).toContainEqual(["segmented-control-indicator-shadow", "none"])
+    expect(lines).toContainEqual([
+      "segmented-control-item-active-text",
+      "white",
+    ])
+  })
+})

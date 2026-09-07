@@ -973,6 +973,9 @@
   --textarea-border-width: 0.5px;
   --textarea-border-color: var(--separator);
   --textarea-shadow: none;
+  --segmented-control-indicator-bg: var(--background);
+  --segmented-control-indicator-shadow: var(--elevation-segment);
+  --segmented-control-item-active-text: var(--label);
 }
 
 @media (width >= 414px) {
@@ -1360,6 +1363,9 @@
   --textarea-border-width: 0.5px;
   --textarea-border-color: var(--separator);
   --textarea-shadow: var(--elevation-control);
+  --segmented-control-indicator-bg: var(--primary);
+  --segmented-control-indicator-shadow: none;
+  --segmented-control-item-active-text: white;
 }
 
 .dark[data-platform="macos"],
@@ -1741,6 +1747,9 @@
   --textarea-border-width: 1px;
   --textarea-border-color: var(--label-4);
   --textarea-shadow: none;
+  --segmented-control-indicator-bg: var(--background);
+  --segmented-control-indicator-shadow: var(--elevation-segment);
+  --segmented-control-item-active-text: var(--label);
 }
 
 .dark[data-platform="web"],

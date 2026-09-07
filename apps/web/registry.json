@@ -926,7 +926,10 @@
           "--toggle-active-scale": "0.97",
           "--textarea-border-width": "0.5px",
           "--textarea-border-color": "var(--separator)",
-          "--textarea-shadow": "none"
+          "--textarea-shadow": "none",
+          "--segmented-control-indicator-bg": "var(--background)",
+          "--segmented-control-indicator-shadow": "var(--elevation-segment)",
+          "--segmented-control-item-active-text": "var(--label)"
         },
         ".dark[data-platform=\"ios\"], .dark [data-platform=\"ios\"]": {
           "--label": "rgb(255 255 255)",
@@ -1304,7 +1307,10 @@
           "--toggle-active-scale": "1",
           "--textarea-border-width": "0.5px",
           "--textarea-border-color": "var(--separator)",
-          "--textarea-shadow": "var(--elevation-control)"
+          "--textarea-shadow": "var(--elevation-control)",
+          "--segmented-control-indicator-bg": "var(--primary)",
+          "--segmented-control-indicator-shadow": "none",
+          "--segmented-control-item-active-text": "white"
         },
         ".dark[data-platform=\"macos\"], .dark [data-platform=\"macos\"]": {
           "--label": "rgb(255 255 255 / 0.85)",
@@ -1682,7 +1688,10 @@
           "--toggle-active-scale": "0.97",
           "--textarea-border-width": "1px",
           "--textarea-border-color": "var(--label-4)",
-          "--textarea-shadow": "none"
+          "--textarea-shadow": "none",
+          "--segmented-control-indicator-bg": "var(--background)",
+          "--segmented-control-indicator-shadow": "var(--elevation-segment)",
+          "--segmented-control-item-active-text": "var(--label)"
         },
         ".dark[data-platform=\"web\"], .dark [data-platform=\"web\"]": {
           "--label": "rgb(245 245 247)",
