@@ -9,15 +9,17 @@ import type { ComponentProps } from "react"
 import { Icon } from "./icon"
 
 /**
- * Menus (HIG › Menus, Pull-down buttons): a 250 pt glass panel of 44 pt rows with glyphs at
- * the leading edge (iOS 26), thick bands between groups, red destructive items, check marks
- * on selected items and chevrons on submenus. Shared class strings feed `ContextMenu`.
+ * Menus (HIG › Menus, Pull-down buttons). iOS 26: a 250 pt glass panel of 44 pt rows with
+ * glyphs at the leading edge, thick bands between groups, red destructive items, check marks
+ * on selected items and chevrons on submenus. macOS 26: AppKit's 24 pt rows with 5 pt padding,
+ * hairline separators and the accent highlight. The web: TV's 44 px rows in a 200 px panel.
+ * All from the platform tokens; shared class strings feed `ContextMenu`.
  */
 const menuContentClassName =
-  "glass z-50 max-h-(--available-height) min-w-(--menu-width) origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-4xl p-1 text-label shadow-glass macos:rounded-xl outline-none duration-(--duration-overlay) ease-(--ease-standard) data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 motion-reduce:animate-none"
+  "glass z-50 flex max-h-(--available-height) min-w-(--menu-width) origin-(--transform-origin) flex-col overflow-x-hidden overflow-y-auto rounded-menu p-(--menu-padding) text-label shadow-glass outline-none duration-(--duration-overlay) ease-(--ease-standard) data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 motion-reduce:animate-none"
 
 const menuItemClassName =
-  "type-body group/menu-item relative flex h-(--menu-item-height) w-full cursor-default items-center gap-3 rounded-3xl px-4 text-label outline-hidden select-none focus:bg-fill-3 data-highlighted:bg-fill-3 data-disabled:pointer-events-none data-disabled:opacity-40 data-[variant=destructive]:text-destructive [&_svg]:pointer-events-none [&_svg]:shrink-0"
+  "group/menu-item relative flex h-(--menu-item-height) w-full shrink-0 cursor-default items-center gap-3 rounded-menu-item px-4 text-[length:var(--menu-font)] text-label outline-hidden select-none focus:bg-fill-3 data-highlighted:bg-fill-3 data-disabled:pointer-events-none data-disabled:opacity-40 data-[variant=destructive]:text-destructive macos:gap-2 macos:px-2.5 macos:focus:bg-selection macos:focus:text-white macos:data-highlighted:bg-selection macos:data-highlighted:text-white macos:data-highlighted:[&_[data-slot=menu-shortcut]]:text-white/70 [&_svg]:pointer-events-none [&_svg]:shrink-0"
 
 function Menu(props: MenuPrimitive.Root.Props) {
   return <MenuPrimitive.Root data-slot="menu" {...props} />
@@ -67,7 +69,10 @@ function MenuLabel({ className, ...props }: MenuPrimitive.GroupLabel.Props) {
   return (
     <MenuPrimitive.GroupLabel
       data-slot="menu-label"
-      className={cn("px-4 py-2 type-footnote text-label-2", className)}
+      className={cn(
+        "px-4 py-2 type-footnote text-label-2 macos:px-2.5 macos:py-1 macos:type-caption-1 macos:font-semibold",
+        className
+      )}
       {...props}
     />
   )
@@ -155,7 +160,10 @@ function MenuSeparator({ className, ...props }: MenuPrimitive.Separator.Props) {
   return (
     <MenuPrimitive.Separator
       data-slot="menu-separator"
-      className={cn("-mx-1 my-1 h-2 bg-fill-4", className)}
+      className={cn(
+        "-mx-(--menu-padding) my-1 h-2 shrink-0 bg-fill-4 macos:mx-2 macos:my-1 macos:h-[0.5px] macos:bg-separator",
+        className
+      )}
       {...props}
     />
   )
@@ -165,7 +173,10 @@ function MenuShortcut({ className, ...props }: ComponentProps<"span">) {
   return (
     <span
       data-slot="menu-shortcut"
-      className={cn("ms-auto type-body text-label-2", className)}
+      className={cn(
+        "ms-auto text-[length:var(--menu-font)] text-label-2",
+        className
+      )}
       {...props}
     />
   )

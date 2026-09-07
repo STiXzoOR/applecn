@@ -5,8 +5,9 @@ import { cn } from "cn"
 import type { ComponentProps } from "react"
 
 /**
- * Popovers (HIG › Popovers): a transient card on the regular material with an arrow pointing at
- * the control that opened it. For compact widths present a sheet instead.
+ * Popovers (HIG › Popovers): a transient Liquid Glass card with an arrow pointing at the
+ * control that opened it, on the platform's popover corner (26 pt on iOS 26, 12 on macOS and
+ * the web). For compact widths present a sheet instead.
  */
 function Popover(props: PopoverPrimitive.Root.Props) {
   return <PopoverPrimitive.Root data-slot="popover" {...props} />
@@ -21,7 +22,7 @@ function PopoverArrow({ className, ...props }: PopoverPrimitive.Arrow.Props) {
     <PopoverPrimitive.Arrow
       data-slot="popover-arrow"
       className={cn(
-        "z-50 text-[var(--material-regular-bg)] data-[side=bottom]:-top-[6px] data-[side=left]:-right-[10px] data-[side=left]:rotate-90 data-[side=right]:-left-[10px] data-[side=right]:-rotate-90 data-[side=top]:-bottom-[6px] data-[side=top]:rotate-180",
+        "z-50 text-[var(--material-glass-bg)] data-[side=bottom]:-top-[6px] data-[side=left]:-right-[10px] data-[side=left]:rotate-90 data-[side=right]:-left-[10px] data-[side=right]:-rotate-90 data-[side=top]:-bottom-[6px] data-[side=top]:rotate-180",
         className
       )}
       {...props}
@@ -65,7 +66,7 @@ function PopoverContent({
           data-slot="popover-content"
           data-elevated=""
           className={cn(
-            "z-50 flex w-72 origin-(--transform-origin) flex-col gap-3 rounded-4xl material-regular p-4 text-label shadow-glass outline-hidden duration-(--duration-overlay) ease-(--ease-standard) motion-reduce:animate-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+            "z-50 flex w-72 origin-(--transform-origin) flex-col gap-3 rounded-popover glass p-4 text-label shadow-glass outline-hidden duration-(--duration-overlay) ease-(--ease-standard) motion-reduce:animate-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
             className
           )}
           {...props}

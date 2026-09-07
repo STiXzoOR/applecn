@@ -46,3 +46,15 @@ test('the ios provider stamps data-platform="ios" so nested providers can switch
     "ios"
   )
 })
+
+test("the provider accepts the web idiom", () => {
+  render(
+    <PlatformProvider platform="web">
+      <Probe />
+    </PlatformProvider>
+  )
+  expect(screen.getByTestId("probe")).toHaveTextContent("web")
+  expect(
+    screen.getByTestId("probe").closest("[data-platform]")
+  ).toHaveAttribute("data-platform", "web")
+})

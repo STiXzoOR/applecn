@@ -7,7 +7,9 @@ import {
   AvatarImage,
   avatarVariants,
 } from "../src/components/avatar"
+import { Checkbox } from "../src/components/checkbox"
 import { Kbd } from "../src/components/kbd"
+import { Label } from "../src/components/label"
 import { Skeleton } from "../src/components/skeleton"
 
 describe("Skeleton", () => {
@@ -46,5 +48,20 @@ describe("Kbd", () => {
     expect(k.tagName).toBe("KBD")
     expect(k.className).toContain("bg-fill-3")
     expect(k.className).toContain("type-caption-1")
+  })
+})
+
+describe("Label", () => {
+  test("dims with the control it wraps, which Base UI renders as a span rather than a disabled input", () => {
+    render(
+      <Label>
+        <Checkbox aria-label="Unavailable" disabled /> Unavailable
+      </Label>
+    )
+    const label = screen.getByText("Unavailable", { selector: "label" })
+    // `peer-*` needs a preceding sibling, and `:disabled` never matches a span.
+    expect(label.className).not.toContain("peer-disabled:")
+    expect(label.className).toContain("has-data-disabled:opacity-40")
+    expect(label.className).toContain("has-data-disabled:cursor-not-allowed")
   })
 })

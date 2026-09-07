@@ -17,7 +17,7 @@ describe("Slider", () => {
     expect(thumb).toHaveAttribute("aria-valuenow", "45")
   })
 
-  test("is a 4 pt track with a 28 pt white thumb on iOS, from the platform tokens", () => {
+  test("is the iOS 26 slider: a 6 pt track with the 37×24 pill knob, from the platform tokens", () => {
     const { container } = render(
       <Slider aria-label="Brightness" defaultValue={50} />
     )
@@ -28,9 +28,10 @@ describe("Slider", () => {
       container.querySelector('[data-slot="slider-range"]')!.className
     ).toContain("bg-primary")
     const thumb = container.querySelector('[data-slot="slider-thumb"]')!
-    expect(thumb.className).toContain("size-(--slider-thumb)")
-    expect(thumb.className).toContain("bg-white")
-    expect(thumb.className).toContain("shadow-thumb")
+    expect(thumb.className).toContain("w-(--slider-thumb-width)")
+    expect(thumb.className).toContain("h-(--slider-thumb-height)")
+    expect(thumb.className).toContain("knob")
+    expect(thumb.className).toContain("data-dragging:scale-110")
   })
 
   test("minimum and maximum value labels flank the track", () => {

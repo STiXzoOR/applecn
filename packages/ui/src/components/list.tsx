@@ -17,10 +17,12 @@ import {
 import { Icon } from "./icon"
 
 /**
- * Lists (HIG › Lists and tables). `inset-grouped` is the Settings list: sections on the grouped
- * card, inset from the edges on the 26 pt radius, rows at least 44 pt with separators that
- * start after the leading content, sentence-case headers. `grouped` runs edge to edge, `plain`
- * has no card, `sidebar` is the compact navigation list.
+ * Lists (HIG › Lists and tables). `inset-grouped` is the iOS 26 Settings list: sections on
+ * the grouped card, inset 20 pt from the edges on 26 pt corners, 52 pt rows with 15 × 16 pt
+ * padding and separators that start after the leading content, 17 pt semibold title-case
+ * headers and 13 pt footers — all from the platform tokens, so on macOS it is the 10 pt-corner
+ * grouped form with 28 pt rows. `grouped` runs edge to edge, `plain` has no card, `sidebar` is
+ * the compact navigation list.
  */
 type ListStyle = "plain" | "grouped" | "inset-grouped" | "sidebar"
 
@@ -30,8 +32,8 @@ const listVariants = cva("flex flex-col", {
   variants: {
     style: {
       plain: "",
-      grouped: "gap-8 py-4",
-      "inset-grouped": "gap-8 py-4",
+      grouped: "gap-9 py-4",
+      "inset-grouped": "gap-9 py-4",
       sidebar: "gap-1 p-2",
     },
   },
@@ -62,7 +64,7 @@ const groupVariants = cva("flex flex-col", {
     style: {
       plain: "",
       grouped: "bg-card",
-      "inset-grouped": "mx-(--list-inset) overflow-hidden rounded-4xl bg-card",
+      "inset-grouped": "mx-(--list-inset) overflow-hidden rounded-list bg-card",
       sidebar: "gap-0.5",
     },
   },
@@ -97,7 +99,10 @@ function ListSection({
       {header ? (
         <div
           data-slot="list-section-header"
-          className={cn("mb-2 type-subheadline text-label-2", edge)}
+          className={cn(
+            "mb-2 text-[length:var(--list-header-font)] leading-snug font-semibold text-label-2 macos:font-bold",
+            edge
+          )}
         >
           {header}
         </div>
@@ -112,7 +117,10 @@ function ListSection({
       {footer ? (
         <div
           data-slot="list-section-footer"
-          className={cn("mt-2 type-footnote text-label-2", edge)}
+          className={cn(
+            "mt-2 text-[length:var(--list-footer-font)] leading-snug text-label-2",
+            edge
+          )}
         >
           {footer}
         </div>
@@ -156,7 +164,7 @@ function ListRow({
 }: ListRowProps) {
   const interactive = Boolean(href || onClick)
   const rowClassName = cn(
-    "flex min-h-(--list-row-min-height) w-full items-center gap-3 px-(--list-row-padding-x) py-(--list-row-padding-y) text-start type-body text-label",
+    "flex min-h-(--list-row-min-height) w-full items-center gap-2.5 px-(--list-row-padding-x) py-(--list-row-padding-y) text-start text-[length:var(--list-font)] leading-snug text-label",
     interactive &&
       "transition-[background-color] duration-(--duration-press) outline-none hover:bg-fill-4 focus-visible:bg-fill-4 active:bg-fill-3",
     destructive && "text-destructive",
@@ -183,7 +191,7 @@ function ListRow({
         {subtitle ? (
           <span
             data-slot="list-row-subtitle"
-            className="truncate type-subheadline text-label-2"
+            className="truncate text-[length:var(--list-subtitle-font)] text-label-2"
           >
             {subtitle}
           </span>
@@ -192,7 +200,7 @@ function ListRow({
       {value ? (
         <span
           data-slot="list-row-value"
-          className="shrink-0 truncate type-body text-label-2"
+          className="shrink-0 truncate text-[length:var(--list-font)] text-label-2"
         >
           {value}
         </span>
@@ -245,7 +253,7 @@ function ListRow({
       className={cn(
         'relative before:absolute before:end-0 before:top-0 before:h-[0.5px] before:bg-separator before:content-[""] first:before:hidden',
         leading
-          ? "before:start-[calc(var(--list-row-padding-x)+var(--list-icon-tile)+0.75rem)]"
+          ? "before:start-[calc(var(--list-row-padding-x)+var(--list-icon-tile)+0.625rem)]"
           : "before:start-(--list-row-padding-x)",
         className
       )}

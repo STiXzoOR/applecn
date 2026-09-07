@@ -14,9 +14,11 @@ import { useIsDesktop } from "../hooks/use-media-query"
 
 /**
  * Action sheets (HIG › Action sheets): choices related to an action the person started. On a
- * phone a titled group of 56 pt rows rises from the bottom, destructive choices first, with
- * Cancel in its own group below. From `sm` up (iPad, desktop) it becomes a popover anchored to
- * the control and Cancel disappears: pressing outside dismisses.
+ * phone the iOS 26 card rises from the bottom, inset from the edges: Liquid Glass with 34 pt
+ * corners, a centred title and message, and 48 pt capsule actions on the fill 8 pt apart —
+ * destructive choices in red, Cancel a bolder capsule at the bottom. From `sm` up (iPad,
+ * desktop) it becomes a popover anchored to the control, with the platform's menu rows, and
+ * Cancel disappears: pressing outside dismisses.
  */
 type Presentation = "sheet" | "popover"
 
@@ -89,7 +91,10 @@ function ActionSheetContent({
     title || message ? (
       <div
         data-slot="action-sheet-header"
-        className="flex flex-col gap-0.5 px-4 py-3 text-center"
+        className={cn(
+          "flex flex-col gap-0.5 text-center",
+          presentation === "popover" ? "px-4 py-3" : "px-6 pt-5 pb-2"
+        )}
       >
         {title ? (
           presentation === "popover" ? (
@@ -102,7 +107,7 @@ function ActionSheetContent({
           ) : (
             <DrawerPrimitive.Title
               data-slot="action-sheet-title"
-              className="type-footnote font-semibold text-label-2"
+              className="text-[length:var(--alert-message-font)] font-semibold text-label-2"
             >
               {title}
             </DrawerPrimitive.Title>
@@ -119,7 +124,7 @@ function ActionSheetContent({
           ) : (
             <DrawerPrimitive.Description
               data-slot="action-sheet-message"
-              className="type-footnote text-label-2"
+              className="text-[length:var(--alert-message-font)] text-label-2"
             >
               {message}
             </DrawerPrimitive.Description>
@@ -142,7 +147,7 @@ function ActionSheetContent({
             data-presentation="popover"
             data-elevated=""
             className={cn(
-              "z-50 flex min-w-(--menu-width) origin-(--transform-origin) flex-col rounded-4xl material-regular p-1 text-label shadow-glass duration-(--duration-overlay) ease-(--ease-standard) outline-none motion-reduce:animate-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+              "z-50 flex min-w-(--menu-width) origin-(--transform-origin) flex-col rounded-menu glass p-(--menu-padding) text-label shadow-glass duration-(--duration-overlay) ease-(--ease-standard) outline-none motion-reduce:animate-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
               className
             )}
             {...props}
@@ -172,30 +177,30 @@ function ActionSheetContent({
           data-presentation="sheet"
           data-elevated=""
           className={cn(
-            "fixed inset-x-0 bottom-0 z-50 flex [translate:0_var(--drawer-swipe-movement-y)] flex-col px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] text-label transition-transform duration-(--duration-sheet) ease-(--ease-sheet) will-change-transform outline-none data-ending-style:translate-y-full data-starting-style:translate-y-full data-swiping:duration-0 motion-reduce:transition-none",
+            "fixed inset-x-0 bottom-0 z-50 flex [translate:0_var(--drawer-swipe-movement-y)] flex-col items-center px-(--list-inset) pb-[max(var(--list-inset),env(safe-area-inset-bottom))] text-label transition-transform duration-(--duration-sheet) ease-(--ease-sheet) will-change-transform outline-none data-ending-style:translate-y-full data-starting-style:translate-y-full data-swiping:duration-0 motion-reduce:transition-none",
             className
           )}
           {...props}
         >
           <DrawerPrimitive.Content
-            data-slot="action-sheet-body"
-            className="flex flex-col"
+            data-slot="action-sheet-card"
+            className="flex w-full max-w-(--action-sheet-width) flex-col overflow-hidden rounded-[var(--action-sheet-radius)] glass shadow-dialog"
           >
+            {header}
             <div
               data-slot="action-sheet-group"
-              className="flex flex-col overflow-hidden rounded-4xl material-thick [&>*+*]:border-t-[0.5px] [&>*+*]:border-separator"
+              className="flex flex-col gap-(--action-sheet-gap) p-(--action-sheet-inset)"
             >
-              {header}
               {actions}
+              {cancels.length > 0 ? (
+                <div
+                  data-slot="action-sheet-cancel-group"
+                  className="flex flex-col gap-(--action-sheet-gap)"
+                >
+                  {cancels}
+                </div>
+              ) : null}
             </div>
-            {cancels.length > 0 ? (
-              <div
-                data-slot="action-sheet-cancel-group"
-                className="mt-(--action-sheet-cancel-gap) flex flex-col overflow-hidden rounded-4xl material-thick"
-              >
-                {cancels}
-              </div>
-            ) : null}
           </DrawerPrimitive.Content>
         </DrawerPrimitive.Popup>
       </DrawerPrimitive.Viewport>
@@ -207,6 +212,9 @@ type ActionSheetActionProps = DrawerPrimitive.Close.Props & {
   destructive?: boolean
 }
 
+const capsuleClassName =
+  "flex h-(--action-sheet-row-height) w-full items-center justify-center truncate rounded-full bg-fill-3 px-4 text-[length:var(--alert-title-font)] leading-none font-medium transition-[background-color,transform] duration-(--duration-press) outline-none select-none hover:bg-fill-2 focus-visible:ring-4 focus-visible:ring-ring/60 active:scale-[0.97] disabled:opacity-40 motion-reduce:active:scale-100"
+
 function ActionSheetAction({
   className,
   destructive = false,
@@ -214,10 +222,9 @@ function ActionSheetAction({
 }: ActionSheetActionProps) {
   const presentation = useActionSheetPresentation()
   const actionClassName = cn(
-    "flex w-full items-center justify-center truncate outline-none select-none focus-visible:bg-fill-4 active:bg-fill-3 disabled:opacity-40",
     presentation === "popover"
-      ? "h-(--menu-item-height) rounded-3xl px-4 type-body hover:bg-fill-3"
-      : "h-(--action-sheet-row-height) px-4 type-title-3",
+      ? "flex h-(--menu-item-height) w-full items-center justify-center truncate rounded-menu-item px-4 text-[length:var(--menu-font)] outline-none select-none hover:bg-fill-3 focus-visible:bg-fill-3 active:bg-fill-2 disabled:opacity-40 macos:hover:bg-selection macos:hover:text-white"
+      : capsuleClassName,
     destructive ? "text-destructive" : "text-primary",
     className
   )
@@ -247,10 +254,7 @@ function ActionSheetCancel({
   return (
     <DrawerPrimitive.Close
       data-slot="action-sheet-cancel"
-      className={cn(
-        "flex h-(--action-sheet-row-height) w-full items-center justify-center px-4 type-title-3 font-semibold text-primary outline-none select-none focus-visible:bg-fill-4 active:bg-fill-3",
-        className
-      )}
+      className={cn(capsuleClassName, "font-semibold text-primary", className)}
       {...props}
     />
   )

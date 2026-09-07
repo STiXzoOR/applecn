@@ -27,8 +27,9 @@ describe("Toolbar", () => {
     const group = toolbar.querySelector('[data-slot="toolbar-group"]')!
     expect(group.className).toContain("glass")
     expect(group.className).toContain("rounded-full")
+    expect(group.className).toContain("p-(--toolbar-inset)")
     const share = screen.getByRole("button", { name: "Share" })
-    expect(share.className).toContain("size-(--control-height-regular)")
+    expect(share.className).toContain("size-(--toolbar-item)")
     expect(screen.getByRole("button", { name: "Done" }).className).toContain(
       "glass-prominent"
     )

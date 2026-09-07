@@ -9,9 +9,10 @@ import { createContext, useContext, type ComponentProps } from "react"
 import { Icon } from "./icon"
 
 /**
- * Toolbars (HIG › Toolbars) under Liquid Glass: items sit in floating glass groups, each a
- * capsule of 44 pt circular buttons; a lone button is its own glass circle; the one
- * `prominent` action (Done, Submit) is tinted and sits at the trailing edge.
+ * Toolbars (HIG › Toolbars) under Liquid Glass: items sit in floating glass platters, each a
+ * capsule of 44 pt circular buttons inset 4 (iOS 26; 28 pt on macOS and the web); a lone
+ * button is its own glass circle; the one `prominent` action (Done, Submit) is the filled
+ * circle at the trailing edge.
  */
 const GroupContext = createContext(false)
 
@@ -40,7 +41,7 @@ function ToolbarGroup({ className, ...props }: ToolbarPrimitive.Group.Props) {
       <ToolbarPrimitive.Group
         data-slot="toolbar-group"
         className={cn(
-          "flex items-center gap-1 rounded-full glass p-1",
+          "flex items-center gap-1 rounded-full glass p-(--toolbar-inset) macos:rounded-control web:rounded-control",
           className
         )}
         {...props}
@@ -50,7 +51,7 @@ function ToolbarGroup({ className, ...props }: ToolbarPrimitive.Group.Props) {
 }
 
 const toolbarButtonVariants = cva(
-  "flex size-(--control-height-regular) shrink-0 pressable items-center justify-center rounded-full outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 disabled:opacity-40 [&_svg]:size-6",
+  "flex size-(--toolbar-item) shrink-0 pressable items-center justify-center rounded-full outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 disabled:opacity-40 macos:rounded-control web:rounded-control [&_svg]:size-6 macos:[&_svg]:size-4 web:[&_svg]:size-5",
   {
     variants: {
       prominent: {

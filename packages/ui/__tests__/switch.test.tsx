@@ -16,25 +16,40 @@ describe("Switch", () => {
     expect(s).toHaveAttribute("aria-checked", "false")
   })
 
-  test("is 51×31 with a 27 pt thumb on iOS, from the platform tokens", () => {
+  test("is the iOS 26 switch: a 63×28 track with a 37×24 oval knob inset 2, from the platform tokens", () => {
     render(<Switch aria-label="Bluetooth" />)
     const s = screen.getByRole("switch")
     expect(s.className).toContain("w-(--switch-width)")
     expect(s.className).toContain("h-(--switch-height)")
     const thumb = s.querySelector('[data-slot="switch-thumb"]')!
-    expect(thumb.className).toContain("size-(--switch-thumb)")
-    expect(thumb.className).toContain("shadow-thumb")
+    expect(thumb.className).toContain("w-(--switch-thumb-width)")
+    expect(thumb.className).toContain("h-(--switch-thumb-height)")
+    expect(thumb.className).toContain("knob")
+    expect(thumb.className).toContain("start-(--switch-inset)")
     expect(thumb.className).toContain(
-      "data-checked:translate-x-[calc(var(--switch-width)-var(--switch-thumb)-4px)]"
+      "data-checked:translate-x-[calc(var(--switch-width)-var(--switch-thumb-width)-2*var(--switch-inset))]"
     )
   })
 
-  test("on is system green by default and the accent colour on request", () => {
+  test("the knob stretches while pressed, like the Liquid Glass lens", () => {
+    render(<Switch aria-label="Stretch" />)
+    const thumb = screen
+      .getByRole("switch")
+      .querySelector('[data-slot="switch-thumb"]')!
+    expect(thumb.className).toContain(
+      "group-active/switch:w-[calc(var(--switch-thumb-width)+6px)]"
+    )
+    expect(thumb.className).toContain(
+      "group-active/switch:data-checked:translate-x-[calc(var(--switch-width)-var(--switch-thumb-width)-2*var(--switch-inset)-6px)]"
+    )
+  })
+
+  test("on is system green by default and the accent colour on request; off is the tertiary label", () => {
     expect(switchVariants()).toContain("data-checked:bg-system-green")
     expect(switchVariants({ color: "tint" })).toContain(
       "data-checked:bg-primary"
     )
-    expect(switchVariants()).toContain("data-unchecked:bg-fill")
+    expect(switchVariants()).toContain("data-unchecked:bg-label-3")
   })
 
   test("disabled switches are dimmed and inert", async () => {

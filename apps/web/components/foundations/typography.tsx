@@ -7,6 +7,7 @@ import {
   platformSizes,
   textStyleNames,
   tracking,
+  webTextStyles,
 } from "@applecn/ui/tokens/typography"
 
 import { PageHeader } from "@/components/doc/page-header"
@@ -24,7 +25,7 @@ export function TypographyPage() {
     <>
       <PageHeader
         title="Typography"
-        description="San Francisco through the system font stack, the eleven text styles at every Dynamic Type size, and the macOS scale. Sizes are authored in a pt unit that follows the reader’s text size on iOS."
+        description="San Francisco through the system font stack, the eleven text styles at every Dynamic Type size, the macOS scale, and apple.com’s web scale with its tracking and breakpoints. Sizes are authored in a pt unit that follows the reader’s text size on iOS."
       />
       <Section
         title="Font stacks"
@@ -76,6 +77,33 @@ export function TypographyPage() {
             s.leading,
             s.weight,
             s.emphasized,
+          ])}
+        />
+      </Section>
+      <Section
+        title="Web text styles"
+        description="Applied under the web platform: apple.com’s scale. Headlines step down at 1068 and 734 px; the static SF Pro webfont needs explicit tracking, so each style carries an em value."
+      >
+        <TokenTable
+          columns={[
+            "Style",
+            "Size",
+            "Leading",
+            "Weight",
+            "Tracking",
+            "≥ 735",
+            "< 735",
+          ]}
+          rows={webTextStyles.map((s) => [
+            label(s.name),
+            s.size,
+            s.leading,
+            s.weight,
+            `${s.tracking ?? 0}em`,
+            s.responsive
+              ? `${s.responsive[0]!.size}/${s.responsive[0]!.leading}`
+              : "—",
+            s.compact ? `${s.compact.size}/${s.compact.leading}` : "—",
           ])}
         />
       </Section>

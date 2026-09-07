@@ -50,7 +50,10 @@ function ContextMenuLabel({
   return (
     <ContextMenuPrimitive.GroupLabel
       data-slot="context-menu-label"
-      className={cn("px-4 py-2 type-footnote text-label-2", className)}
+      className={cn(
+        "px-4 py-2 type-footnote text-label-2 macos:px-2.5 macos:py-1 macos:type-caption-1 macos:font-semibold",
+        className
+      )}
       {...props}
     />
   )
@@ -109,7 +112,10 @@ function ContextMenuSeparator({
   return (
     <ContextMenuPrimitive.Separator
       data-slot="context-menu-separator"
-      className={cn("-mx-1 my-1 h-2 bg-fill-4", className)}
+      className={cn(
+        "-mx-(--menu-padding) my-1 h-2 shrink-0 bg-fill-4 macos:mx-2 macos:my-1 macos:h-[0.5px] macos:bg-separator",
+        className
+      )}
       {...props}
     />
   )

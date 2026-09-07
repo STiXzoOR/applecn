@@ -9,24 +9,25 @@ import { useState } from "react"
 import { Icon } from "./icon"
 
 /**
- * The text field (HIG › Text fields). `rounded` is the iOS standalone field on the tertiary
- * fill, `plain` the field inside a list row, `bordered` the macOS bezelled field. `clearable`
- * adds the iOS clear button at the trailing end once there is text.
+ * The text field (HIG › Text fields). `bordered` (the default) is Apple's standard field on
+ * every platform — UITextField's 34 pt rounded rectangle with 5 pt corners and a hairline on
+ * iOS 26, AppKit's 24 pt bezel on macOS 26, the App Store's 32 px field on the web — from the
+ * platform tokens. `rounded` is the filled field on the tertiary fill; `plain` the field inside a
+ * list row. `clearable` adds the iOS clear button at the trailing end once there is text.
  */
 const inputVariants = cva(
-  "w-full min-w-0 type-body text-label transition-[box-shadow,background-color] duration-(--duration-hover) outline-none file:me-2 file:border-0 file:bg-transparent file:type-subheadline file:font-medium placeholder:text-placeholder focus-visible:ring-4 focus-visible:ring-ring/60 disabled:pointer-events-none disabled:opacity-40 aria-invalid:ring-3 aria-invalid:ring-destructive/30",
+  "w-full min-w-0 text-[length:var(--text-field-font)] text-label transition-[box-shadow,background-color] duration-(--duration-hover) outline-none file:me-2 file:border-0 file:bg-transparent file:type-subheadline file:font-medium placeholder:text-placeholder focus-visible:ring-4 focus-visible:ring-ring/60 disabled:pointer-events-none disabled:opacity-40 aria-invalid:ring-3 aria-invalid:ring-destructive/30",
   {
     variants: {
       variant: {
-        rounded:
-          "h-(--text-field-height) rounded-(--text-field-radius) bg-fill-3 px-3",
-        plain: "h-(--text-field-height) bg-transparent px-0",
         bordered:
-          "h-(--text-field-height) rounded-(--text-field-radius) border border-input bg-background px-2 shadow-control",
+          "h-(--text-field-height) rounded-field border-[0.5px] border-separator bg-background-3 px-2 macos:shadow-control web:border web:border-label-4",
+        rounded: "h-(--text-field-height) rounded-lg bg-fill-3 px-3",
+        plain: "h-(--text-field-height) bg-transparent px-0",
       },
     },
     defaultVariants: {
-      variant: "rounded",
+      variant: "bordered",
     },
   }
 )
@@ -41,7 +42,7 @@ type InputProps = InputPrimitive.Props &
 
 function Input({
   className,
-  variant = "rounded",
+  variant = "bordered",
   clearable = false,
   onClear,
   value,

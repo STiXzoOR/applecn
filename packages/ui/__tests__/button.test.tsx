@@ -6,18 +6,29 @@ import { Button, buttonVariants } from "../src/components/button"
 import { checkA11y } from "./helpers/axe"
 
 describe("Button", () => {
-  test("filled is the default style, at the regular size, as a capsule", () => {
+  test("filled is the default style, at the regular size, in the platform's shape (a capsule on iOS, 6 pt corners on macOS)", () => {
     render(<Button>Continue</Button>)
     const b = screen.getByRole("button", { name: "Continue" })
     expect(b).toHaveAttribute("data-slot", "button")
     expect(b).toHaveAttribute("data-variant", "filled")
     expect(b).toHaveAttribute("data-size", "regular")
-    expect(b).toHaveAttribute("data-shape", "capsule")
+    expect(b).toHaveAttribute("data-shape", "automatic")
     expect(b.className).toContain("bg-primary")
     expect(b.className).toContain("h-(--control-height-regular)")
-    expect(b.className).toContain("rounded-full")
-    expect(b.className).toContain("type-body")
+    expect(b.className).toContain("rounded-(--control-radius-regular)")
+    expect(b.className).toContain("px-(--control-padding-x-regular)")
+    expect(b.className).toContain("text-[length:var(--control-font-regular)]")
     expect(b.className).toContain("font-semibold")
+    expect(b.className).toContain("macos:font-normal")
+    expect(b.className).toContain("web:font-normal")
+  })
+
+  test("the gray style is the macOS push-button bezel and apple.com's neutral pill", () => {
+    const gray = buttonVariants({ variant: "gray" })
+    expect(gray).toContain("bg-fill-3")
+    expect(gray).toContain("macos:bg-background-3")
+    expect(gray).toContain("macos:shadow-control")
+    expect(gray).toContain("web:text-label")
   })
 
   test.each([
@@ -34,17 +45,23 @@ describe("Button", () => {
   })
 
   test.each(["mini", "small", "regular", "large", "xl"] as const)(
-    "size %s reads its height from the platform tokens",
+    "size %s reads its height, radius, padding and label size from the platform tokens",
     (size) => {
-      expect(buttonVariants({ size })).toContain(`h-(--control-height-${size})`)
+      const classes = buttonVariants({ size })
+      expect(classes).toContain(`h-(--control-height-${size})`)
+      expect(classes).toContain(`rounded-(--control-radius-${size})`)
+      expect(classes).toContain(`px-(--control-padding-x-${size})`)
+      expect(classes).toContain(`text-[length:var(--control-font-${size})]`)
     }
   )
 
-  test("rounded uses the control radius; circle is square with no padding", () => {
+  test("capsule forces a pill, rounded the lg corner; circle is square with no padding", () => {
+    expect(buttonVariants({ shape: "capsule" })).toContain("rounded-full")
     expect(buttonVariants({ shape: "rounded" })).toContain("rounded-lg")
     const circle = buttonVariants({ shape: "circle" })
     expect(circle).toContain("aspect-square")
     expect(circle).toContain("px-0")
+    expect(circle).toContain("rounded-full")
   })
 
   test("icon-only buttons need a label to pass axe", async () => {

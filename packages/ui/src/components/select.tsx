@@ -14,9 +14,11 @@ import { Icon } from "./icon"
 
 /**
  * The menu picker (HIG › Pickers, Pop-up buttons). The `plain` trigger reads as a tinted value
- * with chevrons, the way an inline picker does in an iOS list; `popup` is the macOS pop-up
- * button. The popup is a glass menu with leading check marks (iOS 26). Pass `items` to the
- * root (`{ value: label }`) so the trigger shows the label while the popup is closed.
+ * with chevrons, the way an inline picker does in an iOS list; `popup` is the pop-up button —
+ * AppKit's 24 pt bezel with 6 pt corners on macOS 26, a 34 pt capsule on iOS, apple.com's pill on
+ * the web, from the platform tokens. The popup is a glass menu with leading check marks
+ * (iOS 26) whose rows, corners and text size follow the platform. Pass `items` to the root
+ * (`{ value: label }`) so the trigger shows the label while the popup is closed.
  */
 const Select = SelectPrimitive.Root
 
@@ -41,13 +43,13 @@ function SelectValue({ className, ...props }: SelectPrimitive.Value.Props) {
 }
 
 const selectTriggerVariants = cva(
-  "flex w-fit items-center justify-between gap-1.5 type-body whitespace-nowrap transition-[color,box-shadow,background-color] duration-(--duration-hover) outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 disabled:cursor-not-allowed disabled:opacity-40 aria-invalid:ring-3 aria-invalid:ring-destructive/30 data-placeholder:text-placeholder [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "flex w-fit items-center justify-between gap-1.5 text-[length:var(--control-font-regular)] leading-none whitespace-nowrap transition-[color,box-shadow,background-color] duration-(--duration-hover) outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 disabled:cursor-not-allowed disabled:opacity-40 aria-invalid:ring-3 aria-invalid:ring-destructive/30 data-placeholder:text-placeholder [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         plain: "rounded-md px-1 text-primary hover:opacity-70",
         popup:
-          "h-(--text-field-height) rounded-lg bg-fill-3 px-3 text-label hover:bg-fill-2 macos:rounded-md macos:bg-background macos:shadow-control",
+          "h-(--control-height-regular) rounded-control bg-fill-3 ps-(--control-padding-x-regular) pe-2 text-label hover:bg-fill-2 macos:bg-background-3 macos:shadow-control macos:hover:bg-background-3 web:border web:border-label-4 web:bg-background-3",
       },
     },
     defaultVariants: {
@@ -111,7 +113,7 @@ function SelectContent({
         <SelectPrimitive.Popup
           data-slot="select-content"
           className={cn(
-            "relative isolate z-50 max-h-(--available-height) min-w-(--menu-width) origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-4xl glass p-1 text-label shadow-glass duration-(--duration-overlay) ease-(--ease-standard) motion-reduce:animate-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+            "relative isolate z-50 max-h-(--available-height) min-w-(--menu-width) origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-menu glass p-(--menu-padding) text-label shadow-glass duration-(--duration-overlay) ease-(--ease-standard) motion-reduce:animate-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
             className
           )}
           {...props}
@@ -132,7 +134,10 @@ function SelectLabel({
   return (
     <SelectPrimitive.GroupLabel
       data-slot="select-label"
-      className={cn("px-3 py-2 type-footnote text-label-2", className)}
+      className={cn(
+        "px-3 py-2 type-footnote text-label-2 macos:type-caption-1 macos:font-semibold",
+        className
+      )}
       {...props}
     />
   )
@@ -147,7 +152,7 @@ function SelectItem({
     <SelectPrimitive.Item
       data-slot="select-item"
       className={cn(
-        "relative flex h-(--menu-item-height) w-full cursor-default items-center gap-2 rounded-3xl ps-2 pe-4 type-body text-label outline-hidden select-none data-highlighted:bg-fill-3 data-disabled:pointer-events-none data-disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "relative flex h-(--menu-item-height) w-full cursor-default items-center gap-2 rounded-menu-item ps-2 pe-4 text-[length:var(--menu-font)] text-label outline-hidden select-none data-highlighted:bg-fill-3 data-disabled:pointer-events-none data-disabled:opacity-40 macos:data-highlighted:bg-selection macos:data-highlighted:text-white [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className
       )}
       {...props}

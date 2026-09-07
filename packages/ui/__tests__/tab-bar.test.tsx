@@ -26,10 +26,14 @@ describe("TabBar", () => {
     const capsule = nav.querySelector('[data-slot="tab-bar-capsule"]')!
     expect(capsule.className).toContain("glass")
     expect(capsule.className).toContain("h-(--tab-bar-height)")
+    expect(capsule.className).toContain("p-(--tab-bar-item-inset)")
     expect(capsule.className).toContain("rounded-full")
     const home = screen.getByRole("link", { name: "Home" })
     expect(home).toHaveAttribute("aria-current", "page")
+    expect(home.className).toContain("h-(--tab-bar-item)")
+    expect(home.className).toContain("text-[length:var(--tab-bar-label)]")
     expect(home.className).toContain("aria-[current=page]:text-primary")
+    expect(home.className).toContain("aria-[current=page]:bg-fill-3")
     expect(screen.getByRole("link", { name: /You/ })).not.toHaveAttribute(
       "aria-current"
     )

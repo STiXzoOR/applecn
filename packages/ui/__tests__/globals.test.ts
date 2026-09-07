@@ -21,9 +21,12 @@ describe("globals.css", () => {
     expect([...positions].sort((a, b) => a - b)).toEqual(positions)
   })
 
-  test("declares the dark and macos variants", () => {
+  test("declares the dark variant and the platform variants as style queries, so the nearest provider wins", () => {
     expect(css).toContain("@custom-variant dark (&:is(.dark *));")
-    expect(css).toContain("@custom-variant macos")
+    for (const platform of ["ios", "macos", "web"]) {
+      expect(css).toContain(`@custom-variant ${platform} {`)
+      expect(css).toContain(`@container style(--platform: ${platform})`)
+    }
   })
 
   test("uses the system font stack, never a named SF family", () => {

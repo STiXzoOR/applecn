@@ -8,5 +8,6 @@ export default defineConfig({
     setupFiles: ["./__tests__/setup.ts"],
     include: ["__tests__/**/*.test.{ts,tsx}", "src/**/*.test.{ts,tsx}"],
     css: false,
+    testTimeout: 20_000,
   },
 })

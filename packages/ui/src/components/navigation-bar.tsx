@@ -8,10 +8,11 @@ import { useScrollCollapse } from "../hooks/use-scroll-collapse"
 import { Icon } from "./icon"
 
 /**
- * The navigation bar (HIG › Toolbars): a 44 pt row with leading and trailing items and, with
- * `largeTitle`, the 34 pt title below it that collapses into the row as content scrolls under
- * (a scroll-edge effect appears on the row only then). The back button is the iOS 26 circular
- * glass button with the chevron alone.
+ * The navigation bar (HIG › Toolbars). iOS 26: a 54 pt row with 44 pt glass platters at either
+ * end and, with `largeTitle`, the 34 pt title in a 52 pt band below it that collapses into the
+ * row as content scrolls under (a scroll-edge effect appears on the row only then); on macOS
+ * and the web the 52 and 44 pt bars. The back button is the circular glass platter with the
+ * chevron alone.
  */
 type NavigationBarProps = Omit<ComponentProps<"header">, "title"> & {
   title: ReactNode
@@ -53,7 +54,7 @@ function NavigationBar({
             data-slot="navigation-bar-title"
             aria-hidden={showLargeTitle || undefined}
             className={cn(
-              "min-w-0 truncate text-center type-headline text-label transition-opacity duration-(--duration-nav)",
+              "min-w-0 truncate text-center text-[length:var(--nav-bar-title-font)] font-semibold text-label transition-opacity duration-(--duration-nav)",
               showLargeTitle ? "opacity-0" : "opacity-100"
             )}
           >
@@ -104,7 +105,7 @@ function NavigationBarBackButton({
   ...props
 }: NavigationBarBackButtonProps) {
   const buttonClassName = cn(
-    "flex size-(--control-height-regular) pressable items-center justify-center rounded-full glass text-primary outline-none focus-visible:ring-4 focus-visible:ring-ring/60",
+    "flex size-(--nav-bar-item) pressable items-center justify-center rounded-full glass text-primary outline-none focus-visible:ring-4 focus-visible:ring-ring/60 macos:rounded-control web:rounded-control",
     className
   )
   if (href) {

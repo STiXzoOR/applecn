@@ -24,7 +24,7 @@ describe("Card", () => {
     )
     const title = screen.getByText("Storage")
     const card = title.closest('[data-slot="card"]')!
-    expect(card.className).toContain("rounded-4xl")
+    expect(card.className).toContain("rounded-card")
     expect(card.className).toContain("bg-card")
     expect(title.className).toContain("type-headline")
     expect(screen.getByText("12 GB of 64 GB used").className).toContain(

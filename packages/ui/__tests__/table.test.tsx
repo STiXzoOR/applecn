@@ -49,7 +49,7 @@ describe("Table (macOS)", () => {
     render(<Files striped />)
     const selected = screen.getByRole("row", { name: /Notes\.txt/ })
     expect(selected).toHaveAttribute("aria-selected", "true")
-    expect(selected.className).toContain("aria-selected:bg-primary")
+    expect(selected.className).toContain("aria-selected:bg-selection")
     expect(screen.getByRole("table").className).toContain(
       "[&_tbody_tr:nth-child(even)]:bg-fill-4"
     )

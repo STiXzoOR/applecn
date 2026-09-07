@@ -44,6 +44,9 @@ describe("NavigationBar", () => {
     const row = bar.querySelector('[data-slot="navigation-bar-row"]')!
     expect(row.className).toContain("h-(--nav-bar-height)")
     expect(
+      row.querySelector('[data-slot="navigation-bar-title"]')!.className
+    ).toContain("text-[length:var(--nav-bar-title-font)]")
+    expect(
       screen.getByRole("heading", { level: 1, name: "Settings" }).className
     ).toContain("type-large-title")
     expect(screen.getByRole("link", { name: "Back" })).toHaveAttribute(

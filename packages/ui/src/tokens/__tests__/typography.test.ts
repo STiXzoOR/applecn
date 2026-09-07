@@ -6,6 +6,7 @@ import {
   iosTextStyles,
   macosTextStyles,
   tracking,
+  webTextStyles,
 } from "../typography"
 
 const byName = (styles: typeof iosTextStyles, name: string) =>
@@ -105,5 +106,46 @@ describe("tracking table (1/1000 em, static SF Pro only)", () => {
     expect(at(17)).toBe(-24)
     expect(at(34)).toBe(12)
     expect(at(80)).toBe(0)
+  })
+})
+
+describe("web text styles (apple.com, 2026-09-06)", () => {
+  test("body is 17/25 with -0.022em tracking; the headline ladder is 48/40/32/28/21", () => {
+    const body = webTextStyles.find((s) => s.name === "body")!
+    expect(body).toMatchObject({
+      size: 17,
+      leading: 25,
+      weight: 400,
+      tracking: -0.022,
+    })
+    const large = webTextStyles.find((s) => s.name === "large-title")!
+    expect(large).toMatchObject({
+      size: 48,
+      leading: 52,
+      weight: 600,
+      tracking: -0.003,
+    })
+    expect(large.responsive).toEqual([
+      { minWidth: 735, size: 40, leading: 44, tracking: 0 },
+      { minWidth: 1069, size: 48, leading: 52, tracking: -0.003 },
+    ])
+    expect(large.compact).toEqual({ size: 32, leading: 36, tracking: 0.004 })
+    expect(webTextStyles.map((s) => s.name)).toEqual(
+      iosTextStyles.map((s) => s.name)
+    )
+    expect(webTextStyles.find((s) => s.name === "footnote")).toMatchObject({
+      size: 14,
+      leading: 20,
+      tracking: -0.016,
+    })
+    expect(webTextStyles.find((s) => s.name === "caption-2")).toMatchObject({
+      size: 12,
+      leading: 16,
+      weight: 600,
+    })
+  })
+  test("iOS and macOS styles carry no tracking (the variable system font applies optical sizes)", () => {
+    for (const s of [...iosTextStyles, ...macosTextStyles])
+      expect(s.tracking ?? 0).toBe(0)
   })
 })

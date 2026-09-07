@@ -14,9 +14,10 @@ import { Badge } from "./badge"
 import { Icon } from "./icon"
 
 /**
- * The iOS 26 tab bar (HIG › Tab bars): a Liquid Glass capsule floating 21 pt from the edges,
- * with a symbol and an 11 pt label per tab, the current tab tinted, a separate circular search
- * button at the trailing end, and a `minimized` state that keeps only the current tab.
+ * The iOS 26 tab bar (HIG › Tab bars): a 62 pt Liquid Glass platter floating 21 pt from the
+ * edges, with 54 pt items inset 4 — a 24 pt symbol over a 10 pt label — the current item on a
+ * tinted lens, a separate 62 pt circular search button at the trailing end, and a `minimized`
+ * state that keeps only the current tab. All from the platform tokens.
  */
 interface TabBarContextValue {
   value?: string
@@ -71,8 +72,8 @@ function TabBar({
         <div
           data-slot="tab-bar-capsule"
           className={cn(
-            "flex h-(--tab-bar-height) items-stretch rounded-full glass px-2 transition-[width,padding] duration-(--duration-nav) ease-(--ease-nav)",
-            minimized ? "flex-none px-4" : "flex-1 justify-around"
+            "flex h-(--tab-bar-height) items-stretch rounded-full glass p-(--tab-bar-item-inset) transition-[width,padding] duration-(--duration-nav) ease-(--ease-nav)",
+            minimized ? "flex-none" : "flex-1 justify-around"
           )}
         >
           {items}
@@ -105,7 +106,7 @@ function TabBarItem({
   const current = context.value === value
   const hidden = context.minimized && !current
   const itemClassName = cn(
-    "relative flex min-w-11 flex-col items-center justify-center gap-0.5 rounded-full px-3 type-caption-2 font-medium text-label-2 outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 aria-[current=page]:text-primary aria-[current=true]:text-primary [&_svg]:size-6",
+    "relative flex h-(--tab-bar-item) min-w-11 flex-1 flex-col items-center justify-center gap-0.5 rounded-full px-3 text-[length:var(--tab-bar-label)] leading-none font-medium text-label-2 transition-[background-color,color] duration-(--duration-press) outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 aria-[current=page]:bg-fill-3 aria-[current=page]:text-primary aria-[current=true]:bg-fill-3 aria-[current=true]:text-primary [&_svg]:size-6",
     className
   )
   const content = (
