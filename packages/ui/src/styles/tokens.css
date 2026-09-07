@@ -970,6 +970,9 @@
   --toggle-group-pressed-shadow: var(--elevation-segment);
   --toggle-font-weight: 600;
   --toggle-active-scale: 0.97;
+  --textarea-border-width: 0.5px;
+  --textarea-border-color: var(--separator);
+  --textarea-shadow: none;
 }
 
 @media (width >= 414px) {
@@ -1354,6 +1357,9 @@
   --toggle-group-pressed-shadow: none;
   --toggle-font-weight: 400;
   --toggle-active-scale: 1;
+  --textarea-border-width: 0.5px;
+  --textarea-border-color: var(--separator);
+  --textarea-shadow: var(--elevation-control);
 }
 
 .dark[data-platform="macos"],
@@ -1732,6 +1738,9 @@
   --toggle-group-pressed-shadow: var(--elevation-segment);
   --toggle-font-weight: 400;
   --toggle-active-scale: 0.97;
+  --textarea-border-width: 1px;
+  --textarea-border-color: var(--label-4);
+  --textarea-shadow: none;
 }
 
 .dark[data-platform="web"],

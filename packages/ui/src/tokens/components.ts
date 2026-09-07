@@ -259,6 +259,7 @@ export interface ComponentTokens {
   readonly passcodeField: PasscodeFieldTokens
   readonly toggleGroup: ToggleGroupTokens
   readonly toggle: ToggleTokens
+  readonly textarea: FieldBorderTokens
 }
 
 const iosBezel: Bezel = {
@@ -764,6 +765,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     passcodeField: iosPasscodeField,
     toggleGroup: iosToggleGroup,
     toggle: iosToggle,
+    textarea: iosFieldBorder,
   },
   macos: {
     checkbox: macosBezel,
@@ -780,6 +782,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     passcodeField: macosPasscodeField,
     toggleGroup: macosToggleGroup,
     toggle: macosToggle,
+    textarea: macosFieldBorder,
   },
   web: {
     checkbox: webBezel,
@@ -796,6 +799,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     passcodeField: webPasscodeField,
     toggleGroup: webToggleGroup,
     toggle: webToggle,
+    textarea: webFieldBorder,
   },
 }
 
@@ -959,5 +963,6 @@ export function componentLines(platform: Platform): Line[] {
     ...passcodeFieldLines(t.passcodeField),
     ...toggleGroupLines(t.toggleGroup),
     ...toggleLines(t.toggle),
+    ...fieldBorderLines("textarea", t.textarea),
   ]
 }

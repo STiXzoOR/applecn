@@ -624,3 +624,24 @@ describe("toggle appearance tokens", () => {
     expect(lines).toContainEqual(["toggle-active-scale", "0.97"])
   })
 })
+
+describe("textarea appearance tokens", () => {
+  test("shares the bordered field's 0.5px separator hairline off the web, control shadow on macOS", () => {
+    expect(componentTokens.ios.textarea.borderWidth).toBe(0.5)
+    expect(componentTokens.macos.textarea.borderWidth).toBe(0.5)
+    expect(componentTokens.web.textarea.borderWidth).toBe(1)
+    expect(componentTokens.ios.textarea.borderColor).toBe("var(--separator)")
+    expect(componentTokens.web.textarea.borderColor).toBe("var(--label-4)")
+    expect(componentTokens.macos.textarea.shadow).toBe(
+      "var(--elevation-control)"
+    )
+    expect(componentTokens.ios.textarea.shadow).toBe("none")
+  })
+
+  test("emits kebab-case CSS variable lines", () => {
+    const lines = componentLines("web")
+    expect(lines).toContainEqual(["textarea-border-width", "1px"])
+    expect(lines).toContainEqual(["textarea-border-color", "var(--label-4)"])
+    expect(lines).toContainEqual(["textarea-shadow", "none"])
+  })
+})
