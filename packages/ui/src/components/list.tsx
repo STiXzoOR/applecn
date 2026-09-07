@@ -100,7 +100,7 @@ function ListSection({
         <div
           data-slot="list-section-header"
           className={cn(
-            "mb-2 text-[length:var(--list-header-font)] leading-snug font-semibold text-label-2 macos:font-bold",
+            "mb-2 text-[length:var(--list-header-font)] leading-snug font-(--list-header-font-weight) text-label-2",
             edge
           )}
         >

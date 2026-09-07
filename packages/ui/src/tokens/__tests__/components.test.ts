@@ -799,3 +799,16 @@ describe("sheet appearance tokens", () => {
     expect(lines).toContainEqual(["sheet-toolbar-height", "3rem"])
   })
 })
+
+describe("list appearance tokens", () => {
+  test("a section header is semibold everywhere but macOS, which bolds it", () => {
+    expect(componentTokens.ios.list.headerFontWeight).toBe("600")
+    expect(componentTokens.macos.list.headerFontWeight).toBe("700")
+    expect(componentTokens.web.list.headerFontWeight).toBe("600")
+  })
+
+  test("emits kebab-case CSS variable lines", () => {
+    const lines = componentLines("macos")
+    expect(lines).toContainEqual(["list-header-font-weight", "700"])
+  })
+})

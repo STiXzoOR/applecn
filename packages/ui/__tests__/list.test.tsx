@@ -43,7 +43,7 @@ describe("List", () => {
     expect(screen.getAllByRole("listitem")).toHaveLength(2)
     const header = screen.getByText("Connections")
     expect(header.className).toContain("text-[length:var(--list-header-font)]")
-    expect(header.className).toContain("font-semibold")
+    expect(header.className).toContain("font-(--list-header-font-weight)")
     expect(header.className).toContain("text-label-2")
     expect(screen.getByText("Wi-Fi is on.").className).toContain(
       "text-[length:var(--list-footer-font)]"

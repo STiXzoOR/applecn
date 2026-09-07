@@ -986,6 +986,7 @@
   --action-sheet-item-hover-text-default: var(--primary);
   --action-sheet-item-hover-text-destructive: var(--destructive);
   --sheet-toolbar-height: var(--nav-bar-height);
+  --list-header-font-weight: 600;
 }
 
 @media (width >= 414px) {
@@ -1386,6 +1387,7 @@
   --action-sheet-item-hover-text-default: white;
   --action-sheet-item-hover-text-destructive: white;
   --sheet-toolbar-height: 3rem;
+  --list-header-font-weight: 700;
 }
 
 .dark[data-platform="macos"],
@@ -1780,6 +1782,7 @@
   --action-sheet-item-hover-text-default: var(--primary);
   --action-sheet-item-hover-text-destructive: var(--destructive);
   --sheet-toolbar-height: var(--nav-bar-height);
+  --list-header-font-weight: 600;
 }
 
 .dark[data-platform="web"],

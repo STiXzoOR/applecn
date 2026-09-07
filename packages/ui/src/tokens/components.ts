@@ -289,6 +289,11 @@ export interface SheetTokens {
   readonly toolbarHeight: string
 }
 
+/** A list section header's weight: semibold everywhere but macOS, which bolds it. */
+export interface ListTokens {
+  readonly headerFontWeight: string
+}
+
 export interface ComponentTokens {
   readonly checkbox: Bezel
   readonly radio: Bezel
@@ -311,6 +316,7 @@ export interface ComponentTokens {
   readonly navigationBar: NavigationBarTokens
   readonly actionSheet: ActionSheetTokens
   readonly sheet: SheetTokens
+  readonly list: ListTokens
 }
 
 const iosBezel: Bezel = {
@@ -863,6 +869,12 @@ const iosSheet: SheetTokens = { toolbarHeight: "var(--nav-bar-height)" }
 const macosSheet: SheetTokens = { toolbarHeight: "3rem" }
 const webSheet: SheetTokens = { toolbarHeight: "var(--nav-bar-height)" }
 
+// Measured 2026-09-07: a section header is semibold on iOS and the web; macOS bolds it, as
+// AppKit's grouped form headers do (docs/research/apple-design-system-reference.md §lists).
+const iosList: ListTokens = { headerFontWeight: "600" }
+const macosList: ListTokens = { headerFontWeight: "700" }
+const webList: ListTokens = { headerFontWeight: "600" }
+
 export const componentTokens: Record<Platform, ComponentTokens> = {
   ios: {
     checkbox: iosBezel,
@@ -886,6 +898,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     navigationBar: iosNavigationBar,
     actionSheet: iosActionSheet,
     sheet: iosSheet,
+    list: iosList,
   },
   macos: {
     checkbox: macosBezel,
@@ -909,6 +922,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     navigationBar: macosNavigationBar,
     actionSheet: macosActionSheet,
     sheet: macosSheet,
+    list: macosList,
   },
   web: {
     checkbox: webBezel,
@@ -932,6 +946,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     navigationBar: webNavigationBar,
     actionSheet: webActionSheet,
     sheet: webSheet,
+    list: webList,
   },
 }
 
@@ -1079,6 +1094,10 @@ const sheetLines = (s: SheetTokens): Line[] => [
   ["sheet-toolbar-height", s.toolbarHeight],
 ]
 
+const listLines = (l: ListTokens): Line[] => [
+  ["list-header-font-weight", l.headerFontWeight],
+]
+
 const fieldBorderLines = (name: string, f: FieldBorderTokens): Line[] => [
   [`${name}-border-width`, `${f.borderWidth}px`],
   [`${name}-border-color`, f.borderColor],
@@ -1127,5 +1146,6 @@ export function componentLines(platform: Platform): Line[] {
     ...navigationBarLines(t.navigationBar),
     ...actionSheetLines(t.actionSheet),
     ...sheetLines(t.sheet),
+    ...listLines(t.list),
   ]
 }
