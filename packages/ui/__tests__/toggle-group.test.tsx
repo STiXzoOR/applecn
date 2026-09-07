@@ -56,8 +56,14 @@ describe("ToggleGroup", () => {
     expect(group.className).toContain("h-(--segmented-height)")
     const item = screen.getByRole("button", { name: "Bold" })
     expect(item).toHaveAttribute("data-slot", "toggle-group-item")
-    expect(item.className).toContain("data-pressed:bg-background")
-    expect(item.className).toContain("data-pressed:shadow-segment")
-    expect(item.className).toContain("macos:data-pressed:bg-primary")
+    expect(item.className).toContain(
+      "data-pressed:bg-(--toggle-group-pressed-bg)"
+    )
+    expect(item.className).toContain(
+      "data-pressed:shadow-(--toggle-group-pressed-shadow)"
+    )
+    expect(item.className).toContain(
+      "data-pressed:text-(--toggle-group-pressed-text)"
+    )
   })
 })

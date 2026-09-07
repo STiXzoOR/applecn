@@ -582,3 +582,28 @@ describe("passcode field appearance tokens", () => {
     ])
   })
 })
+
+describe("toggle group appearance tokens", () => {
+  test("iOS and the web press to a white, shadowed segment; macOS fills it with the accent and drops the shadow", () => {
+    expect(componentTokens.ios.toggleGroup.pressed.bg).toBe("var(--background)")
+    expect(componentTokens.macos.toggleGroup.pressed.bg).toBe("var(--primary)")
+    expect(componentTokens.web.toggleGroup.pressed.bg).toBe("var(--background)")
+    expect(componentTokens.ios.toggleGroup.pressed.shadow).toBe(
+      "var(--elevation-segment)"
+    )
+    expect(componentTokens.macos.toggleGroup.pressed.shadow).toBe("none")
+  })
+
+  test("the pressed label stays the resting label colour off macOS, which turns it white", () => {
+    expect(componentTokens.ios.toggleGroup.pressed.text).toBe("var(--label)")
+    expect(componentTokens.web.toggleGroup.pressed.text).toBe("var(--label)")
+    expect(componentTokens.macos.toggleGroup.pressed.text).toBe("white")
+  })
+
+  test("emits kebab-case CSS variable lines", () => {
+    const lines = componentLines("macos")
+    expect(lines).toContainEqual(["toggle-group-pressed-bg", "var(--primary)"])
+    expect(lines).toContainEqual(["toggle-group-pressed-text", "white"])
+    expect(lines).toContainEqual(["toggle-group-pressed-shadow", "none"])
+  })
+})

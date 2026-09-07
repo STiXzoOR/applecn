@@ -965,6 +965,9 @@
   --passcode-field-border-width: 0.5px;
   --passcode-field-border-color: var(--separator);
   --passcode-field-shadow: none;
+  --toggle-group-pressed-bg: var(--background);
+  --toggle-group-pressed-text: var(--label);
+  --toggle-group-pressed-shadow: var(--elevation-segment);
 }
 
 @media (width >= 414px) {
@@ -1344,6 +1347,9 @@
   --passcode-field-border-width: 0.5px;
   --passcode-field-border-color: var(--separator);
   --passcode-field-shadow: var(--elevation-control);
+  --toggle-group-pressed-bg: var(--primary);
+  --toggle-group-pressed-text: white;
+  --toggle-group-pressed-shadow: none;
 }
 
 .dark[data-platform="macos"],
@@ -1717,6 +1723,9 @@
   --passcode-field-border-width: 1px;
   --passcode-field-border-color: var(--label-4);
   --passcode-field-shadow: none;
+  --toggle-group-pressed-bg: var(--background);
+  --toggle-group-pressed-text: var(--label);
+  --toggle-group-pressed-shadow: var(--elevation-segment);
 }
 
 .dark[data-platform="web"],

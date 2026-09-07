@@ -224,6 +224,20 @@ export interface PasscodeFieldTokens extends FieldBorderTokens {
   readonly width: string
 }
 
+/**
+ * The joined toggle group's pressed segment (HIG › Segmented controls, select-any style): a
+ * white, shadowed segment on iOS and the web; macOS fills it with the accent and drops the
+ * shadow. The resting label colour never changes off macOS, so `pressed.text` there is the same
+ * `--label` value the row already reads at rest.
+ */
+export interface ToggleGroupTokens {
+  readonly pressed: {
+    readonly bg: string
+    readonly text: string
+    readonly shadow: string
+  }
+}
+
 export interface ComponentTokens {
   readonly checkbox: Bezel
   readonly radio: Bezel
@@ -237,6 +251,7 @@ export interface ComponentTokens {
   readonly toolbar: ToolbarTokens
   readonly searchField: SearchFieldTokens
   readonly passcodeField: PasscodeFieldTokens
+  readonly toggleGroup: ToggleGroupTokens
 }
 
 const iosBezel: Bezel = {
@@ -699,6 +714,26 @@ const webPasscodeField: PasscodeFieldTokens = {
   width: "2.5rem",
 }
 
+// Measured 2026-09-06/07: iOS and the web share a white, shadowed pressed segment; macOS fills
+// it with the accent and drops the shadow. The row's resting label colour (`--label`) never
+// changes off macOS, so its pressed text token there is the same value, unchanged
+// (docs/research/apple-design-system-reference.md §segmented controls).
+const iosSegmentPress = {
+  bg: "var(--background)",
+  text: "var(--label)",
+  shadow: "var(--elevation-segment)",
+}
+
+const macosSegmentPress = {
+  bg: "var(--primary)",
+  text: "white",
+  shadow: "none",
+}
+
+const iosToggleGroup: ToggleGroupTokens = { pressed: iosSegmentPress }
+const macosToggleGroup: ToggleGroupTokens = { pressed: macosSegmentPress }
+const webToggleGroup: ToggleGroupTokens = { pressed: iosSegmentPress }
+
 export const componentTokens: Record<Platform, ComponentTokens> = {
   ios: {
     checkbox: iosBezel,
@@ -713,6 +748,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     toolbar: iosToolbar,
     searchField: iosSearchField,
     passcodeField: iosPasscodeField,
+    toggleGroup: iosToggleGroup,
   },
   macos: {
     checkbox: macosBezel,
@@ -727,6 +763,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     toolbar: macosToolbar,
     searchField: macosSearchField,
     passcodeField: macosPasscodeField,
+    toggleGroup: macosToggleGroup,
   },
   web: {
     checkbox: webBezel,
@@ -741,6 +778,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     toolbar: webToolbar,
     searchField: webSearchField,
     passcodeField: webPasscodeField,
+    toggleGroup: webToggleGroup,
   },
 }
 
@@ -875,6 +913,12 @@ const passcodeFieldLines = (p: PasscodeFieldTokens): Line[] => [
   ...fieldBorderLines("passcode-field", p),
 ]
 
+const toggleGroupLines = (g: ToggleGroupTokens): Line[] => [
+  ["toggle-group-pressed-bg", g.pressed.bg],
+  ["toggle-group-pressed-text", g.pressed.text],
+  ["toggle-group-pressed-shadow", g.pressed.shadow],
+]
+
 /** Every component appearance token for one idiom, as CSS variable lines. */
 export function componentLines(platform: Platform): Line[] {
   const t = componentTokens[platform]
@@ -891,5 +935,6 @@ export function componentLines(platform: Platform): Line[] {
     ...toolbarLines(t.toolbar),
     ...searchFieldLines(t.searchField),
     ...passcodeFieldLines(t.passcodeField),
+    ...toggleGroupLines(t.toggleGroup),
   ]
 }

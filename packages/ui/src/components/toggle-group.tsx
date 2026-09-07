@@ -32,7 +32,7 @@ function ToggleGroupItem({ className, ...props }: TogglePrimitive.Props) {
     <TogglePrimitive
       data-slot="toggle-group-item"
       className={cn(
-        "inline-flex min-w-(--segmented-height) flex-1 items-center justify-center gap-1.5 rounded-[calc(var(--radius-segmented)-var(--segmented-inset))] px-3 text-[length:var(--segmented-font)] leading-none font-medium whitespace-nowrap text-label transition-[background-color,box-shadow,color] duration-(--duration-press) ease-(--ease-standard) outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 disabled:opacity-40 data-pressed:bg-background data-pressed:font-semibold data-pressed:shadow-segment macos:data-pressed:bg-primary macos:data-pressed:text-white macos:data-pressed:shadow-none [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "inline-flex min-w-(--segmented-height) flex-1 items-center justify-center gap-1.5 rounded-[calc(var(--radius-segmented)-var(--segmented-inset))] px-3 text-[length:var(--segmented-font)] leading-none font-medium whitespace-nowrap text-label transition-[background-color,box-shadow,color] duration-(--duration-press) ease-(--ease-standard) outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 disabled:opacity-40 data-pressed:bg-(--toggle-group-pressed-bg) data-pressed:font-semibold data-pressed:text-(--toggle-group-pressed-text) data-pressed:shadow-(--toggle-group-pressed-shadow) [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className
       )}
       {...props}
