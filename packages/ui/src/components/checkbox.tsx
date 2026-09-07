@@ -17,7 +17,7 @@ function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
     <CheckboxPrimitive.Root
       data-slot="checkbox"
       className={cn(
-        "peer group/checkbox relative flex size-(--checkbox-size) shrink-0 items-center justify-center rounded-checkbox border-[1.5px] border-gray-3 bg-transparent text-primary-foreground transition-[background-color,border-color] duration-(--duration-press) ease-(--ease-standard) outline-none after:absolute after:-inset-x-2 after:-inset-y-1.5 focus-visible:ring-4 focus-visible:ring-ring/60 aria-invalid:border-destructive data-indeterminate:border-primary data-indeterminate:bg-primary data-checked:border-primary data-checked:bg-primary data-disabled:cursor-not-allowed data-disabled:opacity-40 macos:border macos:shadow-control macos:data-unchecked:border-label-3 macos:data-unchecked:bg-background-3 web:border web:data-unchecked:border-label-4 web:data-unchecked:bg-background-3",
+        "peer group/checkbox relative flex size-(--checkbox-size) shrink-0 items-center justify-center rounded-checkbox border-(length:--checkbox-border-width) bg-transparent text-primary-foreground shadow-(--checkbox-shadow) transition-[background-color,border-color] duration-(--duration-press) ease-(--ease-standard) outline-none after:absolute after:-inset-x-2 after:-inset-y-1.5 focus-visible:ring-4 focus-visible:ring-ring/60 aria-invalid:border-destructive data-indeterminate:border-primary data-indeterminate:bg-primary data-checked:border-primary data-checked:bg-primary data-unchecked:border-(--checkbox-border) data-unchecked:bg-(--checkbox-bg) data-disabled:cursor-not-allowed data-disabled:opacity-40",
         className
       )}
       {...props}

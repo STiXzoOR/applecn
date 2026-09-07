@@ -52,10 +52,10 @@ describe("RadioGroup", () => {
     expect(item).toHaveAttribute("data-slot", "radio-group-item")
     expect(item.className).toContain("size-(--radio-size)")
     expect(item.className).toContain("rounded-full")
-    expect(item.className).toContain("border-gray-3")
+    expect(item.className).toContain("border-(length:--radio-border-width)")
     expect(item.className).toContain("data-checked:border-primary")
     expect(item.className).toContain("data-checked:bg-primary")
-    expect(item.className).toContain("macos:data-unchecked:bg-background-3")
+    expect(item.className).toContain("data-unchecked:bg-(--radio-bg)")
     const dot = item.querySelector('[data-slot="radio-group-indicator"] span')!
     expect(dot.className).toContain("size-(--radio-dot)")
     expect(dot.className).toContain("bg-white")
@@ -75,5 +75,20 @@ describe("RadioGroupItem state styling", () => {
     expect(radio.className).not.toMatch(/(^|\s)disabled:/)
     expect(radio.className).toContain("data-disabled:opacity-40")
     expect(radio.className).toContain("data-disabled:cursor-not-allowed")
+  })
+})
+
+describe("RadioGroupItem is idiom-agnostic", () => {
+  test("carries no platform variant; the idiom supplies the values", () => {
+    render(
+      <RadioGroup aria-label="Size">
+        <RadioGroupItem value="s" aria-label="Small" />
+      </RadioGroup>
+    )
+    const radio = screen.getByRole("radio", { name: "Small" })
+    expect(radio.className).not.toMatch(/(^|\s)(ios|macos|web):/)
+    expect(radio.className).toContain("bg-(--radio-bg)")
+    expect(radio.className).toContain("border-(length:--radio-border-width)")
+    expect(radio.className).toContain("shadow-(--radio-shadow)")
   })
 })
