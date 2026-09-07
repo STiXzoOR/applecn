@@ -6,7 +6,9 @@ import {
   Menu,
   MenuCheckboxItem,
   MenuContent,
+  MenuGroup,
   MenuItem,
+  MenuLabel,
   MenuSeparator,
   MenuShortcut,
   MenuTrigger,
@@ -17,11 +19,14 @@ function Actions() {
     <Menu>
       <MenuTrigger>Actions</MenuTrigger>
       <MenuContent>
-        <MenuItem>
-          Copy
-          <MenuShortcut>⌘C</MenuShortcut>
-        </MenuItem>
-        <MenuItem>Paste</MenuItem>
+        <MenuGroup>
+          <MenuLabel>Edit</MenuLabel>
+          <MenuItem>
+            Copy
+            <MenuShortcut>⌘C</MenuShortcut>
+          </MenuItem>
+          <MenuItem>Paste</MenuItem>
+        </MenuGroup>
         <MenuSeparator />
         <MenuCheckboxItem defaultChecked>Show Ruler</MenuCheckboxItem>
         <MenuSeparator />
@@ -81,6 +86,20 @@ describe("Menu", () => {
     expect(separator.className).toContain("h-(--menu-separator-height)")
     expect(separator.className).toContain("bg-(--menu-separator-bg)")
   })
+
+  test("the group label reads its type from tokens", async () => {
+    render(<Actions />)
+    await userEvent.click(screen.getByRole("button", { name: "Actions" }))
+    const label = await screen.findByText("Edit")
+    expect(label.className).toContain("px-(--menu-item-px)")
+    expect(label.className).toContain("py-(--menu-label-py)")
+    expect(label.className).toContain(
+      "text-[length:var(--menu-label-font-size)]"
+    )
+    expect(label.className).toContain("leading-(--menu-label-leading)")
+    expect(label.className).toContain("font-(--menu-label-weight)")
+    expect(label.className).toContain("tracking-(--menu-label-tracking)")
+  })
 })
 
 describe("Menu is idiom-agnostic", () => {
@@ -101,5 +120,7 @@ describe("Menu is idiom-agnostic", () => {
     const separator = menu.querySelector('[data-slot="menu-separator"]')!
     expect(separator.className).not.toMatch(/(^|\s)(ios|macos|web):/)
     expect(separator.className).toContain("mx-(--menu-separator-mx)")
+    const label = screen.getByText("Edit")
+    expect(label.className).not.toMatch(/(^|\s)(ios|macos|web):/)
   })
 })

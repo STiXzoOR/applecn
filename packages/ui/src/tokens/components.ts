@@ -128,6 +128,17 @@ export interface SelectTokens {
     readonly highlightBg: string
     readonly highlightText: string
   }
+  /**
+   * The group label's type style — footnote on iOS/web, caption-1 bolded on macOS. Its own
+   * family, not `MenuTokens.label`, since select's popup/item tokens already have their own
+   * namespace and its label carries no platform-specific padding to share.
+   */
+  readonly label: {
+    readonly fontSize: string
+    readonly leading: string
+    readonly weight: string
+    readonly tracking: string
+  }
 }
 
 /**
@@ -406,6 +417,21 @@ const webMenu: MenuTokens = iosMenu
 // adds a label-4 hairline, since apple.com's controls sit on a plain background instead of a
 // grouped list (docs/research/apple-design-system-reference.md §pickers). Its listbox rows
 // highlight the same way `menu` does.
+const iosSelectLabel = {
+  fontSize: "var(--type-footnote-size)",
+  leading: "var(--type-footnote-leading)",
+  weight: "var(--type-footnote-weight)",
+  tracking: "var(--type-footnote-tracking)",
+}
+
+const macosSelectLabel = {
+  fontSize: "var(--type-caption-1-size)",
+  leading: "var(--type-caption-1-leading)",
+  // font-semibold's fixed 600, not the caption-1 scale's own weight (400, 500 emphasized).
+  weight: "600",
+  tracking: "var(--type-caption-1-tracking)",
+}
+
 const iosSelect: SelectTokens = {
   popup: {
     bg: "var(--fill-3)",
@@ -418,6 +444,7 @@ const iosSelect: SelectTokens = {
     highlightBg: "var(--fill-3)",
     highlightText: "var(--label)",
   },
+  label: iosSelectLabel,
 }
 
 const macosSelect: SelectTokens = {
@@ -432,6 +459,7 @@ const macosSelect: SelectTokens = {
     highlightBg: "var(--selection)",
     highlightText: "white",
   },
+  label: macosSelectLabel,
 }
 
 const webSelect: SelectTokens = {
@@ -446,6 +474,7 @@ const webSelect: SelectTokens = {
     highlightBg: "var(--fill-3)",
     highlightText: "var(--label)",
   },
+  label: iosSelectLabel,
 }
 
 // Measured 2026-09-07: the field keeps its resting 0.5px separator hairline on iOS and macOS;
@@ -671,6 +700,10 @@ const selectLines = (s: SelectTokens): Line[] => [
   ["select-popup-border-color", s.popup.borderColor],
   ["select-item-highlight-bg", s.item.highlightBg],
   ["select-item-highlight-text", s.item.highlightText],
+  ["select-label-font-size", s.label.fontSize],
+  ["select-label-leading", s.label.leading],
+  ["select-label-weight", s.label.weight],
+  ["select-label-tracking", s.label.tracking],
 ]
 
 /** Every component appearance token for one idiom, as CSS variable lines. */

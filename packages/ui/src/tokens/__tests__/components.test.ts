@@ -444,6 +444,19 @@ describe("select appearance tokens", () => {
     expect(componentTokens.ios.select.item.highlightText).toBe("var(--label)")
   })
 
+  test("the group label steps down from footnote to caption-1 on macOS, bolded — its own family, since select doesn't otherwise share menu's tokens", () => {
+    expect(componentTokens.ios.select.label.fontSize).toBe(
+      "var(--type-footnote-size)"
+    )
+    expect(componentTokens.macos.select.label.fontSize).toBe(
+      "var(--type-caption-1-size)"
+    )
+    expect(componentTokens.ios.select.label.weight).toBe(
+      "var(--type-footnote-weight)"
+    )
+    expect(componentTokens.macos.select.label.weight).toBe("600")
+  })
+
   test("emits kebab-case CSS variable lines", () => {
     const lines = componentLines("web")
     expect(lines).toContainEqual(["select-popup-bg", "var(--background-3)"])
@@ -453,5 +466,9 @@ describe("select appearance tokens", () => {
       "var(--label-4)",
     ])
     expect(lines).toContainEqual(["select-item-highlight-bg", "var(--fill-3)"])
+    expect(lines).toContainEqual([
+      "select-label-font-size",
+      "var(--type-footnote-size)",
+    ])
   })
 })

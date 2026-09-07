@@ -932,6 +932,10 @@
   --select-popup-border-color: transparent;
   --select-item-highlight-bg: var(--fill-3);
   --select-item-highlight-text: var(--label);
+  --select-label-font-size: var(--type-footnote-size);
+  --select-label-leading: var(--type-footnote-leading);
+  --select-label-weight: var(--type-footnote-weight);
+  --select-label-tracking: var(--type-footnote-tracking);
   --combobox-field-border-width: 0.5px;
   --combobox-field-border-color: var(--separator);
   --combobox-field-shadow: none;
@@ -1295,6 +1299,10 @@
   --select-popup-border-color: transparent;
   --select-item-highlight-bg: var(--selection);
   --select-item-highlight-text: white;
+  --select-label-font-size: var(--type-caption-1-size);
+  --select-label-leading: var(--type-caption-1-leading);
+  --select-label-weight: 600;
+  --select-label-tracking: var(--type-caption-1-tracking);
   --combobox-field-border-width: 0.5px;
   --combobox-field-border-color: var(--separator);
   --combobox-field-shadow: var(--elevation-control);
@@ -1652,6 +1660,10 @@
   --select-popup-border-color: var(--label-4);
   --select-item-highlight-bg: var(--fill-3);
   --select-item-highlight-text: var(--label);
+  --select-label-font-size: var(--type-footnote-size);
+  --select-label-leading: var(--type-footnote-leading);
+  --select-label-weight: var(--type-footnote-weight);
+  --select-label-tracking: var(--type-footnote-tracking);
   --combobox-field-border-width: 1px;
   --combobox-field-border-color: var(--label-4);
   --combobox-field-shadow: none;

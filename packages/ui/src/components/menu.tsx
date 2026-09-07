@@ -70,9 +70,7 @@ function MenuLabel({ className, ...props }: MenuPrimitive.GroupLabel.Props) {
     <MenuPrimitive.GroupLabel
       data-slot="menu-label"
       className={cn(
-        // type-footnote/type-caption-1 are distinct `@utility` blocks (size, leading, weight
-        // and tracking together), not a single value a token can swap — see task-5a report.
-        "px-(--menu-item-px) py-(--menu-label-py) type-footnote text-label-2 macos:type-caption-1 macos:font-semibold",
+        "px-(--menu-item-px) py-(--menu-label-py) text-[length:var(--menu-label-font-size)] leading-(--menu-label-leading) font-(--menu-label-weight) tracking-(--menu-label-tracking) text-label-2",
         className
       )}
       {...props}

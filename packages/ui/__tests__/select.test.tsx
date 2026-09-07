@@ -5,7 +5,9 @@ import { describe, expect, test } from "vitest"
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
   selectTriggerVariants,
@@ -18,8 +20,11 @@ function Fruit(props: { variant?: "plain" | "popup" }) {
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="apple">Apple</SelectItem>
-        <SelectItem value="pear">Pear</SelectItem>
+        <SelectGroup>
+          <SelectLabel>Fruit</SelectLabel>
+          <SelectItem value="apple">Apple</SelectItem>
+          <SelectItem value="pear">Pear</SelectItem>
+        </SelectGroup>
       </SelectContent>
     </Select>
   )
@@ -76,6 +81,20 @@ describe("Select (menu picker)", () => {
         .querySelector('[data-slot="select-trigger-icon"]')
     ).not.toBeNull()
   })
+
+  test("the group label reads its type from tokens", async () => {
+    render(<Fruit />)
+    await userEvent.click(screen.getByRole("combobox", { name: "Fruit" }))
+    const label = await screen.findByText("Fruit", {
+      selector: "[data-slot=select-label]",
+    })
+    expect(label.className).toContain(
+      "text-[length:var(--select-label-font-size)]"
+    )
+    expect(label.className).toContain("leading-(--select-label-leading)")
+    expect(label.className).toContain("font-(--select-label-weight)")
+    expect(label.className).toContain("tracking-(--select-label-tracking)")
+  })
 })
 
 describe("Select is idiom-agnostic", () => {
@@ -96,5 +115,9 @@ describe("Select is idiom-agnostic", () => {
     expect(pear.className).toContain(
       "data-highlighted:text-(--select-item-highlight-text)"
     )
+    const label = screen.getByText("Fruit", {
+      selector: "[data-slot=select-label]",
+    })
+    expect(label.className).not.toMatch(/(^|\s)(ios|macos|web):/)
   })
 })
