@@ -189,7 +189,7 @@ type SidebarGroupProps = ComponentProps<"div"> & {
 }
 
 const groupLabelClassName =
-  "flex w-full items-center justify-between px-2 pb-1 type-caption-1 font-semibold text-label-3 macos:text-label-2"
+  "flex w-full items-center justify-between px-2 pb-1 type-caption-1 font-semibold text-(--sidebar-group-label-text)"
 
 function SidebarGroup({
   className,
@@ -264,7 +264,7 @@ function SidebarItem({
   ...props
 }: SidebarItemProps) {
   const itemClassName = cn(
-    "flex h-(--sidebar-row-height) w-full items-center gap-2.5 rounded-sidebar px-2 text-start text-[length:var(--sidebar-font)] leading-none text-label outline-none select-none hover:bg-fill-4 focus-visible:ring-4 focus-visible:ring-ring/60 aria-[current=page]:bg-fill-3 aria-[current=page]:font-medium aria-[current=true]:bg-fill-3 aria-[current=true]:font-medium macos:gap-2",
+    "flex h-(--sidebar-row-height) w-full items-center gap-(--sidebar-item-gap) rounded-sidebar px-2 text-start text-[length:var(--sidebar-font)] leading-none text-label outline-none select-none hover:bg-fill-4 focus-visible:ring-4 focus-visible:ring-ring/60 aria-[current=page]:bg-fill-3 aria-[current=page]:font-medium aria-[current=true]:bg-fill-3 aria-[current=true]:font-medium",
     className
   )
   const content = (

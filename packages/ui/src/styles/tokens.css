@@ -979,6 +979,8 @@
   --input-border-width: 0.5px;
   --input-border-color: var(--separator);
   --input-shadow: none;
+  --sidebar-item-gap: 0.625rem;
+  --sidebar-group-label-text: var(--label-3);
 }
 
 @media (width >= 414px) {
@@ -1372,6 +1374,8 @@
   --input-border-width: 0.5px;
   --input-border-color: var(--separator);
   --input-shadow: var(--elevation-control);
+  --sidebar-item-gap: 0.5rem;
+  --sidebar-group-label-text: var(--label-2);
 }
 
 .dark[data-platform="macos"],
@@ -1759,6 +1763,8 @@
   --input-border-width: 1px;
   --input-border-color: var(--label-4);
   --input-shadow: none;
+  --sidebar-item-gap: 0.625rem;
+  --sidebar-group-label-text: var(--label-3);
 }
 
 .dark[data-platform="web"],

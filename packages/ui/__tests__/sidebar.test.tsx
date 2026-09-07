@@ -31,12 +31,16 @@ describe("Sidebar", () => {
     expect(nav).toHaveAttribute("data-slot", "sidebar")
     expect(nav.className).toContain("material-regular")
     expect(screen.getByText("Favorites").className).toContain("type-caption-1")
+    expect(screen.getByText("Favorites").className).toContain(
+      "text-(--sidebar-group-label-text)"
+    )
     const starred = screen.getByRole("link", { name: "Starred" })
     expect(starred).toHaveAttribute("aria-current", "page")
     expect(starred.className).toContain("aria-[current=page]:bg-fill-3")
     expect(starred.className).toContain("h-(--sidebar-row-height)")
     expect(starred.className).toContain("rounded-sidebar")
     expect(starred.className).toContain("text-[length:var(--sidebar-font)]")
+    expect(starred.className).toContain("gap-(--sidebar-item-gap)")
     expect(nav.className).toContain("w-(--sidebar-width)")
     expect(
       starred

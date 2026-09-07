@@ -932,7 +932,9 @@
           "--segmented-control-item-active-text": "var(--label)",
           "--input-border-width": "0.5px",
           "--input-border-color": "var(--separator)",
-          "--input-shadow": "none"
+          "--input-shadow": "none",
+          "--sidebar-item-gap": "0.625rem",
+          "--sidebar-group-label-text": "var(--label-3)"
         },
         ".dark[data-platform=\"ios\"], .dark [data-platform=\"ios\"]": {
           "--label": "rgb(255 255 255)",
@@ -1316,7 +1318,9 @@
           "--segmented-control-item-active-text": "white",
           "--input-border-width": "0.5px",
           "--input-border-color": "var(--separator)",
-          "--input-shadow": "var(--elevation-control)"
+          "--input-shadow": "var(--elevation-control)",
+          "--sidebar-item-gap": "0.5rem",
+          "--sidebar-group-label-text": "var(--label-2)"
         },
         ".dark[data-platform=\"macos\"], .dark [data-platform=\"macos\"]": {
           "--label": "rgb(255 255 255 / 0.85)",
@@ -1700,7 +1704,9 @@
           "--segmented-control-item-active-text": "var(--label)",
           "--input-border-width": "1px",
           "--input-border-color": "var(--label-4)",
-          "--input-shadow": "none"
+          "--input-shadow": "none",
+          "--sidebar-item-gap": "0.625rem",
+          "--sidebar-group-label-text": "var(--label-3)"
         },
         ".dark[data-platform=\"web\"], .dark [data-platform=\"web\"]": {
           "--label": "rgb(245 245 247)",

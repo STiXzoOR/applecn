@@ -702,3 +702,20 @@ describe("input appearance tokens", () => {
     expect(lines).toContainEqual(["input-shadow", "var(--elevation-control)"])
   })
 })
+
+describe("sidebar appearance tokens", () => {
+  test("macOS packs rows tighter and steps the group label down to label-2", () => {
+    expect(componentTokens.ios.sidebar.itemGap).toBe("0.625rem")
+    expect(componentTokens.macos.sidebar.itemGap).toBe("0.5rem")
+    expect(componentTokens.web.sidebar.itemGap).toBe("0.625rem")
+    expect(componentTokens.ios.sidebar.groupLabelText).toBe("var(--label-3)")
+    expect(componentTokens.macos.sidebar.groupLabelText).toBe("var(--label-2)")
+    expect(componentTokens.web.sidebar.groupLabelText).toBe("var(--label-3)")
+  })
+
+  test("emits kebab-case CSS variable lines", () => {
+    const lines = componentLines("macos")
+    expect(lines).toContainEqual(["sidebar-item-gap", "0.5rem"])
+    expect(lines).toContainEqual(["sidebar-group-label-text", "var(--label-2)"])
+  })
+})

@@ -259,6 +259,12 @@ export interface SegmentedControlTokens {
   }
 }
 
+/** The sidebar row's icon-to-label gap and a group label's colour. */
+export interface SidebarTokens {
+  readonly itemGap: string
+  readonly groupLabelText: string
+}
+
 export interface ComponentTokens {
   readonly checkbox: Bezel
   readonly radio: Bezel
@@ -277,6 +283,7 @@ export interface ComponentTokens {
   readonly textarea: FieldBorderTokens
   readonly segmentedControl: SegmentedControlTokens
   readonly input: FieldBorderTokens
+  readonly sidebar: SidebarTokens
 }
 
 const iosBezel: Bezel = {
@@ -779,6 +786,21 @@ const macosSegmentedControl: SegmentedControlTokens = {
 
 const webSegmentedControl: SegmentedControlTokens = iosSegmentedControl
 
+// Measured 2026-09-07: macOS packs sidebar rows tighter (0.5rem icon-to-label gap vs 0.625rem)
+// and steps its group label down from label-3 to label-2
+// (docs/research/apple-design-system-reference.md §sidebars).
+const iosSidebar: SidebarTokens = {
+  itemGap: "0.625rem",
+  groupLabelText: "var(--label-3)",
+}
+
+const macosSidebar: SidebarTokens = {
+  itemGap: "0.5rem",
+  groupLabelText: "var(--label-2)",
+}
+
+const webSidebar: SidebarTokens = iosSidebar
+
 export const componentTokens: Record<Platform, ComponentTokens> = {
   ios: {
     checkbox: iosBezel,
@@ -798,6 +820,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     textarea: iosFieldBorder,
     segmentedControl: iosSegmentedControl,
     input: iosFieldBorder,
+    sidebar: iosSidebar,
   },
   macos: {
     checkbox: macosBezel,
@@ -817,6 +840,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     textarea: macosFieldBorder,
     segmentedControl: macosSegmentedControl,
     input: macosFieldBorder,
+    sidebar: macosSidebar,
   },
   web: {
     checkbox: webBezel,
@@ -836,6 +860,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     textarea: webFieldBorder,
     segmentedControl: webSegmentedControl,
     input: webFieldBorder,
+    sidebar: webSidebar,
   },
 }
 
@@ -964,6 +989,11 @@ const segmentedControlLines = (s: SegmentedControlTokens): Line[] => [
   ["segmented-control-item-active-text", s.item.activeText],
 ]
 
+const sidebarLines = (s: SidebarTokens): Line[] => [
+  ["sidebar-item-gap", s.itemGap],
+  ["sidebar-group-label-text", s.groupLabelText],
+]
+
 const fieldBorderLines = (name: string, f: FieldBorderTokens): Line[] => [
   [`${name}-border-width`, `${f.borderWidth}px`],
   [`${name}-border-color`, f.borderColor],
@@ -1008,5 +1038,6 @@ export function componentLines(platform: Platform): Line[] {
     ...fieldBorderLines("textarea", t.textarea),
     ...segmentedControlLines(t.segmentedControl),
     ...fieldBorderLines("input", t.input),
+    ...sidebarLines(t.sidebar),
   ]
 }
