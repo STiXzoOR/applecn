@@ -23,5 +23,10 @@ describe("Link", () => {
     expect(link.querySelector('[data-slot="link-chevron"]')).not.toBeNull()
     expect(linkVariants({ variant: "button" })).toContain("rounded-full")
     expect(linkVariants({ variant: "button" })).toContain("bg-primary")
+    // Shares the button's own weight token — semibold on iOS, normal elsewhere — since a
+    // button-styled link is literally styled as a button.
+    expect(linkVariants({ variant: "button" })).toContain(
+      "font-(--button-font-weight)"
+    )
   })
 })

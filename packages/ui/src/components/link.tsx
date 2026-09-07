@@ -16,7 +16,7 @@ const linkVariants = cva(
         default: "text-link underline-offset-4 hover:underline",
         quiet: "text-label underline-offset-4 hover:underline",
         button:
-          "h-(--control-height-regular) shrink-0 justify-center rounded-full bg-primary px-(--control-padding-x-regular) text-[length:var(--control-font-regular)] leading-none font-semibold text-primary-foreground transition-[background-color] duration-(--duration-press) hover:bg-[color-mix(in_srgb,var(--primary),black_8%)] hover:no-underline macos:font-normal web:font-normal",
+          "h-(--control-height-regular) shrink-0 justify-center rounded-full bg-primary px-(--control-padding-x-regular) text-[length:var(--control-font-regular)] leading-none font-(--button-font-weight) text-primary-foreground transition-[background-color] duration-(--duration-press) hover:bg-[color-mix(in_srgb,var(--primary),black_8%)] hover:no-underline",
       },
     },
     defaultVariants: {
