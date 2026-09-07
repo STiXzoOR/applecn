@@ -10,9 +10,28 @@ describe("ColorWell", () => {
     expect(input).toHaveAttribute("type", "color")
     expect(input).toHaveValue("#ff3b30")
     const well = input.closest('[data-slot="color-well"]')!
-    expect(well.className).toContain("rounded-full")
-    expect(well.className).toContain("macos:rounded-control")
+    expect(well.className).toContain("rounded-(--color-well-radius)")
+    expect(well.className).toContain("h-(--color-well-height)")
+    expect(well.className).toContain("w-(--color-well-width)")
+    expect(well.className).toContain(
+      "border-(length:--color-well-border-width)"
+    )
+    expect(well.className).toContain("bg-(--color-well-bg)")
+    expect(well.className).toContain("p-(--color-well-padding)")
+    expect(well.className).toContain("shadow-(--color-well-shadow)")
     const swatch = well.querySelector('[data-slot="color-well-swatch"]')!
-    expect(swatch.className).toContain("rounded-full")
+    expect(swatch.className).toContain("rounded-(--color-well-swatch-radius)")
+  })
+})
+
+describe("ColorWell is idiom-agnostic", () => {
+  test("carries no platform variant; the idiom supplies the values", () => {
+    render(<ColorWell aria-label="Highlight" defaultValue="#ff3b30" />)
+    const well = screen
+      .getByLabelText("Highlight")
+      .closest('[data-slot="color-well"]')!
+    expect(well.className).not.toMatch(/(^|\s)(ios|macos|web):/)
+    const swatch = well.querySelector('[data-slot="color-well-swatch"]')!
+    expect(swatch.className).not.toMatch(/(^|\s)(ios|macos|web):/)
   })
 })

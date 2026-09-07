@@ -25,14 +25,14 @@ function ColorWell({
     <label
       data-slot="color-well"
       className={cn(
-        "relative inline-flex size-7 cursor-pointer items-center justify-center rounded-full border-[1.5px] border-gray-3 p-0.5 outline-none focus-within:ring-4 focus-within:ring-ring/60 macos:h-(--control-height-regular) macos:w-12 macos:rounded-control macos:border-0 macos:bg-background-3 macos:p-1 macos:shadow-control",
+        "relative inline-flex h-(--color-well-height) w-(--color-well-width) cursor-pointer items-center justify-center rounded-(--color-well-radius) border-(length:--color-well-border-width) border-gray-3 bg-(--color-well-bg) p-(--color-well-padding) shadow-(--color-well-shadow) outline-none focus-within:ring-4 focus-within:ring-ring/60",
         className
       )}
     >
       <span
         data-slot="color-well-swatch"
         aria-hidden="true"
-        className="block size-full rounded-full macos:rounded-[calc(var(--radius-control)-4px)]"
+        className="block size-full rounded-(--color-well-swatch-radius)"
         style={{ backgroundColor: current }}
       />
       <input

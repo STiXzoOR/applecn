@@ -354,6 +354,65 @@ describe("toast appearance tokens", () => {
   })
 })
 
+describe("color well appearance tokens", () => {
+  test("iOS is a bare 28pt ring; macOS is AppKit's 48x24 filled capsule with a control shadow", () => {
+    expect(componentTokens.ios.colorWell.height).toBe("1.75rem")
+    expect(componentTokens.ios.colorWell.width).toBe("1.75rem")
+    expect(componentTokens.macos.colorWell.height).toBe(
+      "var(--control-height-regular)"
+    )
+    expect(componentTokens.macos.colorWell.width).toBe("3rem")
+    expect(componentTokens.ios.colorWell.bg).toBe("transparent")
+    expect(componentTokens.macos.colorWell.bg).toBe("var(--background-3)")
+    expect(componentTokens.macos.colorWell.shadow).toBe(
+      "var(--elevation-control)"
+    )
+    expect(componentTokens.ios.colorWell.shadow).toBe("none")
+  })
+
+  test("the ring drops to no border at all on macOS, since AppKit fills the bezel instead", () => {
+    expect(componentTokens.ios.colorWell.borderWidth).toBe(1.5)
+    expect(componentTokens.macos.colorWell.borderWidth).toBe(0)
+  })
+
+  test("the corner steps from a full circle to macOS's control radius, inset 4px on the swatch", () => {
+    expect(componentTokens.ios.colorWell.radius).toBe("calc(infinity * 1px)")
+    expect(componentTokens.macos.colorWell.radius).toBe("var(--radius-control)")
+    expect(componentTokens.ios.colorWell.swatchRadius).toBe(
+      "calc(infinity * 1px)"
+    )
+    expect(componentTokens.macos.colorWell.swatchRadius).toBe(
+      "calc(var(--radius-control) - 4px)"
+    )
+  })
+
+  test("padding widens from 0.125rem to 0.25rem on macOS", () => {
+    expect(componentTokens.ios.colorWell.padding).toBe("0.125rem")
+    expect(componentTokens.macos.colorWell.padding).toBe("0.25rem")
+  })
+
+  test("emits kebab-case CSS variable lines", () => {
+    const lines = componentLines("macos")
+    expect(lines).toContainEqual([
+      "color-well-height",
+      "var(--control-height-regular)",
+    ])
+    expect(lines).toContainEqual(["color-well-width", "3rem"])
+    expect(lines).toContainEqual(["color-well-border-width", "0px"])
+    expect(lines).toContainEqual(["color-well-bg", "var(--background-3)"])
+    expect(lines).toContainEqual(["color-well-padding", "0.25rem"])
+    expect(lines).toContainEqual([
+      "color-well-shadow",
+      "var(--elevation-control)",
+    ])
+    expect(lines).toContainEqual(["color-well-radius", "var(--radius-control)"])
+    expect(lines).toContainEqual([
+      "color-well-swatch-radius",
+      "calc(var(--radius-control) - 4px)",
+    ])
+  })
+})
+
 describe("select appearance tokens", () => {
   test("the popup trigger: macOS reads background-3 with a control shadow; the web adds a label-4 hairline iOS and macOS don't have", () => {
     expect(componentTokens.ios.select.popup.bg).toBe("var(--fill-3)")

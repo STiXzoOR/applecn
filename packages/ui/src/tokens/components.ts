@@ -158,6 +158,21 @@ export interface ToastTokens {
   readonly width: string
 }
 
+/**
+ * The colour well: a bare 28pt ring on iOS, AppKit's 48x24 filled capsule on macOS. The
+ * swatch's own corner insets 4px from the well's on macOS, so it clears the bezel's edge.
+ */
+export interface ColorWellTokens {
+  readonly height: string
+  readonly width: string
+  readonly radius: string
+  readonly swatchRadius: string
+  readonly borderWidth: number
+  readonly bg: string
+  readonly padding: string
+  readonly shadow: string
+}
+
 export interface ComponentTokens {
   readonly checkbox: Bezel
   readonly radio: Bezel
@@ -167,6 +182,7 @@ export interface ComponentTokens {
   readonly select: SelectTokens
   readonly combobox: ComboboxTokens
   readonly toast: ToastTokens
+  readonly colorWell: ColorWellTokens
 }
 
 const iosBezel: Bezel = {
@@ -492,6 +508,33 @@ const macosToast: ToastTokens = {
 
 const webToast: ToastTokens = macosToast
 
+// Measured 2026-09-07: iOS and the web share a bare 28pt ring (no fill, no shadow); macOS
+// fills AppKit's 48x24 push-button-style bezel and drops the ring border entirely
+// (docs/research/apple-design-system-reference.md §color wells).
+const iosColorWell: ColorWellTokens = {
+  height: "1.75rem",
+  width: "1.75rem",
+  radius: "calc(infinity * 1px)",
+  swatchRadius: "calc(infinity * 1px)",
+  borderWidth: 1.5,
+  bg: "transparent",
+  padding: "0.125rem",
+  shadow: "none",
+}
+
+const macosColorWell: ColorWellTokens = {
+  height: "var(--control-height-regular)",
+  width: "3rem",
+  radius: "var(--radius-control)",
+  swatchRadius: "calc(var(--radius-control) - 4px)",
+  borderWidth: 0,
+  bg: "var(--background-3)",
+  padding: "0.25rem",
+  shadow: "var(--elevation-control)",
+}
+
+const webColorWell: ColorWellTokens = iosColorWell
+
 export const componentTokens: Record<Platform, ComponentTokens> = {
   ios: {
     checkbox: iosBezel,
@@ -502,6 +545,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     select: iosSelect,
     combobox: iosCombobox,
     toast: iosToast,
+    colorWell: iosColorWell,
   },
   macos: {
     checkbox: macosBezel,
@@ -512,6 +556,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     select: macosSelect,
     combobox: macosCombobox,
     toast: macosToast,
+    colorWell: macosColorWell,
   },
   web: {
     checkbox: webBezel,
@@ -522,6 +567,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     select: webSelect,
     combobox: webCombobox,
     toast: webToast,
+    colorWell: webColorWell,
   },
 }
 
@@ -606,6 +652,17 @@ const toastLines = (t: ToastTokens): Line[] => [
   ["toast-width", t.width],
 ]
 
+const colorWellLines = (w: ColorWellTokens): Line[] => [
+  ["color-well-height", w.height],
+  ["color-well-width", w.width],
+  ["color-well-radius", w.radius],
+  ["color-well-swatch-radius", w.swatchRadius],
+  ["color-well-border-width", `${w.borderWidth}px`],
+  ["color-well-bg", w.bg],
+  ["color-well-padding", w.padding],
+  ["color-well-shadow", w.shadow],
+]
+
 const selectLines = (s: SelectTokens): Line[] => [
   ["select-popup-bg", s.popup.bg],
   ["select-popup-shadow", s.popup.shadow],
@@ -628,5 +685,6 @@ export function componentLines(platform: Platform): Line[] {
     ...selectLines(t.select),
     ...comboboxLines(t.combobox),
     ...toastLines(t.toast),
+    ...colorWellLines(t.colorWell),
   ]
 }
