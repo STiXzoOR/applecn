@@ -322,6 +322,38 @@ describe("combobox appearance tokens", () => {
   })
 })
 
+describe("toast appearance tokens", () => {
+  test("iOS centres the viewport by its safe-area inset; macOS and the web anchor it to the top trailing corner", () => {
+    expect(componentTokens.ios.toast.top).toBe(
+      "max(0.5rem, env(safe-area-inset-top))"
+    )
+    expect(componentTokens.macos.toast.top).toBe("1.25rem")
+    expect(componentTokens.web.toast.top).toBe("1.25rem")
+    expect(componentTokens.ios.toast.left).toBe("50%")
+    expect(componentTokens.macos.toast.left).toBe("auto")
+    expect(componentTokens.ios.toast.translateX).toBe("-50%")
+    expect(componentTokens.macos.toast.translateX).toBe("0%")
+    expect(componentTokens.ios.toast.right).toBe("auto")
+    expect(componentTokens.macos.toast.right).toBe("1.25rem")
+    expect(componentTokens.web.toast.right).toBe("1.25rem")
+  })
+
+  test("the viewport narrows to a fixed 360px off iOS, where it stays fluid", () => {
+    expect(componentTokens.ios.toast.width).toBe("calc(100% - 1rem)")
+    expect(componentTokens.macos.toast.width).toBe("360px")
+    expect(componentTokens.web.toast.width).toBe("360px")
+  })
+
+  test("emits kebab-case CSS variable lines", () => {
+    const lines = componentLines("macos")
+    expect(lines).toContainEqual(["toast-top", "1.25rem"])
+    expect(lines).toContainEqual(["toast-right", "1.25rem"])
+    expect(lines).toContainEqual(["toast-left", "auto"])
+    expect(lines).toContainEqual(["toast-translate-x", "0%"])
+    expect(lines).toContainEqual(["toast-width", "360px"])
+  })
+})
+
 describe("select appearance tokens", () => {
   test("the popup trigger: macOS reads background-3 with a control shadow; the web adds a label-4 hairline iOS and macOS don't have", () => {
     expect(componentTokens.ios.select.popup.bg).toBe("var(--fill-3)")

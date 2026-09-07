@@ -145,6 +145,19 @@ export interface ComboboxTokens {
   }
 }
 
+/**
+ * The toast viewport's placement. iOS centres it under the safe-area inset with `left`/
+ * `translateX`; macOS and the web instead anchor it to the top trailing corner with `right`
+ * and a fixed width, leaving `left`/`translateX` at their CSS-default no-ops.
+ */
+export interface ToastTokens {
+  readonly top: string
+  readonly right: string
+  readonly left: string
+  readonly translateX: string
+  readonly width: string
+}
+
 export interface ComponentTokens {
   readonly checkbox: Bezel
   readonly radio: Bezel
@@ -153,6 +166,7 @@ export interface ComponentTokens {
   readonly menu: MenuTokens
   readonly select: SelectTokens
   readonly combobox: ComboboxTokens
+  readonly toast: ToastTokens
 }
 
 const iosBezel: Bezel = {
@@ -456,6 +470,28 @@ const webCombobox: ComboboxTokens = {
   },
 }
 
+// Measured 2026-09-07: iOS centres the viewport under the safe-area inset, the same way a
+// notification banner drops in; macOS and the web instead tuck it into the top trailing
+// corner at a fixed 360px, apple.com's and AppKit's shared notification width
+// (docs/research/apple-design-system-reference.md §notifications).
+const iosToast: ToastTokens = {
+  top: "max(0.5rem, env(safe-area-inset-top))",
+  right: "auto",
+  left: "50%",
+  translateX: "-50%",
+  width: "calc(100% - 1rem)",
+}
+
+const macosToast: ToastTokens = {
+  top: "1.25rem",
+  right: "1.25rem",
+  left: "auto",
+  translateX: "0%",
+  width: "360px",
+}
+
+const webToast: ToastTokens = macosToast
+
 export const componentTokens: Record<Platform, ComponentTokens> = {
   ios: {
     checkbox: iosBezel,
@@ -465,6 +501,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     menu: iosMenu,
     select: iosSelect,
     combobox: iosCombobox,
+    toast: iosToast,
   },
   macos: {
     checkbox: macosBezel,
@@ -474,6 +511,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     menu: macosMenu,
     select: macosSelect,
     combobox: macosCombobox,
+    toast: macosToast,
   },
   web: {
     checkbox: webBezel,
@@ -483,6 +521,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     menu: webMenu,
     select: webSelect,
     combobox: webCombobox,
+    toast: webToast,
   },
 }
 
@@ -559,6 +598,14 @@ const comboboxLines = (c: ComboboxTokens): Line[] => [
   ["combobox-item-indicator-highlight-text", c.item.indicatorHighlightText],
 ]
 
+const toastLines = (t: ToastTokens): Line[] => [
+  ["toast-top", t.top],
+  ["toast-right", t.right],
+  ["toast-left", t.left],
+  ["toast-translate-x", t.translateX],
+  ["toast-width", t.width],
+]
+
 const selectLines = (s: SelectTokens): Line[] => [
   ["select-popup-bg", s.popup.bg],
   ["select-popup-shadow", s.popup.shadow],
@@ -580,5 +627,6 @@ export function componentLines(platform: Platform): Line[] {
     ...menuLines(t.menu),
     ...selectLines(t.select),
     ...comboboxLines(t.combobox),
+    ...toastLines(t.toast),
   ]
 }

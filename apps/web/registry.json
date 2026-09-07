@@ -889,7 +889,12 @@
           "--combobox-field-border-width": "0.5px",
           "--combobox-field-border-color": "var(--separator)",
           "--combobox-field-shadow": "none",
-          "--combobox-item-indicator-highlight-text": "var(--primary)"
+          "--combobox-item-indicator-highlight-text": "var(--primary)",
+          "--toast-top": "max(0.5rem, env(safe-area-inset-top))",
+          "--toast-right": "auto",
+          "--toast-left": "50%",
+          "--toast-translate-x": "-50%",
+          "--toast-width": "calc(100% - 1rem)"
         },
         ".dark[data-platform=\"ios\"], .dark [data-platform=\"ios\"]": {
           "--label": "rgb(255 255 255)",
@@ -1230,7 +1235,12 @@
           "--combobox-field-border-width": "0.5px",
           "--combobox-field-border-color": "var(--separator)",
           "--combobox-field-shadow": "var(--elevation-control)",
-          "--combobox-item-indicator-highlight-text": "white"
+          "--combobox-item-indicator-highlight-text": "white",
+          "--toast-top": "1.25rem",
+          "--toast-right": "1.25rem",
+          "--toast-left": "auto",
+          "--toast-translate-x": "0%",
+          "--toast-width": "360px"
         },
         ".dark[data-platform=\"macos\"], .dark [data-platform=\"macos\"]": {
           "--label": "rgb(255 255 255 / 0.85)",
@@ -1571,7 +1581,12 @@
           "--combobox-field-border-width": "1px",
           "--combobox-field-border-color": "var(--label-4)",
           "--combobox-field-shadow": "none",
-          "--combobox-item-indicator-highlight-text": "var(--primary)"
+          "--combobox-item-indicator-highlight-text": "var(--primary)",
+          "--toast-top": "1.25rem",
+          "--toast-right": "1.25rem",
+          "--toast-left": "auto",
+          "--toast-translate-x": "0%",
+          "--toast-width": "360px"
         },
         ".dark[data-platform=\"web\"], .dark [data-platform=\"web\"]": {
           "--label": "rgb(245 245 247)",

@@ -39,4 +39,36 @@ describe("Toast", () => {
     await userEvent.click(toast.querySelector('[data-slot="toast-close"]')!)
     expect(screen.queryByText("Messages")).toBeNull()
   })
+
+  test("the viewport's placement and width read from tokens", async () => {
+    render(
+      <Toaster>
+        <Notify />
+      </Toaster>
+    )
+    await userEvent.click(screen.getByRole("button", { name: "Notify" }))
+    const viewport = (await screen.findByRole("dialog")).closest(
+      '[data-slot="toast-viewport"]'
+    )!
+    expect(viewport.className).toContain("top-(--toast-top)")
+    expect(viewport.className).toContain("right-(--toast-right)")
+    expect(viewport.className).toContain("left-(--toast-left)")
+    expect(viewport.className).toContain("translate-x-(--toast-translate-x)")
+    expect(viewport.className).toContain("w-(--toast-width)")
+  })
+})
+
+describe("Toast is idiom-agnostic", () => {
+  test("carries no platform variant; the idiom supplies the values", async () => {
+    render(
+      <Toaster>
+        <Notify />
+      </Toaster>
+    )
+    await userEvent.click(screen.getByRole("button", { name: "Notify" }))
+    const viewport = (await screen.findByRole("dialog")).closest(
+      '[data-slot="toast-viewport"]'
+    )!
+    expect(viewport.className).not.toMatch(/(^|\s)(ios|macos|web):/)
+  })
 })

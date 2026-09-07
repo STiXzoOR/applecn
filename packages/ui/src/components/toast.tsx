@@ -29,7 +29,7 @@ function ToastList() {
     <ToastPrimitive.Portal>
       <ToastPrimitive.Viewport
         data-slot="toast-viewport"
-        className="fixed top-[max(0.5rem,env(safe-area-inset-top))] z-50 flex w-[calc(100%-1rem)] max-w-[420px] flex-col gap-2 outline-none ios:left-1/2 ios:-translate-x-1/2 macos:top-5 macos:right-5 macos:w-[360px] web:top-5 web:right-5 web:w-[360px]"
+        className="fixed top-(--toast-top) right-(--toast-right) left-(--toast-left) z-50 flex w-(--toast-width) max-w-[420px] translate-x-(--toast-translate-x) flex-col gap-2 outline-none"
       >
         {toasts.map((toast) => (
           <ToastPrimitive.Root
