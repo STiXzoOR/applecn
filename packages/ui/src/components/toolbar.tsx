@@ -3,7 +3,7 @@
 import { Toolbar as ToolbarPrimitive } from "@base-ui/react/toolbar"
 import type { IconSvgElement } from "@hugeicons/react"
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 import { createContext, useContext, type ComponentProps } from "react"
 
 import { Icon } from "./icon"

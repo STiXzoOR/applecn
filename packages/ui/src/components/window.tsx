@@ -1,4 +1,4 @@
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 import type { ComponentProps, ReactNode } from "react"
 
 import { PlatformProvider } from "../lib/platform"

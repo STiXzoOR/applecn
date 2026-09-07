@@ -2,7 +2,7 @@
 
 import { Switch as SwitchPrimitive } from "@base-ui/react/switch"
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 
 /**
  * The switch (HIG › Toggles). iOS 26: a 63×28 track with a 37×24 oval Liquid Glass knob inset

@@ -2,7 +2,7 @@
 
 import { Radio as RadioPrimitive } from "@base-ui/react/radio"
 import { RadioGroup as RadioGroupPrimitive } from "@base-ui/react/radio-group"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 
 /**
  * Radio buttons (HIG › Toggles): two to five mutually exclusive options. Each item is a ring

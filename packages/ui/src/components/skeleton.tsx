@@ -1,4 +1,4 @@
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 import type { ComponentProps } from "react"
 
 /** A redacted placeholder for content that is still loading; still under reduced motion. */

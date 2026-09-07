@@ -64,12 +64,9 @@ describe("registry", () => {
     expect(tabs.dependencies).toContain("@base-ui/react")
     const icon = registry.items.find((i) => i.name === "icon")!
     expect(icon.dependencies).toEqual(
-      expect.arrayContaining([
-        "@hugeicons/react",
-        "class-variance-authority",
-        "cn",
-      ])
+      expect.arrayContaining(["@hugeicons/react", "class-variance-authority"])
     )
+    expect(icon.registryDependencies).toContain(`${REGISTRY_URL}/utils.json`)
   })
 
   test("ships the theme as a style item with light and dark variables plus the type and material utilities", () => {

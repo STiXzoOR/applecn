@@ -3,7 +3,7 @@
 import { Input as InputPrimitive } from "@base-ui/react/input"
 import { Cancel01Icon } from "@hugeicons/core-free-icons"
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 import { useState } from "react"
 
 import { Icon } from "./icon"

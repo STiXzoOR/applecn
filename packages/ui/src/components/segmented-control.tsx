@@ -1,7 +1,7 @@
 "use client"
 
 import { Tabs as TabsPrimitive } from "@base-ui/react/tabs"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 
 /**
  * The segmented control (HIG › Segmented controls). iOS 26: a 32 pt capsule on the tertiary

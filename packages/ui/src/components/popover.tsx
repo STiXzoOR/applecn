@@ -1,7 +1,7 @@
 "use client"
 
 import { Popover as PopoverPrimitive } from "@base-ui/react/popover"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 import type { ComponentProps } from "react"
 
 /**

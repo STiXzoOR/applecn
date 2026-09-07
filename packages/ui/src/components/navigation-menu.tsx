@@ -2,7 +2,7 @@
 
 import { NavigationMenu as NavigationMenuPrimitive } from "@base-ui/react/navigation-menu"
 import { ArrowDown01Icon } from "@hugeicons/core-free-icons"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 
 import { Icon } from "./icon"
 

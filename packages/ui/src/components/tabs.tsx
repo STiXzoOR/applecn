@@ -1,7 +1,7 @@
 "use client"
 
 import { Tabs as TabsPrimitive } from "@base-ui/react/tabs"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 
 import { SegmentedControlItem, SegmentedControlList } from "./segmented-control"
 

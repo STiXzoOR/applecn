@@ -2,7 +2,7 @@
 
 import { Avatar as AvatarPrimitive } from "@base-ui/react/avatar"
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 
 /** A person's picture, or their monogram on gray until it loads (Contacts, Messages). */
 const avatarVariants = cva(

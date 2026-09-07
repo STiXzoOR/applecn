@@ -1,4 +1,4 @@
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 import type { ComponentProps } from "react"
 
 /** A group box: content on the grouped card surface with the platform's card corner (26 pt on iOS 26, 10 on macOS, 17 on the web). */

@@ -1,4 +1,4 @@
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 import type { ComponentProps } from "react"
 
 /** A keyboard key, as shown beside menu items and in help text. */

@@ -1,4 +1,4 @@
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 import type { ComponentProps } from "react"
 
 /** The text view (HIG › Text views): a multi-line field on the same bordered surface as `Input`. */

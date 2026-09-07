@@ -1,7 +1,7 @@
 "use client"
 
 import type { IconSvgElement } from "@hugeicons/react"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 import {
   createContext,
   useContext,

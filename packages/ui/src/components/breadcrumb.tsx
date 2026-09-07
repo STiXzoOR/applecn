@@ -1,5 +1,5 @@
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 import { Children, type ComponentProps } from "react"
 
 import { Icon } from "./icon"

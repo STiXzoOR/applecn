@@ -2,7 +2,7 @@
 
 import { Toggle as TogglePrimitive } from "@base-ui/react/toggle"
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 
 /**
  * A toggle button (HIG › Toggles, outside lists): a button whose pressed state is the tinted

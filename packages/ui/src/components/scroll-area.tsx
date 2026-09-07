@@ -1,7 +1,7 @@
 "use client"
 
 import { ScrollArea as ScrollAreaPrimitive } from "@base-ui/react/scroll-area"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 
 /**
  * A scroll view (HIG › Scroll views) with Apple's overlay scrollbars: the content scrolls

@@ -3,7 +3,7 @@
 import { Menu as MenuPrimitive } from "@base-ui/react/menu"
 import { ArrowRight01Icon, Tick02Icon } from "@hugeicons/core-free-icons"
 import type { IconSvgElement } from "@hugeicons/react"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 import type { ComponentProps } from "react"
 
 import { Icon } from "./icon"

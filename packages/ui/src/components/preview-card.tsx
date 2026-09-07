@@ -1,7 +1,7 @@
 "use client"
 
 import { PreviewCard as PreviewCardPrimitive } from "@base-ui/react/preview-card"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 
 /**
  * A preview card: the Safari link preview. Hovering a link for a moment shows a Liquid Glass

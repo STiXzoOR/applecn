@@ -1,6 +1,6 @@
 "use client"
 
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 import { useEffect, useRef, useState, type ComponentProps } from "react"
 
 import { PageControl } from "./page-control"

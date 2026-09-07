@@ -1,7 +1,7 @@
 "use client"
 
 import { StarIcon } from "@hugeicons/core-free-icons"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 import { useId, useState, type ComponentProps, type KeyboardEvent } from "react"
 
 import { Icon } from "./icon"

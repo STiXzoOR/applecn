@@ -2,7 +2,7 @@
 
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 
 /**
  * Buttons (HIG › Buttons). `variant` is the style — filled/prominent, tinted, gray, bordered,

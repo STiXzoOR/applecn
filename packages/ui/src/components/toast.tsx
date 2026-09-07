@@ -2,7 +2,7 @@
 
 import { Toast as ToastPrimitive } from "@base-ui/react/toast"
 import { Cancel01Icon } from "@hugeicons/core-free-icons"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 import type { ReactNode } from "react"
 
 import { Icon } from "./icon"

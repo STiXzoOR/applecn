@@ -1,7 +1,7 @@
 "use client"
 
 import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 
 /** Tooltips (HIG › Tooltips): a brief phrase on thick material after a short hover, macOS and visionOS. */
 function TooltipProvider({

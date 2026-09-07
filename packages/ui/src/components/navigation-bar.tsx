@@ -1,7 +1,7 @@
 "use client"
 
 import { ArrowLeft01Icon } from "@hugeicons/core-free-icons"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 import type { ComponentProps, ReactNode } from "react"
 
 import { useScrollCollapse } from "../hooks/use-scroll-collapse"

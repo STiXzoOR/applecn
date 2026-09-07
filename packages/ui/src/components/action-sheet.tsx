@@ -2,7 +2,7 @@
 
 import { Drawer as DrawerPrimitive } from "@base-ui/react/drawer"
 import { Popover as PopoverPrimitive } from "@base-ui/react/popover"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 import {
   createContext,
   useContext,

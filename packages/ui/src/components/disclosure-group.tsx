@@ -2,7 +2,7 @@
 
 import { Collapsible as CollapsiblePrimitive } from "@base-ui/react/collapsible"
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 
 import { Icon } from "./icon"
 

@@ -1,7 +1,7 @@
 "use client"
 
 import { Cancel01Icon, Search01Icon } from "@hugeicons/core-free-icons"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 import { useRef, useState, type ComponentProps } from "react"
 
 import { Icon } from "./icon"

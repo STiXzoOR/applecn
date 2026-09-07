@@ -3,7 +3,7 @@
 import { ContextMenu as ContextMenuPrimitive } from "@base-ui/react/context-menu"
 import { Tick02Icon } from "@hugeicons/core-free-icons"
 import type { IconSvgElement } from "@hugeicons/react"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 
 import { Icon } from "./icon"
 import { menuContentClassName, menuItemClassName } from "./menu"

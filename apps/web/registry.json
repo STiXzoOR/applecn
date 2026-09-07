@@ -1487,11 +1487,11 @@
       "description": "An inset grouped list of disclosure rows that each reveal a panel, one open at a time unless multiple.",
       "dependencies": [
         "@base-ui/react",
-        "@hugeicons/core-free-icons",
-        "cn"
+        "@hugeicons/core-free-icons"
       ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/icon.json"
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1506,11 +1506,11 @@
       "title": "Action sheet",
       "description": "Choices related to an action: the iOS 26 card with 48 pt capsule actions from the bottom on a phone, a popover anchored to the control from the sm breakpoint.",
       "dependencies": [
-        "@base-ui/react",
-        "cn"
+        "@base-ui/react"
       ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/use-media-query.json"
+        "https://applecn.vercel.app/r/use-media-query.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1526,8 +1526,10 @@
       "description": "The iOS 26 alert: 320 pt, 34 pt corners, Liquid Glass, left-aligned text and 48 pt capsule actions; AppKit’s 260 pt alert with 28 pt push buttons on macOS.",
       "dependencies": [
         "@base-ui/react",
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1543,8 +1545,10 @@
       "description": "A person’s picture or their monogram on gray.",
       "dependencies": [
         "@base-ui/react",
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1559,8 +1563,10 @@
       "title": "Badge",
       "description": "The red count capsule, and tinted or filled tags.",
       "dependencies": [
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1575,11 +1581,11 @@
       "title": "Breadcrumb",
       "description": "The path to the current location as links separated by chevrons — the Finder’s path bar, apple.com’s breadcrumbs.",
       "dependencies": [
-        "@hugeicons/core-free-icons",
-        "cn"
+        "@hugeicons/core-free-icons"
       ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/icon.json"
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1593,8 +1599,8 @@
       "type": "registry:ui",
       "title": "Button group",
       "description": "Adjacent buttons joined into one control — AppKit’s segmented push buttons, apple.com’s paired actions.",
-      "dependencies": [
-        "cn"
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1610,8 +1616,10 @@
       "description": "Filled, tinted, gray, bordered, plain, glass and destructive buttons in the five control sizes — a 34 pt capsule on iOS 26, a 24 pt rounded rectangle on macOS 26, apple.com’s 36 px pill on the web.",
       "dependencies": [
         "@base-ui/react",
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1625,8 +1633,8 @@
       "type": "registry:ui",
       "title": "Card",
       "description": "A group box on the grouped card surface with the platform’s card corner.",
-      "dependencies": [
-        "cn"
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1640,11 +1648,9 @@
       "type": "registry:ui",
       "title": "Carousel",
       "description": "A snapping horizontal shelf of items with a page control, scrolled natively — the App Store’s shelves.",
-      "dependencies": [
-        "cn"
-      ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/page-control.json"
+        "https://applecn.vercel.app/r/page-control.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1659,8 +1665,10 @@
       "title": "Checkbox group",
       "description": "Checkboxes that share a value under a parent that turns them all on or off and shows the mixed state — macOS’s settings hierarchy.",
       "dependencies": [
-        "@base-ui/react",
-        "cn"
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1676,11 +1684,11 @@
       "description": "A 22 pt circle on iOS, a 16 pt rounded square on the bezel on macOS 26, with a mixed state.",
       "dependencies": [
         "@base-ui/react",
-        "@hugeicons/core-free-icons",
-        "cn"
+        "@hugeicons/core-free-icons"
       ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/icon.json"
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1694,8 +1702,8 @@
       "type": "registry:ui",
       "title": "Color well",
       "description": "The native colour input as Apple presents it: a ring around the swatch on iOS, AppKit’s capsule on macOS.",
-      "dependencies": [
-        "cn"
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1711,11 +1719,11 @@
       "description": "A text field that offers suggestions filtered as the person types, in a glass menu with the platform’s rows.",
       "dependencies": [
         "@base-ui/react",
-        "@hugeicons/core-free-icons",
-        "cn"
+        "@hugeicons/core-free-icons"
       ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/icon.json"
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1732,12 +1740,12 @@
       "dependencies": [
         "@base-ui/react",
         "@hugeicons/core-free-icons",
-        "@hugeicons/react",
-        "cn"
+        "@hugeicons/react"
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/icon.json",
-        "https://applecn.vercel.app/r/menu.json"
+        "https://applecn.vercel.app/r/menu.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1752,8 +1760,10 @@
       "title": "Dialog",
       "description": "A modal card: the macOS sheet and the iPad form sheet, on the platform’s dialog corner and width.",
       "dependencies": [
-        "@base-ui/react",
-        "cn"
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1769,11 +1779,11 @@
       "description": "A row that reveals details, its chevron turning as it opens.",
       "dependencies": [
         "@base-ui/react",
-        "@hugeicons/core-free-icons",
-        "cn"
+        "@hugeicons/core-free-icons"
       ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/icon.json"
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1787,11 +1797,9 @@
       "type": "registry:ui",
       "title": "Empty",
       "description": "The unavailable-content view: a symbol, a title, a description and an action.",
-      "dependencies": [
-        "cn"
-      ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/icon.json"
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1806,8 +1814,10 @@
       "title": "Field",
       "description": "A labelled control with a description and an error, wired together for assistive technology.",
       "dependencies": [
-        "@base-ui/react",
-        "cn"
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1822,8 +1832,10 @@
       "title": "Glass",
       "description": "Liquid Glass for the functional layer: regular, clear and prominent, as a capsule, rounded rectangle or circle.",
       "dependencies": [
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1839,8 +1851,10 @@
       "description": "Hugeicons rendered with the SF Symbols sizing model: scales relative to text and weights that follow it.",
       "dependencies": [
         "@hugeicons/react",
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1857,11 +1871,11 @@
       "dependencies": [
         "@base-ui/react",
         "@hugeicons/core-free-icons",
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
       ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/icon.json"
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1875,8 +1889,8 @@
       "type": "registry:ui",
       "title": "Kbd",
       "description": "A keyboard key, as shown beside menu items.",
-      "dependencies": [
-        "cn"
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1890,8 +1904,8 @@
       "type": "registry:ui",
       "title": "Label",
       "description": "A control’s label in body text.",
-      "dependencies": [
-        "cn"
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1906,8 +1920,10 @@
       "title": "Link",
       "description": "A link in the link colour: apple.com’s “Learn more ›” with its chevron, a pill button, or a quiet inline link.",
       "dependencies": [
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1923,11 +1939,11 @@
       "description": "Plain, grouped, inset grouped and sidebar lists with rows, accessories and sections — 26 pt corners and 52 pt rows on iOS 26, 10 pt corners and 28 pt rows on macOS 26.",
       "dependencies": [
         "@hugeicons/core-free-icons",
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
       ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/icon.json"
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1942,8 +1958,10 @@
       "title": "Lockup",
       "description": "The App Store’s product lockup: an icon on the icon mask, a title, a subtitle and the Get button.",
       "dependencies": [
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1958,8 +1976,10 @@
       "title": "Material",
       "description": "A content-layer material from ultra-thin to thick that blurs what is behind it.",
       "dependencies": [
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1976,11 +1996,11 @@
       "dependencies": [
         "@base-ui/react",
         "@hugeicons/core-free-icons",
-        "@hugeicons/react",
-        "cn"
+        "@hugeicons/react"
       ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/icon.json"
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -1996,12 +2016,12 @@
       "description": "The macOS menu bar: top-level menus whose titles highlight with the accent while open, each a full menu with shortcuts and submenus.",
       "dependencies": [
         "@base-ui/react",
-        "@hugeicons/core-free-icons",
-        "cn"
+        "@hugeicons/core-free-icons"
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/icon.json",
-        "https://applecn.vercel.app/r/menu.json"
+        "https://applecn.vercel.app/r/menu.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2017,8 +2037,10 @@
       "description": "Gauges for a value in a range that is not progress: the linear meter with a label and percentage, and the circular gauge with the value in the centre.",
       "dependencies": [
         "@base-ui/react",
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2033,12 +2055,12 @@
       "title": "Navigation bar",
       "description": "A 54 pt row with 44 pt glass platters and the 34 pt large title that collapses as content scrolls under it.",
       "dependencies": [
-        "@hugeicons/core-free-icons",
-        "cn"
+        "@hugeicons/core-free-icons"
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/icon.json",
-        "https://applecn.vercel.app/r/use-scroll-collapse.json"
+        "https://applecn.vercel.app/r/use-scroll-collapse.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2054,11 +2076,11 @@
       "description": "apple.com’s global navigation: a 44 pt material bar of small links with full-width flyout panels of large links under eyebrows.",
       "dependencies": [
         "@base-ui/react",
-        "@hugeicons/core-free-icons",
-        "cn"
+        "@hugeicons/core-free-icons"
       ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/icon.json"
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2073,8 +2095,10 @@
       "title": "Page control",
       "description": "A row of dots for a flat sequence of pages.",
       "dependencies": [
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2089,8 +2113,10 @@
       "title": "Passcode field",
       "description": "A row of one-character boxes for a verification code that advances as digits are typed and fills on paste.",
       "dependencies": [
-        "@base-ui/react",
-        "cn"
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2105,8 +2131,10 @@
       "title": "Popover",
       "description": "A transient Liquid Glass card with an arrow, on the platform’s popover corner.",
       "dependencies": [
-        "@base-ui/react",
-        "cn"
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2121,8 +2149,10 @@
       "title": "Preview card",
       "description": "Safari’s link preview: a Liquid Glass card that appears after hovering a link for a moment.",
       "dependencies": [
-        "@base-ui/react",
-        "cn"
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2138,8 +2168,10 @@
       "description": "The 4 pt linear bar and the circular ring, determinate or indeterminate.",
       "dependencies": [
         "@base-ui/react",
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2154,8 +2186,10 @@
       "title": "Radio group",
       "description": "Two to five mutually exclusive options as rings that fill with the tint and show a white dot.",
       "dependencies": [
-        "@base-ui/react",
-        "cn"
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2170,11 +2204,11 @@
       "title": "Rating",
       "description": "The App Store’s five stars: read-only with the value in its name, or a radio group the person can set.",
       "dependencies": [
-        "@hugeicons/core-free-icons",
-        "cn"
+        "@hugeicons/core-free-icons"
       ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/icon.json"
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2189,8 +2223,10 @@
       "title": "Scroll area",
       "description": "A scroll view with Apple’s overlay scrollbars, which fade in while scrolling and never take layout space.",
       "dependencies": [
-        "@base-ui/react",
-        "cn"
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2205,11 +2241,11 @@
       "title": "Search field",
       "description": "The 44 pt capsule search field of iOS 26 with the magnifier, clear and Cancel; AppKit’s 24 pt capsule on macOS.",
       "dependencies": [
-        "@hugeicons/core-free-icons",
-        "cn"
+        "@hugeicons/core-free-icons"
       ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/icon.json"
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2224,8 +2260,10 @@
       "title": "Segmented control",
       "description": "Equal segments with a sliding selection: a white pill in a 32 pt capsule on iOS 26, the accent fill in a 24 pt rounded rectangle on macOS 26.",
       "dependencies": [
-        "@base-ui/react",
-        "cn"
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2242,11 +2280,11 @@
       "dependencies": [
         "@base-ui/react",
         "@hugeicons/core-free-icons",
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
       ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/icon.json"
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2262,8 +2300,10 @@
       "description": "The half-point hairline, inset after a row’s leading content when it divides a list.",
       "dependencies": [
         "@base-ui/react",
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2278,12 +2318,12 @@
       "title": "Sheet",
       "description": "A bottom sheet with a grabber and detents on phones, a centred card from the sm breakpoint.",
       "dependencies": [
-        "@base-ui/react",
-        "cn"
+        "@base-ui/react"
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/dialog.json",
-        "https://applecn.vercel.app/r/use-media-query.json"
+        "https://applecn.vercel.app/r/use-media-query.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2300,13 +2340,13 @@
       "dependencies": [
         "@base-ui/react",
         "@hugeicons/core-free-icons",
-        "@hugeicons/react",
-        "cn"
+        "@hugeicons/react"
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/button.json",
         "https://applecn.vercel.app/r/icon.json",
-        "https://applecn.vercel.app/r/sheet.json"
+        "https://applecn.vercel.app/r/sheet.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2320,8 +2360,8 @@
       "type": "registry:ui",
       "title": "Skeleton",
       "description": "A redacted placeholder for loading content.",
-      "dependencies": [
-        "cn"
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2336,8 +2376,10 @@
       "title": "Slider",
       "description": "A 6 pt track with the 37×24 pill knob on iOS 26 (a 20×16 oval on macOS 26) and optional images at either end.",
       "dependencies": [
-        "@base-ui/react",
-        "cn"
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2352,8 +2394,10 @@
       "title": "Spinner",
       "description": "The activity indicator: eight fading bars at the medium and large sizes.",
       "dependencies": [
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2367,8 +2411,8 @@
       "type": "registry:ui",
       "title": "Split view",
       "description": "Two or three adjacent panes with hairline dividers that stack on narrow screens.",
-      "dependencies": [
-        "cn"
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2384,12 +2428,12 @@
       "description": "The 94×32 pt capsule with − and + halves on iOS 26; AppKit’s 20×26 vertical stepper on macOS 26.",
       "dependencies": [
         "@base-ui/react",
-        "@hugeicons/core-free-icons",
-        "cn"
+        "@hugeicons/core-free-icons"
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/icon.json",
-        "https://applecn.vercel.app/r/platform.json"
+        "https://applecn.vercel.app/r/platform.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2405,8 +2449,10 @@
       "description": "The iOS 26 switch: a 63×28 pt track with a 37×24 oval knob that stretches while pressed; 54×24 on macOS 26. Green or tinted when on.",
       "dependencies": [
         "@base-ui/react",
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2421,12 +2467,12 @@
       "title": "Tab bar",
       "description": "The iOS 26 tab bar: a 62 pt Liquid Glass platter inset 21 pt with 54 pt items, the current one on a tinted lens, and a separate search circle; minimises on scroll.",
       "dependencies": [
-        "@hugeicons/react",
-        "cn"
+        "@hugeicons/react"
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/badge.json",
-        "https://applecn.vercel.app/r/icon.json"
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2440,8 +2486,8 @@
       "type": "registry:ui",
       "title": "Table",
       "description": "The macOS table with small column headers, compact rows and a tinted selection.",
-      "dependencies": [
-        "cn"
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2456,11 +2502,11 @@
       "title": "Tabs",
       "description": "A segmented control that switches between related subviews.",
       "dependencies": [
-        "@base-ui/react",
-        "cn"
+        "@base-ui/react"
       ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/segmented-control.json"
+        "https://applecn.vercel.app/r/segmented-control.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2475,8 +2521,10 @@
       "title": "Text",
       "description": "A label in one of the eleven text styles, with the label colour roles and per-style emphasis.",
       "dependencies": [
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2490,8 +2538,8 @@
       "type": "registry:ui",
       "title": "Textarea",
       "description": "The text view for longer text, on the same surface as the text field.",
-      "dependencies": [
-        "cn"
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2507,11 +2555,11 @@
       "description": "Notification banners: a Liquid Glass card with an icon, title and message that drops in from the top and can be swiped away.",
       "dependencies": [
         "@base-ui/react",
-        "@hugeicons/core-free-icons",
-        "cn"
+        "@hugeicons/core-free-icons"
       ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/icon.json"
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2526,8 +2574,10 @@
       "title": "Toggle group",
       "description": "A joined set of toggle buttons in the segmented control’s geometry, single- or multi-select — Keynote’s bold, italic and underline.",
       "dependencies": [
-        "@base-ui/react",
-        "cn"
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2543,8 +2593,10 @@
       "description": "A toggle button whose pressed state is the tinted fill, for options outside a list.",
       "dependencies": [
         "@base-ui/react",
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2561,11 +2613,11 @@
       "dependencies": [
         "@base-ui/react",
         "@hugeicons/react",
-        "class-variance-authority",
-        "cn"
+        "class-variance-authority"
       ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/icon.json"
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2580,8 +2632,10 @@
       "title": "Tooltip",
       "description": "A brief phrase on thick material after a short hover.",
       "dependencies": [
-        "@base-ui/react",
-        "cn"
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2595,11 +2649,9 @@
       "type": "registry:ui",
       "title": "Window",
       "description": "A macOS 26 window: 16 pt corners, the title bar with its traffic lights or the unified toolbar, and the dialog shadow.",
-      "dependencies": [
-        "cn"
-      ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/platform.json"
+        "https://applecn.vercel.app/r/platform.json",
+        "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
         {
@@ -2662,7 +2714,8 @@
       "title": "cn",
       "description": "Class merging.",
       "dependencies": [
-        "cn"
+        "clsx",
+        "tailwind-merge"
       ],
       "files": [
         {

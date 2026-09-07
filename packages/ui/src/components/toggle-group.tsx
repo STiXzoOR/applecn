@@ -2,7 +2,7 @@
 
 import { Toggle as TogglePrimitive } from "@base-ui/react/toggle"
 import { ToggleGroup as ToggleGroupPrimitive } from "@base-ui/react/toggle-group"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 
 /**
  * A toggle group (HIG › Segmented controls, the select-any style): a joined set of toggle

@@ -6,7 +6,7 @@ import {
   Cancel01Icon,
   Tick02Icon,
 } from "@hugeicons/core-free-icons"
-import { cn } from "cn"
+import { cn } from "../lib/utils"
 
 import { Icon } from "./icon"
 
