@@ -880,6 +880,20 @@
   --radio-border: var(--gray-3);
   --radio-border-width: 1.5px;
   --radio-shadow: none;
+  --button-font-weight: 600;
+  --button-active-scale: 0.97;
+  --button-filled-shadow: none;
+  --button-filled-hover-bg: color-mix(in srgb, var(--primary), black 8%);
+  --button-gray-bg: var(--fill-3);
+  --button-gray-text: var(--primary);
+  --button-gray-shadow: none;
+  --button-gray-hover-bg: var(--fill-2);
+  --button-bordered-bg: transparent;
+  --button-bordered-text: var(--primary);
+  --button-bordered-border: var(--border);
+  --button-bordered-shadow: none;
+  --button-bordered-hover-bg: var(--fill-4);
+  --button-bordered-hover-text: var(--primary);
 }
 
 @media (width >= 414px) {
@@ -1174,6 +1188,20 @@
   --radio-border: var(--label-3);
   --radio-border-width: 1px;
   --radio-shadow: var(--elevation-control);
+  --button-font-weight: 400;
+  --button-active-scale: 1;
+  --button-filled-shadow: var(--elevation-control);
+  --button-filled-hover-bg: color-mix(in srgb, var(--primary), black 8%);
+  --button-gray-bg: var(--background-3);
+  --button-gray-text: var(--label);
+  --button-gray-shadow: var(--elevation-control);
+  --button-gray-hover-bg: var(--background-3);
+  --button-bordered-bg: var(--background-3);
+  --button-bordered-text: var(--label);
+  --button-bordered-border: transparent;
+  --button-bordered-shadow: var(--elevation-control);
+  --button-bordered-hover-bg: var(--fill-4);
+  --button-bordered-hover-text: var(--label);
 }
 
 .dark[data-platform="macos"],
@@ -1462,6 +1490,20 @@
   --radio-border: var(--label-4);
   --radio-border-width: 1px;
   --radio-shadow: none;
+  --button-font-weight: 400;
+  --button-active-scale: 1;
+  --button-filled-shadow: none;
+  --button-filled-hover-bg: color-mix(in srgb, var(--primary), white 6%);
+  --button-gray-bg: var(--fill-3);
+  --button-gray-text: var(--label);
+  --button-gray-shadow: none;
+  --button-gray-hover-bg: var(--fill-2);
+  --button-bordered-bg: transparent;
+  --button-bordered-text: var(--label);
+  --button-bordered-border: var(--label);
+  --button-bordered-shadow: none;
+  --button-bordered-hover-bg: var(--label);
+  --button-bordered-hover-text: var(--background);
 }
 
 .dark[data-platform="web"],

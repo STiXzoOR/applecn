@@ -16,9 +16,40 @@ export interface Bezel {
   readonly shadow: string
 }
 
+/**
+ * The button bezel per style. `filled`, `gray` and `bordered` are the three styles whose
+ * paint used to differ by platform variant; `tinted`, `plain`, `glass`, `destructive` and
+ * `link` are identical on every idiom and stay plain Tailwind classes.
+ */
+export interface ButtonTokens {
+  /** Label weight: semibold on iOS, normal on macOS and the web. */
+  readonly fontWeight: string
+  /** Press-down scale factor: iOS scales down, macOS and the web hold still. */
+  readonly activeScale: string
+  readonly filled: {
+    readonly shadow: string
+    readonly hoverBg: string
+  }
+  readonly gray: {
+    readonly bg: string
+    readonly text: string
+    readonly shadow: string
+    readonly hoverBg: string
+  }
+  readonly bordered: {
+    readonly bg: string
+    readonly text: string
+    readonly border: string
+    readonly shadow: string
+    readonly hoverBg: string
+    readonly hoverText: string
+  }
+}
+
 export interface ComponentTokens {
   readonly checkbox: Bezel
   readonly radio: Bezel
+  readonly button: ButtonTokens
 }
 
 const iosBezel: Bezel = {
@@ -42,10 +73,82 @@ const webBezel: Bezel = {
   shadow: "none",
 }
 
+// Measured 2026-09-06/07: iOS presses with a 0.97 scale and stays semibold; macOS and the
+// web hold still on press and set their labels to normal weight (docs/research/apple-design-
+// system-reference.md §buttons).
+const iosButton: ButtonTokens = {
+  fontWeight: "600",
+  activeScale: "0.97",
+  filled: {
+    shadow: "none",
+    hoverBg: "color-mix(in srgb, var(--primary), black 8%)",
+  },
+  gray: {
+    bg: "var(--fill-3)",
+    text: "var(--primary)",
+    shadow: "none",
+    hoverBg: "var(--fill-2)",
+  },
+  bordered: {
+    bg: "transparent",
+    text: "var(--primary)",
+    border: "var(--border)",
+    shadow: "none",
+    hoverBg: "var(--fill-4)",
+    hoverText: "var(--primary)",
+  },
+}
+
+const macosButton: ButtonTokens = {
+  fontWeight: "400",
+  activeScale: "1",
+  filled: {
+    shadow: "var(--elevation-control)",
+    hoverBg: "color-mix(in srgb, var(--primary), black 8%)",
+  },
+  gray: {
+    bg: "var(--background-3)",
+    text: "var(--label)",
+    shadow: "var(--elevation-control)",
+    hoverBg: "var(--background-3)",
+  },
+  bordered: {
+    bg: "var(--background-3)",
+    text: "var(--label)",
+    border: "transparent",
+    shadow: "var(--elevation-control)",
+    hoverBg: "var(--fill-4)",
+    hoverText: "var(--label)",
+  },
+}
+
+const webButton: ButtonTokens = {
+  fontWeight: "400",
+  activeScale: "1",
+  filled: {
+    shadow: "none",
+    hoverBg: "color-mix(in srgb, var(--primary), white 6%)",
+  },
+  gray: {
+    bg: "var(--fill-3)",
+    text: "var(--label)",
+    shadow: "none",
+    hoverBg: "var(--fill-2)",
+  },
+  bordered: {
+    bg: "transparent",
+    text: "var(--label)",
+    border: "var(--label)",
+    shadow: "none",
+    hoverBg: "var(--label)",
+    hoverText: "var(--background)",
+  },
+}
+
 export const componentTokens: Record<Platform, ComponentTokens> = {
-  ios: { checkbox: iosBezel, radio: iosBezel },
-  macos: { checkbox: macosBezel, radio: macosBezel },
-  web: { checkbox: webBezel, radio: webBezel },
+  ios: { checkbox: iosBezel, radio: iosBezel, button: iosButton },
+  macos: { checkbox: macosBezel, radio: macosBezel, button: macosButton },
+  web: { checkbox: webBezel, radio: webBezel, button: webButton },
 }
 
 type Line = readonly [string, string]
@@ -57,11 +160,29 @@ const bezelLines = (name: string, b: Bezel): Line[] => [
   [`${name}-shadow`, b.shadow],
 ]
 
+const buttonLines = (b: ButtonTokens): Line[] => [
+  ["button-font-weight", b.fontWeight],
+  ["button-active-scale", b.activeScale],
+  ["button-filled-shadow", b.filled.shadow],
+  ["button-filled-hover-bg", b.filled.hoverBg],
+  ["button-gray-bg", b.gray.bg],
+  ["button-gray-text", b.gray.text],
+  ["button-gray-shadow", b.gray.shadow],
+  ["button-gray-hover-bg", b.gray.hoverBg],
+  ["button-bordered-bg", b.bordered.bg],
+  ["button-bordered-text", b.bordered.text],
+  ["button-bordered-border", b.bordered.border],
+  ["button-bordered-shadow", b.bordered.shadow],
+  ["button-bordered-hover-bg", b.bordered.hoverBg],
+  ["button-bordered-hover-text", b.bordered.hoverText],
+]
+
 /** Every component appearance token for one idiom, as CSS variable lines. */
 export function componentLines(platform: Platform): Line[] {
   const t = componentTokens[platform]
   return [
     ...bezelLines("checkbox", t.checkbox),
     ...bezelLines("radio", t.radio),
+    ...buttonLines(t.button),
   ]
 }

@@ -15,16 +15,16 @@ import { cn } from "../lib/utils"
  * disabled.
  */
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center gap-1.5 border border-transparent bg-clip-padding leading-none font-semibold whitespace-nowrap transition-[background-color,transform,opacity,box-shadow,color] duration-(--duration-press) ease-(--ease-standard) outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 active:scale-[0.97] active:opacity-80 disabled:pointer-events-none disabled:opacity-40 aria-invalid:ring-3 aria-invalid:ring-destructive/30 motion-reduce:active:scale-100 macos:font-normal macos:active:scale-100 web:font-normal web:active:scale-100 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "group/button inline-flex shrink-0 items-center justify-center gap-1.5 border border-transparent bg-clip-padding leading-none font-(--button-font-weight) whitespace-nowrap transition-[background-color,transform,opacity,box-shadow,color] duration-(--duration-press) ease-(--ease-standard) outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 active:scale-(--button-active-scale) active:opacity-80 disabled:pointer-events-none disabled:opacity-40 aria-invalid:ring-3 aria-invalid:ring-destructive/30 motion-reduce:active:scale-100 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         filled:
-          "bg-primary text-primary-foreground hover:bg-[color-mix(in_srgb,var(--primary),black_8%)] macos:shadow-control web:hover:bg-[color-mix(in_srgb,var(--primary),white_6%)]",
+          "bg-primary text-primary-foreground shadow-(--button-filled-shadow) hover:bg-(--button-filled-hover-bg)",
         tinted: "bg-primary/15 text-primary hover:bg-primary/20",
-        gray: "bg-fill-3 text-primary hover:bg-fill-2 macos:bg-background-3 macos:text-label macos:shadow-control macos:hover:bg-background-3 web:text-label web:hover:bg-fill-2",
+        gray: "bg-(--button-gray-bg) text-(--button-gray-text) shadow-(--button-gray-shadow) hover:bg-(--button-gray-hover-bg)",
         bordered:
-          "border-border bg-transparent text-primary hover:bg-fill-4 macos:border-transparent macos:bg-background-3 macos:text-label macos:shadow-control web:border-label web:text-label web:hover:bg-label web:hover:text-background",
+          "border-(--button-bordered-border) bg-(--button-bordered-bg) text-(--button-bordered-text) shadow-(--button-bordered-shadow) hover:bg-(--button-bordered-hover-bg) hover:text-(--button-bordered-hover-text)",
         plain: "bg-transparent text-primary hover:bg-fill-4",
         glass: "glass text-foreground",
         "glass-prominent": "glass-prominent",

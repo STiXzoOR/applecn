@@ -18,23 +18,20 @@ describe("Button", () => {
     expect(b.className).toContain("rounded-(--control-radius-regular)")
     expect(b.className).toContain("px-(--control-padding-x-regular)")
     expect(b.className).toContain("text-[length:var(--control-font-regular)]")
-    expect(b.className).toContain("font-semibold")
-    expect(b.className).toContain("macos:font-normal")
-    expect(b.className).toContain("web:font-normal")
+    expect(b.className).toContain("font-(--button-font-weight)")
   })
 
   test("the gray style is the macOS push-button bezel and apple.com's neutral pill", () => {
     const gray = buttonVariants({ variant: "gray" })
-    expect(gray).toContain("bg-fill-3")
-    expect(gray).toContain("macos:bg-background-3")
-    expect(gray).toContain("macos:shadow-control")
-    expect(gray).toContain("web:text-label")
+    expect(gray).toContain("bg-(--button-gray-bg)")
+    expect(gray).toContain("text-(--button-gray-text)")
+    expect(gray).toContain("shadow-(--button-gray-shadow)")
   })
 
   test.each([
     ["tinted", "bg-primary/15"],
-    ["gray", "bg-fill-3"],
-    ["bordered", "border-border"],
+    ["gray", "bg-(--button-gray-bg)"],
+    ["bordered", "border-(--button-bordered-border)"],
     ["plain", "text-primary"],
     ["glass", "glass"],
     ["glass-prominent", "glass-prominent"],
@@ -92,4 +89,29 @@ describe("Button", () => {
     expect(b).toBeDisabled()
     expect(b.className).toContain("disabled:opacity-40")
   })
+})
+
+describe("Button is idiom-agnostic", () => {
+  test("carries no platform variant; the idiom supplies the values", () => {
+    render(<Button variant="bordered">Tokens</Button>)
+    const b = screen.getByRole("button", { name: "Tokens" })
+    expect(b.className).not.toMatch(/(^|\s)(ios|macos|web):/)
+    expect(b.className).toContain("font-(--button-font-weight)")
+    expect(b.className).toContain("active:scale-(--button-active-scale)")
+    expect(b.className).toContain("border-(--button-bordered-border)")
+    expect(b.className).toContain("bg-(--button-bordered-bg)")
+    expect(b.className).toContain("text-(--button-bordered-text)")
+    expect(b.className).toContain("shadow-(--button-bordered-shadow)")
+    expect(b.className).toContain("hover:bg-(--button-bordered-hover-bg)")
+    expect(b.className).toContain("hover:text-(--button-bordered-hover-text)")
+  })
+
+  test.each(["filled", "gray"] as const)(
+    "%s carries no platform variant either",
+    (variant) => {
+      render(<Button variant={variant}>Tokens</Button>)
+      const b = screen.getByRole("button", { name: "Tokens" })
+      expect(b.className).not.toMatch(/(^|\s)(ios|macos|web):/)
+    }
+  )
 })
