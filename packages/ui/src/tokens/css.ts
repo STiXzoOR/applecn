@@ -14,6 +14,7 @@ import {
   type PlatformColors,
   type Rgba,
 } from "./colors.ts"
+import { componentLines } from "./components.ts"
 import { elevation, type AdaptiveShadow } from "./elevation.ts"
 import { materials } from "./materials.ts"
 import {
@@ -521,6 +522,7 @@ export function renderTokensCss(): string {
         ...platformColorLines(colors, "light"),
         ...semanticAliases("light"),
         ...platformLines(platform),
+        ...componentLines(platform),
       ])
     )
     if (platform === "ios")
@@ -559,6 +561,7 @@ export function tokenPlatformCss(): Record<string, unknown> {
       ...platformColorLines(colors, "light"),
       ...semanticAliases("light"),
       ...platformLines(platform),
+      ...componentLines(platform),
     ])
     out[darkPlatformSelector(platform).replace(",\n", ", ")] = declarations([
       ...platformColorLines(colors, "dark"),

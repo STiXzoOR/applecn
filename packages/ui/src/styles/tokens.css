@@ -872,6 +872,14 @@
   --window-title-bar: 0px;
   --window-radius: 0px;
   --window-traffic-light: 0px;
+  --checkbox-bg: transparent;
+  --checkbox-border: var(--gray-3);
+  --checkbox-border-width: 1.5px;
+  --checkbox-shadow: none;
+  --radio-bg: transparent;
+  --radio-border: var(--gray-3);
+  --radio-border-width: 1.5px;
+  --radio-shadow: none;
 }
 
 @media (width >= 414px) {
@@ -1158,6 +1166,14 @@
   --window-title-bar: 32px;
   --window-radius: 16px;
   --window-traffic-light: 14px;
+  --checkbox-bg: var(--background-3);
+  --checkbox-border: var(--label-3);
+  --checkbox-border-width: 1px;
+  --checkbox-shadow: var(--elevation-control);
+  --radio-bg: var(--background-3);
+  --radio-border: var(--label-3);
+  --radio-border-width: 1px;
+  --radio-shadow: var(--elevation-control);
 }
 
 .dark[data-platform="macos"],
@@ -1438,6 +1454,14 @@
   --window-title-bar: 0px;
   --window-radius: 0px;
   --window-traffic-light: 0px;
+  --checkbox-bg: var(--background-3);
+  --checkbox-border: var(--label-4);
+  --checkbox-border-width: 1px;
+  --checkbox-shadow: none;
+  --radio-bg: var(--background-3);
+  --radio-border: var(--label-4);
+  --radio-border-width: 1px;
+  --radio-shadow: none;
 }
 
 .dark[data-platform="web"],
