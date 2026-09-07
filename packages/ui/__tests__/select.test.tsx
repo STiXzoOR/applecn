@@ -48,7 +48,9 @@ describe("Select (menu picker)", () => {
     expect(selectTriggerVariants({ variant: "plain" })).toContain(
       "text-primary"
     )
-    expect(selectTriggerVariants({ variant: "popup" })).toContain("bg-fill-3")
+    expect(selectTriggerVariants({ variant: "popup" })).toContain(
+      "bg-(--select-popup-bg)"
+    )
     expect(selectTriggerVariants({ variant: "popup" })).toContain(
       "h-(--control-height-regular)"
     )
@@ -56,7 +58,16 @@ describe("Select (menu picker)", () => {
       "rounded-control"
     )
     expect(selectTriggerVariants({ variant: "popup" })).toContain(
-      "macos:bg-background-3"
+      "shadow-(--select-popup-shadow)"
+    )
+    expect(selectTriggerVariants({ variant: "popup" })).toContain(
+      "hover:bg-(--select-popup-hover-bg)"
+    )
+    expect(selectTriggerVariants({ variant: "popup" })).toContain(
+      "border-(length:--select-popup-border-width)"
+    )
+    expect(selectTriggerVariants({ variant: "popup" })).toContain(
+      "border-(--select-popup-border-color)"
     )
     render(<Fruit />)
     expect(
@@ -64,5 +75,26 @@ describe("Select (menu picker)", () => {
         .getByRole("combobox")
         .querySelector('[data-slot="select-trigger-icon"]')
     ).not.toBeNull()
+  })
+})
+
+describe("Select is idiom-agnostic", () => {
+  test("carries no platform variant; the idiom supplies the values", async () => {
+    expect(selectTriggerVariants({ variant: "popup" })).not.toMatch(
+      /(^|\s)(ios|macos|web):/
+    )
+    render(<Fruit />)
+    const trigger = screen.getByRole("combobox", { name: "Fruit" })
+    await userEvent.click(trigger)
+    const listbox = await screen.findByRole("listbox")
+    expect(listbox.className).not.toMatch(/(^|\s)(ios|macos|web):/)
+    const pear = screen.getByRole("option", { name: "Pear" })
+    expect(pear.className).not.toMatch(/(^|\s)(ios|macos|web):/)
+    expect(pear.className).toContain(
+      "data-highlighted:bg-(--select-item-highlight-bg)"
+    )
+    expect(pear.className).toContain(
+      "data-highlighted:text-(--select-item-highlight-text)"
+    )
   })
 })

@@ -240,3 +240,46 @@ describe("menu appearance tokens", () => {
     expect(lines).toContainEqual(["menu-separator-bg", "var(--separator)"])
   })
 })
+
+describe("select appearance tokens", () => {
+  test("the popup trigger: macOS reads background-3 with a control shadow; the web adds a label-4 hairline iOS and macOS don't have", () => {
+    expect(componentTokens.ios.select.popup.bg).toBe("var(--fill-3)")
+    expect(componentTokens.macos.select.popup.bg).toBe("var(--background-3)")
+    expect(componentTokens.web.select.popup.bg).toBe("var(--background-3)")
+    expect(componentTokens.macos.select.popup.shadow).toBe(
+      "var(--elevation-control)"
+    )
+    expect(componentTokens.web.select.popup.shadow).toBe("none")
+    expect(componentTokens.ios.select.popup.borderWidth).toBe(0)
+    expect(componentTokens.web.select.popup.borderWidth).toBe(1)
+    expect(componentTokens.web.select.popup.borderColor).toBe("var(--label-4)")
+  })
+
+  test("the trigger's hover tint matches macOS's resting bezel; iOS and the web share fill-2", () => {
+    expect(componentTokens.macos.select.popup.hoverBg).toBe(
+      "var(--background-3)"
+    )
+    expect(componentTokens.ios.select.popup.hoverBg).toBe("var(--fill-2)")
+    expect(componentTokens.web.select.popup.hoverBg).toBe("var(--fill-2)")
+  })
+
+  test("macOS highlights options with the system selection colour and white text, like Menu", () => {
+    expect(componentTokens.macos.select.item.highlightBg).toBe(
+      "var(--selection)"
+    )
+    expect(componentTokens.macos.select.item.highlightText).toBe("white")
+    expect(componentTokens.ios.select.item.highlightBg).toBe("var(--fill-3)")
+    expect(componentTokens.ios.select.item.highlightText).toBe("var(--label)")
+  })
+
+  test("emits kebab-case CSS variable lines", () => {
+    const lines = componentLines("web")
+    expect(lines).toContainEqual(["select-popup-bg", "var(--background-3)"])
+    expect(lines).toContainEqual(["select-popup-border-width", "1px"])
+    expect(lines).toContainEqual([
+      "select-popup-border-color",
+      "var(--label-4)",
+    ])
+    expect(lines).toContainEqual(["select-item-highlight-bg", "var(--fill-3)"])
+  })
+})

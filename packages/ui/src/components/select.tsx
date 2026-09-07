@@ -49,7 +49,7 @@ const selectTriggerVariants = cva(
       variant: {
         plain: "rounded-md px-1 text-primary hover:opacity-70",
         popup:
-          "h-(--control-height-regular) rounded-control bg-fill-3 ps-(--control-padding-x-regular) pe-2 text-label hover:bg-fill-2 macos:bg-background-3 macos:shadow-control macos:hover:bg-background-3 web:border web:border-label-4 web:bg-background-3",
+          "h-(--control-height-regular) rounded-control border-(length:--select-popup-border-width) border-(--select-popup-border-color) bg-(--select-popup-bg) ps-(--control-padding-x-regular) pe-2 text-label shadow-(--select-popup-shadow) hover:bg-(--select-popup-hover-bg)",
       },
     },
     defaultVariants: {
@@ -152,7 +152,7 @@ function SelectItem({
     <SelectPrimitive.Item
       data-slot="select-item"
       className={cn(
-        "relative flex h-(--menu-item-height) w-full cursor-default items-center gap-2 rounded-menu-item ps-2 pe-4 text-[length:var(--menu-font)] text-label outline-hidden select-none data-highlighted:bg-fill-3 data-disabled:pointer-events-none data-disabled:opacity-40 macos:data-highlighted:bg-selection macos:data-highlighted:text-white [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "relative flex h-(--menu-item-height) w-full cursor-default items-center gap-2 rounded-menu-item ps-2 pe-4 text-[length:var(--menu-font)] text-label outline-hidden select-none data-highlighted:bg-(--select-item-highlight-bg) data-highlighted:text-(--select-item-highlight-text) data-disabled:pointer-events-none data-disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className
       )}
       {...props}

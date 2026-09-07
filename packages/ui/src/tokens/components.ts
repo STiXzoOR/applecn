@@ -101,12 +101,31 @@ export interface MenuTokens {
   }
 }
 
+/**
+ * The pop-up button (`variant="popup"`) and its listbox rows. iOS and macOS have no border at
+ * all on the trigger; only the web adds one, so `popup.borderWidth` is 0 off the web.
+ */
+export interface SelectTokens {
+  readonly popup: {
+    readonly bg: string
+    readonly shadow: string
+    readonly hoverBg: string
+    readonly borderWidth: number
+    readonly borderColor: string
+  }
+  readonly item: {
+    readonly highlightBg: string
+    readonly highlightText: string
+  }
+}
+
 export interface ComponentTokens {
   readonly checkbox: Bezel
   readonly radio: Bezel
   readonly button: ButtonTokens
   readonly alertDialog: AlertDialogTokens
   readonly menu: MenuTokens
+  readonly select: SelectTokens
 }
 
 const iosBezel: Bezel = {
@@ -317,6 +336,52 @@ const macosMenu: MenuTokens = {
 
 const webMenu: MenuTokens = iosMenu
 
+// Measured 2026-09-07: the pop-up button has no border at all on iOS or macOS — only the web
+// adds a label-4 hairline, since apple.com's controls sit on a plain background instead of a
+// grouped list (docs/research/apple-design-system-reference.md §pickers). Its listbox rows
+// highlight the same way `menu` does.
+const iosSelect: SelectTokens = {
+  popup: {
+    bg: "var(--fill-3)",
+    shadow: "none",
+    hoverBg: "var(--fill-2)",
+    borderWidth: 0,
+    borderColor: "transparent",
+  },
+  item: {
+    highlightBg: "var(--fill-3)",
+    highlightText: "var(--label)",
+  },
+}
+
+const macosSelect: SelectTokens = {
+  popup: {
+    bg: "var(--background-3)",
+    shadow: "var(--elevation-control)",
+    hoverBg: "var(--background-3)",
+    borderWidth: 0,
+    borderColor: "transparent",
+  },
+  item: {
+    highlightBg: "var(--selection)",
+    highlightText: "white",
+  },
+}
+
+const webSelect: SelectTokens = {
+  popup: {
+    bg: "var(--background-3)",
+    shadow: "none",
+    hoverBg: "var(--fill-2)",
+    borderWidth: 1,
+    borderColor: "var(--label-4)",
+  },
+  item: {
+    highlightBg: "var(--fill-3)",
+    highlightText: "var(--label)",
+  },
+}
+
 export const componentTokens: Record<Platform, ComponentTokens> = {
   ios: {
     checkbox: iosBezel,
@@ -324,6 +389,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     button: iosButton,
     alertDialog: iosAlertDialog,
     menu: iosMenu,
+    select: iosSelect,
   },
   macos: {
     checkbox: macosBezel,
@@ -331,6 +397,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     button: macosButton,
     alertDialog: macosAlertDialog,
     menu: macosMenu,
+    select: macosSelect,
   },
   web: {
     checkbox: webBezel,
@@ -338,6 +405,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     button: webButton,
     alertDialog: webAlertDialog,
     menu: webMenu,
+    select: webSelect,
   },
 }
 
@@ -403,6 +471,16 @@ const menuLines = (m: MenuTokens): Line[] => [
   ["menu-separator-bg", m.separator.bg],
 ]
 
+const selectLines = (s: SelectTokens): Line[] => [
+  ["select-popup-bg", s.popup.bg],
+  ["select-popup-shadow", s.popup.shadow],
+  ["select-popup-hover-bg", s.popup.hoverBg],
+  ["select-popup-border-width", `${s.popup.borderWidth}px`],
+  ["select-popup-border-color", s.popup.borderColor],
+  ["select-item-highlight-bg", s.item.highlightBg],
+  ["select-item-highlight-text", s.item.highlightText],
+]
+
 /** Every component appearance token for one idiom, as CSS variable lines. */
 export function componentLines(platform: Platform): Line[] {
   const t = componentTokens[platform]
@@ -412,5 +490,6 @@ export function componentLines(platform: Platform): Line[] {
     ...buttonLines(t.button),
     ...alertDialogLines(t.alertDialog),
     ...menuLines(t.menu),
+    ...selectLines(t.select),
   ]
 }
