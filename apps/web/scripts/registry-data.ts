@@ -229,10 +229,10 @@ function baseLayer(css: string): Record<string, unknown> {
 
 /**
  * Extracts the four `--font-*` declarations from `@theme inline` (the concrete Apple font
- * stacks) as a flat `cssVars` map. The rest of `@theme inline` stays internal — a project's
- * own `shadcn init` scaffold already maps `--font-sans` and friends onto whatever plain
- * custom property carries the same name, so shipping the value here (not the mapping) is
- * enough for it to reach a real font stack instead of Tailwind's default.
+ * stacks) as a flat `cssVars` map. Shipped separately from `themeInlineVars()` below: a
+ * project's own `shadcn init` scaffold already maps `--font-sans` and friends onto whatever
+ * plain custom property carries the same name, so shipping the value here (not the mapping)
+ * is enough for it to reach a real font stack instead of Tailwind's default.
  */
 function fontVars(css: string): Record<string, string> {
   const result: Record<string, string> = {}
@@ -240,6 +240,83 @@ function fontVars(css: string): Record<string, string> {
   let match: RegExpExecArray | null
   while ((match = pattern.exec(css)))
     result[`font-${match[1]}`] = match[2]!.replace(/\s+/g, " ").trim()
+  return result
+}
+
+/**
+ * Parses the `@theme inline { … }` block's flat declarations (`--color-*`, `--radius-*`,
+ * `--shadow-*`, `--ease-*` — everything except `--font-*`, which `fontVars()` already ships
+ * as a concrete value) into a flat, bare-name `cssVars.theme` map, exactly like `theme()`
+ * does for the plain `@theme { … }` block above.
+ *
+ * Follow-up to task 11 ("New finding, out of scope, not fixed"): this block was excluded on
+ * the theory that it was Tailwind-namespace *mapping* boilerplate a `shadcn init` scaffold
+ * already carries — true for the four fonts, and true for the ~30 entries that just alias
+ * shadcn's own vocabulary (`--color-primary: var(--primary)` etc, where the scaffold's own
+ * default template already maps the same name onto the same plain variable). It is NOT true
+ * for the rest: `--radius-sm: var(--corner-sm)` and friends override a scaffold's own default
+ * `--radius-sm: calc(var(--radius) - 4px)` mapping with Apple's own non-linear corner
+ * derivation, and every Apple-primitive color (`--color-label`, `--color-fill-3`, …) has no
+ * scaffold-boilerplate equivalent at all. A named utility built on any of these 112
+ * registrations (measured: `packages/ui/src/components/*.tsx` uses at least 54 of them by
+ * name — `rounded-list`, `rounded-checkbox`, `shadow-control`, `text-label`, `bg-fill-3`, …)
+ * never generated in a consumer's build, because Tailwind never learned the name existed —
+ * even though the underlying value was already shipped as a plain `:root` variable.
+ *
+ * Shipping the whole 112, not just the ~54 currently used, is deliberate: this is the design
+ * system's public token vocabulary, and a missing registration is an invisible fidelity
+ * regression the moment a later component (or a consumer's own code) reaches for it, while an
+ * unused one is just an unused entry in `@theme inline` — no rendering cost, no value change.
+ */
+function themeInlineVars(css: string): Record<string, string> {
+  const match = /@theme inline\s*\{/.exec(css)
+  if (!match) return {}
+  const start = match.index + match[0].length
+  let depth = 1
+  let end = start
+  while (depth > 0 && end < css.length) {
+    if (css[end] === "{") depth++
+    if (css[end] === "}") depth--
+    end++
+  }
+  const body = css.slice(start, end - 1).replace(/\/\*[\s\S]*?\*\//g, "")
+  const declarations = parseBlock(body)
+  const result: Record<string, string> = {}
+  for (const [name, value] of Object.entries(declarations)) {
+    // Nested blocks (the `@keyframes progress-indeterminate` animation) aren't declarations;
+    // `themeInlineKeyframes()` ships those.
+    if (typeof value !== "string") continue
+    if (name.startsWith("--font-")) continue
+    result[name.replace(/^--/, "")] = value
+  }
+  return result
+}
+
+/**
+ * Extracts the `@keyframes` rules nested inside `@theme inline` (currently just
+ * `progress-indeterminate`, which `progress.tsx`'s indeterminate bar plays via
+ * `animate-[progress-indeterminate_1.5s_ease-in-out_infinite]`) into the nested object shape
+ * the `css` field takes. An arbitrary-value `animate-[…]` utility needs no theme registration
+ * to generate its `animation:` declaration, but the browser still needs the named `@keyframes`
+ * rule itself to animate anything — and, like the rest of `@theme inline`, it never shipped.
+ */
+function themeInlineKeyframes(css: string): Record<string, unknown> {
+  const match = /@theme inline\s*\{/.exec(css)
+  if (!match) return {}
+  const start = match.index + match[0].length
+  let depth = 1
+  let end = start
+  while (depth > 0 && end < css.length) {
+    if (css[end] === "{") depth++
+    if (css[end] === "}") depth--
+    end++
+  }
+  const body = css.slice(start, end - 1).replace(/\/\*[\s\S]*?\*\//g, "")
+  const declarations = parseBlock(body)
+  const result: Record<string, unknown> = {}
+  for (const [name, value] of Object.entries(declarations))
+    if (typeof value !== "string" && name.startsWith("@keyframes "))
+      result[name] = value
   return result
 }
 
@@ -375,11 +452,12 @@ export function buildRegistry(): Registry {
     cssVars: {
       light: { ...tokenVars("light"), ...fontVars(globalsCss) },
       dark: tokenVars("dark"),
-      theme: theme(globalsCss),
+      theme: { ...theme(globalsCss), ...themeInlineVars(globalsCss) },
     },
     css: {
       ...utilities(globalsCss),
       ...baseLayer(globalsCss),
+      ...themeInlineKeyframes(globalsCss),
     },
   }
 

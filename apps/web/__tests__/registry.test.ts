@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs"
+import { existsSync, readdirSync, readFileSync } from "node:fs"
 import { join } from "node:path"
 
 import { describe, expect, test } from "vitest"
@@ -349,5 +349,206 @@ describe("the shared base layer reaches every idiom", () => {
         if (!defined.has(ref)) problems.push(`${item.name} references ${ref}`)
     }
     expect(problems).toEqual([])
+  })
+})
+
+/**
+ * Task 11's "New finding" (theme-inline-report.md): `globals.css`'s `@theme inline` block
+ * registers 116 Tailwind theme names (69 `--color-*`, 24 `--radius-*`, 11 `--shadow-*`, 8
+ * `--ease-*`, 4 `--font-*`), but only the four `--font-*` values ever reached a consumer
+ * (via `fontVars()`, as a concrete `cssVars.light` value, because a `shadcn init` scaffold's
+ * own boilerplate already carries the generic `--font-sans: var(--font-sans)` mapping). The
+ * other 112 registrations are absent from every published item, so a named utility built on
+ * one of them (`rounded-list`, `shadow-control`, `text-label`, …) never generates a rule in a
+ * consumer's build — Tailwind never learns the name exists — even though the underlying
+ * `--list-radius`/`--elevation-control`/`--label` value is right there in `base.cssVars`.
+ *
+ * This derives, empirically from the component sources (not from reading `globals.css`), the
+ * exact set of named utilities `packages/ui/src/components/*.tsx` relies on, and asserts each
+ * one is reachable from `base` — the item every idiom (`ios`/`macos`/`web`/`apple`) depends on.
+ */
+describe("named Tailwind utilities the components use are shipped, not just declared", () => {
+  const items = buildRegistry().items
+  const base = items.find((i) => i.name === "base")!
+
+  const uiPackage = join(process.cwd(), "../../packages/ui")
+  const componentDir = join(uiPackage, "src/components")
+  const componentSource = readdirSync(componentDir)
+    .filter((f) => f.endsWith(".tsx"))
+    .map((f) => readFileSync(join(componentDir, f), "utf8"))
+    .join("\n")
+  const globalsCss = readFileSync(
+    join(uiPackage, "src/styles/globals.css"),
+    "utf8"
+  )
+
+  /** Brace-matches the first block opened by `marker` and returns its body. */
+  function blockBody(css: string, marker: RegExp): string {
+    const match = marker.exec(css)
+    if (!match) return ""
+    const start = match.index + match[0].length
+    let depth = 1
+    let end = start
+    while (depth > 0 && end < css.length) {
+      if (css[end] === "{") depth++
+      if (css[end] === "}") depth--
+      end++
+    }
+    return css.slice(start, end - 1)
+  }
+
+  /**
+   * Every bare-name flat `--name: value;` declaration directly in `body` (not inside a
+   * nested block like `@keyframes progress-indeterminate`, which isn't a theme registration).
+   */
+  function flatDeclarationNames(body: string): string[] {
+    const names: string[] = []
+    let i = 0
+    while (i < body.length) {
+      const rest = body.slice(i)
+      const leading = rest.match(/^\s+/)
+      if (leading) {
+        i += leading[0].length
+        continue
+      }
+      if (rest.startsWith("/*")) {
+        const close = rest.indexOf("*/")
+        i += close === -1 ? rest.length : close + 2
+        continue
+      }
+      const open = rest.indexOf("{")
+      const semi = rest.indexOf(";")
+      if (open !== -1 && (semi === -1 || open < semi)) {
+        let depth = 1
+        let j = open + 1
+        while (depth > 0 && j < rest.length) {
+          if (rest[j] === "{") depth++
+          if (rest[j] === "}") depth--
+          j++
+        }
+        i += j
+      } else if (semi !== -1) {
+        const colon = rest.slice(0, semi).indexOf(":")
+        if (colon !== -1) {
+          const name = rest.slice(0, colon).trim()
+          if (name.startsWith("--")) names.push(name.replace(/^--/, ""))
+        }
+        i += semi + 1
+      } else break
+    }
+    return names
+  }
+
+  const declaredNames = flatDeclarationNames(
+    blockBody(globalsCss, /@theme inline\s*\{/)
+  )
+
+  function escapeRegex(s: string): string {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+  }
+
+  /**
+   * True if `candidate` occurs in `text` as a standalone Tailwind class token: preceded by
+   * start-of-string, whitespace, a quote, or a variant-chaining `:`, and followed by
+   * end-of-string, whitespace, a quote, or an opacity-modifier `/`. This is what tells a
+   * plain named utility (`rounded-checkbox`) apart from a longer sibling (`text-label-2`
+   * when searching for `text-label`) and from `var(--x)`/Tailwind's `(--x)` arbitrary-value
+   * shorthand (there the preceding character is `-`, never in the allowed boundary set).
+   */
+  function usesNamedUtility(text: string, candidate: string): boolean {
+    return new RegExp(
+      `(?<=^|[\\s"'\`:])${escapeRegex(candidate)}(?=$|[\\s"'\`/])`
+    ).test(text)
+  }
+
+  const UTILITY_PREFIXES: Readonly<Record<string, readonly string[]>> = {
+    color: [
+      "bg",
+      "text",
+      "border",
+      "border-t",
+      "border-r",
+      "border-b",
+      "border-l",
+      "border-x",
+      "border-y",
+      "ring",
+      "ring-offset",
+      "outline",
+      "decoration",
+      "divide",
+      "accent",
+      "caret",
+      "fill",
+      "stroke",
+      "from",
+      "via",
+      "to",
+      "placeholder",
+      "shadow",
+    ],
+    radius: [
+      "rounded",
+      "rounded-t",
+      "rounded-r",
+      "rounded-b",
+      "rounded-l",
+      "rounded-tl",
+      "rounded-tr",
+      "rounded-br",
+      "rounded-bl",
+      "rounded-s",
+      "rounded-e",
+    ],
+    shadow: ["shadow"],
+    ease: ["ease"],
+    font: ["font"],
+  }
+
+  const usedNames = declaredNames.filter((name) => {
+    const match = /^(color|radius|shadow|ease|font)-(.+)$/.exec(name)
+    if (!match) return false
+    const prefixes = UTILITY_PREFIXES[match[1]!] ?? []
+    return prefixes.some((prefix) =>
+      usesNamedUtility(componentSource, `${prefix}-${match[2]}`)
+    )
+  })
+
+  test("the enumeration itself finds the utilities already known (from manual inspection) to be in use", () => {
+    // A sanity check on the empirical method above, not on the production code: if this
+    // fails, the enumeration is broken, not the registry.
+    expect(usedNames).toEqual(
+      expect.arrayContaining([
+        "color-label",
+        "color-fill-3",
+        "color-primary",
+        "radius-list",
+        "radius-checkbox",
+        "radius-alert",
+        "radius-dialog",
+        "radius-sheet",
+        "radius-segmented",
+        "radius-menu",
+        "radius-control",
+        "shadow-control",
+        "shadow-dialog",
+        "shadow-glass",
+      ])
+    )
+  })
+
+  test.each(usedNames)(
+    "--%s is reachable from base's cssVars (theme, or a concrete value for --font-*)",
+    (name) => {
+      const shipped = name.startsWith("font-")
+        ? base.cssVars?.light?.[name]
+        : base.cssVars?.theme?.[name]
+      expect(shipped).toBeTruthy()
+    }
+  )
+
+  test("progress.tsx's animate-[progress-indeterminate_…] arbitrary value has a matching @keyframes shipped, since the bracket syntax needs no theme registration but still needs the rule to exist", () => {
+    expect(componentSource).toContain("animate-[progress-indeterminate")
+    expect(base.css?.["@keyframes progress-indeterminate"]).toBeTruthy()
   })
 })
