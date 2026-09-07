@@ -17,3 +17,10 @@ describe("shadcn source conventions", () => {
     }
   )
 })
+
+describe("no platform variants remain", () => {
+  test.each(files)("%s uses tokens, not ios:/macos:/web:", (file) => {
+    const source = readFileSync(join(dir, file), "utf8")
+    expect(source).not.toMatch(/(?<![\w-])(ios|macos|web):/)
+  })
+})
