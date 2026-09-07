@@ -908,7 +908,12 @@
           "--color-well-padding": "0.125rem",
           "--color-well-shadow": "none",
           "--toolbar-control-radius": "calc(infinity * 1px)",
-          "--toolbar-button-icon-size": "1.5rem"
+          "--toolbar-button-icon-size": "1.5rem",
+          "--search-field-bg": "var(--fill-3)",
+          "--search-field-padding-start": "0.75rem",
+          "--search-field-shadow": "none",
+          "--search-field-border-width": "0px",
+          "--search-field-border-color": "transparent"
         },
         ".dark[data-platform=\"ios\"], .dark [data-platform=\"ios\"]": {
           "--label": "rgb(255 255 255)",
@@ -1268,7 +1273,12 @@
           "--color-well-padding": "0.25rem",
           "--color-well-shadow": "var(--elevation-control)",
           "--toolbar-control-radius": "var(--radius-control)",
-          "--toolbar-button-icon-size": "1rem"
+          "--toolbar-button-icon-size": "1rem",
+          "--search-field-bg": "var(--background-3)",
+          "--search-field-padding-start": "0.5rem",
+          "--search-field-shadow": "var(--elevation-control)",
+          "--search-field-border-width": "0px",
+          "--search-field-border-color": "transparent"
         },
         ".dark[data-platform=\"macos\"], .dark [data-platform=\"macos\"]": {
           "--label": "rgb(255 255 255 / 0.85)",
@@ -1628,7 +1638,12 @@
           "--color-well-padding": "0.125rem",
           "--color-well-shadow": "none",
           "--toolbar-control-radius": "var(--radius-control)",
-          "--toolbar-button-icon-size": "1.25rem"
+          "--toolbar-button-icon-size": "1.25rem",
+          "--search-field-bg": "var(--background-3)",
+          "--search-field-padding-start": "0.75rem",
+          "--search-field-shadow": "none",
+          "--search-field-border-width": "1px",
+          "--search-field-border-color": "var(--label-4)"
         },
         ".dark[data-platform=\"web\"], .dark [data-platform=\"web\"]": {
           "--label": "rgb(245 245 247)",

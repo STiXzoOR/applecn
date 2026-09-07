@@ -55,7 +55,7 @@ function SearchField({
     >
       <span
         data-slot="search-field"
-        className="flex h-(--search-field-height) flex-1 items-center gap-1.5 rounded-search bg-fill-3 ps-3 pe-2 text-[length:var(--text-field-font)] text-label transition-[box-shadow] duration-(--duration-hover) focus-within:ring-3 focus-within:ring-ring/50 macos:bg-background-3 macos:ps-2 macos:shadow-control web:border web:border-label-4 web:bg-background-3"
+        className="flex h-(--search-field-height) flex-1 items-center gap-1.5 rounded-search border-(length:--search-field-border-width) border-(--search-field-border-color) bg-(--search-field-bg) ps-(--search-field-padding-start) pe-2 text-[length:var(--text-field-font)] text-label shadow-(--search-field-shadow) transition-[box-shadow] duration-(--duration-hover) focus-within:ring-3 focus-within:ring-ring/50"
       >
         <Icon
           icon={Search01Icon}

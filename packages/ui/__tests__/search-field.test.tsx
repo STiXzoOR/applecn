@@ -12,9 +12,12 @@ describe("SearchField", () => {
     const root = box.closest('[data-slot="search-field"]')!
     expect(root.className).toContain("h-(--search-field-height)")
     expect(root.className).toContain("rounded-search")
-    expect(root.className).toContain("bg-fill-3")
-    expect(root.className).toContain("macos:bg-background-3")
-    expect(root.className).toContain("macos:shadow-control")
+    expect(root.className).toContain("bg-(--search-field-bg)")
+    expect(root.className).toContain("shadow-(--search-field-shadow)")
+    expect(root.className).toContain("ps-(--search-field-padding-start)")
+    expect(root.className).toContain(
+      "border-(length:--search-field-border-width)"
+    )
     expect(root.className).toContain("text-[length:var(--text-field-font)]")
     expect(root.querySelector('[data-slot="search-field-icon"]')).not.toBeNull()
   })

@@ -194,6 +194,18 @@ export interface ToolbarTokens {
   readonly buttonIconSize: string
 }
 
+/**
+ * The search field's shell: the fill-3 capsule on iOS, AppKit's bezel with a tighter leading
+ * inset on macOS, and the web's bordered field with no fill overlap.
+ */
+export interface SearchFieldTokens {
+  readonly bg: string
+  readonly paddingStart: string
+  readonly shadow: string
+  readonly borderWidth: number
+  readonly borderColor: string
+}
+
 export interface ComponentTokens {
   readonly checkbox: Bezel
   readonly radio: Bezel
@@ -205,6 +217,7 @@ export interface ComponentTokens {
   readonly toast: ToastTokens
   readonly colorWell: ColorWellTokens
   readonly toolbar: ToolbarTokens
+  readonly searchField: SearchFieldTokens
 }
 
 const iosBezel: Bezel = {
@@ -598,6 +611,33 @@ const webToolbar: ToolbarTokens = {
   buttonIconSize: "1.25rem",
 }
 
+// Measured 2026-09-07: iOS's fill-3 capsule sits with a 0.75rem leading inset; macOS's bezel
+// tightens that to 0.5rem and carries the control bezel shadow; the web borders the field
+// instead of filling it (docs/research/apple-design-system-reference.md §search fields).
+const iosSearchField: SearchFieldTokens = {
+  bg: "var(--fill-3)",
+  paddingStart: "0.75rem",
+  shadow: "none",
+  borderWidth: 0,
+  borderColor: "transparent",
+}
+
+const macosSearchField: SearchFieldTokens = {
+  bg: "var(--background-3)",
+  paddingStart: "0.5rem",
+  shadow: "var(--elevation-control)",
+  borderWidth: 0,
+  borderColor: "transparent",
+}
+
+const webSearchField: SearchFieldTokens = {
+  bg: "var(--background-3)",
+  paddingStart: "0.75rem",
+  shadow: "none",
+  borderWidth: 1,
+  borderColor: "var(--label-4)",
+}
+
 export const componentTokens: Record<Platform, ComponentTokens> = {
   ios: {
     checkbox: iosBezel,
@@ -610,6 +650,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     toast: iosToast,
     colorWell: iosColorWell,
     toolbar: iosToolbar,
+    searchField: iosSearchField,
   },
   macos: {
     checkbox: macosBezel,
@@ -622,6 +663,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     toast: macosToast,
     colorWell: macosColorWell,
     toolbar: macosToolbar,
+    searchField: macosSearchField,
   },
   web: {
     checkbox: webBezel,
@@ -634,6 +676,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     toast: webToast,
     colorWell: webColorWell,
     toolbar: webToolbar,
+    searchField: webSearchField,
   },
 }
 
@@ -748,6 +791,14 @@ const toolbarLines = (t: ToolbarTokens): Line[] => [
   ["toolbar-button-icon-size", t.buttonIconSize],
 ]
 
+const searchFieldLines = (s: SearchFieldTokens): Line[] => [
+  ["search-field-bg", s.bg],
+  ["search-field-padding-start", s.paddingStart],
+  ["search-field-shadow", s.shadow],
+  ["search-field-border-width", `${s.borderWidth}px`],
+  ["search-field-border-color", s.borderColor],
+]
+
 /** Every component appearance token for one idiom, as CSS variable lines. */
 export function componentLines(platform: Platform): Line[] {
   const t = componentTokens[platform]
@@ -762,5 +813,6 @@ export function componentLines(platform: Platform): Line[] {
     ...toastLines(t.toast),
     ...colorWellLines(t.colorWell),
     ...toolbarLines(t.toolbar),
+    ...searchFieldLines(t.searchField),
   ]
 }

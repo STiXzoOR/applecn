@@ -501,3 +501,35 @@ describe("toolbar appearance tokens", () => {
     expect(lines).toContainEqual(["toolbar-button-icon-size", "1rem"])
   })
 })
+
+describe("search field appearance tokens", () => {
+  test("the fill-3 capsule steps to the AppKit bezel on macOS, a bordered field on the web", () => {
+    expect(componentTokens.ios.searchField.bg).toBe("var(--fill-3)")
+    expect(componentTokens.macos.searchField.bg).toBe("var(--background-3)")
+    expect(componentTokens.web.searchField.bg).toBe("var(--background-3)")
+    expect(componentTokens.macos.searchField.shadow).toBe(
+      "var(--elevation-control)"
+    )
+    expect(componentTokens.ios.searchField.shadow).toBe("none")
+    expect(componentTokens.web.searchField.borderWidth).toBe(1)
+    expect(componentTokens.web.searchField.borderColor).toBe("var(--label-4)")
+    expect(componentTokens.ios.searchField.borderWidth).toBe(0)
+  })
+
+  test("the leading inset tightens from 0.75rem to 0.5rem on macOS", () => {
+    expect(componentTokens.ios.searchField.paddingStart).toBe("0.75rem")
+    expect(componentTokens.macos.searchField.paddingStart).toBe("0.5rem")
+    expect(componentTokens.web.searchField.paddingStart).toBe("0.75rem")
+  })
+
+  test("emits kebab-case CSS variable lines", () => {
+    const lines = componentLines("macos")
+    expect(lines).toContainEqual(["search-field-bg", "var(--background-3)"])
+    expect(lines).toContainEqual(["search-field-padding-start", "0.5rem"])
+    expect(lines).toContainEqual([
+      "search-field-shadow",
+      "var(--elevation-control)",
+    ])
+    expect(lines).toContainEqual(["search-field-border-width", "0px"])
+  })
+})
