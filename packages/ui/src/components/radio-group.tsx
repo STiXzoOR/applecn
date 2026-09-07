@@ -24,7 +24,7 @@ function RadioGroupItem({ className, ...props }: RadioPrimitive.Root.Props) {
     <RadioPrimitive.Root
       data-slot="radio-group-item"
       className={cn(
-        "group/radio-group-item peer relative flex size-(--radio-size) shrink-0 items-center justify-center rounded-full border-[1.5px] border-gray-3 bg-transparent transition-[border-color,background-color] duration-(--duration-press) ease-(--ease-standard) outline-none after:absolute after:-inset-2 focus-visible:ring-4 focus-visible:ring-ring/60 disabled:cursor-not-allowed disabled:opacity-40 aria-invalid:border-destructive data-checked:border-primary data-checked:bg-primary macos:border macos:border-label-3 macos:bg-background-3 macos:shadow-control macos:data-checked:border-primary macos:data-checked:bg-primary web:border web:border-label-4 web:bg-background-3",
+        "group/radio-group-item peer relative flex size-(--radio-size) shrink-0 items-center justify-center rounded-full border-[1.5px] border-gray-3 bg-transparent transition-[border-color,background-color] duration-(--duration-press) ease-(--ease-standard) outline-none after:absolute after:-inset-x-2 after:-inset-y-1.5 focus-visible:ring-4 focus-visible:ring-ring/60 aria-invalid:border-destructive data-checked:border-primary data-checked:bg-primary data-disabled:cursor-not-allowed data-disabled:opacity-40 macos:border macos:shadow-control macos:data-unchecked:border-label-3 macos:data-unchecked:bg-background-3 web:border web:data-unchecked:border-label-4 web:data-unchecked:bg-background-3",
         className
       )}
       {...props}

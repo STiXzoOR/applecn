@@ -76,3 +76,23 @@ describe("landing page", () => {
       expect(link.getAttribute("href")).toMatch(/^\/components\//)
   })
 })
+
+describe("the mosaic on a phone", () => {
+  const roomy = ["Segmented control", "Gauges", "Rating", "Switch"]
+
+  test("gives the demos wider than half a phone the whole row until the grid widens", () => {
+    render(<Mosaic />)
+    for (const title of roomy) {
+      const tile = screen.getByRole("link", { name: new RegExp(title, "i") })
+      expect(tile.closest("li")!.className, title).toContain(
+        "col-span-2 sm:col-span-1"
+      )
+    }
+  })
+
+  test("every tile has an edge at rest, not only under the pointer", () => {
+    render(<Mosaic />)
+    for (const link of screen.getAllByRole("link"))
+      expect(link.className).toContain("shadow-card-small")
+  })
+})

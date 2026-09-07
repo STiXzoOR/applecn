@@ -1,29 +1,164 @@
 "use client"
 
 import { Collapsible as CollapsiblePrimitive } from "@base-ui/react/collapsible"
-import { ArrowDown01Icon } from "@hugeicons/core-free-icons"
+import { ArrowDown01Icon, Menu01Icon } from "@hugeicons/core-free-icons"
 import type { IconSvgElement } from "@hugeicons/react"
 import { cn } from "cn"
-import type { ComponentProps, ReactNode } from "react"
+import {
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+  type ComponentProps,
+  type ReactNode,
+} from "react"
 
+import { Button } from "./button"
 import { Icon } from "./icon"
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTitle,
+  SheetToolbar,
+} from "./sheet"
+
+interface SidebarState {
+  open: boolean
+  setOpen: (open: boolean) => void
+}
+
+const SidebarContext = createContext<SidebarState | null>(null)
+
+/**
+ * Holds the state a collapsible `Sidebar` shares with its `SidebarTrigger`. Wrap the screen —
+ * the trigger usually lives in the navigation bar, far from the sidebar itself.
+ */
+function SidebarProvider({
+  defaultOpen = false,
+  children,
+}: {
+  defaultOpen?: boolean
+  children: ReactNode
+}) {
+  const [open, setOpen] = useState(defaultOpen)
+  const value = useMemo(() => ({ open, setOpen }), [open])
+  return (
+    <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>
+  )
+}
+
+function useSidebar(): SidebarState {
+  const state = useContext(SidebarContext)
+  if (!state)
+    throw new Error("useSidebar must be used inside a <SidebarProvider>.")
+  return state
+}
+
+/** The button that presents a collapsible sidebar; it steps aside once the sidebar fits. */
+function SidebarTrigger({
+  className,
+  ...props
+}: ComponentProps<typeof Button>) {
+  const { setOpen } = useSidebar()
+  return (
+    <Button
+      data-slot="sidebar-trigger"
+      variant="gray"
+      shape="circle"
+      size="small"
+      aria-label="Menu"
+      className={cn("lg:hidden", className)}
+      onClick={() => setOpen(true)}
+      {...props}
+    >
+      <Icon icon={Menu01Icon} />
+    </Button>
+  )
+}
+
+const sidebarClassName =
+  "flex h-full w-(--sidebar-width) shrink-0 flex-col gap-4 overflow-y-auto material-regular p-3 text-label"
+
+type SidebarProps = ComponentProps<"nav"> & {
+  /**
+   * Below `lg` the sidebar steps out of the layout and presents as a sheet instead, opened by
+   * a `SidebarTrigger`. Both need a `SidebarProvider` above them.
+   */
+  collapsible?: boolean
+  /** The sheet's title while the sidebar is presented. */
+  title?: ReactNode
+}
 
 /**
  * Sidebars (HIG › Sidebars): a navigation list on the regular material along the leading edge,
  * with labelled, optionally collapsible groups, tinted symbols and the current item filled.
  * Width, row height, corner and text size follow the platform (320/44/10 on iPad, AppKit's
- * 240/28/6 on macOS 26, Music's 260/34/8 on the web).
+ * 240/28/6 on macOS 26, Music's 260/34/8 on the web). A narrow window has no room for a
+ * standing sidebar, so `collapsible` presents the same rows in a sheet — the sidebar owns
+ * that, callers never rebuild it.
  */
-function Sidebar({ className, ...props }: ComponentProps<"nav">) {
+function Sidebar({
+  className,
+  collapsible = false,
+  title = "Menu",
+  children,
+  ...props
+}: SidebarProps) {
+  if (!collapsible)
+    return (
+      <nav
+        data-slot="sidebar"
+        className={cn(sidebarClassName, className)}
+        {...props}
+      >
+        {children}
+      </nav>
+    )
   return (
-    <nav
-      data-slot="sidebar"
-      className={cn(
-        "flex h-full w-(--sidebar-width) shrink-0 flex-col gap-4 overflow-y-auto material-regular p-3 text-label",
-        className
-      )}
-      {...props}
-    />
+    <CollapsibleSidebar title={title} className={className} {...props}>
+      {children}
+    </CollapsibleSidebar>
+  )
+}
+
+function CollapsibleSidebar({
+  className,
+  title,
+  // The rows are rendered twice, standing and in the sheet; only one may hold the id.
+  id,
+  children,
+  ...props
+}: ComponentProps<"nav"> & { title: ReactNode }) {
+  const { open, setOpen } = useSidebar()
+  return (
+    <>
+      <nav
+        id={id}
+        data-slot="sidebar"
+        className={cn(sidebarClassName, "hidden lg:flex", className)}
+        {...props}
+      >
+        {children}
+      </nav>
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetContent>
+          <SheetToolbar cancel={<SheetClose>Close</SheetClose>}>
+            <SheetTitle>{title}</SheetTitle>
+          </SheetToolbar>
+          <nav
+            data-slot="sidebar"
+            className={cn(
+              sidebarClassName,
+              "h-auto w-full [background-color:transparent] bg-transparent [backdrop-filter:none]"
+            )}
+            {...props}
+          >
+            {children}
+          </nav>
+        </SheetContent>
+      </Sheet>
+    </>
   )
 }
 
@@ -112,11 +247,13 @@ function SidebarGroup({
   )
 }
 
-type SidebarItemProps = ComponentProps<"button"> & {
-  icon?: IconSvgElement
-  href?: string
-  current?: boolean
-}
+type SidebarItemProps = Omit<ComponentProps<"button">, "type"> &
+  Pick<ComponentProps<"a">, "target" | "rel" | "download"> & {
+    icon?: IconSvgElement
+    /** Renders the row as a link rather than a button. */
+    href?: string
+    current?: boolean
+  }
 
 function SidebarItem({
   className,
@@ -149,6 +286,7 @@ function SidebarItem({
         data-slot="sidebar-item"
         aria-current={current ? "page" : undefined}
         className={itemClassName}
+        {...(props as ComponentProps<"a">)}
       >
         {content}
       </a>
@@ -167,5 +305,14 @@ function SidebarItem({
   )
 }
 
-export { Sidebar, SidebarFooter, SidebarGroup, SidebarHeader, SidebarItem }
-export type { SidebarGroupProps, SidebarItemProps }
+export {
+  Sidebar,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarHeader,
+  SidebarItem,
+  SidebarProvider,
+  SidebarTrigger,
+  useSidebar,
+}
+export type { SidebarGroupProps, SidebarItemProps, SidebarProps }

@@ -62,3 +62,20 @@ describe("SegmentedControl", () => {
     expect(tab.className).toContain("macos:data-active:text-white")
   })
 })
+
+describe("SegmentedControl shape and fit", () => {
+  test("the root carries the control's radius so a material passed to it follows the pill", () => {
+    render(<Range />)
+    const root = screen
+      .getByRole("tablist")
+      .closest('[data-slot="segmented-control-root"]')!
+    expect(root.className).toContain("rounded-segmented")
+  })
+
+  test("a segment too narrow for its label clips inside the track instead of painting outside it", () => {
+    render(<Range />)
+    const tab = screen.getByRole("tab", { name: "Day" })
+    expect(tab.className).toContain("min-w-0")
+    expect(tab.className).toContain("overflow-hidden")
+  })
+})

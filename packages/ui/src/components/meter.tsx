@@ -9,7 +9,9 @@ import type { ComponentProps, ReactNode } from "react"
  * Gauges (HIG › Gauges): a value within a known range that is not progress — storage used,
  * battery, a fitness ring. `Meter` is the linear gauge on the progress-bar track with a label
  * and the value as a percentage; `Gauge` the circular one with the value in the centre, at the
- * activity-indicator sizes. Both can take a system colour for capacity levels.
+ * activity-indicator sizes. Both can take a system colour for capacity levels. The small ring
+ * is 20 pt — smaller than 11 pt digits need — so it shows the arc alone, like Fitness does,
+ * and reports its value through `role="meter"`.
  */
 const meterColors = {
   tint: "bg-primary",
@@ -170,15 +172,17 @@ function Gauge({
           )}
         />
       </svg>
-      <span
-        data-slot="gauge-value"
-        className={cn(
-          "col-start-1 row-start-1 font-semibold text-label tabular-nums",
-          size === "large" ? "type-headline" : "type-caption-2"
-        )}
-      >
-        {children ?? Math.round(value)}
-      </span>
+      {size === "small" ? null : (
+        <span
+          data-slot="gauge-value"
+          className={cn(
+            "col-start-1 row-start-1 font-semibold text-label tabular-nums",
+            size === "large" ? "type-headline" : "type-caption-2"
+          )}
+        >
+          {children ?? Math.round(value)}
+        </span>
+      )}
     </div>
   )
 }

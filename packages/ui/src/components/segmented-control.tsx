@@ -25,7 +25,7 @@ function SegmentedControl({
   return (
     <TabsPrimitive.Root
       data-slot="segmented-control-root"
-      className={cn("inline-flex", className)}
+      className={cn("inline-flex rounded-segmented", className)}
       {...props}
     >
       <SegmentedControlList aria-label={label} aria-labelledby={labelledBy}>
@@ -67,7 +67,7 @@ function SegmentedControlItem({
     <TabsPrimitive.Tab
       data-slot="segmented-control-item"
       className={cn(
-        "relative z-10 flex flex-1 items-center justify-center gap-1.5 rounded-[calc(var(--radius-segmented)-var(--segmented-inset))] px-3 text-[length:var(--segmented-font)] leading-none font-medium whitespace-nowrap text-label transition-[color] duration-(--duration-press) outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 disabled:opacity-40 data-active:font-semibold macos:data-active:text-white [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "relative z-10 flex min-w-0 flex-1 items-center justify-center gap-1.5 overflow-hidden rounded-[calc(var(--radius-segmented)-var(--segmented-inset))] px-3 text-[length:var(--segmented-font)] leading-none font-medium whitespace-nowrap text-label transition-[color] duration-(--duration-press) outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 disabled:opacity-40 data-active:font-semibold macos:data-active:text-white [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className
       )}
       {...props}

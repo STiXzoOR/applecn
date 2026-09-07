@@ -44,3 +44,28 @@ describe("Gauge", () => {
     )
   })
 })
+
+describe("Gauge sizes", () => {
+  test("the small ring is an indicator, not a readout — 11 pt digits do not fit 20 pt", () => {
+    render(<Gauge value={40} label="Move" size="small" />)
+    const gauge = screen.getByRole("meter", { name: "Move" })
+    expect(gauge.querySelector('[data-slot="gauge-value"]')).toBeNull()
+    // The value still reaches assistive technology.
+    expect(gauge).toHaveAttribute("aria-valuenow", "40")
+  })
+
+  test("the medium and large rings show the value", () => {
+    render(
+      <>
+        <Gauge value={72} label="Exercise" />
+        <Gauge value={100} label="Stand" size="large" />
+      </>
+    )
+    expect(screen.getByRole("meter", { name: "Exercise" })).toHaveTextContent(
+      "72"
+    )
+    expect(screen.getByRole("meter", { name: "Stand" })).toHaveTextContent(
+      "100"
+    )
+  })
+})

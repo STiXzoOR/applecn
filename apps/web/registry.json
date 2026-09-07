@@ -2304,7 +2304,9 @@
         "cn"
       ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/icon.json"
+        "https://applecn.vercel.app/r/button.json",
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/sheet.json"
       ],
       "files": [
         {

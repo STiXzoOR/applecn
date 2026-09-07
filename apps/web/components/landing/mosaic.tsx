@@ -56,6 +56,11 @@ interface Tile {
   href: string
   title: string
   span?: "wide" | "tall"
+  /**
+   * Demos wider than half a phone — the 63 pt switches, the gauges, the stars, three
+   * segments. They take the whole row until the grid opens out to four columns.
+   */
+  roomy?: boolean
   tint?: string
   children: ReactNode
 }
@@ -84,6 +89,7 @@ const tiles: Tile[] = [
   {
     href: "/components/segmented-control",
     title: "Segmented control",
+    roomy: true,
     children: (
       <SegmentedControl
         aria-label="Range"
@@ -99,6 +105,7 @@ const tiles: Tile[] = [
   {
     href: "/components/meter",
     title: "Gauges",
+    roomy: true,
     children: (
       <div className="flex items-center gap-4">
         <Gauge value={40} label="Move" color="red" size="small" />
@@ -145,6 +152,7 @@ const tiles: Tile[] = [
   {
     href: "/components/rating",
     title: "Rating",
+    roomy: true,
     children: (
       <div className="flex items-center gap-3">
         <Rating value={4.5} label="Rating" size="large" />
@@ -230,6 +238,7 @@ const tiles: Tile[] = [
   {
     href: "/components/switch",
     title: "Switch",
+    roomy: true,
     children: (
       <div className="flex items-center gap-3">
         <Switch aria-label="Off" />
@@ -313,12 +322,13 @@ export function Mosaic() {
               className={cn(
                 "min-w-0",
                 tile.span === "wide" && "col-span-2",
-                tile.span === "tall" && "row-span-2"
+                tile.span === "tall" && "row-span-2",
+                tile.roomy && "col-span-2 sm:col-span-1"
               )}
             >
               <NextLink
                 href={tile.href}
-                className="group flex h-full flex-col overflow-hidden rounded-card bg-card text-label transition-[transform,box-shadow] duration-(--duration-hover) ease-(--ease-standard) outline-none hover:shadow-card-medium focus-visible:ring-4 focus-visible:ring-ring/60 motion-safe:hover:-translate-y-0.5"
+                className="group flex h-full flex-col overflow-hidden rounded-card bg-card text-label shadow-card-small transition-[transform,box-shadow] duration-(--duration-hover) ease-(--ease-standard) outline-none hover:shadow-card-medium focus-visible:ring-4 focus-visible:ring-ring/60 motion-safe:hover:-translate-y-0.5"
                 style={tile.tint ? { backgroundImage: tile.tint } : undefined}
               >
                 <div className="flex min-h-0 flex-1 items-center justify-center p-4">
