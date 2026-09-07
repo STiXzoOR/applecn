@@ -221,6 +221,35 @@ describe("menu appearance tokens", () => {
     expect(componentTokens.web.menu.label.py).toBe("0.5rem")
   })
 
+  test("the group label steps down from footnote to caption-1 on macOS, bolded", () => {
+    expect(componentTokens.ios.menu.label.fontSize).toBe(
+      "var(--type-footnote-size)"
+    )
+    expect(componentTokens.macos.menu.label.fontSize).toBe(
+      "var(--type-caption-1-size)"
+    )
+    expect(componentTokens.web.menu.label.fontSize).toBe(
+      "var(--type-footnote-size)"
+    )
+    expect(componentTokens.ios.menu.label.leading).toBe(
+      "var(--type-footnote-leading)"
+    )
+    expect(componentTokens.macos.menu.label.leading).toBe(
+      "var(--type-caption-1-leading)"
+    )
+    expect(componentTokens.ios.menu.label.weight).toBe(
+      "var(--type-footnote-weight)"
+    )
+    // macOS bolds it with font-semibold's fixed 600, not the caption-1 scale's own weight.
+    expect(componentTokens.macos.menu.label.weight).toBe("600")
+    expect(componentTokens.ios.menu.label.tracking).toBe(
+      "var(--type-footnote-tracking)"
+    )
+    expect(componentTokens.macos.menu.label.tracking).toBe(
+      "var(--type-caption-1-tracking)"
+    )
+  })
+
   test("the separator bleeds to the edges on iOS and the web; macOS insets it to a hairline", () => {
     expect(componentTokens.ios.menu.separator.mx).toBe(
       "calc(-1 * var(--menu-padding))"
@@ -238,6 +267,58 @@ describe("menu appearance tokens", () => {
     expect(lines).toContainEqual(["menu-item-highlight-bg", "var(--selection)"])
     expect(lines).toContainEqual(["menu-separator-height", "0.5px"])
     expect(lines).toContainEqual(["menu-separator-bg", "var(--separator)"])
+    expect(lines).toContainEqual([
+      "menu-label-font-size",
+      "var(--type-caption-1-size)",
+    ])
+    expect(lines).toContainEqual(["menu-label-weight", "600"])
+  })
+})
+
+describe("combobox appearance tokens", () => {
+  test("the field keeps a 0.5px separator hairline off the web; only the web widens it to 1px label-4", () => {
+    expect(componentTokens.ios.combobox.field.borderWidth).toBe(0.5)
+    expect(componentTokens.macos.combobox.field.borderWidth).toBe(0.5)
+    expect(componentTokens.web.combobox.field.borderWidth).toBe(1)
+    expect(componentTokens.ios.combobox.field.borderColor).toBe(
+      "var(--separator)"
+    )
+    expect(componentTokens.web.combobox.field.borderColor).toBe(
+      "var(--label-4)"
+    )
+  })
+
+  test("only macOS carries the control bezel shadow on the field", () => {
+    expect(componentTokens.macos.combobox.field.shadow).toBe(
+      "var(--elevation-control)"
+    )
+    expect(componentTokens.ios.combobox.field.shadow).toBe("none")
+  })
+
+  test("the selected check mark turns white on a macOS highlight; iOS and the web keep it tinted", () => {
+    expect(componentTokens.macos.combobox.item.indicatorHighlightText).toBe(
+      "white"
+    )
+    expect(componentTokens.ios.combobox.item.indicatorHighlightText).toBe(
+      "var(--primary)"
+    )
+    expect(componentTokens.web.combobox.item.indicatorHighlightText).toBe(
+      "var(--primary)"
+    )
+  })
+
+  test("emits kebab-case CSS variable lines", () => {
+    const lines = componentLines("web")
+    expect(lines).toContainEqual(["combobox-field-border-width", "1px"])
+    expect(lines).toContainEqual([
+      "combobox-field-border-color",
+      "var(--label-4)",
+    ])
+    expect(lines).toContainEqual(["combobox-field-shadow", "none"])
+    expect(lines).toContainEqual([
+      "combobox-item-indicator-highlight-text",
+      "var(--primary)",
+    ])
   })
 })
 

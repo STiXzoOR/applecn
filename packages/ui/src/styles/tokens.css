@@ -918,6 +918,10 @@
   --menu-item-highlight-text: var(--label);
   --menu-shortcut-highlight-text: var(--label-2);
   --menu-label-py: 0.5rem;
+  --menu-label-font-size: var(--type-footnote-size);
+  --menu-label-leading: var(--type-footnote-leading);
+  --menu-label-weight: var(--type-footnote-weight);
+  --menu-label-tracking: var(--type-footnote-tracking);
   --menu-separator-mx: calc(-1 * var(--menu-padding));
   --menu-separator-height: 0.5rem;
   --menu-separator-bg: var(--fill-4);
@@ -928,6 +932,10 @@
   --select-popup-border-color: transparent;
   --select-item-highlight-bg: var(--fill-3);
   --select-item-highlight-text: var(--label);
+  --combobox-field-border-width: 0.5px;
+  --combobox-field-border-color: var(--separator);
+  --combobox-field-shadow: none;
+  --combobox-item-indicator-highlight-text: var(--primary);
 }
 
 @media (width >= 414px) {
@@ -1260,6 +1268,10 @@
   --menu-item-highlight-text: white;
   --menu-shortcut-highlight-text: rgb(255 255 255 / 0.7);
   --menu-label-py: 0.25rem;
+  --menu-label-font-size: var(--type-caption-1-size);
+  --menu-label-leading: var(--type-caption-1-leading);
+  --menu-label-weight: 600;
+  --menu-label-tracking: var(--type-caption-1-tracking);
   --menu-separator-mx: 0.5rem;
   --menu-separator-height: 0.5px;
   --menu-separator-bg: var(--separator);
@@ -1270,6 +1282,10 @@
   --select-popup-border-color: transparent;
   --select-item-highlight-bg: var(--selection);
   --select-item-highlight-text: white;
+  --combobox-field-border-width: 0.5px;
+  --combobox-field-border-color: var(--separator);
+  --combobox-field-shadow: var(--elevation-control);
+  --combobox-item-indicator-highlight-text: white;
 }
 
 .dark[data-platform="macos"],
@@ -1596,6 +1612,10 @@
   --menu-item-highlight-text: var(--label);
   --menu-shortcut-highlight-text: var(--label-2);
   --menu-label-py: 0.5rem;
+  --menu-label-font-size: var(--type-footnote-size);
+  --menu-label-leading: var(--type-footnote-leading);
+  --menu-label-weight: var(--type-footnote-weight);
+  --menu-label-tracking: var(--type-footnote-tracking);
   --menu-separator-mx: calc(-1 * var(--menu-padding));
   --menu-separator-height: 0.5rem;
   --menu-separator-bg: var(--fill-4);
@@ -1606,6 +1626,10 @@
   --select-popup-border-color: var(--label-4);
   --select-item-highlight-bg: var(--fill-3);
   --select-item-highlight-text: var(--label);
+  --combobox-field-border-width: 1px;
+  --combobox-field-border-color: var(--label-4);
+  --combobox-field-shadow: none;
+  --combobox-item-indicator-highlight-text: var(--primary);
 }
 
 .dark[data-platform="web"],

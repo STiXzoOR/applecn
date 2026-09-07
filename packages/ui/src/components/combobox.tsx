@@ -27,7 +27,7 @@ function ComboboxInput({ className, ...props }: ComboboxPrimitive.Input.Props) {
       <ComboboxPrimitive.Input
         data-slot="combobox-input"
         className={cn(
-          "h-(--text-field-height) w-full min-w-0 rounded-field border-[0.5px] border-separator bg-background-3 ps-2 pe-14 text-[length:var(--text-field-font)] text-label transition-[box-shadow] duration-(--duration-hover) outline-none placeholder:text-placeholder focus-visible:ring-4 focus-visible:ring-ring/60 disabled:opacity-40 macos:shadow-control web:border web:border-label-4",
+          "h-(--text-field-height) w-full min-w-0 rounded-field border-(length:--combobox-field-border-width) border-(--combobox-field-border-color) bg-background-3 ps-2 pe-14 text-[length:var(--text-field-font)] text-label shadow-(--combobox-field-shadow) transition-[box-shadow] duration-(--duration-hover) outline-none placeholder:text-placeholder focus-visible:ring-4 focus-visible:ring-ring/60 disabled:opacity-40",
           className
         )}
         {...props}
@@ -106,12 +106,12 @@ function ComboboxItem({
     <ComboboxPrimitive.Item
       data-slot="combobox-item"
       className={cn(
-        "flex h-(--menu-item-height) shrink-0 cursor-default items-center gap-2 rounded-menu-item ps-2 pe-4 text-[length:var(--menu-font)] text-label outline-none select-none data-highlighted:bg-fill-3 data-disabled:opacity-40 macos:data-highlighted:bg-selection macos:data-highlighted:text-white",
+        "flex h-(--menu-item-height) shrink-0 cursor-default items-center gap-2 rounded-menu-item ps-2 pe-4 text-[length:var(--menu-font)] text-label outline-none select-none data-highlighted:bg-(--menu-item-highlight-bg) data-highlighted:text-(--menu-item-highlight-text) data-disabled:opacity-40",
         className
       )}
       {...props}
     >
-      <span className="flex w-5 shrink-0 items-center justify-center text-primary macos:group-data-highlighted:text-white">
+      <span className="flex w-5 shrink-0 items-center justify-center text-primary group-data-highlighted:text-(--combobox-item-indicator-highlight-text)">
         <ComboboxPrimitive.ItemIndicator
           render={<Icon icon={Tick02Icon} weight="bold" />}
         />
@@ -146,7 +146,7 @@ function ComboboxGroupLabel({
     <ComboboxPrimitive.GroupLabel
       data-slot="combobox-group-label"
       className={cn(
-        "px-4 py-2 type-footnote text-label-2 macos:px-2.5 macos:py-1 macos:type-caption-1 macos:font-semibold",
+        "px-(--menu-item-px) py-(--menu-label-py) text-[length:var(--menu-label-font-size)] leading-(--menu-label-leading) font-(--menu-label-weight) tracking-(--menu-label-tracking) text-label-2",
         className
       )}
       {...props}

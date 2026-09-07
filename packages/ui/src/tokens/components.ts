@@ -89,9 +89,20 @@ export interface MenuTokens {
     readonly highlightText: string
     readonly shortcutHighlightText: string
   }
-  /** The group label's own padding; its type style keeps a platform variant — see components.ts §MenuLabel. */
+  /**
+   * The group label's own padding and type style: iOS and the web set it in footnote size,
+   * macOS steps down to caption-1 and bolds it. Decomposed into four slots since the two type
+   * scales are otherwise inseparable `@utility` bundles (font-size, line-height, weight and
+   * tracking together — see globals.css's `type-footnote`/`type-caption-1`), not a single
+   * value a token can swap. Shared by every menu-shaped list's group label (menu, context-menu,
+   * menubar, combobox); `select` reads its own `SelectTokens.label` instead.
+   */
   readonly label: {
     readonly py: string
+    readonly fontSize: string
+    readonly leading: string
+    readonly weight: string
+    readonly tracking: string
   }
   readonly separator: {
     /** Horizontal margin: negative (bleeds to the menu's edge) on iOS/web, inset on macOS. */
@@ -119,6 +130,21 @@ export interface SelectTokens {
   }
 }
 
+/**
+ * The combo box's text field border/shadow and its list's check-mark tint when highlighted.
+ * Row highlight and the group label reuse `MenuTokens`, since the list is menu-shaped.
+ */
+export interface ComboboxTokens {
+  readonly field: {
+    readonly borderWidth: number
+    readonly borderColor: string
+    readonly shadow: string
+  }
+  readonly item: {
+    readonly indicatorHighlightText: string
+  }
+}
+
 export interface ComponentTokens {
   readonly checkbox: Bezel
   readonly radio: Bezel
@@ -126,6 +152,7 @@ export interface ComponentTokens {
   readonly alertDialog: AlertDialogTokens
   readonly menu: MenuTokens
   readonly select: SelectTokens
+  readonly combobox: ComboboxTokens
 }
 
 const iosBezel: Bezel = {
@@ -308,6 +335,10 @@ const iosMenu: MenuTokens = {
   },
   label: {
     py: "0.5rem",
+    fontSize: "var(--type-footnote-size)",
+    leading: "var(--type-footnote-leading)",
+    weight: "var(--type-footnote-weight)",
+    tracking: "var(--type-footnote-tracking)",
   },
   separator: {
     mx: "calc(-1 * var(--menu-padding))",
@@ -326,6 +357,11 @@ const macosMenu: MenuTokens = {
   },
   label: {
     py: "0.25rem",
+    fontSize: "var(--type-caption-1-size)",
+    leading: "var(--type-caption-1-leading)",
+    // font-semibold's fixed 600, not the caption-1 scale's own weight (400, 500 emphasized).
+    weight: "600",
+    tracking: "var(--type-caption-1-tracking)",
   },
   separator: {
     mx: "0.5rem",
@@ -382,6 +418,44 @@ const webSelect: SelectTokens = {
   },
 }
 
+// Measured 2026-09-07: the field keeps its resting 0.5px separator hairline on iOS and macOS;
+// only the web widens it to a 1px label-4 border, the same race `select`'s popup border
+// resolved (docs/research/apple-design-system-reference.md §combo boxes). The selected row's
+// check mark turns white to read against macOS's selection-coloured highlight; iOS and the web
+// leave it tinted, since their highlight never recolours it.
+const iosCombobox: ComboboxTokens = {
+  field: {
+    borderWidth: 0.5,
+    borderColor: "var(--separator)",
+    shadow: "none",
+  },
+  item: {
+    indicatorHighlightText: "var(--primary)",
+  },
+}
+
+const macosCombobox: ComboboxTokens = {
+  field: {
+    borderWidth: 0.5,
+    borderColor: "var(--separator)",
+    shadow: "var(--elevation-control)",
+  },
+  item: {
+    indicatorHighlightText: "white",
+  },
+}
+
+const webCombobox: ComboboxTokens = {
+  field: {
+    borderWidth: 1,
+    borderColor: "var(--label-4)",
+    shadow: "none",
+  },
+  item: {
+    indicatorHighlightText: "var(--primary)",
+  },
+}
+
 export const componentTokens: Record<Platform, ComponentTokens> = {
   ios: {
     checkbox: iosBezel,
@@ -390,6 +464,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     alertDialog: iosAlertDialog,
     menu: iosMenu,
     select: iosSelect,
+    combobox: iosCombobox,
   },
   macos: {
     checkbox: macosBezel,
@@ -398,6 +473,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     alertDialog: macosAlertDialog,
     menu: macosMenu,
     select: macosSelect,
+    combobox: macosCombobox,
   },
   web: {
     checkbox: webBezel,
@@ -406,6 +482,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     alertDialog: webAlertDialog,
     menu: webMenu,
     select: webSelect,
+    combobox: webCombobox,
   },
 }
 
@@ -466,9 +543,20 @@ const menuLines = (m: MenuTokens): Line[] => [
   ["menu-item-highlight-text", m.item.highlightText],
   ["menu-shortcut-highlight-text", m.item.shortcutHighlightText],
   ["menu-label-py", m.label.py],
+  ["menu-label-font-size", m.label.fontSize],
+  ["menu-label-leading", m.label.leading],
+  ["menu-label-weight", m.label.weight],
+  ["menu-label-tracking", m.label.tracking],
   ["menu-separator-mx", m.separator.mx],
   ["menu-separator-height", m.separator.height],
   ["menu-separator-bg", m.separator.bg],
+]
+
+const comboboxLines = (c: ComboboxTokens): Line[] => [
+  ["combobox-field-border-width", `${c.field.borderWidth}px`],
+  ["combobox-field-border-color", c.field.borderColor],
+  ["combobox-field-shadow", c.field.shadow],
+  ["combobox-item-indicator-highlight-text", c.item.indicatorHighlightText],
 ]
 
 const selectLines = (s: SelectTokens): Line[] => [
@@ -491,5 +579,6 @@ export function componentLines(platform: Platform): Line[] {
     ...alertDialogLines(t.alertDialog),
     ...menuLines(t.menu),
     ...selectLines(t.select),
+    ...comboboxLines(t.combobox),
   ]
 }
