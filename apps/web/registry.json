@@ -4,10 +4,10 @@
   "homepage": "https://applecn.vercel.app",
   "items": [
     {
-      "name": "apple",
-      "type": "registry:style",
-      "title": "Apple",
-      "description": "Every Apple token as CSS variables (light and dark) plus the type, material and glass utilities and the hairline shadow tokens.",
+      "name": "base",
+      "type": "registry:theme",
+      "title": "Base",
+      "description": "Every Apple colour, type, motion, elevation and material primitive as CSS variables, plus the type, material and glass utilities and the hairline shadow tokens every idiom and component reads at runtime.",
       "files": [],
       "cssVars": {
         "light": {
@@ -307,7 +307,11 @@
           "material-glass-clear-bg": "rgb(255 255 255 / 0.25)",
           "material-glass-clear-fallback": "rgb(242 242 242)",
           "material-glass-clear-blur": "10px",
-          "material-glass-clear-saturate": "1.8"
+          "material-glass-clear-saturate": "1.8",
+          "font-sans": "-apple-system, BlinkMacSystemFont, system-ui, \"Helvetica Neue\", Helvetica, Arial, sans-serif",
+          "font-rounded": "ui-rounded, -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+          "font-mono": "ui-monospace, \"SF Mono\", Menlo, Consolas, monospace",
+          "font-heading": "-apple-system, BlinkMacSystemFont, system-ui, \"Helvetica Neue\", Helvetica, Arial, sans-serif"
         },
         "dark": {
           "system-red": "rgb(255 66 69)",
@@ -592,7 +596,19 @@
               "font-family": "var(--font-sans)"
             }
           }
-        },
+        }
+      }
+    },
+    {
+      "name": "apple",
+      "type": "registry:style",
+      "title": "Apple",
+      "description": "Every Apple token as CSS variables (light and dark) plus the type, material and glass utilities and the hairline shadow tokens.",
+      "files": [],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/base.json"
+      ],
+      "css": {
         "[data-platform=\"ios\"]": {
           "--label": "rgb(0 0 0)",
           "--label-2": "rgb(60 60 67 / 0.6)",
@@ -1290,13 +1306,13 @@
           "--toast-width": "360px",
           "--color-well-height": "var(--control-height-regular)",
           "--color-well-width": "3rem",
-          "--color-well-radius": "var(--radius-control)",
-          "--color-well-swatch-radius": "calc(var(--radius-control) - 4px)",
+          "--color-well-radius": "var(--control-radius-regular)",
+          "--color-well-swatch-radius": "calc(var(--control-radius-regular) - 4px)",
           "--color-well-border-width": "0px",
           "--color-well-bg": "var(--background-3)",
           "--color-well-padding": "0.25rem",
           "--color-well-shadow": "var(--elevation-control)",
-          "--toolbar-control-radius": "var(--radius-control)",
+          "--toolbar-control-radius": "var(--control-radius-regular)",
           "--toolbar-button-icon-size": "1rem",
           "--search-field-bg": "var(--background-3)",
           "--search-field-padding-start": "0.5rem",
@@ -1324,7 +1340,7 @@
           "--input-shadow": "var(--elevation-control)",
           "--sidebar-item-gap": "0.5rem",
           "--sidebar-group-label-text": "var(--label-2)",
-          "--navigation-bar-back-radius": "var(--radius-control)",
+          "--navigation-bar-back-radius": "var(--control-radius-regular)",
           "--action-sheet-item-hover-bg": "var(--selection)",
           "--action-sheet-item-hover-text-default": "white",
           "--action-sheet-item-hover-text-destructive": "white",
@@ -1688,7 +1704,7 @@
           "--color-well-bg": "transparent",
           "--color-well-padding": "0.125rem",
           "--color-well-shadow": "none",
-          "--toolbar-control-radius": "var(--radius-control)",
+          "--toolbar-control-radius": "var(--control-radius-regular)",
           "--toolbar-button-icon-size": "1.25rem",
           "--search-field-bg": "var(--background-3)",
           "--search-field-padding-start": "0.75rem",
@@ -1716,7 +1732,7 @@
           "--input-shadow": "none",
           "--sidebar-item-gap": "0.625rem",
           "--sidebar-group-label-text": "var(--label-3)",
-          "--navigation-bar-back-radius": "var(--radius-control)",
+          "--navigation-bar-back-radius": "var(--control-radius-regular)",
           "--action-sheet-item-hover-bg": "var(--fill-3)",
           "--action-sheet-item-hover-text-default": "var(--primary)",
           "--action-sheet-item-hover-text-destructive": "var(--destructive)",
@@ -1828,6 +1844,9 @@
       "title": "iOS",
       "description": "Just the iOS idiom's tokens: AppKit-free colours, type, control metrics and shape.",
       "files": [],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/base.json"
+      ],
       "css": {
         "[data-platform=\"ios\"]": {
           "--label": "rgb(0 0 0)",
@@ -2236,6 +2255,9 @@
       "title": "macOS",
       "description": "Just the macOS idiom's tokens: AppKit colours, type, control metrics and shape.",
       "files": [],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/base.json"
+      ],
       "css": {
         "[data-platform=\"macos\"]": {
           "--label": "rgb(0 0 0 / 0.85)",
@@ -2535,13 +2557,13 @@
           "--toast-width": "360px",
           "--color-well-height": "var(--control-height-regular)",
           "--color-well-width": "3rem",
-          "--color-well-radius": "var(--radius-control)",
-          "--color-well-swatch-radius": "calc(var(--radius-control) - 4px)",
+          "--color-well-radius": "var(--control-radius-regular)",
+          "--color-well-swatch-radius": "calc(var(--control-radius-regular) - 4px)",
           "--color-well-border-width": "0px",
           "--color-well-bg": "var(--background-3)",
           "--color-well-padding": "0.25rem",
           "--color-well-shadow": "var(--elevation-control)",
-          "--toolbar-control-radius": "var(--radius-control)",
+          "--toolbar-control-radius": "var(--control-radius-regular)",
           "--toolbar-button-icon-size": "1rem",
           "--search-field-bg": "var(--background-3)",
           "--search-field-padding-start": "0.5rem",
@@ -2569,7 +2591,7 @@
           "--input-shadow": "var(--elevation-control)",
           "--sidebar-item-gap": "0.5rem",
           "--sidebar-group-label-text": "var(--label-2)",
-          "--navigation-bar-back-radius": "var(--radius-control)",
+          "--navigation-bar-back-radius": "var(--control-radius-regular)",
           "--action-sheet-item-hover-bg": "var(--selection)",
           "--action-sheet-item-hover-text-default": "white",
           "--action-sheet-item-hover-text-destructive": "white",
@@ -2630,6 +2652,9 @@
       "title": "Web",
       "description": "Just the web idiom's tokens: apple.com's colours, responsive type ramp, control metrics and shape.",
       "files": [],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/base.json"
+      ],
       "css": {
         "[data-platform=\"web\"]": {
           "--label": "rgb(29 29 31)",
@@ -2942,7 +2967,7 @@
           "--color-well-bg": "transparent",
           "--color-well-padding": "0.125rem",
           "--color-well-shadow": "none",
-          "--toolbar-control-radius": "var(--radius-control)",
+          "--toolbar-control-radius": "var(--control-radius-regular)",
           "--toolbar-button-icon-size": "1.25rem",
           "--search-field-bg": "var(--background-3)",
           "--search-field-padding-start": "0.75rem",
@@ -2970,7 +2995,7 @@
           "--input-shadow": "none",
           "--sidebar-item-gap": "0.625rem",
           "--sidebar-group-label-text": "var(--label-3)",
-          "--navigation-bar-back-radius": "var(--radius-control)",
+          "--navigation-bar-back-radius": "var(--control-radius-regular)",
           "--action-sheet-item-hover-bg": "var(--fill-3)",
           "--action-sheet-item-hover-text-default": "var(--primary)",
           "--action-sheet-item-hover-text-destructive": "var(--destructive)",

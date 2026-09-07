@@ -201,6 +201,22 @@ function baseLayer(css: string): Record<string, unknown> {
   return { "@layer base": parseBlock(body) }
 }
 
+/**
+ * Extracts the four `--font-*` declarations from `@theme inline` (the concrete Apple font
+ * stacks) as a flat `cssVars` map. The rest of `@theme inline` stays internal — a project's
+ * own `shadcn init` scaffold already maps `--font-sans` and friends onto whatever plain
+ * custom property carries the same name, so shipping the value here (not the mapping) is
+ * enough for it to reach a real font stack instead of Tailwind's default.
+ */
+function fontVars(css: string): Record<string, string> {
+  const result: Record<string, string> = {}
+  const pattern = /--font-(sans|rounded|mono|heading):\s*([\s\S]*?);/g
+  let match: RegExpExecArray | null
+  while ((match = pattern.exec(css)))
+    result[`font-${match[1]}`] = match[2]!.replace(/\s+/g, " ").trim()
+  return result
+}
+
 function parseBlock(body: string): Record<string, unknown> {
   const out: Record<string, unknown> = {}
   let i = 0
@@ -316,6 +332,31 @@ export function buildRegistry(): Registry {
   ]
 
   const globalsCss = readSource(`${UI_PACKAGE}/src/styles/globals.css`)
+
+  // The shared layer every idiom needs: every Apple primitive as `cssVars`, plus the
+  // `@utility`, plain `@theme` and `@layer base` content from `globals.css` — none of it is
+  // platform-specific, so `ios`/`macos`/`web` and `apple` all declare it as a
+  // `registryDependency` instead of carrying their own copy (task 11: a copy in each would
+  // drift, and `apple` carries every idiom, so a theme depending on it instead of `base`
+  // would install all three).
+  const base: RegistryItem = {
+    name: "base",
+    type: "registry:theme",
+    title: "Base",
+    description:
+      "Every Apple colour, type, motion, elevation and material primitive as CSS variables, plus the type, material and glass utilities and the hairline shadow tokens every idiom and component reads at runtime.",
+    files: [],
+    cssVars: {
+      light: { ...tokenVars("light"), ...fontVars(globalsCss) },
+      dark: tokenVars("dark"),
+    },
+    css: {
+      ...utilities(globalsCss),
+      ...theme(globalsCss),
+      ...baseLayer(globalsCss),
+    },
+  }
+
   const style: RegistryItem = {
     name: "apple",
     type: "registry:style",
@@ -323,11 +364,8 @@ export function buildRegistry(): Registry {
     description:
       "Every Apple token as CSS variables (light and dark) plus the type, material and glass utilities and the hairline shadow tokens.",
     files: [],
-    cssVars: { light: tokenVars("light"), dark: tokenVars("dark") },
+    registryDependencies: [`${REGISTRY_URL}/base.json`],
     css: {
-      ...utilities(globalsCss),
-      ...theme(globalsCss),
-      ...baseLayer(globalsCss),
       ...tokenPlatformCss(),
     },
   }
@@ -336,6 +374,6 @@ export function buildRegistry(): Registry {
     $schema: "https://ui.shadcn.com/schema/registry.json",
     name: "applecn",
     homepage: SITE_URL,
-    items: [style, ...themeItems(), ...ui, ...hooks, ...lib],
+    items: [base, style, ...themeItems(), ...ui, ...hooks, ...lib],
   }
 }

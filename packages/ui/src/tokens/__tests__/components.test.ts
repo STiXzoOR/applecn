@@ -377,12 +377,14 @@ describe("color well appearance tokens", () => {
 
   test("the corner steps from a full circle to macOS's control radius, inset 4px on the swatch", () => {
     expect(componentTokens.ios.colorWell.radius).toBe("calc(infinity * 1px)")
-    expect(componentTokens.macos.colorWell.radius).toBe("var(--radius-control)")
+    expect(componentTokens.macos.colorWell.radius).toBe(
+      "var(--control-radius-regular)"
+    )
     expect(componentTokens.ios.colorWell.swatchRadius).toBe(
       "calc(infinity * 1px)"
     )
     expect(componentTokens.macos.colorWell.swatchRadius).toBe(
-      "calc(var(--radius-control) - 4px)"
+      "calc(var(--control-radius-regular) - 4px)"
     )
   })
 
@@ -405,10 +407,13 @@ describe("color well appearance tokens", () => {
       "color-well-shadow",
       "var(--elevation-control)",
     ])
-    expect(lines).toContainEqual(["color-well-radius", "var(--radius-control)"])
+    expect(lines).toContainEqual([
+      "color-well-radius",
+      "var(--control-radius-regular)",
+    ])
     expect(lines).toContainEqual([
       "color-well-swatch-radius",
-      "calc(var(--radius-control) - 4px)",
+      "calc(var(--control-radius-regular) - 4px)",
     ])
   })
 })
@@ -479,10 +484,10 @@ describe("toolbar appearance tokens", () => {
       "calc(infinity * 1px)"
     )
     expect(componentTokens.macos.toolbar.controlRadius).toBe(
-      "var(--radius-control)"
+      "var(--control-radius-regular)"
     )
     expect(componentTokens.web.toolbar.controlRadius).toBe(
-      "var(--radius-control)"
+      "var(--control-radius-regular)"
     )
   })
 
@@ -496,7 +501,7 @@ describe("toolbar appearance tokens", () => {
     const lines = componentLines("macos")
     expect(lines).toContainEqual([
       "toolbar-control-radius",
-      "var(--radius-control)",
+      "var(--control-radius-regular)",
     ])
     expect(lines).toContainEqual(["toolbar-button-icon-size", "1rem"])
   })
@@ -726,10 +731,10 @@ describe("navigation bar appearance tokens", () => {
       "calc(infinity * 1px)"
     )
     expect(componentTokens.macos.navigationBar.backRadius).toBe(
-      "var(--radius-control)"
+      "var(--control-radius-regular)"
     )
     expect(componentTokens.web.navigationBar.backRadius).toBe(
-      "var(--radius-control)"
+      "var(--control-radius-regular)"
     )
   })
 
@@ -737,7 +742,7 @@ describe("navigation bar appearance tokens", () => {
     const lines = componentLines("macos")
     expect(lines).toContainEqual([
       "navigation-bar-back-radius",
-      "var(--radius-control)",
+      "var(--control-radius-regular)",
     ])
   })
 })

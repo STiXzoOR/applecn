@@ -69,22 +69,21 @@ describe("registry", () => {
     expect(icon.registryDependencies).toContain(`${REGISTRY_URL}/utils.json`)
   })
 
-  test("ships the theme as a style item with light and dark variables plus the type and material utilities", () => {
+  test("ships the theme as a style item depending on base, carrying only the three idiom scopes", () => {
     const style = registry.items.find((i) => i.type === "registry:style")!
     expect(style.name).toBe("apple")
-    expect(style.cssVars?.light?.["system-blue"]).toBe("rgb(0 136 255)")
-    expect(style.cssVars?.dark?.["system-blue"]).toBe("rgb(0 145 255)")
-    expect(style.cssVars?.light?.primary).toBe("var(--accent-color)")
+    expect(style.registryDependencies).toContain(`${REGISTRY_URL}/base.json`)
+    // the primitives and utilities now live on `base`, not inlined here again.
+    expect(style.cssVars).toBeUndefined()
     expect(Object.keys(style.css ?? {})).toEqual(
       expect.arrayContaining([
-        "@utility type-body",
-        "@utility glass",
         '[data-platform="macos"]',
         '[data-platform="web"]',
         '.dark[data-platform="web"], .dark [data-platform="web"]',
         "@media (width >= 1069px)",
       ])
     )
+    expect(Object.keys(style.css ?? {})).not.toContain("@utility type-body")
     const macos = style.css?.['[data-platform="macos"]'] as Record<
       string,
       string
@@ -93,9 +92,17 @@ describe("registry", () => {
     expect(macos["--platform"]).toBe("macos")
   })
 
+  test("base carries every primitive as cssVars, light and dark", () => {
+    const base = registry.items.find((i) => i.name === "base")!
+    expect(base.type).toBe("registry:theme")
+    expect(base.cssVars?.light?.["system-blue"]).toBe("rgb(0 136 255)")
+    expect(base.cssVars?.dark?.["system-blue"]).toBe("rgb(0 145 255)")
+    expect(base.cssVars?.light?.primary).toBe("var(--accent-color)")
+  })
+
   test("ships the hairline shadows from the plain @theme block, not the @theme inline mapping", () => {
-    const style = registry.items.find((i) => i.type === "registry:style")!
-    const theme = style.css?.["@theme"] as Record<string, string>
+    const base = registry.items.find((i) => i.name === "base")!
+    const theme = base.css?.["@theme"] as Record<string, string>
     expect(theme["--shadow-hairline"]).toBe("0 0 0 0.5px var(--separator)")
     expect(theme["--shadow-hairline-t"]).toBe(
       "inset 0 0.5px 0 var(--separator)"
@@ -106,7 +113,14 @@ describe("registry", () => {
     // the large `@theme inline { … }` mapping is a separate block and must not ship as a
     // side effect of extracting the plain one.
     expect(theme["--color-background"]).toBeUndefined()
-    expect(Object.keys(style.css ?? {})).not.toContain("@theme inline")
+    expect(Object.keys(base.css ?? {})).not.toContain("@theme inline")
+  })
+
+  test("base carries the type and material utilities", () => {
+    const base = registry.items.find((i) => i.name === "base")!
+    expect(Object.keys(base.css ?? {})).toEqual(
+      expect.arrayContaining(["@utility type-body", "@utility glass"])
+    )
   })
 
   test("ships the hooks and lib modules", () => {
@@ -167,10 +181,10 @@ describe("registry", () => {
 
 describe("a consumer gets everything the components need", () => {
   const registry = buildRegistry()
-  const style = registry.items.find((i) => i.type === "registry:style")!
+  const base = registry.items.find((i) => i.name === "base")!
 
   test("ships the base layer, so Dynamic Type and the touch rules travel", () => {
-    const css = JSON.stringify(style.css)
+    const css = JSON.stringify(base.css)
     expect(css).toContain("-apple-system-body")
     expect(css).toContain("touch-action")
   })
@@ -240,5 +254,87 @@ describe("the three idiom themes", () => {
       for (const key of Object.keys(theme.css ?? {}))
         expect(key, name).not.toMatch(/^@media/)
     }
+  })
+})
+
+/**
+ * Task 11 found the base token layer (`--system-blue`, `--font-sans`, …) orphaned: nothing
+ * declared it as a `registryDependency`, so a real `shadcn add @applecn/ios` installed a
+ * platform scope whose every value dereferenced a variable that was never installed. These
+ * tests hold the fix: `base` carries the shared layer, and every idiom (plus `apple`) pulls
+ * it in transitively.
+ */
+describe("the shared base layer reaches every idiom", () => {
+  const items = buildRegistry().items
+  const byName = new Map(items.map((i) => [i.name, i]))
+  const nameFromUrl = (url: string) =>
+    url.replace(/^.*\//, "").replace(/\.json$/, "")
+
+  function closureNames(name: string, seen = new Set<string>()): Set<string> {
+    if (seen.has(name)) return seen
+    seen.add(name)
+    for (const dep of byName.get(name)?.registryDependencies ?? [])
+      closureNames(nameFromUrl(dep), seen)
+    return seen
+  }
+
+  /** Every `--custom-property` declared as a key anywhere in an item's `css` (recursively). */
+  function collectDeclared(node: unknown, into: Set<string>): void {
+    if (!node || typeof node !== "object") return
+    for (const [key, value] of Object.entries(
+      node as Record<string, unknown>
+    )) {
+      if (key.startsWith("--")) into.add(key)
+      collectDeclared(value, into)
+    }
+  }
+
+  /** Every `var(--custom-property` reference anywhere in an item's `css` or `cssVars`. */
+  function collectReferenced(node: unknown, into: Set<string>): void {
+    if (typeof node === "string") {
+      for (const m of node.matchAll(/var\((--[\w-]+)/g)) into.add(m[1]!)
+      return
+    }
+    if (!node || typeof node !== "object") return
+    for (const value of Object.values(node as Record<string, unknown>))
+      collectReferenced(value, into)
+  }
+
+  /** Every variable an install of `name` transitively defines, via cssVars or css. */
+  function definedByClosure(name: string): Set<string> {
+    const defined = new Set<string>()
+    for (const dep of closureNames(name)) {
+      const item = byName.get(dep)
+      if (!item) continue
+      for (const key of Object.keys(item.cssVars?.light ?? {}))
+        defined.add(`--${key}`)
+      for (const key of Object.keys(item.cssVars?.dark ?? {}))
+        defined.add(`--${key}`)
+      collectDeclared(item.css, defined)
+    }
+    return defined
+  }
+
+  test.each(["ios", "macos", "web", "apple"])(
+    "installing %s transitively defines --system-blue and --font-sans",
+    (name) => {
+      const defined = definedByClosure(name)
+      expect(defined.has("--system-blue")).toBe(true)
+      expect(defined.has("--font-sans")).toBe(true)
+    }
+  )
+
+  test("no theme-shaped item's own css or cssVars dereferences a variable its dependency closure doesn't define", () => {
+    const problems: string[] = []
+    for (const item of items) {
+      if (!item.css && !item.cssVars) continue
+      const referenced = new Set<string>()
+      collectReferenced(item.css, referenced)
+      collectReferenced(item.cssVars, referenced)
+      const defined = definedByClosure(item.name)
+      for (const ref of referenced)
+        if (!defined.has(ref)) problems.push(`${item.name} references ${ref}`)
+    }
+    expect(problems).toEqual([])
   })
 })

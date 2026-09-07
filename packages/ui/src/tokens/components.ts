@@ -677,8 +677,8 @@ const iosColorWell: ColorWellTokens = {
 const macosColorWell: ColorWellTokens = {
   height: "var(--control-height-regular)",
   width: "3rem",
-  radius: "var(--radius-control)",
-  swatchRadius: "calc(var(--radius-control) - 4px)",
+  radius: "var(--control-radius-regular)",
+  swatchRadius: "calc(var(--control-radius-regular) - 4px)",
   borderWidth: 0,
   bg: "var(--background-3)",
   padding: "0.25rem",
@@ -690,7 +690,7 @@ const webColorWell: ColorWellTokens = iosColorWell
 // Shared by the toolbar's circular glass controls and the navigation bar's back button: iOS
 // keeps the full capsule; macOS and the web round to the control radius instead.
 const iosGlassRadius = "calc(infinity * 1px)"
-const controlRadius = "var(--radius-control)"
+const controlRadius = "var(--control-radius-regular)"
 
 // Measured 2026-09-07: iOS's 44pt glass button carries a 24pt glyph; macOS and the web shrink
 // it to 16pt/20pt on their smaller controls (docs/research/apple-design-system-reference.md

@@ -1348,13 +1348,13 @@
   --toast-width: 360px;
   --color-well-height: var(--control-height-regular);
   --color-well-width: 3rem;
-  --color-well-radius: var(--radius-control);
-  --color-well-swatch-radius: calc(var(--radius-control) - 4px);
+  --color-well-radius: var(--control-radius-regular);
+  --color-well-swatch-radius: calc(var(--control-radius-regular) - 4px);
   --color-well-border-width: 0px;
   --color-well-bg: var(--background-3);
   --color-well-padding: 0.25rem;
   --color-well-shadow: var(--elevation-control);
-  --toolbar-control-radius: var(--radius-control);
+  --toolbar-control-radius: var(--control-radius-regular);
   --toolbar-button-icon-size: 1rem;
   --search-field-bg: var(--background-3);
   --search-field-padding-start: 0.5rem;
@@ -1382,7 +1382,7 @@
   --input-shadow: var(--elevation-control);
   --sidebar-item-gap: 0.5rem;
   --sidebar-group-label-text: var(--label-2);
-  --navigation-bar-back-radius: var(--radius-control);
+  --navigation-bar-back-radius: var(--control-radius-regular);
   --action-sheet-item-hover-bg: var(--selection);
   --action-sheet-item-hover-text-default: white;
   --action-sheet-item-hover-text-destructive: white;
@@ -1749,7 +1749,7 @@
   --color-well-bg: transparent;
   --color-well-padding: 0.125rem;
   --color-well-shadow: none;
-  --toolbar-control-radius: var(--radius-control);
+  --toolbar-control-radius: var(--control-radius-regular);
   --toolbar-button-icon-size: 1.25rem;
   --search-field-bg: var(--background-3);
   --search-field-padding-start: 0.75rem;
@@ -1777,7 +1777,7 @@
   --input-shadow: none;
   --sidebar-item-gap: 0.625rem;
   --sidebar-group-label-text: var(--label-3);
-  --navigation-bar-back-radius: var(--radius-control);
+  --navigation-bar-back-radius: var(--control-radius-regular);
   --action-sheet-item-hover-bg: var(--fill-3);
   --action-sheet-item-hover-text-default: var(--primary);
   --action-sheet-item-hover-text-destructive: var(--destructive);
