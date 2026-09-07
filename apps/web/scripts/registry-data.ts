@@ -119,13 +119,16 @@ function item(
 }
 
 /**
- * The content a consumer receives. Components import siblings relatively (`./dialog`), which
- * survives the copy into `components/ui/`, but `../hooks/<name>` would point at
- * `components/hooks/`. The CLI maps `@/hooks/…` and `@/lib/…` to the consumer's aliases, so
- * those two directories are rewritten to that form; the package sources stay relative.
+ * The content a consumer receives. Package sources import relatively, but `../hooks/<name>`
+ * and `../lib/<name>` would point at `components/hooks/` and `components/lib/` once copied
+ * into `components/ui/`, and a sibling import like `./dialog` would too, once `checkbox`
+ * imports `./icon` and `icon` isn't necessarily copied alongside it. So every relative import
+ * is rewritten to the alias form the CLI maps: `@/hooks/…`, `@/lib/…`, `@/components/ui/…`.
  */
 export function publishedContent(source: string): string {
-  return source.replace(/from "\.\.\/(hooks|lib)\//g, 'from "@/$1/')
+  return source
+    .replace(/from "\.\.\/(hooks|lib)\//g, 'from "@/$1/')
+    .replace(/from "\.\/([a-z-]+)"/g, 'from "@/components/ui/$1"')
 }
 
 export function publishItem(entry: RegistryItem): PublishedItem {

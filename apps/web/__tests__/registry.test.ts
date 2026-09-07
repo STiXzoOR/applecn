@@ -134,13 +134,11 @@ describe("registry", () => {
       'import { useIsDesktop } from "../hooks/use-media-query"',
       'import { platform } from "../lib/platform"',
       'import { Dialog } from "./dialog"',
-      'import { cn } from "cn"',
     ].join("\n")
     expect(publishedContent(source).split("\n")).toEqual([
       'import { useIsDesktop } from "@/hooks/use-media-query"',
       'import { platform } from "@/lib/platform"',
-      'import { Dialog } from "./dialog"',
-      'import { cn } from "cn"',
+      'import { Dialog } from "@/components/ui/dialog"',
     ])
   })
 
@@ -190,4 +188,10 @@ describe("a consumer gets everything the components need", () => {
     for (const item of registry.items)
       expect(item.dependencies ?? [], item.name).not.toContain("cn")
   })
+})
+
+test("published sources import siblings by alias, as shadcn does", () => {
+  for (const item of buildRegistry().items)
+    for (const file of publishItem(item).files)
+      expect(file.content, item.name).not.toMatch(/from "\.\/[a-z-]+"/)
 })
