@@ -982,6 +982,9 @@
   --sidebar-item-gap: 0.625rem;
   --sidebar-group-label-text: var(--label-3);
   --navigation-bar-back-radius: calc(infinity * 1px);
+  --action-sheet-item-hover-bg: var(--fill-3);
+  --action-sheet-item-hover-text-default: var(--primary);
+  --action-sheet-item-hover-text-destructive: var(--destructive);
 }
 
 @media (width >= 414px) {
@@ -1378,6 +1381,9 @@
   --sidebar-item-gap: 0.5rem;
   --sidebar-group-label-text: var(--label-2);
   --navigation-bar-back-radius: var(--radius-control);
+  --action-sheet-item-hover-bg: var(--selection);
+  --action-sheet-item-hover-text-default: white;
+  --action-sheet-item-hover-text-destructive: white;
 }
 
 .dark[data-platform="macos"],
@@ -1768,6 +1774,9 @@
   --sidebar-item-gap: 0.625rem;
   --sidebar-group-label-text: var(--label-3);
   --navigation-bar-back-radius: var(--radius-control);
+  --action-sheet-item-hover-bg: var(--fill-3);
+  --action-sheet-item-hover-text-default: var(--primary);
+  --action-sheet-item-hover-text-destructive: var(--destructive);
 }
 
 .dark[data-platform="web"],

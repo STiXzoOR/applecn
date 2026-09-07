@@ -223,9 +223,13 @@ function ActionSheetAction({
   const presentation = useActionSheetPresentation()
   const actionClassName = cn(
     presentation === "popover"
-      ? "flex h-(--menu-item-height) w-full items-center justify-center truncate rounded-menu-item px-4 text-[length:var(--menu-font)] outline-none select-none hover:bg-fill-3 focus-visible:bg-fill-3 active:bg-fill-2 disabled:opacity-40 macos:hover:bg-selection macos:hover:text-white"
+      ? "flex h-(--menu-item-height) w-full items-center justify-center truncate rounded-menu-item px-4 text-[length:var(--menu-font)] outline-none select-none hover:bg-(--action-sheet-item-hover-bg) focus-visible:bg-fill-3 active:bg-fill-2 disabled:opacity-40"
       : capsuleClassName,
     destructive ? "text-destructive" : "text-primary",
+    presentation === "popover" &&
+      (destructive
+        ? "hover:text-(--action-sheet-item-hover-text-destructive)"
+        : "hover:text-(--action-sheet-item-hover-text-default)"),
     className
   )
   return presentation === "popover" ? (

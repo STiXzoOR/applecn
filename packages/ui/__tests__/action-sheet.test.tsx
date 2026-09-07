@@ -66,6 +66,15 @@ describe("ActionSheet", () => {
     expect(
       sheet.querySelector('[data-slot="action-sheet-cancel-group"]')
     ).toBeNull()
+    const del = screen.getByRole("button", { name: "Delete Draft" })
+    expect(del.className).toContain("hover:bg-(--action-sheet-item-hover-bg)")
+    expect(del.className).toContain(
+      "hover:text-(--action-sheet-item-hover-text-destructive)"
+    )
+    const save = screen.getByRole("button", { name: "Save Draft" })
+    expect(save.className).toContain(
+      "hover:text-(--action-sheet-item-hover-text-default)"
+    )
   })
 
   test("Cancel and Escape dismiss it", async () => {

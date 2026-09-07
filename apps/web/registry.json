@@ -935,7 +935,10 @@
           "--input-shadow": "none",
           "--sidebar-item-gap": "0.625rem",
           "--sidebar-group-label-text": "var(--label-3)",
-          "--navigation-bar-back-radius": "calc(infinity * 1px)"
+          "--navigation-bar-back-radius": "calc(infinity * 1px)",
+          "--action-sheet-item-hover-bg": "var(--fill-3)",
+          "--action-sheet-item-hover-text-default": "var(--primary)",
+          "--action-sheet-item-hover-text-destructive": "var(--destructive)"
         },
         ".dark[data-platform=\"ios\"], .dark [data-platform=\"ios\"]": {
           "--label": "rgb(255 255 255)",
@@ -1322,7 +1325,10 @@
           "--input-shadow": "var(--elevation-control)",
           "--sidebar-item-gap": "0.5rem",
           "--sidebar-group-label-text": "var(--label-2)",
-          "--navigation-bar-back-radius": "var(--radius-control)"
+          "--navigation-bar-back-radius": "var(--radius-control)",
+          "--action-sheet-item-hover-bg": "var(--selection)",
+          "--action-sheet-item-hover-text-default": "white",
+          "--action-sheet-item-hover-text-destructive": "white"
         },
         ".dark[data-platform=\"macos\"], .dark [data-platform=\"macos\"]": {
           "--label": "rgb(255 255 255 / 0.85)",
@@ -1709,7 +1715,10 @@
           "--input-shadow": "none",
           "--sidebar-item-gap": "0.625rem",
           "--sidebar-group-label-text": "var(--label-3)",
-          "--navigation-bar-back-radius": "var(--radius-control)"
+          "--navigation-bar-back-radius": "var(--radius-control)",
+          "--action-sheet-item-hover-bg": "var(--fill-3)",
+          "--action-sheet-item-hover-text-default": "var(--primary)",
+          "--action-sheet-item-hover-text-destructive": "var(--destructive)"
         },
         ".dark[data-platform=\"web\"], .dark [data-platform=\"web\"]": {
           "--label": "rgb(245 245 247)",

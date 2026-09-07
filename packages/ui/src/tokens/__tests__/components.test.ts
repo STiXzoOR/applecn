@@ -741,3 +741,44 @@ describe("navigation bar appearance tokens", () => {
     ])
   })
 })
+
+describe("action sheet appearance tokens", () => {
+  test("the popover row highlights with fill-3 off macOS; macOS highlights with the selection colour", () => {
+    expect(componentTokens.ios.actionSheet.item.hoverBg).toBe("var(--fill-3)")
+    expect(componentTokens.macos.actionSheet.item.hoverBg).toBe(
+      "var(--selection)"
+    )
+    expect(componentTokens.web.actionSheet.item.hoverBg).toBe("var(--fill-3)")
+  })
+
+  test("macOS turns the row's label white on hover, whichever variant it is; other idioms keep the resting colour", () => {
+    expect(componentTokens.ios.actionSheet.item.hoverTextDefault).toBe(
+      "var(--primary)"
+    )
+    expect(componentTokens.ios.actionSheet.item.hoverTextDestructive).toBe(
+      "var(--destructive)"
+    )
+    expect(componentTokens.macos.actionSheet.item.hoverTextDefault).toBe(
+      "white"
+    )
+    expect(componentTokens.macos.actionSheet.item.hoverTextDestructive).toBe(
+      "white"
+    )
+  })
+
+  test("emits kebab-case CSS variable lines", () => {
+    const lines = componentLines("macos")
+    expect(lines).toContainEqual([
+      "action-sheet-item-hover-bg",
+      "var(--selection)",
+    ])
+    expect(lines).toContainEqual([
+      "action-sheet-item-hover-text-default",
+      "white",
+    ])
+    expect(lines).toContainEqual([
+      "action-sheet-item-hover-text-destructive",
+      "white",
+    ])
+  })
+})

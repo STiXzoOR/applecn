@@ -270,6 +270,20 @@ export interface NavigationBarTokens {
   readonly backRadius: string
 }
 
+/**
+ * The action sheet's popover row hover state: fill-3 on iOS and the web; macOS highlights with
+ * the system selection colour and turns the label white, whichever variant it is —
+ * `hoverTextDefault`/`hoverTextDestructive` mirror the `default`/`destructive` colours the row
+ * already reads at rest, since off macOS hover never recolours the label at all.
+ */
+export interface ActionSheetTokens {
+  readonly item: {
+    readonly hoverBg: string
+    readonly hoverTextDefault: string
+    readonly hoverTextDestructive: string
+  }
+}
+
 export interface ComponentTokens {
   readonly checkbox: Bezel
   readonly radio: Bezel
@@ -290,6 +304,7 @@ export interface ComponentTokens {
   readonly input: FieldBorderTokens
   readonly sidebar: SidebarTokens
   readonly navigationBar: NavigationBarTokens
+  readonly actionSheet: ActionSheetTokens
 }
 
 const iosBezel: Bezel = {
@@ -812,6 +827,29 @@ const iosNavigationBar: NavigationBarTokens = { backRadius: iosGlassRadius }
 const macosNavigationBar: NavigationBarTokens = { backRadius: controlRadius }
 const webNavigationBar: NavigationBarTokens = { backRadius: controlRadius }
 
+// Measured 2026-09-07: the popover row highlights with fill-3 on iOS and the web; macOS
+// highlights with the system selection colour and turns the label white regardless of variant
+// — the resting `default`/`destructive` colours never change off macOS, so hoverTextDefault/
+// hoverTextDestructive there are the same values the row already reads at rest
+// (docs/research/apple-design-system-reference.md §action sheets).
+const iosActionSheet: ActionSheetTokens = {
+  item: {
+    hoverBg: "var(--fill-3)",
+    hoverTextDefault: "var(--primary)",
+    hoverTextDestructive: "var(--destructive)",
+  },
+}
+
+const macosActionSheet: ActionSheetTokens = {
+  item: {
+    hoverBg: "var(--selection)",
+    hoverTextDefault: "white",
+    hoverTextDestructive: "white",
+  },
+}
+
+const webActionSheet: ActionSheetTokens = iosActionSheet
+
 export const componentTokens: Record<Platform, ComponentTokens> = {
   ios: {
     checkbox: iosBezel,
@@ -833,6 +871,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     input: iosFieldBorder,
     sidebar: iosSidebar,
     navigationBar: iosNavigationBar,
+    actionSheet: iosActionSheet,
   },
   macos: {
     checkbox: macosBezel,
@@ -854,6 +893,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     input: macosFieldBorder,
     sidebar: macosSidebar,
     navigationBar: macosNavigationBar,
+    actionSheet: macosActionSheet,
   },
   web: {
     checkbox: webBezel,
@@ -875,6 +915,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     input: webFieldBorder,
     sidebar: webSidebar,
     navigationBar: webNavigationBar,
+    actionSheet: webActionSheet,
   },
 }
 
@@ -1012,6 +1053,12 @@ const navigationBarLines = (n: NavigationBarTokens): Line[] => [
   ["navigation-bar-back-radius", n.backRadius],
 ]
 
+const actionSheetLines = (a: ActionSheetTokens): Line[] => [
+  ["action-sheet-item-hover-bg", a.item.hoverBg],
+  ["action-sheet-item-hover-text-default", a.item.hoverTextDefault],
+  ["action-sheet-item-hover-text-destructive", a.item.hoverTextDestructive],
+]
+
 const fieldBorderLines = (name: string, f: FieldBorderTokens): Line[] => [
   [`${name}-border-width`, `${f.borderWidth}px`],
   [`${name}-border-color`, f.borderColor],
@@ -1058,5 +1105,6 @@ export function componentLines(platform: Platform): Line[] {
     ...fieldBorderLines("input", t.input),
     ...sidebarLines(t.sidebar),
     ...navigationBarLines(t.navigationBar),
+    ...actionSheetLines(t.actionSheet),
   ]
 }
