@@ -683,3 +683,22 @@ describe("segmented control appearance tokens", () => {
     ])
   })
 })
+
+describe("input appearance tokens", () => {
+  test("the bordered variant shares the same field border race as textarea and passcode-field", () => {
+    expect(componentTokens.ios.input.borderWidth).toBe(0.5)
+    expect(componentTokens.macos.input.borderWidth).toBe(0.5)
+    expect(componentTokens.web.input.borderWidth).toBe(1)
+    expect(componentTokens.ios.input.borderColor).toBe("var(--separator)")
+    expect(componentTokens.web.input.borderColor).toBe("var(--label-4)")
+    expect(componentTokens.macos.input.shadow).toBe("var(--elevation-control)")
+    expect(componentTokens.ios.input.shadow).toBe("none")
+  })
+
+  test("emits kebab-case CSS variable lines", () => {
+    const lines = componentLines("macos")
+    expect(lines).toContainEqual(["input-border-width", "0.5px"])
+    expect(lines).toContainEqual(["input-border-color", "var(--separator)"])
+    expect(lines).toContainEqual(["input-shadow", "var(--elevation-control)"])
+  })
+})

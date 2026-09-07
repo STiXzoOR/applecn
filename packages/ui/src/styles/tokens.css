@@ -976,6 +976,9 @@
   --segmented-control-indicator-bg: var(--background);
   --segmented-control-indicator-shadow: var(--elevation-segment);
   --segmented-control-item-active-text: var(--label);
+  --input-border-width: 0.5px;
+  --input-border-color: var(--separator);
+  --input-shadow: none;
 }
 
 @media (width >= 414px) {
@@ -1366,6 +1369,9 @@
   --segmented-control-indicator-bg: var(--primary);
   --segmented-control-indicator-shadow: none;
   --segmented-control-item-active-text: white;
+  --input-border-width: 0.5px;
+  --input-border-color: var(--separator);
+  --input-shadow: var(--elevation-control);
 }
 
 .dark[data-platform="macos"],
@@ -1750,6 +1756,9 @@
   --segmented-control-indicator-bg: var(--background);
   --segmented-control-indicator-shadow: var(--elevation-segment);
   --segmented-control-item-active-text: var(--label);
+  --input-border-width: 1px;
+  --input-border-color: var(--label-4);
+  --input-shadow: none;
 }
 
 .dark[data-platform="web"],

@@ -21,7 +21,7 @@ const inputVariants = cva(
     variants: {
       variant: {
         bordered:
-          "h-(--text-field-height) rounded-field border-[0.5px] border-separator bg-background-3 px-2 macos:shadow-control web:border web:border-label-4",
+          "h-(--text-field-height) rounded-field border-(length:--input-border-width) border-(--input-border-color) bg-background-3 px-2 shadow-(--input-shadow)",
         rounded: "h-(--text-field-height) rounded-lg bg-fill-3 px-3",
         plain: "h-(--text-field-height) bg-transparent px-0",
       },

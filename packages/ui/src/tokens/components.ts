@@ -276,6 +276,7 @@ export interface ComponentTokens {
   readonly toggle: ToggleTokens
   readonly textarea: FieldBorderTokens
   readonly segmentedControl: SegmentedControlTokens
+  readonly input: FieldBorderTokens
 }
 
 const iosBezel: Bezel = {
@@ -796,6 +797,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     toggle: iosToggle,
     textarea: iosFieldBorder,
     segmentedControl: iosSegmentedControl,
+    input: iosFieldBorder,
   },
   macos: {
     checkbox: macosBezel,
@@ -814,6 +816,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     toggle: macosToggle,
     textarea: macosFieldBorder,
     segmentedControl: macosSegmentedControl,
+    input: macosFieldBorder,
   },
   web: {
     checkbox: webBezel,
@@ -832,6 +835,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     toggle: webToggle,
     textarea: webFieldBorder,
     segmentedControl: webSegmentedControl,
+    input: webFieldBorder,
   },
 }
 
@@ -1003,5 +1007,6 @@ export function componentLines(platform: Platform): Line[] {
     ...toggleLines(t.toggle),
     ...fieldBorderLines("textarea", t.textarea),
     ...segmentedControlLines(t.segmentedControl),
+    ...fieldBorderLines("input", t.input),
   ]
 }
