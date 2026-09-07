@@ -195,3 +195,50 @@ test("published sources import siblings by alias, as shadcn does", () => {
     for (const file of publishItem(item).files)
       expect(file.content, item.name).not.toMatch(/from "\.\/[a-z-]+"/)
 })
+
+describe("the three idiom themes", () => {
+  const items = buildRegistry().items
+
+  test.each(["ios", "macos", "web"])(
+    "%s installs one idiom's scope",
+    (name) => {
+      const theme = items.find((i) => i.name === name)!
+      expect(theme.type).toBe("registry:theme")
+      const keys = Object.keys(theme.css ?? {})
+      expect(keys).toContain(`[data-platform="${name}"]`)
+      for (const other of ["ios", "macos", "web"].filter((p) => p !== name))
+        expect(keys).not.toContain(`[data-platform="${other}"]`)
+    }
+  )
+
+  test("the apple style item still carries all three", () => {
+    const style = items.find((i) => i.name === "apple")!
+    const keys = Object.keys(style.css ?? {})
+    for (const p of ["ios", "macos", "web"])
+      expect(keys).toContain(`[data-platform="${p}"]`)
+  })
+
+  test.each([
+    ["ios", 2],
+    ["macos", 2],
+    ["web", 4],
+  ] as const)("%s carries exactly %i top-level css keys", (name, count) => {
+    const theme = items.find((i) => i.name === name)!
+    expect(Object.keys(theme.css ?? {})).toHaveLength(count)
+  })
+
+  test("only the web theme carries apple.com's responsive type ramp", () => {
+    const web = items.find((i) => i.name === "web")!
+    expect(Object.keys(web.css ?? {})).toEqual(
+      expect.arrayContaining([
+        "@media (width >= 735px)",
+        "@media (width >= 1069px)",
+      ])
+    )
+    for (const name of ["ios", "macos"]) {
+      const theme = items.find((i) => i.name === name)!
+      for (const key of Object.keys(theme.css ?? {}))
+        expect(key, name).not.toMatch(/^@media/)
+    }
+  })
+})

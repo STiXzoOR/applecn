@@ -5,6 +5,7 @@ import { tokenPlatformCss, tokenVars } from "@applecn/ui/tokens/css"
 
 import { REGISTRY_URL, SITE_URL } from "../lib/site.ts"
 import { componentDocs } from "../registry/index.ts"
+import { themeItems } from "./themes.ts"
 
 /**
  * Builds the shadcn `registry.json` for `@applecn/ui` from the package sources: one
@@ -335,6 +336,6 @@ export function buildRegistry(): Registry {
     $schema: "https://ui.shadcn.com/schema/registry.json",
     name: "applecn",
     homepage: SITE_URL,
-    items: [style, ...ui, ...hooks, ...lib],
+    items: [style, ...themeItems(), ...ui, ...hooks, ...lib],
   }
 }

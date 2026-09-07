@@ -549,12 +549,18 @@ export function renderTokensCss(): string {
  * The platform scopes as a nested object for the registry's style item (`css`), so a project
  * that installs the theme can switch idioms with `data-platform` the way the site does. Keys
  * are selectors or at-rules; values are declarations with their `--` prefix.
+ *
+ * Pass a single `only` platform to generate just that idiom's scope (for the installable
+ * theme items) rather than filtering the combined output after the fact — web's `@media`
+ * breakpoints are keyed at the top level with the platform selector nested inside, so
+ * filtering by top-level key would either lose web's responsive type ramp or leak
+ * `[data-platform="web"]` into the ios/macos themes, depending on which way it filtered.
  */
-export function tokenPlatformCss(): Record<string, unknown> {
+export function tokenPlatformCss(only?: Platform): Record<string, unknown> {
   const declarations = (lines: readonly Line[]) =>
     Object.fromEntries(lines.map(([n, v]) => [`--${n}`, v]))
   const out: Record<string, unknown> = {}
-  for (const platform of platforms) {
+  for (const platform of only ? [only] : platforms) {
     const selector = platformSelector(platform)
     const colors = platform === "ios" ? iosColors : platformColors[platform]
     out[selector] = declarations([
