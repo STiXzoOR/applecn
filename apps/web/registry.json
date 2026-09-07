@@ -934,7 +934,8 @@
           "--input-border-color": "var(--separator)",
           "--input-shadow": "none",
           "--sidebar-item-gap": "0.625rem",
-          "--sidebar-group-label-text": "var(--label-3)"
+          "--sidebar-group-label-text": "var(--label-3)",
+          "--navigation-bar-back-radius": "calc(infinity * 1px)"
         },
         ".dark[data-platform=\"ios\"], .dark [data-platform=\"ios\"]": {
           "--label": "rgb(255 255 255)",
@@ -1320,7 +1321,8 @@
           "--input-border-color": "var(--separator)",
           "--input-shadow": "var(--elevation-control)",
           "--sidebar-item-gap": "0.5rem",
-          "--sidebar-group-label-text": "var(--label-2)"
+          "--sidebar-group-label-text": "var(--label-2)",
+          "--navigation-bar-back-radius": "var(--radius-control)"
         },
         ".dark[data-platform=\"macos\"], .dark [data-platform=\"macos\"]": {
           "--label": "rgb(255 255 255 / 0.85)",
@@ -1706,7 +1708,8 @@
           "--input-border-color": "var(--label-4)",
           "--input-shadow": "none",
           "--sidebar-item-gap": "0.625rem",
-          "--sidebar-group-label-text": "var(--label-3)"
+          "--sidebar-group-label-text": "var(--label-3)",
+          "--navigation-bar-back-radius": "var(--radius-control)"
         },
         ".dark[data-platform=\"web\"], .dark [data-platform=\"web\"]": {
           "--label": "rgb(245 245 247)",

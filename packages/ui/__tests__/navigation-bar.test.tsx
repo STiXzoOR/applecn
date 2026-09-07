@@ -49,10 +49,9 @@ describe("NavigationBar", () => {
     expect(
       screen.getByRole("heading", { level: 1, name: "Settings" }).className
     ).toContain("type-large-title")
-    expect(screen.getByRole("link", { name: "Back" })).toHaveAttribute(
-      "href",
-      "/"
-    )
+    const back = screen.getByRole("link", { name: "Back" })
+    expect(back).toHaveAttribute("href", "/")
+    expect(back.className).toContain("rounded-(--navigation-bar-back-radius)")
     expect(screen.getByRole("button", { name: "Edit" })).toBeInTheDocument()
 
     act(() => {

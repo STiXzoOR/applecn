@@ -265,6 +265,11 @@ export interface SidebarTokens {
   readonly groupLabelText: string
 }
 
+/** The navigation bar's back button: a full capsule on iOS, the control radius elsewhere. */
+export interface NavigationBarTokens {
+  readonly backRadius: string
+}
+
 export interface ComponentTokens {
   readonly checkbox: Bezel
   readonly radio: Bezel
@@ -284,6 +289,7 @@ export interface ComponentTokens {
   readonly segmentedControl: SegmentedControlTokens
   readonly input: FieldBorderTokens
   readonly sidebar: SidebarTokens
+  readonly navigationBar: NavigationBarTokens
 }
 
 const iosBezel: Bezel = {
@@ -801,6 +807,11 @@ const macosSidebar: SidebarTokens = {
 
 const webSidebar: SidebarTokens = iosSidebar
 
+// Shares the toolbar's own full-capsule-to-control-radius race.
+const iosNavigationBar: NavigationBarTokens = { backRadius: iosGlassRadius }
+const macosNavigationBar: NavigationBarTokens = { backRadius: controlRadius }
+const webNavigationBar: NavigationBarTokens = { backRadius: controlRadius }
+
 export const componentTokens: Record<Platform, ComponentTokens> = {
   ios: {
     checkbox: iosBezel,
@@ -821,6 +832,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     segmentedControl: iosSegmentedControl,
     input: iosFieldBorder,
     sidebar: iosSidebar,
+    navigationBar: iosNavigationBar,
   },
   macos: {
     checkbox: macosBezel,
@@ -841,6 +853,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     segmentedControl: macosSegmentedControl,
     input: macosFieldBorder,
     sidebar: macosSidebar,
+    navigationBar: macosNavigationBar,
   },
   web: {
     checkbox: webBezel,
@@ -861,6 +874,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     segmentedControl: webSegmentedControl,
     input: webFieldBorder,
     sidebar: webSidebar,
+    navigationBar: webNavigationBar,
   },
 }
 
@@ -994,6 +1008,10 @@ const sidebarLines = (s: SidebarTokens): Line[] => [
   ["sidebar-group-label-text", s.groupLabelText],
 ]
 
+const navigationBarLines = (n: NavigationBarTokens): Line[] => [
+  ["navigation-bar-back-radius", n.backRadius],
+]
+
 const fieldBorderLines = (name: string, f: FieldBorderTokens): Line[] => [
   [`${name}-border-width`, `${f.borderWidth}px`],
   [`${name}-border-color`, f.borderColor],
@@ -1039,5 +1057,6 @@ export function componentLines(platform: Platform): Line[] {
     ...segmentedControlLines(t.segmentedControl),
     ...fieldBorderLines("input", t.input),
     ...sidebarLines(t.sidebar),
+    ...navigationBarLines(t.navigationBar),
   ]
 }

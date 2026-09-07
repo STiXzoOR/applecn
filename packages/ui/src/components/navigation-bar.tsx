@@ -105,7 +105,7 @@ function NavigationBarBackButton({
   ...props
 }: NavigationBarBackButtonProps) {
   const buttonClassName = cn(
-    "flex size-(--nav-bar-item) pressable items-center justify-center rounded-full glass text-primary outline-none focus-visible:ring-4 focus-visible:ring-ring/60 macos:rounded-control web:rounded-control",
+    "flex size-(--nav-bar-item) pressable items-center justify-center rounded-(--navigation-bar-back-radius) glass text-primary outline-none focus-visible:ring-4 focus-visible:ring-ring/60",
     className
   )
   if (href) {

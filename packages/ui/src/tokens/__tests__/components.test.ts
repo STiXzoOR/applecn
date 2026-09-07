@@ -719,3 +719,25 @@ describe("sidebar appearance tokens", () => {
     expect(lines).toContainEqual(["sidebar-group-label-text", "var(--label-2)"])
   })
 })
+
+describe("navigation bar appearance tokens", () => {
+  test("the back button keeps a full capsule on iOS; macOS and the web round to the control radius", () => {
+    expect(componentTokens.ios.navigationBar.backRadius).toBe(
+      "calc(infinity * 1px)"
+    )
+    expect(componentTokens.macos.navigationBar.backRadius).toBe(
+      "var(--radius-control)"
+    )
+    expect(componentTokens.web.navigationBar.backRadius).toBe(
+      "var(--radius-control)"
+    )
+  })
+
+  test("emits kebab-case CSS variable lines", () => {
+    const lines = componentLines("macos")
+    expect(lines).toContainEqual([
+      "navigation-bar-back-radius",
+      "var(--radius-control)",
+    ])
+  })
+})

@@ -981,6 +981,7 @@
   --input-shadow: none;
   --sidebar-item-gap: 0.625rem;
   --sidebar-group-label-text: var(--label-3);
+  --navigation-bar-back-radius: calc(infinity * 1px);
 }
 
 @media (width >= 414px) {
@@ -1376,6 +1377,7 @@
   --input-shadow: var(--elevation-control);
   --sidebar-item-gap: 0.5rem;
   --sidebar-group-label-text: var(--label-2);
+  --navigation-bar-back-radius: var(--radius-control);
 }
 
 .dark[data-platform="macos"],
@@ -1765,6 +1767,7 @@
   --input-shadow: none;
   --sidebar-item-gap: 0.625rem;
   --sidebar-group-label-text: var(--label-3);
+  --navigation-bar-back-radius: var(--radius-control);
 }
 
 .dark[data-platform="web"],
