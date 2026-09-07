@@ -28,7 +28,15 @@ export interface RegistryItem {
   dependencies?: string[]
   registryDependencies?: string[]
   files: RegistryFile[]
-  cssVars?: { light?: Record<string, string>; dark?: Record<string, string> }
+  cssVars?: {
+    light?: Record<string, string>
+    dark?: Record<string, string>
+    // Merges into the consumer's `@theme inline` via a plain `postcss` declaration — unlike
+    // a top-level `css["@theme"]`/`css["@theme inline"]` key, which shadcn 4.20/4.21 cannot
+    // merge (task 11: it treats a string-valued entry's name as a nested rule selector and
+    // its value as that rule's body, so a plain `--x: 1px` crashes `update-css`).
+    theme?: Record<string, string>
+  }
   css?: Record<string, unknown>
 }
 
@@ -164,9 +172,18 @@ function utilities(css: string): Record<string, unknown> {
 
 /**
  * Parses the plain `@theme { … }` block (not the large `@theme inline { … }` mapping, which
- * stays internal) into the flat declarations the registry's `css` field expects.
+ * stays internal) into a flat, bare-name `cssVars.theme` map — not a `css["@theme"]` entry.
+ * shadcn 4.20/4.21's `update-css` cannot merge a plain string-valued declaration nested under
+ * a top-level `"@theme"`/`"@theme inline"` `css` key: it treats the declaration's own name as
+ * a nested rule selector and its value as that rule's body, so `--shadow-hairline: 0 0 0
+ * 0.5px var(--separator)` becomes the invalid rule `.temp{0 0 0 0.5px var(--separator)}` and
+ * throws (task 11; confirmed with an unrelated trivial value, so it isn't specific to this
+ * declaration's syntax, and confirmed still present in the latest published CLI release).
+ * `cssVars.theme` merges into `@theme inline` through a separate, working code path — a
+ * plain `postcss` declaration append — so it renders the identical CSS without touching the
+ * broken one.
  */
-function theme(css: string): Record<string, unknown> {
+function theme(css: string): Record<string, string> {
   const match = /@theme\s*\{/.exec(css)
   if (!match) return {}
   const start = match.index + match[0].length
@@ -177,7 +194,16 @@ function theme(css: string): Record<string, unknown> {
     if (css[end] === "}") depth--
     end++
   }
-  return { "@theme": parseBlock(css.slice(start, end - 1)) }
+  const declarations = parseBlock(css.slice(start, end - 1)) as Record<
+    string,
+    string
+  >
+  return Object.fromEntries(
+    Object.entries(declarations).map(([name, value]) => [
+      name.replace(/^--/, ""),
+      value,
+    ])
+  )
 }
 
 /**
@@ -349,10 +375,10 @@ export function buildRegistry(): Registry {
     cssVars: {
       light: { ...tokenVars("light"), ...fontVars(globalsCss) },
       dark: tokenVars("dark"),
+      theme: theme(globalsCss),
     },
     css: {
       ...utilities(globalsCss),
-      ...theme(globalsCss),
       ...baseLayer(globalsCss),
     },
   }

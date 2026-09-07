@@ -398,6 +398,11 @@
           "material-glass-fallback": "rgb(14 14 14)",
           "material-glass-clear-bg": "rgb(255 255 255 / 0.25)",
           "material-glass-clear-fallback": "rgb(14 14 14)"
+        },
+        "theme": {
+          "shadow-hairline": "0 0 0 0.5px var(--separator)",
+          "shadow-hairline-t": "inset 0 0.5px 0 var(--separator)",
+          "shadow-hairline-b": "inset 0 -0.5px 0 var(--separator)"
         }
       },
       "css": {
@@ -565,11 +570,6 @@
             "background-color": "var(--primary)",
             "backdrop-filter": "none"
           }
-        },
-        "@theme": {
-          "--shadow-hairline": "0 0 0 0.5px var(--separator)",
-          "--shadow-hairline-t": "inset 0 0.5px 0 var(--separator)",
-          "--shadow-hairline-b": "inset 0 -0.5px 0 var(--separator)"
         },
         "@layer base": {
           "*": {},

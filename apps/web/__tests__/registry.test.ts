@@ -100,20 +100,31 @@ describe("registry", () => {
     expect(base.cssVars?.light?.primary).toBe("var(--accent-color)")
   })
 
-  test("ships the hairline shadows from the plain @theme block, not the @theme inline mapping", () => {
+  test('ships the hairline shadows via cssVars.theme, not a css["@theme"] block', () => {
+    // Task 11 found `shadcn add` crashing on this exact value. Bisection traced it to a real
+    // bug in shadcn 4.20/4.21's `update-css`: a plain string-valued declaration nested under
+    // a top-level `"@theme"` (or `"@theme inline"`) `css` key is always routed through a
+    // helper that treats the declaration's name as a nested rule selector and the value as
+    // that rule's raw body — `.temp{0 0 0 0.5px var(--separator)}` isn't valid CSS, so it
+    // throws. `cssVars.theme` merges into `@theme inline` through a separate, working code
+    // path (a plain `O.decl`), so it renders the identical CSS without touching the broken
+    // one. No item may ship a plain `css["@theme"]`/`css["@theme inline"]` key again.
     const base = registry.items.find((i) => i.name === "base")!
-    const theme = base.css?.["@theme"] as Record<string, string>
-    expect(theme["--shadow-hairline"]).toBe("0 0 0 0.5px var(--separator)")
-    expect(theme["--shadow-hairline-t"]).toBe(
+    expect(base.cssVars?.theme?.["shadow-hairline"]).toBe(
+      "0 0 0 0.5px var(--separator)"
+    )
+    expect(base.cssVars?.theme?.["shadow-hairline-t"]).toBe(
       "inset 0 0.5px 0 var(--separator)"
     )
-    expect(theme["--shadow-hairline-b"]).toBe(
+    expect(base.cssVars?.theme?.["shadow-hairline-b"]).toBe(
       "inset 0 -0.5px 0 var(--separator)"
     )
-    // the large `@theme inline { … }` mapping is a separate block and must not ship as a
-    // side effect of extracting the plain one.
-    expect(theme["--color-background"]).toBeUndefined()
-    expect(Object.keys(base.css ?? {})).not.toContain("@theme inline")
+    for (const item of registry.items) {
+      expect(Object.keys(item.css ?? {}), item.name).not.toContain("@theme")
+      expect(Object.keys(item.css ?? {}), item.name).not.toContain(
+        "@theme inline"
+      )
+    }
   })
 
   test("base carries the type and material utilities", () => {
@@ -309,6 +320,8 @@ describe("the shared base layer reaches every idiom", () => {
       for (const key of Object.keys(item.cssVars?.light ?? {}))
         defined.add(`--${key}`)
       for (const key of Object.keys(item.cssVars?.dark ?? {}))
+        defined.add(`--${key}`)
+      for (const key of Object.keys(item.cssVars?.theme ?? {}))
         defined.add(`--${key}`)
       collectDeclared(item.css, defined)
     }
