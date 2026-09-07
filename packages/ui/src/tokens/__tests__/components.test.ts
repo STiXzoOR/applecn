@@ -100,3 +100,95 @@ describe("button appearance tokens", () => {
     expect(lines).toContainEqual(["button-bordered-border", "var(--label)"])
   })
 })
+
+describe("alert dialog appearance tokens", () => {
+  test("iOS text starts; macOS centres it, as AppKit alerts do", () => {
+    expect(componentTokens.ios.alertDialog.textAlign).toBe("start")
+    expect(componentTokens.macos.alertDialog.textAlign).toBe("center")
+    expect(componentTokens.web.alertDialog.textAlign).toBe("start")
+  })
+
+  test("title and message insets narrow from 1.5rem to 1rem on macOS", () => {
+    expect(componentTokens.ios.alertDialog.titlePx).toBe("1.5rem")
+    expect(componentTokens.macos.alertDialog.titlePx).toBe("1rem")
+    expect(componentTokens.web.alertDialog.titlePx).toBe("1.5rem")
+    expect(componentTokens.ios.alertDialog.titlePt).toBe("1.25rem")
+    expect(componentTokens.macos.alertDialog.titlePt).toBe("1.5rem")
+    expect(componentTokens.macos.alertDialog.descriptionText).toBe(
+      "var(--label)"
+    )
+    expect(componentTokens.ios.alertDialog.descriptionText).toBe(
+      "var(--label-2)"
+    )
+  })
+
+  test("the action bezel: only macOS carries a shadow and a control radius", () => {
+    expect(componentTokens.ios.alertDialog.button.radius).toBe(
+      "calc(infinity * 1px)"
+    )
+    expect(componentTokens.macos.alertDialog.button.radius).toBe(
+      "var(--control-radius-regular)"
+    )
+    expect(componentTokens.macos.alertDialog.button.shadow).toBe(
+      "var(--elevation-control)"
+    )
+    expect(componentTokens.ios.alertDialog.button.shadow).toBe("none")
+  })
+
+  test("only macOS disables the press-down scale; iOS and the web keep it", () => {
+    expect(componentTokens.ios.alertDialog.button.activeScale).toBe("0.97")
+    expect(componentTokens.macos.alertDialog.button.activeScale).toBe("1")
+    expect(componentTokens.web.alertDialog.button.activeScale).toBe("0.97")
+  })
+
+  test("the web always renders action labels at normal weight, preferred or not", () => {
+    expect(componentTokens.web.alertDialog.button.fontWeight).toBe("400")
+    expect(componentTokens.web.alertDialog.button.fontWeightPreferred).toBe(
+      "400"
+    )
+    expect(componentTokens.ios.alertDialog.button.fontWeight).toBe("500")
+    expect(componentTokens.ios.alertDialog.button.fontWeightPreferred).toBe(
+      "600"
+    )
+  })
+
+  test("a preferred action is filled with the accent and turns white, macOS only", () => {
+    expect(componentTokens.macos.alertDialog.button.bgPreferred).toBe(
+      "var(--primary)"
+    )
+    expect(componentTokens.macos.alertDialog.button.textDefaultPreferred).toBe(
+      "white"
+    )
+    expect(
+      componentTokens.macos.alertDialog.button.textDestructivePreferred
+    ).toBe("white")
+    expect(componentTokens.ios.alertDialog.button.bgPreferred).toBe(
+      componentTokens.ios.alertDialog.button.bg
+    )
+    expect(componentTokens.web.alertDialog.button.textDefaultPreferred).toBe(
+      componentTokens.web.alertDialog.button.textDefault
+    )
+  })
+
+  test("destructive text is red on every idiom, preferred or not", () => {
+    for (const p of ["ios", "macos", "web"] as const) {
+      expect(componentTokens[p].alertDialog.button.textDestructive).toBe(
+        "var(--destructive)"
+      )
+    }
+  })
+
+  test("emits kebab-case CSS variable lines, prefixed alert- to match the geometry tokens", () => {
+    const lines = componentLines("macos")
+    expect(lines).toContainEqual(["alert-text-align", "center"])
+    expect(lines).toContainEqual(["alert-title-px", "1rem"])
+    expect(lines).toContainEqual([
+      "alert-button-radius",
+      "var(--control-radius-regular)",
+    ])
+    expect(lines).toContainEqual([
+      "alert-button-bg-preferred",
+      "var(--primary)",
+    ])
+  })
+})

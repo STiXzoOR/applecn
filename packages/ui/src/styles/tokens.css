@@ -894,6 +894,24 @@
   --button-bordered-shadow: none;
   --button-bordered-hover-bg: var(--fill-4);
   --button-bordered-hover-text: var(--primary);
+  --alert-text-align: start;
+  --alert-title-px: 1.5rem;
+  --alert-title-pt: 1.25rem;
+  --alert-description-px: 1.5rem;
+  --alert-description-text: var(--label-2);
+  --alert-field-px: 1.5rem;
+  --alert-button-radius: calc(infinity * 1px);
+  --alert-button-active-scale: 0.97;
+  --alert-button-bg: var(--fill-3);
+  --alert-button-bg-preferred: var(--fill-3);
+  --alert-button-shadow: none;
+  --alert-button-shadow-preferred: none;
+  --alert-button-font-weight: 500;
+  --alert-button-font-weight-preferred: 600;
+  --alert-button-text-default: var(--primary);
+  --alert-button-text-default-preferred: var(--primary);
+  --alert-button-text-destructive: var(--destructive);
+  --alert-button-text-destructive-preferred: var(--destructive);
 }
 
 @media (width >= 414px) {
@@ -1202,6 +1220,24 @@
   --button-bordered-shadow: var(--elevation-control);
   --button-bordered-hover-bg: var(--fill-4);
   --button-bordered-hover-text: var(--label);
+  --alert-text-align: center;
+  --alert-title-px: 1rem;
+  --alert-title-pt: 1.5rem;
+  --alert-description-px: 1rem;
+  --alert-description-text: var(--label);
+  --alert-field-px: 1rem;
+  --alert-button-radius: var(--control-radius-regular);
+  --alert-button-active-scale: 1;
+  --alert-button-bg: var(--background-3);
+  --alert-button-bg-preferred: var(--primary);
+  --alert-button-shadow: var(--elevation-control);
+  --alert-button-shadow-preferred: none;
+  --alert-button-font-weight: 500;
+  --alert-button-font-weight-preferred: 600;
+  --alert-button-text-default: var(--label);
+  --alert-button-text-default-preferred: white;
+  --alert-button-text-destructive: var(--destructive);
+  --alert-button-text-destructive-preferred: white;
 }
 
 .dark[data-platform="macos"],
@@ -1504,6 +1540,24 @@
   --button-bordered-shadow: none;
   --button-bordered-hover-bg: var(--label);
   --button-bordered-hover-text: var(--background);
+  --alert-text-align: start;
+  --alert-title-px: 1.5rem;
+  --alert-title-pt: 1.25rem;
+  --alert-description-px: 1.5rem;
+  --alert-description-text: var(--label-2);
+  --alert-field-px: 1.5rem;
+  --alert-button-radius: calc(infinity * 1px);
+  --alert-button-active-scale: 0.97;
+  --alert-button-bg: var(--fill-3);
+  --alert-button-bg-preferred: var(--fill-3);
+  --alert-button-shadow: none;
+  --alert-button-shadow-preferred: none;
+  --alert-button-font-weight: 400;
+  --alert-button-font-weight-preferred: 400;
+  --alert-button-text-default: var(--primary);
+  --alert-button-text-default-preferred: var(--primary);
+  --alert-button-text-destructive: var(--destructive);
+  --alert-button-text-destructive-preferred: var(--destructive);
 }
 
 .dark[data-platform="web"],

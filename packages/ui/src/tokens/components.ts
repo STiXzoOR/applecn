@@ -46,10 +46,41 @@ export interface ButtonTokens {
   }
 }
 
+/**
+ * The alert's action bezel. `textDefault`/`textDestructive` are the resting text colour per
+ * `variant`; the `*Preferred` siblings are what a `preferred` action shows instead — on macOS
+ * that's AppKit filling the preferred button with the accent and turning its label white; iOS
+ * and the web don't recolour a preferred action, only its `fontWeightPreferred`.
+ */
+export interface AlertDialogTokens {
+  /** Popup text alignment: iOS and the web start it, macOS centres it. */
+  readonly textAlign: string
+  readonly titlePx: string
+  readonly titlePt: string
+  readonly descriptionPx: string
+  readonly descriptionText: string
+  readonly fieldPx: string
+  readonly button: {
+    readonly radius: string
+    readonly activeScale: string
+    readonly bg: string
+    readonly bgPreferred: string
+    readonly shadow: string
+    readonly shadowPreferred: string
+    readonly fontWeight: string
+    readonly fontWeightPreferred: string
+    readonly textDefault: string
+    readonly textDefaultPreferred: string
+    readonly textDestructive: string
+    readonly textDestructivePreferred: string
+  }
+}
+
 export interface ComponentTokens {
   readonly checkbox: Bezel
   readonly radio: Bezel
   readonly button: ButtonTokens
+  readonly alertDialog: AlertDialogTokens
 }
 
 const iosBezel: Bezel = {
@@ -145,10 +176,98 @@ const webButton: ButtonTokens = {
   },
 }
 
+// Measured 2026-09-06/07: iOS's 320 pt card left-aligns and never recolours a preferred
+// action, just bolds its label; macOS centres text and fills the preferred action with the
+// accent in white; the web keeps normal-weight labels throughout, preferred or not
+// (docs/research/apple-design-system-reference.md §alerts).
+const iosAlertDialog: AlertDialogTokens = {
+  textAlign: "start",
+  titlePx: "1.5rem",
+  titlePt: "1.25rem",
+  descriptionPx: "1.5rem",
+  descriptionText: "var(--label-2)",
+  fieldPx: "1.5rem",
+  button: {
+    radius: "calc(infinity * 1px)",
+    activeScale: "0.97",
+    bg: "var(--fill-3)",
+    bgPreferred: "var(--fill-3)",
+    shadow: "none",
+    shadowPreferred: "none",
+    fontWeight: "500",
+    fontWeightPreferred: "600",
+    textDefault: "var(--primary)",
+    textDefaultPreferred: "var(--primary)",
+    textDestructive: "var(--destructive)",
+    textDestructivePreferred: "var(--destructive)",
+  },
+}
+
+const macosAlertDialog: AlertDialogTokens = {
+  textAlign: "center",
+  titlePx: "1rem",
+  titlePt: "1.5rem",
+  descriptionPx: "1rem",
+  descriptionText: "var(--label)",
+  fieldPx: "1rem",
+  button: {
+    radius: "var(--control-radius-regular)",
+    activeScale: "1",
+    bg: "var(--background-3)",
+    bgPreferred: "var(--primary)",
+    shadow: "var(--elevation-control)",
+    shadowPreferred: "none",
+    fontWeight: "500",
+    fontWeightPreferred: "600",
+    textDefault: "var(--label)",
+    textDefaultPreferred: "white",
+    textDestructive: "var(--destructive)",
+    textDestructivePreferred: "white",
+  },
+}
+
+const webAlertDialog: AlertDialogTokens = {
+  textAlign: "start",
+  titlePx: "1.5rem",
+  titlePt: "1.25rem",
+  descriptionPx: "1.5rem",
+  descriptionText: "var(--label-2)",
+  fieldPx: "1.5rem",
+  button: {
+    radius: "calc(infinity * 1px)",
+    activeScale: "0.97",
+    bg: "var(--fill-3)",
+    bgPreferred: "var(--fill-3)",
+    shadow: "none",
+    shadowPreferred: "none",
+    fontWeight: "400",
+    fontWeightPreferred: "400",
+    textDefault: "var(--primary)",
+    textDefaultPreferred: "var(--primary)",
+    textDestructive: "var(--destructive)",
+    textDestructivePreferred: "var(--destructive)",
+  },
+}
+
 export const componentTokens: Record<Platform, ComponentTokens> = {
-  ios: { checkbox: iosBezel, radio: iosBezel, button: iosButton },
-  macos: { checkbox: macosBezel, radio: macosBezel, button: macosButton },
-  web: { checkbox: webBezel, radio: webBezel, button: webButton },
+  ios: {
+    checkbox: iosBezel,
+    radio: iosBezel,
+    button: iosButton,
+    alertDialog: iosAlertDialog,
+  },
+  macos: {
+    checkbox: macosBezel,
+    radio: macosBezel,
+    button: macosButton,
+    alertDialog: macosAlertDialog,
+  },
+  web: {
+    checkbox: webBezel,
+    radio: webBezel,
+    button: webButton,
+    alertDialog: webAlertDialog,
+  },
 }
 
 type Line = readonly [string, string]
@@ -177,6 +296,30 @@ const buttonLines = (b: ButtonTokens): Line[] => [
   ["button-bordered-hover-text", b.bordered.hoverText],
 ]
 
+const alertDialogLines = (a: AlertDialogTokens): Line[] => [
+  ["alert-text-align", a.textAlign],
+  ["alert-title-px", a.titlePx],
+  ["alert-title-pt", a.titlePt],
+  ["alert-description-px", a.descriptionPx],
+  ["alert-description-text", a.descriptionText],
+  ["alert-field-px", a.fieldPx],
+  ["alert-button-radius", a.button.radius],
+  ["alert-button-active-scale", a.button.activeScale],
+  ["alert-button-bg", a.button.bg],
+  ["alert-button-bg-preferred", a.button.bgPreferred],
+  ["alert-button-shadow", a.button.shadow],
+  ["alert-button-shadow-preferred", a.button.shadowPreferred],
+  ["alert-button-font-weight", a.button.fontWeight],
+  ["alert-button-font-weight-preferred", a.button.fontWeightPreferred],
+  ["alert-button-text-default", a.button.textDefault],
+  ["alert-button-text-default-preferred", a.button.textDefaultPreferred],
+  ["alert-button-text-destructive", a.button.textDestructive],
+  [
+    "alert-button-text-destructive-preferred",
+    a.button.textDestructivePreferred,
+  ],
+]
+
 /** Every component appearance token for one idiom, as CSS variable lines. */
 export function componentLines(platform: Platform): Line[] {
   const t = componentTokens[platform]
@@ -184,5 +327,6 @@ export function componentLines(platform: Platform): Line[] {
     ...bezelLines("checkbox", t.checkbox),
     ...bezelLines("radio", t.radio),
     ...buttonLines(t.button),
+    ...alertDialogLines(t.alertDialog),
   ]
 }

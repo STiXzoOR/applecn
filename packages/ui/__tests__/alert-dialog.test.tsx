@@ -45,8 +45,7 @@ describe("AlertDialog", () => {
     expect(alert.className).toContain("w-(--alert-width)")
     expect(alert.className).toContain("rounded-alert")
     expect(alert.className).toContain("glass")
-    expect(alert.className).toContain("text-start")
-    expect(alert.className).toContain("macos:text-center")
+    expect(alert.className).toContain("[text-align:var(--alert-text-align)]")
     expect(alert).toHaveAccessibleDescription("This can’t be undone.")
     const title = screen.getByText("Delete Note?")
     expect(title.className).toContain("text-[length:var(--alert-title-font)]")
@@ -59,14 +58,21 @@ describe("AlertDialog", () => {
     expect(actions.className).toContain("gap-(--alert-button-gap)")
     const del = screen.getByRole("button", { name: "Delete" })
     expect(del.className).toContain("h-(--alert-button-height)")
-    expect(del.className).toContain("rounded-full")
-    expect(del.className).toContain("bg-fill-3")
-    expect(del.className).toContain("text-destructive")
-    expect(del.className).toContain("font-semibold")
-    expect(del.className).toContain("macos:rounded-control")
+    expect(del.className).toContain("rounded-(--alert-button-radius)")
+    expect(del.className).toContain("bg-(--alert-button-bg-preferred)")
+    expect(del.className).toContain(
+      "text-(--alert-button-text-destructive-preferred)"
+    )
+    expect(del.className).toContain(
+      "font-(--alert-button-font-weight-preferred)"
+    )
     const cancel = screen.getByRole("button", { name: "Cancel" })
-    expect(cancel.className).not.toContain("font-semibold")
-    expect(cancel.className).toContain("macos:bg-background-3")
+    expect(cancel.className).not.toContain(
+      "font-(--alert-button-font-weight-preferred)"
+    )
+    expect(cancel.className).toContain("font-(--alert-button-font-weight)")
+    expect(cancel.className).toContain("bg-(--alert-button-bg)")
+    expect(cancel.className).not.toContain("bg-(--alert-button-bg-preferred)")
   })
 
   test("two short actions sit side by side; three stack", async () => {
@@ -98,5 +104,28 @@ describe("AlertDialog", () => {
     await screen.findByRole("alertdialog")
     await userEvent.keyboard("{Escape}")
     expect(screen.queryByRole("alertdialog")).toBeNull()
+  })
+})
+
+describe("AlertDialog is idiom-agnostic", () => {
+  test("carries no platform variant; the idiom supplies the values", async () => {
+    render(<DeleteNote />)
+    await userEvent.click(screen.getByRole("button", { name: "Delete" }))
+    const alert = await screen.findByRole("alertdialog")
+    expect(alert.className).not.toMatch(/(^|\s)(ios|macos|web):/)
+    const title = screen.getByText("Delete Note?")
+    expect(title.className).not.toMatch(/(^|\s)(ios|macos|web):/)
+    expect(title.className).toContain("px-(--alert-title-px)")
+    expect(title.className).toContain("pt-(--alert-title-pt)")
+    const description = screen.getByText("This can’t be undone.")
+    expect(description.className).not.toMatch(/(^|\s)(ios|macos|web):/)
+    expect(description.className).toContain("px-(--alert-description-px)")
+    expect(description.className).toContain("text-(--alert-description-text)")
+    const cancel = screen.getByRole("button", { name: "Cancel" })
+    expect(cancel.className).not.toMatch(/(^|\s)(ios|macos|web):/)
+    expect(cancel.className).toContain(
+      "active:scale-(--alert-button-active-scale)"
+    )
+    expect(cancel.className).toContain("shadow-(--alert-button-shadow)")
   })
 })
