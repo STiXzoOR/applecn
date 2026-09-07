@@ -567,6 +567,32 @@
           "--shadow-hairline-t": "inset 0 0.5px 0 var(--separator)",
           "--shadow-hairline-b": "inset 0 -0.5px 0 var(--separator)"
         },
+        "@layer base": {
+          "*": {},
+          "html": {
+            "-webkit-text-size-adjust": "100%",
+            "-webkit-tap-highlight-color": "transparent",
+            "font-optical-sizing": "auto",
+            "scrollbar-gutter": "stable"
+          },
+          "body": {
+            "-webkit-font-smoothing": "antialiased"
+          },
+          "a,\n  button,\n  [role=\"button\"],\n  label,\n  summary": {
+            "touch-action": "manipulation"
+          },
+          "@media (pointer: coarse)": {
+            "input,\n    select,\n    textarea": {
+              "font-size": "max(16px, 1rem)"
+            }
+          },
+          "@supports (font: -apple-system-body) and (-webkit-touch-callout: none)": {
+            "html": {
+              "font": "-apple-system-body",
+              "font-family": "var(--font-sans)"
+            }
+          }
+        },
         "[data-platform=\"ios\"]": {
           "--label": "rgb(0 0 0)",
           "--label-2": "rgb(60 60 67 / 0.6)",
@@ -1822,7 +1848,8 @@
       "title": "Action sheet",
       "description": "Choices related to an action: the iOS 26 card with 48 pt capsule actions from the bottom on a phone, a popover anchored to the control from the sm breakpoint.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react",
+        "tw-animate-css"
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/use-media-query.json",
@@ -1842,7 +1869,8 @@
       "description": "The iOS 26 alert: 320 pt, 34 pt corners, Liquid Glass, left-aligned text and 48 pt capsule actions; AppKit’s 260 pt alert with 28 pt push buttons on macOS.",
       "dependencies": [
         "@base-ui/react",
-        "class-variance-authority"
+        "class-variance-authority",
+        "tw-animate-css"
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/utils.json"
@@ -2035,7 +2063,8 @@
       "description": "A text field that offers suggestions filtered as the person types, in a glass menu with the platform’s rows.",
       "dependencies": [
         "@base-ui/react",
-        "@hugeicons/core-free-icons"
+        "@hugeicons/core-free-icons",
+        "tw-animate-css"
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/icon.json",
@@ -2076,7 +2105,8 @@
       "title": "Dialog",
       "description": "A modal card: the macOS sheet and the iPad form sheet, on the platform’s dialog corner and width.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react",
+        "tw-animate-css"
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/utils.json"
@@ -2312,7 +2342,8 @@
       "dependencies": [
         "@base-ui/react",
         "@hugeicons/core-free-icons",
-        "@hugeicons/react"
+        "@hugeicons/react",
+        "tw-animate-css"
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/icon.json",
@@ -2447,7 +2478,8 @@
       "title": "Popover",
       "description": "A transient Liquid Glass card with an arrow, on the platform’s popover corner.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react",
+        "tw-animate-css"
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/utils.json"
@@ -2465,7 +2497,8 @@
       "title": "Preview card",
       "description": "Safari’s link preview: a Liquid Glass card that appears after hovering a link for a moment.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react",
+        "tw-animate-css"
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/utils.json"
@@ -2596,7 +2629,8 @@
       "dependencies": [
         "@base-ui/react",
         "@hugeicons/core-free-icons",
-        "class-variance-authority"
+        "class-variance-authority",
+        "tw-animate-css"
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/icon.json",
@@ -2948,7 +2982,8 @@
       "title": "Tooltip",
       "description": "A brief phrase on thick material after a short hover.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react",
+        "tw-animate-css"
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/utils.json"

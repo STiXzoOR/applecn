@@ -166,3 +166,28 @@ describe("registry", () => {
     expect(committed).toEqual(registry)
   })
 })
+
+describe("a consumer gets everything the components need", () => {
+  const registry = buildRegistry()
+  const style = registry.items.find((i) => i.type === "registry:style")!
+
+  test("ships the base layer, so Dynamic Type and the touch rules travel", () => {
+    const css = JSON.stringify(style.css)
+    expect(css).toContain("-apple-system-body")
+    expect(css).toContain("touch-action")
+  })
+
+  test("declares tw-animate-css, which every overlay animation needs", () => {
+    const animated = registry.items.filter((i) =>
+      publishItem(i).files.some((f) => /\banimate-(in|out)\b/.test(f.content))
+    )
+    expect(animated.length).toBeGreaterThan(0)
+    for (const item of animated)
+      expect(item.dependencies, item.name).toContain("tw-animate-css")
+  })
+
+  test("no item still depends on the cn package", () => {
+    for (const item of registry.items)
+      expect(item.dependencies ?? [], item.name).not.toContain("cn")
+  })
+})

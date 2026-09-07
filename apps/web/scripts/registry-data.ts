@@ -88,6 +88,9 @@ function imports(source: string): {
   }
 }
 
+/** Every overlay animation needs this; `globals.css` imports it, so items must declare it too. */
+const USES_ANIMATE = /\banimate-(in|out)\b/
+
 function item(
   kind: "ui" | "hook" | "lib",
   dir: string,
@@ -98,9 +101,12 @@ function item(
   // Relative to the package, never to this app: the CLI refuses a published path with
   // `..` in it, and derives components/ui, hooks/ and lib/ from `src/<dir>/<file>`.
   const path = `src/${dir}/${file}`
-  const { dependencies, registryDependencies } = imports(
-    readSource(`${UI_PACKAGE}/${path}`)
-  )
+  const source = readSource(`${UI_PACKAGE}/${path}`)
+  const { dependencies, registryDependencies } = imports(source)
+  if (USES_ANIMATE.test(source) && !dependencies.includes("tw-animate-css")) {
+    dependencies.push("tw-animate-css")
+    dependencies.sort()
+  }
   return {
     name: file.replace(/\.tsx?$/, ""),
     type: `registry:${kind}`,
@@ -168,6 +174,27 @@ function theme(css: string): Record<string, unknown> {
     end++
   }
   return { "@theme": parseBlock(css.slice(start, end - 1)) }
+}
+
+/**
+ * Parses the `@layer base { … }` block into the nested object shape the `css` field takes, so
+ * Dynamic Type and the touch-target rules travel with the published style. Comments are
+ * stripped first: unlike `@utility` bodies, this block has one with a semicolon in its prose,
+ * which would otherwise desync `parseBlock`'s brace/semicolon scan.
+ */
+function baseLayer(css: string): Record<string, unknown> {
+  const match = /@layer base\s*\{/.exec(css)
+  if (!match) return {}
+  const start = match.index + match[0].length
+  let depth = 1
+  let end = start
+  while (depth > 0 && end < css.length) {
+    if (css[end] === "{") depth++
+    if (css[end] === "}") depth--
+    end++
+  }
+  const body = css.slice(start, end - 1).replace(/\/\*[\s\S]*?\*\//g, "")
+  return { "@layer base": parseBlock(body) }
 }
 
 function parseBlock(body: string): Record<string, unknown> {
@@ -296,6 +323,7 @@ export function buildRegistry(): Registry {
     css: {
       ...utilities(globalsCss),
       ...theme(globalsCss),
+      ...baseLayer(globalsCss),
       ...tokenPlatformCss(),
     },
   }
