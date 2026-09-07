@@ -12,14 +12,14 @@ import { Icon } from "./icon"
  * Menus (HIG › Menus, Pull-down buttons). iOS 26: a 250 pt glass panel of 44 pt rows with
  * glyphs at the leading edge, thick bands between groups, red destructive items, check marks
  * on selected items and chevrons on submenus. macOS 26: AppKit's 24 pt rows with 5 pt padding,
- * hairline separators and the accent highlight. The web: TV's 44 px rows in a 200 px panel.
- * All from the platform tokens; shared class strings feed `ContextMenu`.
+ * hairline separators and the accent highlight. On the web, a TV's 44 px rows in a 200 px
+ * panel. All from the platform tokens; shared class strings feed `ContextMenu`.
  */
 const menuContentClassName =
   "glass z-50 flex max-h-(--available-height) min-w-(--menu-width) origin-(--transform-origin) flex-col overflow-x-hidden overflow-y-auto rounded-menu p-(--menu-padding) text-label shadow-glass outline-none duration-(--duration-overlay) ease-(--ease-standard) data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 motion-reduce:animate-none"
 
 const menuItemClassName =
-  "group/menu-item relative flex h-(--menu-item-height) w-full shrink-0 cursor-default items-center gap-3 rounded-menu-item px-4 text-[length:var(--menu-font)] text-label outline-hidden select-none focus:bg-fill-3 data-highlighted:bg-fill-3 data-disabled:pointer-events-none data-disabled:opacity-40 data-[variant=destructive]:text-destructive macos:gap-2 macos:px-2.5 macos:focus:bg-selection macos:focus:text-white macos:data-highlighted:bg-selection macos:data-highlighted:text-white macos:data-highlighted:[&_[data-slot=menu-shortcut]]:text-white/70 [&_svg]:pointer-events-none [&_svg]:shrink-0"
+  "group/menu-item relative flex h-(--menu-item-height) w-full shrink-0 cursor-default items-center gap-(--menu-item-gap) rounded-menu-item px-(--menu-item-px) text-[length:var(--menu-font)] text-label outline-hidden select-none focus:bg-(--menu-item-highlight-bg) focus:text-(--menu-item-highlight-text) data-highlighted:bg-(--menu-item-highlight-bg) data-highlighted:text-(--menu-item-highlight-text) data-highlighted:[&_[data-slot=menu-shortcut]]:text-(--menu-shortcut-highlight-text) data-disabled:pointer-events-none data-disabled:opacity-40 data-[variant=destructive]:text-destructive [&_svg]:pointer-events-none [&_svg]:shrink-0"
 
 function Menu(props: MenuPrimitive.Root.Props) {
   return <MenuPrimitive.Root data-slot="menu" {...props} />
@@ -70,7 +70,9 @@ function MenuLabel({ className, ...props }: MenuPrimitive.GroupLabel.Props) {
     <MenuPrimitive.GroupLabel
       data-slot="menu-label"
       className={cn(
-        "px-4 py-2 type-footnote text-label-2 macos:px-2.5 macos:py-1 macos:type-caption-1 macos:font-semibold",
+        // type-footnote/type-caption-1 are distinct `@utility` blocks (size, leading, weight
+        // and tracking together), not a single value a token can swap — see task-5a report.
+        "px-(--menu-item-px) py-(--menu-label-py) type-footnote text-label-2 macos:type-caption-1 macos:font-semibold",
         className
       )}
       {...props}
@@ -161,7 +163,7 @@ function MenuSeparator({ className, ...props }: MenuPrimitive.Separator.Props) {
     <MenuPrimitive.Separator
       data-slot="menu-separator"
       className={cn(
-        "-mx-(--menu-padding) my-1 h-2 shrink-0 bg-fill-4 macos:mx-2 macos:my-1 macos:h-[0.5px] macos:bg-separator",
+        "mx-(--menu-separator-mx) my-1 h-(--menu-separator-height) shrink-0 bg-(--menu-separator-bg)",
         className
       )}
       {...props}

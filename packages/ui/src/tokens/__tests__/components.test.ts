@@ -192,3 +192,51 @@ describe("alert dialog appearance tokens", () => {
     ])
   })
 })
+
+describe("menu appearance tokens", () => {
+  test("rows tighten from 3 to 2 gap and 4 to 2.5 padding off iOS", () => {
+    expect(componentTokens.ios.menu.item.gap).toBe("0.75rem")
+    expect(componentTokens.macos.menu.item.gap).toBe("0.5rem")
+    expect(componentTokens.web.menu.item.gap).toBe("0.75rem")
+    expect(componentTokens.ios.menu.item.px).toBe("1rem")
+    expect(componentTokens.macos.menu.item.px).toBe("0.625rem")
+  })
+
+  test("macOS highlights with the system selection colour and turns text and the shortcut white", () => {
+    expect(componentTokens.macos.menu.item.highlightBg).toBe("var(--selection)")
+    expect(componentTokens.ios.menu.item.highlightBg).toBe("var(--fill-3)")
+    expect(componentTokens.macos.menu.item.highlightText).toBe("white")
+    expect(componentTokens.ios.menu.item.highlightText).toBe("var(--label)")
+    expect(componentTokens.macos.menu.item.shortcutHighlightText).toBe(
+      "rgb(255 255 255 / 0.7)"
+    )
+    expect(componentTokens.web.menu.item.shortcutHighlightText).toBe(
+      "var(--label-2)"
+    )
+  })
+
+  test("the group label's own padding narrows from 0.5rem to 0.25rem off iOS", () => {
+    expect(componentTokens.ios.menu.label.py).toBe("0.5rem")
+    expect(componentTokens.macos.menu.label.py).toBe("0.25rem")
+    expect(componentTokens.web.menu.label.py).toBe("0.5rem")
+  })
+
+  test("the separator bleeds to the edges on iOS and the web; macOS insets it to a hairline", () => {
+    expect(componentTokens.ios.menu.separator.mx).toBe(
+      "calc(-1 * var(--menu-padding))"
+    )
+    expect(componentTokens.macos.menu.separator.mx).toBe("0.5rem")
+    expect(componentTokens.ios.menu.separator.height).toBe("0.5rem")
+    expect(componentTokens.macos.menu.separator.height).toBe("0.5px")
+    expect(componentTokens.macos.menu.separator.bg).toBe("var(--separator)")
+    expect(componentTokens.web.menu.separator.bg).toBe("var(--fill-4)")
+  })
+
+  test("emits kebab-case CSS variable lines", () => {
+    const lines = componentLines("macos")
+    expect(lines).toContainEqual(["menu-item-gap", "0.5rem"])
+    expect(lines).toContainEqual(["menu-item-highlight-bg", "var(--selection)"])
+    expect(lines).toContainEqual(["menu-separator-height", "0.5px"])
+    expect(lines).toContainEqual(["menu-separator-bg", "var(--separator)"])
+  })
+})

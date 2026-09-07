@@ -65,7 +65,12 @@ describe("Menu", () => {
     expect(copy.className).toContain("h-(--menu-item-height)")
     expect(copy.className).toContain("rounded-menu-item")
     expect(copy.className).toContain("text-[length:var(--menu-font)]")
-    expect(copy.className).toContain("macos:data-highlighted:bg-selection")
+    expect(copy.className).toContain(
+      "data-highlighted:bg-(--menu-item-highlight-bg)"
+    )
+    expect(copy.className).toContain(
+      "data-highlighted:text-(--menu-item-highlight-text)"
+    )
     expect(copy.querySelector('[data-slot="menu-shortcut"]')).toHaveTextContent(
       "⌘C"
     )
@@ -73,9 +78,28 @@ describe("Menu", () => {
       screen.getByRole("menuitem", { name: "Delete" }).className
     ).toContain("text-destructive")
     const separator = menu.querySelector('[data-slot="menu-separator"]')!
-    expect(separator.className).toContain("h-2")
-    expect(separator.className).toContain("bg-fill-4")
-    expect(separator.className).toContain("macos:h-[0.5px]")
-    expect(separator.className).toContain("macos:bg-separator")
+    expect(separator.className).toContain("h-(--menu-separator-height)")
+    expect(separator.className).toContain("bg-(--menu-separator-bg)")
+  })
+})
+
+describe("Menu is idiom-agnostic", () => {
+  test("carries no platform variant; the idiom supplies the values", async () => {
+    render(<Actions />)
+    await userEvent.click(screen.getByRole("button", { name: "Actions" }))
+    const menu = await screen.findByRole("menu")
+    expect(menu.className).not.toMatch(/(^|\s)(ios|macos|web):/)
+    const copy = screen.getByRole("menuitem", { name: /Copy/ })
+    expect(copy.className).not.toMatch(/(^|\s)(ios|macos|web):/)
+    expect(copy.className).toContain("gap-(--menu-item-gap)")
+    expect(copy.className).toContain("px-(--menu-item-px)")
+    expect(copy.className).toContain("focus:bg-(--menu-item-highlight-bg)")
+    expect(copy.className).toContain("focus:text-(--menu-item-highlight-text)")
+    expect(copy.className).toContain(
+      "data-highlighted:[&_[data-slot=menu-shortcut]]:text-(--menu-shortcut-highlight-text)"
+    )
+    const separator = menu.querySelector('[data-slot="menu-separator"]')!
+    expect(separator.className).not.toMatch(/(^|\s)(ios|macos|web):/)
+    expect(separator.className).toContain("mx-(--menu-separator-mx)")
   })
 })

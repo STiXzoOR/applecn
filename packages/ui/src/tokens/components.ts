@@ -76,11 +76,37 @@ export interface AlertDialogTokens {
   }
 }
 
+/**
+ * The menu row and separator. `highlightBg`/`highlightText` cover both `focus:` and
+ * `data-highlighted:` — iOS and the web share one fill-3 highlight, macOS uses the system
+ * selection colour and turns text (and a shortcut glyph) white.
+ */
+export interface MenuTokens {
+  readonly item: {
+    readonly gap: string
+    readonly px: string
+    readonly highlightBg: string
+    readonly highlightText: string
+    readonly shortcutHighlightText: string
+  }
+  /** The group label's own padding; its type style keeps a platform variant — see components.ts §MenuLabel. */
+  readonly label: {
+    readonly py: string
+  }
+  readonly separator: {
+    /** Horizontal margin: negative (bleeds to the menu's edge) on iOS/web, inset on macOS. */
+    readonly mx: string
+    readonly height: string
+    readonly bg: string
+  }
+}
+
 export interface ComponentTokens {
   readonly checkbox: Bezel
   readonly radio: Bezel
   readonly button: ButtonTokens
   readonly alertDialog: AlertDialogTokens
+  readonly menu: MenuTokens
 }
 
 const iosBezel: Bezel = {
@@ -249,24 +275,69 @@ const webAlertDialog: AlertDialogTokens = {
   },
 }
 
+// Measured 2026-09-06/07: macOS's 24 pt rows pack tighter (0.5rem gap, 0.625rem padding) than
+// iOS/web's 44 pt rows, highlight with the system selection colour instead of fill-3, and
+// inset the separator to a 0.5px hairline instead of a 2px band bleeding to the edges
+// (docs/research/apple-design-system-reference.md §menus).
+const iosMenu: MenuTokens = {
+  item: {
+    gap: "0.75rem",
+    px: "1rem",
+    highlightBg: "var(--fill-3)",
+    highlightText: "var(--label)",
+    shortcutHighlightText: "var(--label-2)",
+  },
+  label: {
+    py: "0.5rem",
+  },
+  separator: {
+    mx: "calc(-1 * var(--menu-padding))",
+    height: "0.5rem",
+    bg: "var(--fill-4)",
+  },
+}
+
+const macosMenu: MenuTokens = {
+  item: {
+    gap: "0.5rem",
+    px: "0.625rem",
+    highlightBg: "var(--selection)",
+    highlightText: "white",
+    shortcutHighlightText: "rgb(255 255 255 / 0.7)",
+  },
+  label: {
+    py: "0.25rem",
+  },
+  separator: {
+    mx: "0.5rem",
+    height: "0.5px",
+    bg: "var(--separator)",
+  },
+}
+
+const webMenu: MenuTokens = iosMenu
+
 export const componentTokens: Record<Platform, ComponentTokens> = {
   ios: {
     checkbox: iosBezel,
     radio: iosBezel,
     button: iosButton,
     alertDialog: iosAlertDialog,
+    menu: iosMenu,
   },
   macos: {
     checkbox: macosBezel,
     radio: macosBezel,
     button: macosButton,
     alertDialog: macosAlertDialog,
+    menu: macosMenu,
   },
   web: {
     checkbox: webBezel,
     radio: webBezel,
     button: webButton,
     alertDialog: webAlertDialog,
+    menu: webMenu,
   },
 }
 
@@ -320,6 +391,18 @@ const alertDialogLines = (a: AlertDialogTokens): Line[] => [
   ],
 ]
 
+const menuLines = (m: MenuTokens): Line[] => [
+  ["menu-item-gap", m.item.gap],
+  ["menu-item-px", m.item.px],
+  ["menu-item-highlight-bg", m.item.highlightBg],
+  ["menu-item-highlight-text", m.item.highlightText],
+  ["menu-shortcut-highlight-text", m.item.shortcutHighlightText],
+  ["menu-label-py", m.label.py],
+  ["menu-separator-mx", m.separator.mx],
+  ["menu-separator-height", m.separator.height],
+  ["menu-separator-bg", m.separator.bg],
+]
+
 /** Every component appearance token for one idiom, as CSS variable lines. */
 export function componentLines(platform: Platform): Line[] {
   const t = componentTokens[platform]
@@ -328,5 +411,6 @@ export function componentLines(platform: Platform): Line[] {
     ...bezelLines("radio", t.radio),
     ...buttonLines(t.button),
     ...alertDialogLines(t.alertDialog),
+    ...menuLines(t.menu),
   ]
 }

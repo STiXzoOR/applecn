@@ -912,6 +912,15 @@
   --alert-button-text-default-preferred: var(--primary);
   --alert-button-text-destructive: var(--destructive);
   --alert-button-text-destructive-preferred: var(--destructive);
+  --menu-item-gap: 0.75rem;
+  --menu-item-px: 1rem;
+  --menu-item-highlight-bg: var(--fill-3);
+  --menu-item-highlight-text: var(--label);
+  --menu-shortcut-highlight-text: var(--label-2);
+  --menu-label-py: 0.5rem;
+  --menu-separator-mx: calc(-1 * var(--menu-padding));
+  --menu-separator-height: 0.5rem;
+  --menu-separator-bg: var(--fill-4);
 }
 
 @media (width >= 414px) {
@@ -1238,6 +1247,15 @@
   --alert-button-text-default-preferred: white;
   --alert-button-text-destructive: var(--destructive);
   --alert-button-text-destructive-preferred: white;
+  --menu-item-gap: 0.5rem;
+  --menu-item-px: 0.625rem;
+  --menu-item-highlight-bg: var(--selection);
+  --menu-item-highlight-text: white;
+  --menu-shortcut-highlight-text: rgb(255 255 255 / 0.7);
+  --menu-label-py: 0.25rem;
+  --menu-separator-mx: 0.5rem;
+  --menu-separator-height: 0.5px;
+  --menu-separator-bg: var(--separator);
 }
 
 .dark[data-platform="macos"],
@@ -1558,6 +1576,15 @@
   --alert-button-text-default-preferred: var(--primary);
   --alert-button-text-destructive: var(--destructive);
   --alert-button-text-destructive-preferred: var(--destructive);
+  --menu-item-gap: 0.75rem;
+  --menu-item-px: 1rem;
+  --menu-item-highlight-bg: var(--fill-3);
+  --menu-item-highlight-text: var(--label);
+  --menu-shortcut-highlight-text: var(--label-2);
+  --menu-label-py: 0.5rem;
+  --menu-separator-mx: calc(-1 * var(--menu-padding));
+  --menu-separator-height: 0.5rem;
+  --menu-separator-bg: var(--fill-4);
 }
 
 .dark[data-platform="web"],
