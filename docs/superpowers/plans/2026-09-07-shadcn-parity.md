@@ -783,7 +783,27 @@ pnpm dlx shadcn@latest add @applecn/checkbox @applecn/button @applecn/dialog @ap
 
 Put all five on a page and run `pnpm dev`. Confirm: the checkbox draws its tick and its checked fill; the dialog animates in (proves `tw-animate-css` arrived); body type is Apple's, not Tailwind's default (proves the base layer arrived); adding `@applecn/macos` and setting `data-platform="macos"` on `<html>` switches every metric.
 
-- [ ] **Step 5: Record the result** in `docs/superpowers/plans/2026-09-07-shadcn-parity.md` under this task, then commit the note.
+- [x] **Step 5: Record the result** in `docs/superpowers/plans/2026-09-07-shadcn-parity.md` under this task, then commit the note.
+
+**Result (2026-09-08, re-run after fixes in `5b4e3a2` and `c26f2e5`): GATE PASSES.**
+
+The first run of this gate (`.superpowers/sdd/2026-09-07-shadcn-parity/task-11-report.md`) found two defects: the base token layer (`--system-blue`, `--font-sans`, …) had no `registryDependency` pointing at it from any theme, and `shadcn add @applecn/apple` crashed the CLI outright. Both are fixed (`.superpowers/sdd/2026-09-07-shadcn-parity/task-11-fix-report.md` has the full detail):
+
+- Extracted the shared layer into a new `base` registry:theme item; `apple`/`ios`/`macos`/`web` each declare it as a `registryDependency`. `base`'s cssVars also gained the `--font-*` stacks, which had no value anywhere in the registry before.
+- Bisected the crash to a real bug in shadcn 4.20/4.21's `update-css`: a plain string-valued declaration nested under a top-level `"@theme"`/`"@theme inline"` `css` key always crashes (confirmed with an unrelated trivial value, so it isn't specific to the hairline-shadow syntax; confirmed new to this phase, not pre-existing — the pre-phase registry never had a `css["@theme"]` key). Worked around by shipping those three declarations via `cssVars.theme` instead, which merges into `@theme inline` through a separate, working code path. No token value changed.
+
+Re-ran the gate exactly as specified, using a namespaced registry (`http://localhost:3100/r/{name}.json`) served from a temporary sibling copy of `apps/web` (Next's single-dev-server lock is keyed to the project directory, not the port) and a scratch consumer app outside the repo. All four checks pass:
+
+1. **Checkbox tick and checked fill** — PASS. `data-checked` renders `background-color: rgb(0, 136, 255)` (`--system-blue`), a white tick, at the correct 22pt size.
+2. **Dialog animates** — PASS. `animation-name: enter`, confirmed via computed style on open (already passed on the first run; unaffected by these defects).
+3. **Body type is Apple's, not Tailwind's default** — PASS. `--font-sans` resolves to `-apple-system, BlinkMacSystemFont, system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif` and the rendered body text uses it.
+4. **`data-platform="macos"` visibly changes metrics** — PASS. Toggling the `PlatformProvider` from `ios` to `macos` moves `--control-height-regular` 34px→24px, `--checkbox-size` 22px→16px, `--switch-width` 63px→54px, confirmed both in computed styles and screenshots.
+
+One methodological note: the first attempt at this re-run appeared to fail every check, because a DarkReader browser extension in the interactive Chrome profile was repainting the page's colours. Re-verified in a clean, extension-free Playwright browser, which is what the results above reflect.
+
+**New finding, out of scope for this fix, flagged for a follow-up decision:** several named Tailwind utility classes the components use (`rounded-checkbox`, `rounded-dialog`, `rounded-list`, `rounded-card`, `rounded-alert`, `rounded-popover`, `rounded-menu`, `shadow-glass`, `shadow-dialog`, `bg-system-green`/`-red`/`-yellow`/`-orange`, and others) resolve their _value_ correctly now but don't generate as Tailwind utilities at all in a consumer's build — confirmed with a live compiled-CSS check, `.rounded-dialog`/`.rounded-checkbox`/`.rounded-list`/`.shadow-glass` are simply absent. Cause: their `--radius-*`/`--color-*` Tailwind-theme registration lives only in `globals.css`'s `@theme inline` block, which no registry item ships (a deliberate exclusion predating this phase — see `theme()`'s doc comment in `registry-data.ts`). Effect on a real install: affected controls render with the right size/colour but square corners (or, for the `bg-system-*` cases, no fill at all) instead of the intended shape. This did not block any of the four gate checks above (checkbox/switch/button/dialog metrics and colour all resolve via arbitrary-value `var()` syntax, which doesn't need theme registration), so it's reported here rather than fixed under this task's scope.
+
+Cleanup performed: killed both temporary dev servers (registry on 3100, scratch app on 3500), deleted the `apps/web-smoke-3100` sibling copy, rebuilt `apps/web/registry.json` with no env override (confirmed `grep -c localhost apps/web/registry.json` → 0, `git status --porcelain` clean), and did not touch the pre-existing server on port 3001.
 
 ---
 
