@@ -906,7 +906,9 @@
           "--color-well-border-width": "1.5px",
           "--color-well-bg": "transparent",
           "--color-well-padding": "0.125rem",
-          "--color-well-shadow": "none"
+          "--color-well-shadow": "none",
+          "--toolbar-control-radius": "calc(infinity * 1px)",
+          "--toolbar-button-icon-size": "1.5rem"
         },
         ".dark[data-platform=\"ios\"], .dark [data-platform=\"ios\"]": {
           "--label": "rgb(255 255 255)",
@@ -1264,7 +1266,9 @@
           "--color-well-border-width": "0px",
           "--color-well-bg": "var(--background-3)",
           "--color-well-padding": "0.25rem",
-          "--color-well-shadow": "var(--elevation-control)"
+          "--color-well-shadow": "var(--elevation-control)",
+          "--toolbar-control-radius": "var(--radius-control)",
+          "--toolbar-button-icon-size": "1rem"
         },
         ".dark[data-platform=\"macos\"], .dark [data-platform=\"macos\"]": {
           "--label": "rgb(255 255 255 / 0.85)",
@@ -1622,7 +1626,9 @@
           "--color-well-border-width": "1.5px",
           "--color-well-bg": "transparent",
           "--color-well-padding": "0.125rem",
-          "--color-well-shadow": "none"
+          "--color-well-shadow": "none",
+          "--toolbar-control-radius": "var(--radius-control)",
+          "--toolbar-button-icon-size": "1.25rem"
         },
         ".dark[data-platform=\"web\"], .dark [data-platform=\"web\"]": {
           "--label": "rgb(245 245 247)",

@@ -41,7 +41,7 @@ function ToolbarGroup({ className, ...props }: ToolbarPrimitive.Group.Props) {
       <ToolbarPrimitive.Group
         data-slot="toolbar-group"
         className={cn(
-          "flex items-center gap-1 rounded-full glass p-(--toolbar-inset) macos:rounded-control web:rounded-control",
+          "flex items-center gap-1 rounded-(--toolbar-control-radius) glass p-(--toolbar-inset)",
           className
         )}
         {...props}
@@ -51,7 +51,7 @@ function ToolbarGroup({ className, ...props }: ToolbarPrimitive.Group.Props) {
 }
 
 const toolbarButtonVariants = cva(
-  "flex size-(--toolbar-item) shrink-0 pressable items-center justify-center rounded-full outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 disabled:opacity-40 macos:rounded-control web:rounded-control [&_svg]:size-6 macos:[&_svg]:size-4 web:[&_svg]:size-5",
+  "flex size-(--toolbar-item) shrink-0 pressable items-center justify-center rounded-(--toolbar-control-radius) outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 disabled:opacity-40 [&_svg]:size-(--toolbar-button-icon-size)",
   {
     variants: {
       prominent: {

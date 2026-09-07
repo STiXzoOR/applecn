@@ -184,6 +184,16 @@ export interface ColorWellTokens {
   readonly shadow: string
 }
 
+/**
+ * The toolbar's circular glass controls (`ToolbarGroup`, `ToolbarButton`): iOS keeps the full
+ * capsule at every size; macOS and the web round to the control radius instead, and shrink the
+ * glyph inside each button from 24pt to 16pt (macOS) or 20pt (web).
+ */
+export interface ToolbarTokens {
+  readonly controlRadius: string
+  readonly buttonIconSize: string
+}
+
 export interface ComponentTokens {
   readonly checkbox: Bezel
   readonly radio: Bezel
@@ -194,6 +204,7 @@ export interface ComponentTokens {
   readonly combobox: ComboboxTokens
   readonly toast: ToastTokens
   readonly colorWell: ColorWellTokens
+  readonly toolbar: ToolbarTokens
 }
 
 const iosBezel: Bezel = {
@@ -564,6 +575,29 @@ const macosColorWell: ColorWellTokens = {
 
 const webColorWell: ColorWellTokens = iosColorWell
 
+// Shared by the toolbar's circular glass controls and the navigation bar's back button: iOS
+// keeps the full capsule; macOS and the web round to the control radius instead.
+const iosGlassRadius = "calc(infinity * 1px)"
+const controlRadius = "var(--radius-control)"
+
+// Measured 2026-09-07: iOS's 44pt glass button carries a 24pt glyph; macOS and the web shrink
+// it to 16pt/20pt on their smaller controls (docs/research/apple-design-system-reference.md
+// §toolbars).
+const iosToolbar: ToolbarTokens = {
+  controlRadius: iosGlassRadius,
+  buttonIconSize: "1.5rem",
+}
+
+const macosToolbar: ToolbarTokens = {
+  controlRadius,
+  buttonIconSize: "1rem",
+}
+
+const webToolbar: ToolbarTokens = {
+  controlRadius,
+  buttonIconSize: "1.25rem",
+}
+
 export const componentTokens: Record<Platform, ComponentTokens> = {
   ios: {
     checkbox: iosBezel,
@@ -575,6 +609,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     combobox: iosCombobox,
     toast: iosToast,
     colorWell: iosColorWell,
+    toolbar: iosToolbar,
   },
   macos: {
     checkbox: macosBezel,
@@ -586,6 +621,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     combobox: macosCombobox,
     toast: macosToast,
     colorWell: macosColorWell,
+    toolbar: macosToolbar,
   },
   web: {
     checkbox: webBezel,
@@ -597,6 +633,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     combobox: webCombobox,
     toast: webToast,
     colorWell: webColorWell,
+    toolbar: webToolbar,
   },
 }
 
@@ -706,6 +743,11 @@ const selectLines = (s: SelectTokens): Line[] => [
   ["select-label-tracking", s.label.tracking],
 ]
 
+const toolbarLines = (t: ToolbarTokens): Line[] => [
+  ["toolbar-control-radius", t.controlRadius],
+  ["toolbar-button-icon-size", t.buttonIconSize],
+]
+
 /** Every component appearance token for one idiom, as CSS variable lines. */
 export function componentLines(platform: Platform): Line[] {
   const t = componentTokens[platform]
@@ -719,5 +761,6 @@ export function componentLines(platform: Platform): Line[] {
     ...comboboxLines(t.combobox),
     ...toastLines(t.toast),
     ...colorWellLines(t.colorWell),
+    ...toolbarLines(t.toolbar),
   ]
 }

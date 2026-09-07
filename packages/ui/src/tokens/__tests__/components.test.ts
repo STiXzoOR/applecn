@@ -472,3 +472,32 @@ describe("select appearance tokens", () => {
     ])
   })
 })
+
+describe("toolbar appearance tokens", () => {
+  test("iOS keeps a full capsule; macOS and the web round to the control radius", () => {
+    expect(componentTokens.ios.toolbar.controlRadius).toBe(
+      "calc(infinity * 1px)"
+    )
+    expect(componentTokens.macos.toolbar.controlRadius).toBe(
+      "var(--radius-control)"
+    )
+    expect(componentTokens.web.toolbar.controlRadius).toBe(
+      "var(--radius-control)"
+    )
+  })
+
+  test("the button glyph shrinks from 24pt on iOS to 16pt on macOS, 20pt on the web", () => {
+    expect(componentTokens.ios.toolbar.buttonIconSize).toBe("1.5rem")
+    expect(componentTokens.macos.toolbar.buttonIconSize).toBe("1rem")
+    expect(componentTokens.web.toolbar.buttonIconSize).toBe("1.25rem")
+  })
+
+  test("emits kebab-case CSS variable lines", () => {
+    const lines = componentLines("macos")
+    expect(lines).toContainEqual([
+      "toolbar-control-radius",
+      "var(--radius-control)",
+    ])
+    expect(lines).toContainEqual(["toolbar-button-icon-size", "1rem"])
+  })
+})
