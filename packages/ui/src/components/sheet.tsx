@@ -218,7 +218,7 @@ function SheetToolbar({
     <div
       data-slot="sheet-toolbar"
       className={cn(
-        "grid h-(--nav-bar-height) shrink-0 grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 macos:h-12",
+        "grid h-(--sheet-toolbar-height) shrink-0 grid-cols-[1fr_auto_1fr] items-center gap-2 px-4",
         className
       )}
       {...props}

@@ -938,7 +938,8 @@
           "--navigation-bar-back-radius": "calc(infinity * 1px)",
           "--action-sheet-item-hover-bg": "var(--fill-3)",
           "--action-sheet-item-hover-text-default": "var(--primary)",
-          "--action-sheet-item-hover-text-destructive": "var(--destructive)"
+          "--action-sheet-item-hover-text-destructive": "var(--destructive)",
+          "--sheet-toolbar-height": "var(--nav-bar-height)"
         },
         ".dark[data-platform=\"ios\"], .dark [data-platform=\"ios\"]": {
           "--label": "rgb(255 255 255)",
@@ -1328,7 +1329,8 @@
           "--navigation-bar-back-radius": "var(--radius-control)",
           "--action-sheet-item-hover-bg": "var(--selection)",
           "--action-sheet-item-hover-text-default": "white",
-          "--action-sheet-item-hover-text-destructive": "white"
+          "--action-sheet-item-hover-text-destructive": "white",
+          "--sheet-toolbar-height": "3rem"
         },
         ".dark[data-platform=\"macos\"], .dark [data-platform=\"macos\"]": {
           "--label": "rgb(255 255 255 / 0.85)",
@@ -1718,7 +1720,8 @@
           "--navigation-bar-back-radius": "var(--radius-control)",
           "--action-sheet-item-hover-bg": "var(--fill-3)",
           "--action-sheet-item-hover-text-default": "var(--primary)",
-          "--action-sheet-item-hover-text-destructive": "var(--destructive)"
+          "--action-sheet-item-hover-text-destructive": "var(--destructive)",
+          "--sheet-toolbar-height": "var(--nav-bar-height)"
         },
         ".dark[data-platform=\"web\"], .dark [data-platform=\"web\"]": {
           "--label": "rgb(245 245 247)",

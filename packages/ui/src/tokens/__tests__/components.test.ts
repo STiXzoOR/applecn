@@ -782,3 +782,20 @@ describe("action sheet appearance tokens", () => {
     ])
   })
 })
+
+describe("sheet appearance tokens", () => {
+  test("the toolbar row shares the platform nav bar height off macOS, where it holds at a fixed 48pt", () => {
+    expect(componentTokens.ios.sheet.toolbarHeight).toBe(
+      "var(--nav-bar-height)"
+    )
+    expect(componentTokens.macos.sheet.toolbarHeight).toBe("3rem")
+    expect(componentTokens.web.sheet.toolbarHeight).toBe(
+      "var(--nav-bar-height)"
+    )
+  })
+
+  test("emits kebab-case CSS variable lines", () => {
+    const lines = componentLines("macos")
+    expect(lines).toContainEqual(["sheet-toolbar-height", "3rem"])
+  })
+})

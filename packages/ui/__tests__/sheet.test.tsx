@@ -39,6 +39,9 @@ describe("Sheet", () => {
     expect(sheet).toHaveAttribute("data-presentation", "sheet")
     expect(sheet.querySelector('[data-slot="sheet-grabber"]')).not.toBeNull()
     expect(sheet.className).toContain("rounded-t-sheet")
+    expect(
+      sheet.querySelector('[data-slot="sheet-toolbar"]')!.className
+    ).toContain("h-(--sheet-toolbar-height)")
     expect(screen.getByRole("button", { name: "Cancel" })).toBeInTheDocument()
     expect(screen.getByRole("button", { name: "Add" })).toBeInTheDocument()
   })

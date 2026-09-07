@@ -985,6 +985,7 @@
   --action-sheet-item-hover-bg: var(--fill-3);
   --action-sheet-item-hover-text-default: var(--primary);
   --action-sheet-item-hover-text-destructive: var(--destructive);
+  --sheet-toolbar-height: var(--nav-bar-height);
 }
 
 @media (width >= 414px) {
@@ -1384,6 +1385,7 @@
   --action-sheet-item-hover-bg: var(--selection);
   --action-sheet-item-hover-text-default: white;
   --action-sheet-item-hover-text-destructive: white;
+  --sheet-toolbar-height: 3rem;
 }
 
 .dark[data-platform="macos"],
@@ -1777,6 +1779,7 @@
   --action-sheet-item-hover-bg: var(--fill-3);
   --action-sheet-item-hover-text-default: var(--primary);
   --action-sheet-item-hover-text-destructive: var(--destructive);
+  --sheet-toolbar-height: var(--nav-bar-height);
 }
 
 .dark[data-platform="web"],

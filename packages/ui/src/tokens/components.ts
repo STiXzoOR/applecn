@@ -284,6 +284,11 @@ export interface ActionSheetTokens {
   }
 }
 
+/** The sheet's own toolbar row height: shares `--nav-bar-height` off macOS, where it is fixed. */
+export interface SheetTokens {
+  readonly toolbarHeight: string
+}
+
 export interface ComponentTokens {
   readonly checkbox: Bezel
   readonly radio: Bezel
@@ -305,6 +310,7 @@ export interface ComponentTokens {
   readonly sidebar: SidebarTokens
   readonly navigationBar: NavigationBarTokens
   readonly actionSheet: ActionSheetTokens
+  readonly sheet: SheetTokens
 }
 
 const iosBezel: Bezel = {
@@ -850,6 +856,13 @@ const macosActionSheet: ActionSheetTokens = {
 
 const webActionSheet: ActionSheetTokens = iosActionSheet
 
+// Measured 2026-09-07: the sheet's own toolbar row matches the platform nav bar height off
+// macOS, where it holds at a fixed 48pt instead
+// (docs/research/apple-design-system-reference.md §sheets).
+const iosSheet: SheetTokens = { toolbarHeight: "var(--nav-bar-height)" }
+const macosSheet: SheetTokens = { toolbarHeight: "3rem" }
+const webSheet: SheetTokens = { toolbarHeight: "var(--nav-bar-height)" }
+
 export const componentTokens: Record<Platform, ComponentTokens> = {
   ios: {
     checkbox: iosBezel,
@@ -872,6 +885,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     sidebar: iosSidebar,
     navigationBar: iosNavigationBar,
     actionSheet: iosActionSheet,
+    sheet: iosSheet,
   },
   macos: {
     checkbox: macosBezel,
@@ -894,6 +908,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     sidebar: macosSidebar,
     navigationBar: macosNavigationBar,
     actionSheet: macosActionSheet,
+    sheet: macosSheet,
   },
   web: {
     checkbox: webBezel,
@@ -916,6 +931,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     sidebar: webSidebar,
     navigationBar: webNavigationBar,
     actionSheet: webActionSheet,
+    sheet: webSheet,
   },
 }
 
@@ -1059,6 +1075,10 @@ const actionSheetLines = (a: ActionSheetTokens): Line[] => [
   ["action-sheet-item-hover-text-destructive", a.item.hoverTextDestructive],
 ]
 
+const sheetLines = (s: SheetTokens): Line[] => [
+  ["sheet-toolbar-height", s.toolbarHeight],
+]
+
 const fieldBorderLines = (name: string, f: FieldBorderTokens): Line[] => [
   [`${name}-border-width`, `${f.borderWidth}px`],
   [`${name}-border-color`, f.borderColor],
@@ -1106,5 +1126,6 @@ export function componentLines(platform: Platform): Line[] {
     ...sidebarLines(t.sidebar),
     ...navigationBarLines(t.navigationBar),
     ...actionSheetLines(t.actionSheet),
+    ...sheetLines(t.sheet),
   ]
 }
