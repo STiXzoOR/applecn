@@ -47,6 +47,34 @@ Three consequences worth stating, because each reverses an earlier decision in t
   component built on it.
 - `item` means shadcn's row primitive. Apple's inset-grouped `list` is built on it.
 
+### 3.1 The three layers of the surface
+
+Parity is checked at three layers, all generated from shadcn's Base UI source and all enforced by
+`packages/ui/__tests__/shadcn-export-parity.test.ts`:
+
+1. **Exported symbols** — a shadcn user's imports resolve.
+2. **`data-slot` values** — a shadcn user's CSS targets the right element.
+3. **Props** — a shadcn user's copy-pasted markup accepts the same attributes.
+
+applecn may expose _more_ at any layer; it may never expose _less_. Each layer was added only after a
+divergence shipped undetected at it, so a fourth layer should be assumed missing rather than absent.
+
+### 3.2 When parity and accessibility conflict, accessibility wins — narrowly, and on the record
+
+shadcn's markup is not always accessible. Where copying it would introduce a violation the repo's own
+axe gate catches, applecn diverges by the smallest amount that removes the violation, and records why
+here. Guards are never weakened to accommodate a copied defect.
+
+The first instance: shadcn's `ItemGroup` sets `role="list"` (`item.tsx:11`), but `ItemSeparator` —
+the sibling that group exists to hold — carries `role="separator"`, which is not a permitted child of
+`role="list"`. Restoring the role makes axe fail `aria-required-children` on the component's own
+shipped example. The defect is upstream, in a Base UI primitive both projects wrap, so no applecn-side
+fix exists that is not a workaround. **applecn's `ItemGroup` omits `role="list"`.** Exports, slots,
+props and composition all still match, so nothing a shadcn user pastes breaks; only a container's ARIA
+role differs, and it differs in the direction of announcing nothing rather than announcing an empty
+list. The rejected alternative — `role="none"` on `ItemSeparator` inside a group — hides a real
+separator from assistive technology, trading one defect for another to paper over someone else's bug.
+
 ## 4. Findings that motivate this
 
 Measured on 2026-09-07 against the registry as published at commit `c67c4d3`.
