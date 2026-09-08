@@ -20,7 +20,7 @@ describe("component appearance tokens", () => {
     expect(componentTokens.macos.checkbox.shadow).toBe(
       "var(--elevation-control)"
     )
-    expect(componentTokens.ios.checkbox.shadow).toBe("none")
+    expect(componentTokens.ios.checkbox.shadow).toBe("0 0 #0000")
   })
 
   test("emits kebab-case CSS variable lines", () => {
@@ -60,7 +60,7 @@ describe("button appearance tokens", () => {
     expect(componentTokens.macos.button.filled.shadow).toBe(
       "var(--elevation-control)"
     )
-    expect(componentTokens.ios.button.filled.shadow).toBe("none")
+    expect(componentTokens.ios.button.filled.shadow).toBe("0 0 #0000")
     expect(componentTokens.ios.button.filled.hoverBg).toBe(
       "color-mix(in srgb, var(--primary), black 8%)"
     )
@@ -132,7 +132,7 @@ describe("alert dialog appearance tokens", () => {
     expect(componentTokens.macos.alertDialog.button.shadow).toBe(
       "var(--elevation-control)"
     )
-    expect(componentTokens.ios.alertDialog.button.shadow).toBe("none")
+    expect(componentTokens.ios.alertDialog.button.shadow).toBe("0 0 #0000")
   })
 
   test("only macOS disables the press-down scale; iOS and the web keep it", () => {
@@ -292,7 +292,7 @@ describe("combobox appearance tokens", () => {
     expect(componentTokens.macos.combobox.field.shadow).toBe(
       "var(--elevation-control)"
     )
-    expect(componentTokens.ios.combobox.field.shadow).toBe("none")
+    expect(componentTokens.ios.combobox.field.shadow).toBe("0 0 #0000")
   })
 
   test("the selected check mark turns white on a macOS highlight; iOS and the web keep it tinted", () => {
@@ -314,7 +314,7 @@ describe("combobox appearance tokens", () => {
       "combobox-field-border-color",
       "var(--label-4)",
     ])
-    expect(lines).toContainEqual(["combobox-field-shadow", "none"])
+    expect(lines).toContainEqual(["combobox-field-shadow", "0 0 #0000"])
     expect(lines).toContainEqual([
       "combobox-item-indicator-highlight-text",
       "var(--primary)",
@@ -367,7 +367,7 @@ describe("color well appearance tokens", () => {
     expect(componentTokens.macos.colorWell.shadow).toBe(
       "var(--elevation-control)"
     )
-    expect(componentTokens.ios.colorWell.shadow).toBe("none")
+    expect(componentTokens.ios.colorWell.shadow).toBe("0 0 #0000")
   })
 
   test("the ring drops to no border at all on macOS, since AppKit fills the bezel instead", () => {
@@ -426,7 +426,7 @@ describe("select appearance tokens", () => {
     expect(componentTokens.macos.select.popup.shadow).toBe(
       "var(--elevation-control)"
     )
-    expect(componentTokens.web.select.popup.shadow).toBe("none")
+    expect(componentTokens.web.select.popup.shadow).toBe("0 0 #0000")
     expect(componentTokens.ios.select.popup.borderWidth).toBe(0)
     expect(componentTokens.web.select.popup.borderWidth).toBe(1)
     expect(componentTokens.web.select.popup.borderColor).toBe("var(--label-4)")
@@ -515,7 +515,7 @@ describe("search field appearance tokens", () => {
     expect(componentTokens.macos.searchField.shadow).toBe(
       "var(--elevation-control)"
     )
-    expect(componentTokens.ios.searchField.shadow).toBe("none")
+    expect(componentTokens.ios.searchField.shadow).toBe("0 0 #0000")
     expect(componentTokens.web.searchField.borderWidth).toBe(1)
     expect(componentTokens.web.searchField.borderColor).toBe("var(--label-4)")
     expect(componentTokens.ios.searchField.borderWidth).toBe(0)
@@ -551,7 +551,7 @@ describe("passcode field appearance tokens", () => {
     expect(componentTokens.macos.passcodeField.shadow).toBe(
       "var(--elevation-control)"
     )
-    expect(componentTokens.ios.passcodeField.shadow).toBe("none")
+    expect(componentTokens.ios.passcodeField.shadow).toBe("0 0 #0000")
   })
 
   test("the box narrows from 2.5rem to 2rem on macOS, and its height reads the alert button height off macOS", () => {
@@ -596,7 +596,7 @@ describe("toggle group appearance tokens", () => {
     expect(componentTokens.ios.toggleGroup.pressed.shadow).toBe(
       "var(--elevation-segment)"
     )
-    expect(componentTokens.macos.toggleGroup.pressed.shadow).toBe("none")
+    expect(componentTokens.macos.toggleGroup.pressed.shadow).toBe("0 0 #0000")
   })
 
   test("the pressed label stays the resting label colour off macOS, which turns it white", () => {
@@ -609,7 +609,7 @@ describe("toggle group appearance tokens", () => {
     const lines = componentLines("macos")
     expect(lines).toContainEqual(["toggle-group-pressed-bg", "var(--primary)"])
     expect(lines).toContainEqual(["toggle-group-pressed-text", "white"])
-    expect(lines).toContainEqual(["toggle-group-pressed-shadow", "none"])
+    expect(lines).toContainEqual(["toggle-group-pressed-shadow", "0 0 #0000"])
   })
 })
 
@@ -640,14 +640,14 @@ describe("textarea appearance tokens", () => {
     expect(componentTokens.macos.textarea.shadow).toBe(
       "var(--elevation-control)"
     )
-    expect(componentTokens.ios.textarea.shadow).toBe("none")
+    expect(componentTokens.ios.textarea.shadow).toBe("0 0 #0000")
   })
 
   test("emits kebab-case CSS variable lines", () => {
     const lines = componentLines("web")
     expect(lines).toContainEqual(["textarea-border-width", "1px"])
     expect(lines).toContainEqual(["textarea-border-color", "var(--label-4)"])
-    expect(lines).toContainEqual(["textarea-shadow", "none"])
+    expect(lines).toContainEqual(["textarea-shadow", "0 0 #0000"])
   })
 })
 
@@ -662,7 +662,9 @@ describe("segmented control appearance tokens", () => {
     expect(componentTokens.ios.segmentedControl.indicator.shadow).toBe(
       "var(--elevation-segment)"
     )
-    expect(componentTokens.macos.segmentedControl.indicator.shadow).toBe("none")
+    expect(componentTokens.macos.segmentedControl.indicator.shadow).toBe(
+      "0 0 #0000"
+    )
   })
 
   test("the active label stays the resting label colour off macOS, which turns it white", () => {
@@ -681,7 +683,10 @@ describe("segmented control appearance tokens", () => {
       "segmented-control-indicator-bg",
       "var(--primary)",
     ])
-    expect(lines).toContainEqual(["segmented-control-indicator-shadow", "none"])
+    expect(lines).toContainEqual([
+      "segmented-control-indicator-shadow",
+      "0 0 #0000",
+    ])
     expect(lines).toContainEqual([
       "segmented-control-item-active-text",
       "white",
@@ -697,7 +702,7 @@ describe("input appearance tokens", () => {
     expect(componentTokens.ios.input.borderColor).toBe("var(--separator)")
     expect(componentTokens.web.input.borderColor).toBe("var(--label-4)")
     expect(componentTokens.macos.input.shadow).toBe("var(--elevation-control)")
-    expect(componentTokens.ios.input.shadow).toBe("none")
+    expect(componentTokens.ios.input.shadow).toBe("0 0 #0000")
   })
 
   test("emits kebab-case CSS variable lines", () => {
@@ -815,5 +820,34 @@ describe("list appearance tokens", () => {
   test("emits kebab-case CSS variable lines", () => {
     const lines = componentLines("macos")
     expect(lines).toContainEqual(["list-header-font-weight", "700"])
+  })
+})
+
+/**
+ * Tailwind compiles `shadow-(--x)` into a composite
+ * `box-shadow: var(--tw-inset-shadow), …, var(--tw-ring-shadow), var(--tw-shadow)`, and
+ * `box-shadow`'s grammar is `none | <shadow>#` — the keyword is legal only as the *sole*
+ * value. So a token that resolves to `none` makes the whole declaration invalid at
+ * computed-value time, `box-shadow` falls back to its initial value, and the element's
+ * `focus-visible:ring-*` disappears with it. Tailwind's own `shadow-none` emits
+ * `--tw-shadow: 0 0 #0000` for exactly this reason; every shadow token here must do the same.
+ */
+describe("shadow tokens compose legally inside Tailwind's box-shadow list", () => {
+  test.each(["ios", "macos", "web"] as const)(
+    "%s declares no shadow token as the keyword none",
+    (platform) => {
+      const offenders = componentLines(platform)
+        .filter(([name]) => name.includes("shadow"))
+        .filter(([, value]) => value === "none")
+      expect(offenders).toEqual([])
+    }
+  )
+
+  test("a shadow-less bezel still declares a transparent shadow, so the ring survives", () => {
+    expect(componentTokens.ios.checkbox.shadow).toBe("0 0 #0000")
+    expect(componentTokens.web.checkbox.shadow).toBe("0 0 #0000")
+    expect(componentTokens.macos.checkbox.shadow).toBe(
+      "var(--elevation-control)"
+    )
   })
 })

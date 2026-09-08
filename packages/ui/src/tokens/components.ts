@@ -323,7 +323,7 @@ const iosBezel: Bezel = {
   bg: "transparent",
   border: "var(--gray-3)",
   borderWidth: 1.5,
-  shadow: "none",
+  shadow: "0 0 #0000",
 }
 
 const macosBezel: Bezel = {
@@ -337,7 +337,7 @@ const webBezel: Bezel = {
   bg: "var(--background-3)",
   border: "var(--label-4)",
   borderWidth: 1,
-  shadow: "none",
+  shadow: "0 0 #0000",
 }
 
 // Measured 2026-09-06/07: iOS presses with a 0.97 scale and stays semibold; macOS and the
@@ -347,20 +347,20 @@ const iosButton: ButtonTokens = {
   fontWeight: "600",
   activeScale: "0.97",
   filled: {
-    shadow: "none",
+    shadow: "0 0 #0000",
     hoverBg: "color-mix(in srgb, var(--primary), black 8%)",
   },
   gray: {
     bg: "var(--fill-3)",
     text: "var(--primary)",
-    shadow: "none",
+    shadow: "0 0 #0000",
     hoverBg: "var(--fill-2)",
   },
   bordered: {
     bg: "transparent",
     text: "var(--primary)",
     border: "var(--border)",
-    shadow: "none",
+    shadow: "0 0 #0000",
     hoverBg: "var(--fill-4)",
     hoverText: "var(--primary)",
   },
@@ -393,20 +393,20 @@ const webButton: ButtonTokens = {
   fontWeight: "400",
   activeScale: "1",
   filled: {
-    shadow: "none",
+    shadow: "0 0 #0000",
     hoverBg: "color-mix(in srgb, var(--primary), white 6%)",
   },
   gray: {
     bg: "var(--fill-3)",
     text: "var(--label)",
-    shadow: "none",
+    shadow: "0 0 #0000",
     hoverBg: "var(--fill-2)",
   },
   bordered: {
     bg: "transparent",
     text: "var(--label)",
     border: "var(--label)",
-    shadow: "none",
+    shadow: "0 0 #0000",
     hoverBg: "var(--label)",
     hoverText: "var(--background)",
   },
@@ -428,8 +428,8 @@ const iosAlertDialog: AlertDialogTokens = {
     activeScale: "0.97",
     bg: "var(--fill-3)",
     bgPreferred: "var(--fill-3)",
-    shadow: "none",
-    shadowPreferred: "none",
+    shadow: "0 0 #0000",
+    shadowPreferred: "0 0 #0000",
     fontWeight: "500",
     fontWeightPreferred: "600",
     textDefault: "var(--primary)",
@@ -452,7 +452,7 @@ const macosAlertDialog: AlertDialogTokens = {
     bg: "var(--background-3)",
     bgPreferred: "var(--primary)",
     shadow: "var(--elevation-control)",
-    shadowPreferred: "none",
+    shadowPreferred: "0 0 #0000",
     fontWeight: "500",
     fontWeightPreferred: "600",
     textDefault: "var(--label)",
@@ -474,8 +474,8 @@ const webAlertDialog: AlertDialogTokens = {
     activeScale: "0.97",
     bg: "var(--fill-3)",
     bgPreferred: "var(--fill-3)",
-    shadow: "none",
-    shadowPreferred: "none",
+    shadow: "0 0 #0000",
+    shadowPreferred: "0 0 #0000",
     fontWeight: "400",
     fontWeightPreferred: "400",
     textDefault: "var(--primary)",
@@ -558,7 +558,7 @@ const macosSelectLabel = {
 const iosSelect: SelectTokens = {
   popup: {
     bg: "var(--fill-3)",
-    shadow: "none",
+    shadow: "0 0 #0000",
     hoverBg: "var(--fill-2)",
     borderWidth: 0,
     borderColor: "transparent",
@@ -588,7 +588,7 @@ const macosSelect: SelectTokens = {
 const webSelect: SelectTokens = {
   popup: {
     bg: "var(--background-3)",
-    shadow: "none",
+    shadow: "0 0 #0000",
     hoverBg: "var(--fill-2)",
     borderWidth: 1,
     borderColor: "var(--label-4)",
@@ -609,7 +609,7 @@ const iosCombobox: ComboboxTokens = {
   field: {
     borderWidth: 0.5,
     borderColor: "var(--separator)",
-    shadow: "none",
+    shadow: "0 0 #0000",
   },
   item: {
     indicatorHighlightText: "var(--primary)",
@@ -631,7 +631,7 @@ const webCombobox: ComboboxTokens = {
   field: {
     borderWidth: 1,
     borderColor: "var(--label-4)",
-    shadow: "none",
+    shadow: "0 0 #0000",
   },
   item: {
     indicatorHighlightText: "var(--primary)",
@@ -671,7 +671,7 @@ const iosColorWell: ColorWellTokens = {
   borderWidth: 1.5,
   bg: "transparent",
   padding: "0.125rem",
-  shadow: "none",
+  shadow: "0 0 #0000",
 }
 
 const macosColorWell: ColorWellTokens = {
@@ -716,7 +716,7 @@ const webToolbar: ToolbarTokens = {
 const iosSearchField: SearchFieldTokens = {
   bg: "var(--fill-3)",
   paddingStart: "0.75rem",
-  shadow: "none",
+  shadow: "0 0 #0000",
   borderWidth: 0,
   borderColor: "transparent",
 }
@@ -732,7 +732,7 @@ const macosSearchField: SearchFieldTokens = {
 const webSearchField: SearchFieldTokens = {
   bg: "var(--background-3)",
   paddingStart: "0.75rem",
-  shadow: "none",
+  shadow: "0 0 #0000",
   borderWidth: 1,
   borderColor: "var(--label-4)",
 }
@@ -743,7 +743,7 @@ const webSearchField: SearchFieldTokens = {
 const iosFieldBorder: FieldBorderTokens = {
   borderWidth: 0.5,
   borderColor: "var(--separator)",
-  shadow: "none",
+  shadow: "0 0 #0000",
 }
 
 const macosFieldBorder: FieldBorderTokens = {
@@ -755,7 +755,7 @@ const macosFieldBorder: FieldBorderTokens = {
 const webFieldBorder: FieldBorderTokens = {
   borderWidth: 1,
   borderColor: "var(--label-4)",
-  shadow: "none",
+  shadow: "0 0 #0000",
 }
 
 // Measured 2026-09-07: the box narrows from 2.5rem to 2rem on macOS; its height reads the same
@@ -792,7 +792,7 @@ const iosSegmentPress = {
 const macosSegmentPress = {
   bg: "var(--primary)",
   text: "white",
-  shadow: "none",
+  shadow: "0 0 #0000",
 }
 
 const iosToggleGroup: ToggleGroupTokens = { pressed: iosSegmentPress }
