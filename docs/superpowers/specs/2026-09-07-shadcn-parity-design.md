@@ -91,8 +91,9 @@ The second instance, and the one that widened this section: shadcn's `Pagination
 reader's list of links, and carries `aria-current="page"` on something that is no longer a link —
 while still navigating. Axe does not flag it. **applecn reads `buttonVariants` onto the anchor
 instead**: identical paint, identical props, identical `data-slot`, link semantics kept. All three
-surface layers still match shadcn exactly; only the internal composition differs. Task 40's
-`page-control` inherits this.
+surface layers still match shadcn exactly; only the internal composition differs. Task 40 was to
+have inherited this; §5.6's 2026-09-08 correction leaves `page-control` off `pagination`, so it does
+not.
 
 The third instance, which lands the opposite way to the first and is worth reading beside it:
 `cmdk` renders `role="separator"` inside its own `role="listbox"`, so axe fails
@@ -417,7 +418,7 @@ are a product surface rather than primitives.
 | `checkbox-group` | `field` (FieldSet/FieldGroup) | macOS text-style hierarchy                         |
 | `tab-bar`        | `tabs`                        | platter 62 inset 21, items 54, labels 10           |
 | `action-sheet`   | `drawer`                      | 48 pt capsule actions from the bottom              |
-| `page-control`   | `pagination`                  | iOS dots                                           |
+| `page-control`   | nothing — verification only   | iOS dots, 7 pt on 10 pt gaps                       |
 | `text`           | the `type-*` scale            | the eleven text styles                             |
 | `toolbar`        | `button-group`                | partial — grouped actions                          |
 | `link`           | the `type-*` scale            |                                                    |
@@ -498,10 +499,33 @@ two behaviours the split view publishes. Spiked against 4.12.4 and abandoned:
   library wraps the children in, not on the panel itself (recorded in `resizable.tsx`). Every pane
   would grow two library divs inside it to keep its own element.
 
-So Task 36 becomes verification-only, like Tasks 26, 32, 35, 41 and 43, and
-`packages/ui/__tests__/split-view.test.tsx` pins each of those three against what the panel does
-instead. The drag is not delivered by this phase; a split view that wants it composes `resizable`
-directly, which is what a shadcn user would reach for anyway.
+**Correction (2026-09-08, Task 40).** The `page-control` row read "`pagination`". The two share the
+idea of a row of page markers and nothing else. Spiked and abandoned:
+
+- **The element and the semantics are different.** `pagination` is a `<nav aria-label="pagination">`
+  of anchors carrying `aria-current="page"` — links a person follows. A page control is a
+  `role="tablist"` of `role="tab"` dots carrying `aria-selected`, focusable with no `href`, with a
+  roving tabindex and Home / End / arrow keys, driving a paged view it sits over. `PaginationLink`
+  takes no `render`, so its anchor cannot become a button; `PaginationContent` is a `<ul>`, so a
+  dot inside a `<li>` would no longer be owned by the tablist.
+- **The API is different.** A page control is `count` / `index` / `onIndexChange` and renders its
+  own dots. `pagination` is a composition of children with URLs, and moves between nothing itself.
+- **None of the values survive.** A dot is `size-(--page-control-dot)` — 7 pt on iOS and macOS, 8
+  on the web — against a small button's 28 / 20 / 28. The size class does win, and then the button
+  brings a transparent hairline with `bg-clip-padding`, so a 7 pt circle paints 5 pt of fill inside
+  a border it never asked for; a press that shrinks and dims a dot; and a control's type size on an
+  element holding no text. The row's gap is the measured 10 / 10 / 8 against `PaginationContent`'s
+  `gap-1`. What survives that a dot wants is `rounded-full`, `outline-none`, `shrink-0` and the
+  focus ring it already writes.
+
+§3.2's second instance does not carry over to Task 40: that instance is about how `pagination`
+renders its anchor, and a page control has no anchor.
+
+So Tasks 36 and 40 become verification-only, like Tasks 26, 32, 35, 41 and 43.
+`packages/ui/__tests__/split-view.test.tsx` and `page-control.test.tsx` pin each claim above
+against what the base does instead. The split view's drag is not delivered by this phase: a split
+view that wants a seam composes `resizable` around these panes, which is what a shadcn user reaches
+for anyway.
 
 ### 5.7 Genuinely Apple-only (7)
 

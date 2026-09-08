@@ -8,6 +8,11 @@ import type { ComponentProps, KeyboardEvent } from "react"
  * Page controls (HIG › Page controls): a row of 7 pt dots 9 pt apart, the current page filled.
  * Pressing a dot or using the arrow keys moves between pages. `prominent` shows the
  * thin-material capsule behind the dots when the control is primary navigation.
+ *
+ * It is its own control rather than a `pagination` (spec §5.6, corrected 2026-09-08). The two
+ * share the idea of a row of page markers and nothing else: `pagination` is a `<nav>` of anchors
+ * a person follows, this is a tablist of dots driving a paged view it sits over, and a small
+ * button's transparent hairline with `bg-clip-padding` would paint a 7 pt dot as 5.
  */
 const pageControlVariants = cva(
   "inline-flex items-center gap-(--page-control-gap)",
