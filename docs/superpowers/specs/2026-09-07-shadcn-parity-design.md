@@ -416,7 +416,7 @@ are a product surface rather than primitives.
 | `color-well`     | nothing — verification only   | 28 pt ring on iOS, AppKit's 48 × 24 capsule        |
 | `split-view`     | nothing — verification only   | two or three panes, measured widths, 1 pt dividers |
 | `checkbox-group` | `field` (FieldSet/FieldGroup) | macOS text-style hierarchy                         |
-| `tab-bar`        | `tabs`                        | platter 62 inset 21, items 54, labels 10           |
+| `tab-bar`        | nothing — verification only   | platter 62 inset 21, items 54, labels 10           |
 | `action-sheet`   | `drawer`                      | 48 pt capsule actions from the bottom              |
 | `page-control`   | nothing — verification only   | iOS dots, 7 pt on 10 pt gaps                       |
 | `text`           | the `type-*` scale            | the eleven text styles                             |
@@ -499,6 +499,35 @@ two behaviours the split view publishes. Spiked against 4.12.4 and abandoned:
   library wraps the children in, not on the panel itself (recorded in `resizable.tsx`). Every pane
   would grow two library divs inside it to keep its own element.
 
+**Correction (2026-09-08, Task 38).** The `tab-bar` row read "`tabs`". `tabs` is applecn's
+segmented control driving panels — its track, pill and segment are `toggle-group`'s three exported
+constants, which §5.3 folded into one place precisely so nothing else would copy them — and a tab
+bar is a floating Liquid Glass platter of app-level navigation. Spiked and abandoned:
+
+- **The track's fill paints over the platter's glass, and cannot be cleared off it.**
+  `segmentedTrackClassName` carries `bg-fill-3`; the platter carries `glass`. `cn` knows neither as
+  a conflict, so both survive and emission order decides — measured against the built stylesheet,
+  `.glass` at 43,910 and `.bg-fill-3` at 49,166, so the tertiary fill wins and Liquid Glass renders
+  flat. It cannot be neutralised either: every `bg-*` is emitted after `glass`, so the class that
+  clears the track's fill clears the platter's background with it. This is the collision class
+  `packages/ui/__tests__/named-utility-collision.test.ts` now guards.
+- **A list always carries an indicator.** `TabsList` renders `Tabs.Indicator` itself, so a platter
+  built on it grows a sliding pill it has no use for. A tab bar tints the current item in place.
+- **A segment hides its overflow.** `segmentedItemClassName` is `overflow-hidden`; a tab bar hangs
+  its badge outside the item at `-end-2.5 -top-1.5`, so every badge would be clipped.
+- **The semantics change, and downwards.** A tab bar is a `<nav>` whose items are real links
+  carrying `aria-current="page"`, plus a search button OUTSIDE the platter — a child a
+  `role="tablist"` has no place for, since every child of a tablist must be a tab. `tabs` is a
+  tablist over panels, and a tab bar has none.
+- **None of the numbers survive.** The platter is `--tab-bar-height` 62 against the track's 32 and
+  `--tab-bar-item-inset` 4 against its 2; an item is `min-w-11` and `--tab-bar-label` 10 against a
+  segment's 32 pt minimum and 13 pt type. The radius is the one place they agree by accident: the
+  track's `rounded-segmented` is emitted after `rounded-full` and would win, and on iOS —
+  the only idiom whose tab-bar tokens are non-zero — `--segmented-radius` is 1000 px, which clamps
+  to the same capsule at 62 pt.
+
+So Task 38 becomes verification-only, with the claims kept executable in `tab-bar.test.tsx`.
+
 **Correction (2026-09-08, Task 40).** The `page-control` row read "`pagination`". The two share the
 idea of a row of page markers and nothing else. Spiked and abandoned:
 
@@ -521,9 +550,9 @@ idea of a row of page markers and nothing else. Spiked and abandoned:
 §3.2's second instance does not carry over to Task 40: that instance is about how `pagination`
 renders its anchor, and a page control has no anchor.
 
-So Tasks 36 and 40 become verification-only, like Tasks 26, 32, 35, 41 and 43.
-`packages/ui/__tests__/split-view.test.tsx` and `page-control.test.tsx` pin each claim above
-against what the base does instead. The split view's drag is not delivered by this phase: a split
+So Tasks 36, 38 and 40 become verification-only, like Tasks 26, 32, 35, 41 and 43.
+`packages/ui/__tests__/split-view.test.tsx`, `tab-bar.test.tsx` and `page-control.test.tsx` pin each
+claim above against what the base does instead. The split view's drag is not delivered by this phase: a split
 view that wants a seam composes `resizable` around these panes, which is what a shadcn user reaches
 for anyway.
 

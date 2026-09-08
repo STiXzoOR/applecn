@@ -18,6 +18,13 @@ import { Icon } from "./icon"
  * edges, with 54 pt items inset 4 — a 24 pt symbol over a 10 pt label — the current item on a
  * tinted lens, a separate 62 pt circular search button at the trailing end, and a `minimized`
  * state that keeps only the current tab. All from the platform tokens.
+ *
+ * It is its own platter rather than a `tabs` (spec §5.6, corrected 2026-09-08). `tabs` is the
+ * segmented control driving panels, and its track carries `bg-fill-3`: `cn` does not know `glass`,
+ * so both would survive and the fill — emitted later — would paint over the Liquid Glass, with no
+ * class able to clear one without the other. A `TabsList` also always draws a sliding indicator,
+ * a segment hides the overflow this bar's badge hangs into, and a tablist has no place for the
+ * search button that sits outside the platter.
  */
 interface TabBarContextValue {
   value?: string
