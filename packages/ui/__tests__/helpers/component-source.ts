@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync } from "node:fs"
 import { join } from "node:path"
+import ts from "typescript"
 
 /**
  * Shared reading of component source, for the guards that scan the catalogue rather than render
@@ -60,6 +61,181 @@ export function splitModifiers(token: string): {
   }
   parts.push(buffer)
   return { modifiers: parts.slice(0, -1), utility: parts.at(-1)! }
+}
+
+/**
+ * One class token and the branches it is written under: a map from a branch key — one `cva`
+ * variant group, or one ternary in a `cn` call — to the alternative this token sits in. Two
+ * tokens can only reach an element together when they agree on every branch key they share.
+ */
+export interface ClassToken {
+  readonly token: string
+  readonly branch: Readonly<Record<string, string>>
+}
+
+/** Class tokens a single element can receive together, and where they were written. */
+export interface ClassSet {
+  readonly label: string
+  readonly tokens: readonly ClassToken[]
+}
+
+export const canCoexist = (a: ClassToken, b: ClassToken) =>
+  Object.entries(a.branch).every(
+    ([key, value]) => !(key in b.branch) || b.branch[key] === value
+  )
+
+/**
+ * Every set of classes one element can receive: each string literal, each `cn()` call across its
+ * arguments, and each `cva()` across its base, variants and compound variants.
+ *
+ * Read from the TypeScript AST rather than by regex, which the other guards here use, because the
+ * question is which classes can land TOGETHER and only the syntax tree answers it: the two
+ * branches of a ternary never do, nor two values of one `cva` variant group, while a `cn`
+ * argument and a `cva` base written twenty lines apart always do. That last shape is the one that
+ * shipped a defect — `shadow-none` in a `cn`'s first argument against `shadow-control` in its
+ * second — so a per-string scan would have missed it.
+ */
+export function classSets(file: string, source: string): ClassSet[] {
+  const tree = ts.createSourceFile(
+    file,
+    source,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX
+  )
+  const line = (node: ts.Node) =>
+    tree.getLineAndCharacterOfPosition(node.getStart(tree)).line + 1
+  const cvas = new Map<string, ClassToken[]>()
+  const sets: ClassSet[] = []
+  let ternaries = 0
+
+  function emit(
+    node: ts.Node,
+    branch: Record<string, string>,
+    into: ClassToken[]
+  ): void {
+    if (ts.isParenthesizedExpression(node)) emit(node.expression, branch, into)
+    else if (
+      ts.isStringLiteral(node) ||
+      ts.isNoSubstitutionTemplateLiteral(node)
+    )
+      for (const token of node.text.split(/\s+/).filter(Boolean))
+        into.push({ token, branch })
+    else if (ts.isTemplateExpression(node))
+      for (const part of [
+        node.head,
+        ...node.templateSpans.map((s) => s.literal),
+      ])
+        for (const token of part.text.split(/\s+/).filter(Boolean))
+          into.push({ token, branch })
+    else if (ts.isConditionalExpression(node)) {
+      const key = `?${ternaries++}`
+      emit(node.whenTrue, { ...branch, [key]: "then" }, into)
+      emit(node.whenFalse, { ...branch, [key]: "else" }, into)
+    } else if (ts.isBinaryExpression(node)) {
+      const operator = node.operatorToken.kind
+      if (operator === ts.SyntaxKind.QuestionQuestionToken)
+        emit(node.left, branch, into)
+      if (
+        operator === ts.SyntaxKind.AmpersandAmpersandToken ||
+        operator === ts.SyntaxKind.QuestionQuestionToken
+      )
+        emit(node.right, branch, into)
+    } else if (ts.isCallExpression(node) && ts.isIdentifier(node.expression)) {
+      const inlined = cvas.get(node.expression.text)
+      if (inlined)
+        for (const token of inlined)
+          into.push({
+            token: token.token,
+            branch: { ...branch, ...token.branch },
+          })
+      else if (node.expression.text === "cn")
+        for (const argument of node.arguments) emit(argument, branch, into)
+    }
+  }
+
+  /** A `cva`'s classes: the base under no branch, each variant value under its own. */
+  function cvaTokens(call: ts.CallExpression, name: string): ClassToken[] {
+    const tokens: ClassToken[] = []
+    const text = (node: ts.Node) => node.getText(tree).replace(/["']/g, "")
+    if (call.arguments[0]) emit(call.arguments[0], {}, tokens)
+    const config = call.arguments[1]
+    if (!config || !ts.isObjectLiteralExpression(config)) return tokens
+    for (const property of config.properties) {
+      if (!ts.isPropertyAssignment(property)) continue
+      const key = text(property.name)
+      if (
+        key === "variants" &&
+        ts.isObjectLiteralExpression(property.initializer)
+      )
+        for (const group of property.initializer.properties) {
+          if (
+            !ts.isPropertyAssignment(group) ||
+            !ts.isObjectLiteralExpression(group.initializer)
+          )
+            continue
+          const branchKey = `${name}.${text(group.name)}`
+          for (const value of group.initializer.properties)
+            if (ts.isPropertyAssignment(value))
+              emit(value.initializer, { [branchKey]: text(value.name) }, tokens)
+        }
+      if (
+        key === "compoundVariants" &&
+        ts.isArrayLiteralExpression(property.initializer)
+      )
+        for (const entry of property.initializer.elements) {
+          if (!ts.isObjectLiteralExpression(entry)) continue
+          const branch: Record<string, string> = {}
+          let classes: ts.Expression | undefined
+          for (const field of entry.properties) {
+            if (!ts.isPropertyAssignment(field)) continue
+            const fieldKey = text(field.name)
+            if (fieldKey === "class" || fieldKey === "className")
+              classes = field.initializer
+            else branch[`${name}.${fieldKey}`] = text(field.initializer)
+          }
+          if (classes) emit(classes, branch, tokens)
+        }
+    }
+    return tokens
+  }
+
+  const readCvas = (node: ts.Node): void => {
+    if (
+      ts.isVariableDeclaration(node) &&
+      ts.isIdentifier(node.name) &&
+      node.initializer &&
+      ts.isCallExpression(node.initializer) &&
+      ts.isIdentifier(node.initializer.expression) &&
+      node.initializer.expression.text === "cva"
+    )
+      cvas.set(node.name.text, cvaTokens(node.initializer, node.name.text))
+    ts.forEachChild(node, readCvas)
+  }
+  readCvas(tree)
+  for (const [name, tokens] of cvas) sets.push({ label: `${name}()`, tokens })
+
+  const visit = (node: ts.Node): void => {
+    if (
+      ts.isCallExpression(node) &&
+      ts.isIdentifier(node.expression) &&
+      node.expression.text === "cn"
+    ) {
+      const tokens: ClassToken[] = []
+      emit(node, {}, tokens)
+      sets.push({ label: `${file}:${line(node)} cn()`, tokens })
+    } else if (
+      (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) &&
+      /\s/.test(node.text)
+    ) {
+      const tokens: ClassToken[] = []
+      emit(node, {}, tokens)
+      sets.push({ label: `${file}:${line(node)}`, tokens })
+    }
+    ts.forEachChild(node, visit)
+  }
+  visit(tree)
+  return sets
 }
 
 /** The coarse property group a utility paints, or null when it paints none we track. */

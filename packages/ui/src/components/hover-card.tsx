@@ -54,7 +54,7 @@ function HoverCardContent({
           data-slot="hover-card-content"
           data-elevated=""
           className={cn(
-            "z-50 flex w-72 origin-(--transform-origin) flex-col gap-3 overflow-hidden rounded-popover glass p-4 text-label shadow-glass outline-hidden duration-(--duration-overlay) ease-(--ease-standard) motion-reduce:animate-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+            "z-50 flex w-72 origin-(--transform-origin) flex-col gap-3 overflow-hidden rounded-popover glass p-4 text-label outline-hidden duration-(--duration-overlay) ease-(--ease-standard) motion-reduce:animate-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
             className
           )}
           {...props}

@@ -98,7 +98,7 @@ function ComboboxContent({
           data-slot="combobox-content"
           data-elevated=""
           className={cn(
-            "z-50 flex max-h-(--available-height) w-(--anchor-width) min-w-(--menu-width) origin-(--transform-origin) flex-col overflow-hidden rounded-menu glass p-(--menu-padding) text-label shadow-glass duration-(--duration-overlay) ease-(--ease-standard) outline-none motion-reduce:animate-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+            "z-50 flex max-h-(--available-height) w-(--anchor-width) min-w-(--menu-width) origin-(--transform-origin) flex-col overflow-hidden rounded-menu glass p-(--menu-padding) text-label duration-(--duration-overlay) ease-(--ease-standard) outline-none motion-reduce:animate-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
             className
           )}
           {...props}

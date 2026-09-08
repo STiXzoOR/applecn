@@ -30,7 +30,11 @@ describe("Popover", () => {
     expect(popover).toHaveAttribute("data-slot", "popover-content")
     expect(popover.className).toContain("rounded-popover")
     expect(popover.className).toContain("glass")
-    expect(popover.className).toContain("shadow-glass")
+    // `glass` writes `--elevation-glass` itself, and swaps it for the dialog elevation under
+    // reduced transparency. A `shadow-glass` beside it is emitted later and unconditionally, so
+    // it wins in BOTH states and that fallback never lands — see
+    // `named-utility-collision.test.ts`.
+    expect(popover.className).not.toContain("shadow-")
     expect(popover.querySelector('[data-slot="popover-arrow"]')).not.toBeNull()
     await userEvent.click(screen.getByRole("button", { name: "Outside" }))
     expect(screen.queryByRole("dialog")).toBeNull()
