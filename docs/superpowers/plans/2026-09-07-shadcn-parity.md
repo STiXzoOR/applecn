@@ -131,6 +131,21 @@ git add packages/ui/src/lib/utils.ts packages/ui/package.json packages/ui/__test
 git commit -s -m "refactor(ui): cn is clsx and tailwind-merge in lib/utils, as shadcn ships it"
 ```
 
+**Result (2026-09-08): REVERSED.** This task was a mistake, caught by the repo owner and confirmed
+against the npm registry and `github.com/shadcn-ui/cn`. The premise — that `@/lib/utils` shipping the
+`cn` npm package was a divergence from shadcn convention — was wrong. `cn` is published and
+maintained by shadcn (`m@shadcn.com`), described in its own README as "a new engine for Tailwind
+class merging and conflict resolution [that] replaces `tailwind-merge` and `clsx`," and shadcn's own
+current `lib/utils.ts` is `export { cn } from "cn"` — the exact line this task removed. `cn`
+v0.2.6 published 2026-09-06, one day before this plan was written, which is why this task and spec
+§6.5 both carried the older, now-superseded convention. `lib/utils.ts` reverted to `export { cn }
+from "cn"`; `packages/ui/package.json` re-gained `cn` (`^0.2.6`) and dropped `clsx`/`tailwind-merge`;
+`apps/web/registry.json` regenerated so the `utils` item declares `["cn"]`. Spec §6.5 amended to
+match. The one part of this task's intent that was correct and stands: every component imports `cn`
+from `../lib/utils` rather than from the package directly (Task 2), so `lib/utils.ts` remains the
+seam — only what it re-exports changed back. See
+`.superpowers/sdd/2026-09-07-shadcn-parity/restore-cn-report.md` for the full verification.
+
 ### Task 2: Every component imports `cn` from `@/lib/utils`
 
 **Files:**

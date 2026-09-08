@@ -286,7 +286,11 @@ The style item must additionally ship what §4.1 found missing: the `@layer base
 
 ### 6.5 shadcn conventions in component source
 
-- `import { cn } from "@/lib/utils"`, with `lib/utils.ts` shipping `clsx` + `tailwind-merge`.
+- `import { cn } from "@/lib/utils"`, with `lib/utils.ts` re-exporting shadcn's own `cn` package
+  (`export { cn } from "cn"`) rather than hand-rolling `clsx` + `tailwind-merge`. `cn` is shadcn's
+  current class-merging engine — a drop-in, faster replacement for that pair, and shadcn's own
+  documented `lib/utils.ts` is this exact line — so re-exporting it is more current than assembling
+  the two packages it supersedes. §4.3's `cn` measurements were taken against this same package.
 - Sibling imports become `@/components/ui/<name>`; the registry build rewrites them like it already
   rewrites `../hooks/` and `../lib/`.
 - The install command is the namespaced short form (`npx shadcn@latest add @applecn/checkbox`)
