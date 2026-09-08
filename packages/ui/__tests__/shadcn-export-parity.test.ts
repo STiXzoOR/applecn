@@ -73,8 +73,8 @@ type Row = Unbuilt | Built | Declined
  * is not built yet with the task that builds it.
  *
  * Task 15's §5.2 renames land one at a time, so a row moves from unbuilt to a gap as its file
- * appears under shadcn's name. `collapsible` and `drawer` are still unbuilt here while
- * `disclosure-group.tsx` and `sheet.tsx` carry their code under Apple's names. Auditing them under shadcn's names is
+ * appears under shadcn's name. `drawer` is still unbuilt here while `sheet.tsx` carries its
+ * code under Apple's name. Auditing them under shadcn's names is
  * deliberate: it is the rename that owes the parity, and each row fails the moment its file
  * appears.
  */
@@ -109,8 +109,11 @@ const LEDGER: Record<string, Row> = {
   chart: { task: "Task 30b" },
   checkbox: { gap: [] },
   collapsible: {
-    task: "Task 15",
-    note: "the rename of `disclosure-group`; verified again by Task 26.",
+    gap: [],
+    note:
+      "the rename of `disclosure-group`. Base UI names the region `Panel`, so the sub-component " +
+      "took shadcn's `CollapsibleContent` rather than a literal `CollapsiblePanel`; Task 26 " +
+      "verifies exactly that pair. Its `data-slot` values still read `disclosure-group*`.",
   },
   combobox: {
     gap: [

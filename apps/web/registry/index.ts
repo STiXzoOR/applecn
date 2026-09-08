@@ -600,8 +600,8 @@ export const componentDocs: ComponentDoc[] = [
     examples: [{ name: "basic", title: "Files" }],
   },
   {
-    name: "disclosure-group",
-    title: "Disclosure group",
+    name: "collapsible",
+    title: "Collapsible",
     description: "A row that reveals details, its chevron turning as it opens.",
     group: "content",
     apple: { name: "Disclosure controls", hig: hig("disclosure-controls") },

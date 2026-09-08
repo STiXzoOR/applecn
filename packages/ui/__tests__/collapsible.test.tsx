@@ -3,18 +3,18 @@ import userEvent from "@testing-library/user-event"
 import { describe, expect, test } from "vitest"
 
 import {
-  DisclosureGroup,
-  DisclosureGroupPanel,
-  DisclosureGroupTrigger,
-} from "../src/components/disclosure-group"
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "../src/components/collapsible"
 
-describe("DisclosureGroup", () => {
+describe("Collapsible", () => {
   test("hides its details until the row is pressed, turning the chevron", async () => {
     render(
-      <DisclosureGroup>
-        <DisclosureGroupTrigger>Advanced Options</DisclosureGroupTrigger>
-        <DisclosureGroupPanel>Details</DisclosureGroupPanel>
-      </DisclosureGroup>
+      <Collapsible>
+        <CollapsibleTrigger>Advanced Options</CollapsibleTrigger>
+        <CollapsibleContent>Details</CollapsibleContent>
+      </Collapsible>
     )
     const trigger = screen.getByRole("button", { name: "Advanced Options" })
     expect(trigger).toHaveAttribute("aria-expanded", "false")

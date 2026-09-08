@@ -3718,6 +3718,26 @@
       ]
     },
     {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "A row that reveals details, its chevron turning as it opens.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/collapsible.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "color-well",
       "type": "registry:ui",
       "title": "Color well",
@@ -3790,26 +3810,6 @@
       "files": [
         {
           "path": "src/components/dialog.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "name": "disclosure-group",
-      "type": "registry:ui",
-      "title": "Disclosure group",
-      "description": "A row that reveals details, its chevron turning as it opens.",
-      "dependencies": [
-        "@base-ui/react",
-        "@hugeicons/core-free-icons"
-      ],
-      "registryDependencies": [
-        "https://applecn.vercel.app/r/icon.json",
-        "https://applecn.vercel.app/r/utils.json"
-      ],
-      "files": [
-        {
-          "path": "src/components/disclosure-group.tsx",
           "type": "registry:ui"
         }
       ]

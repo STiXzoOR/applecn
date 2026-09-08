@@ -99,6 +99,12 @@
     "rounded-full",
     "size-full"
   ],
+  "collapsible.tsx": [
+    "--collapsible-panel-height",
+    "h-0",
+    "type-body",
+    "w-full"
+  ],
   "color-well.tsx": [
     "--color-well-border-width",
     "--color-well-height",
@@ -149,12 +155,6 @@
     "rounded-dialog",
     "type-headline",
     "type-subheadline"
-  ],
-  "disclosure-group.tsx": [
-    "--collapsible-panel-height",
-    "h-0",
-    "type-body",
-    "w-full"
   ],
   "dropdown-menu.tsx": [
     "--available-height",

@@ -10,10 +10,7 @@ import { Icon } from "./icon"
  * Disclosure controls (HIG › Disclosure controls): a row whose chevron points along the
  * leading edge when collapsed and down when expanded, hiding details until they are relevant.
  */
-function DisclosureGroup({
-  className,
-  ...props
-}: CollapsiblePrimitive.Root.Props) {
+function Collapsible({ className, ...props }: CollapsiblePrimitive.Root.Props) {
   return (
     <CollapsiblePrimitive.Root
       data-slot="disclosure-group"
@@ -23,7 +20,7 @@ function DisclosureGroup({
   )
 }
 
-function DisclosureGroupTrigger({
+function CollapsibleTrigger({
   className,
   children,
   ...props
@@ -48,7 +45,7 @@ function DisclosureGroupTrigger({
   )
 }
 
-function DisclosureGroupPanel({
+function CollapsibleContent({
   className,
   ...props
 }: CollapsiblePrimitive.Panel.Props) {
@@ -64,4 +61,4 @@ function DisclosureGroupPanel({
   )
 }
 
-export { DisclosureGroup, DisclosureGroupPanel, DisclosureGroupTrigger }
+export { Collapsible, CollapsibleContent, CollapsibleTrigger }
