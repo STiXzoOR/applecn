@@ -3,36 +3,36 @@ import userEvent from "@testing-library/user-event"
 import { describe, expect, test } from "vitest"
 
 import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetToolbar,
-  SheetTrigger,
-} from "../src/components/sheet"
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerToolbar,
+  DrawerTrigger,
+} from "../src/components/drawer"
 import { setViewport } from "./helpers/viewport"
 
 function NewEvent(props: { detent?: "medium" | "large" }) {
   return (
-    <Sheet>
-      <SheetTrigger>New Event</SheetTrigger>
-      <SheetContent detent={props.detent}>
-        <SheetToolbar
-          cancel={<SheetClose>Cancel</SheetClose>}
+    <Drawer>
+      <DrawerTrigger>New Event</DrawerTrigger>
+      <DrawerContent detent={props.detent}>
+        <DrawerToolbar
+          cancel={<DrawerClose>Cancel</DrawerClose>}
           done={<button type="button">Add</button>}
         >
-          <SheetTitle>New Event</SheetTitle>
-        </SheetToolbar>
+          <DrawerTitle>New Event</DrawerTitle>
+        </DrawerToolbar>
         <p>Form</p>
-      </SheetContent>
-    </Sheet>
+      </DrawerContent>
+    </Drawer>
   )
 }
 
-describe("Sheet", () => {
+describe("Drawer", () => {
   test("on a phone it is a bottom sheet with a grabber and the sheet radius", async () => {
     setViewport("phone")
     render(<NewEvent />)
@@ -83,26 +83,27 @@ describe("Sheet", () => {
 
 /**
  * shadcn's Drawer markup, pasted unchanged (spec §3, §5.1): a Header around the title and
- * description, a Footer around the actions. Task 15 renames these to Drawer*.
+ * description, a Footer around the actions. Task 15's rename put these under `Drawer*`, which is
+ * what a shadcn user pastes.
  */
 function ShadcnShaped() {
   return (
-    <Sheet>
-      <SheetTrigger>New Event</SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>New Event</SheetTitle>
-          <SheetDescription>Add it to your calendar.</SheetDescription>
-        </SheetHeader>
-        <SheetFooter>
-          <SheetClose>Cancel</SheetClose>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
+    <Drawer>
+      <DrawerTrigger>New Event</DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>New Event</DrawerTitle>
+          <DrawerDescription>Add it to your calendar.</DrawerDescription>
+        </DrawerHeader>
+        <DrawerFooter>
+          <DrawerClose>Cancel</DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   )
 }
 
-describe("Sheet takes shadcn's Drawer markup", () => {
+describe("Drawer takes shadcn's Drawer markup unchanged", () => {
   test("the header holds the title and description on the sheet's inset", async () => {
     setViewport("phone")
     render(<ShadcnShaped />)

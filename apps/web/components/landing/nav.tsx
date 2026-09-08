@@ -7,13 +7,13 @@ import { Button } from "@applecn/ui/components/button"
 import { Icon } from "@applecn/ui/components/icon"
 import { List, ListRow } from "@applecn/ui/components/list"
 import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetTitle,
-  SheetToolbar,
-  SheetTrigger,
-} from "@applecn/ui/components/sheet"
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerTitle,
+  DrawerToolbar,
+  DrawerTrigger,
+} from "@applecn/ui/components/drawer"
 
 import { AppearanceMenu } from "@/components/appearance-controls"
 import { GITHUB_URL } from "@/lib/site"
@@ -61,8 +61,8 @@ export function LandingNav() {
             ))}
           </div>
           <AppearanceMenu />
-          <Sheet>
-            <SheetTrigger
+          <Drawer>
+            <DrawerTrigger
               render={
                 <Button
                   variant="gray"
@@ -74,11 +74,11 @@ export function LandingNav() {
               }
             >
               <Icon icon={Menu01Icon} />
-            </SheetTrigger>
-            <SheetContent>
-              <SheetToolbar cancel={<SheetClose>Close</SheetClose>}>
-                <SheetTitle>Browse</SheetTitle>
-              </SheetToolbar>
+            </DrawerTrigger>
+            <DrawerContent>
+              <DrawerToolbar cancel={<DrawerClose>Close</DrawerClose>}>
+                <DrawerTitle>Browse</DrawerTitle>
+              </DrawerToolbar>
               <List aria-label="Site">
                 {links.map((link) => (
                   <ListRow
@@ -89,8 +89,8 @@ export function LandingNav() {
                   />
                 ))}
               </List>
-            </SheetContent>
-          </Sheet>
+            </DrawerContent>
+          </Drawer>
         </div>
       </div>
     </nav>

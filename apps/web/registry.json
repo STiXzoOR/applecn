@@ -3815,6 +3815,26 @@
       ]
     },
     {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "A bottom sheet with a grabber and detents on phones, a centred card from the sm breakpoint.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/dialog.json",
+        "https://applecn.vercel.app/r/use-media-query.json",
+        "https://applecn.vercel.app/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/drawer.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "dropdown-menu",
       "type": "registry:ui",
       "title": "Dropdown menu",
@@ -4339,26 +4359,6 @@
       ]
     },
     {
-      "name": "sheet",
-      "type": "registry:ui",
-      "title": "Sheet",
-      "description": "A bottom sheet with a grabber and detents on phones, a centred card from the sm breakpoint.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "https://applecn.vercel.app/r/dialog.json",
-        "https://applecn.vercel.app/r/use-media-query.json",
-        "https://applecn.vercel.app/r/utils.json"
-      ],
-      "files": [
-        {
-          "path": "src/components/sheet.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "sidebar",
       "type": "registry:ui",
       "title": "Sidebar",
@@ -4370,8 +4370,8 @@
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/button.json",
+        "https://applecn.vercel.app/r/drawer.json",
         "https://applecn.vercel.app/r/icon.json",
-        "https://applecn.vercel.app/r/sheet.json",
         "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [

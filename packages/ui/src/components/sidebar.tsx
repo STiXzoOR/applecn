@@ -16,12 +16,12 @@ import {
 import { Button } from "./button"
 import { Icon } from "./icon"
 import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetTitle,
-  SheetToolbar,
-} from "./sheet"
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerTitle,
+  DrawerToolbar,
+} from "./drawer"
 
 interface SidebarState {
   open: boolean
@@ -141,11 +141,11 @@ function CollapsibleSidebar({
       >
         {children}
       </nav>
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent>
-          <SheetToolbar cancel={<SheetClose>Close</SheetClose>}>
-            <SheetTitle>{title}</SheetTitle>
-          </SheetToolbar>
+      <Drawer open={open} onOpenChange={setOpen}>
+        <DrawerContent>
+          <DrawerToolbar cancel={<DrawerClose>Close</DrawerClose>}>
+            <DrawerTitle>{title}</DrawerTitle>
+          </DrawerToolbar>
           <nav
             data-slot="sidebar"
             className={cn(
@@ -156,8 +156,8 @@ function CollapsibleSidebar({
           >
             {children}
           </nav>
-        </SheetContent>
-      </Sheet>
+        </DrawerContent>
+      </Drawer>
     </>
   )
 }

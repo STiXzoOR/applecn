@@ -6,7 +6,7 @@ import type { ComponentProps } from "react"
 
 /**
  * A modal card: the macOS sheet and the iPad form sheet. A title, an optional description, the
- * content, and a footer with the primary button at the trailing edge. `Sheet` chooses between
+ * content, and a footer with the primary button at the trailing edge. `Drawer` chooses between
  * this and a bottom sheet by viewport.
  */
 function Dialog(props: DialogPrimitive.Root.Props) {

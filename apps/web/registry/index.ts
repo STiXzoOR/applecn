@@ -436,8 +436,8 @@ export const componentDocs: ComponentDoc[] = [
     examples: [{ name: "basic", title: "Unsaved draft" }],
   },
   {
-    name: "sheet",
-    title: "Sheet",
+    name: "drawer",
+    title: "Drawer",
     description:
       "A bottom sheet with a grabber and detents on phones, a centred card from the sm breakpoint.",
     group: "overlays",

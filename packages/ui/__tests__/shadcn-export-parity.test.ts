@@ -5,7 +5,7 @@ import { describe, expect, test } from "vitest"
 
 /**
  * Export-surface parity with shadcn (spec §3, §5.1, §7.2). applecn may export MORE than shadcn —
- * the Apple additions, `AlertDialogActions`, `SheetToolbar` and the rest — and may never export
+ * the Apple additions, `AlertDialogActions`, `DrawerToolbar` and the rest — and may never export
  * fewer, or a shadcn user's copy-pasted markup breaks.
  *
  * The reference is `fixtures/shadcn-exports.json`, which is GENERATED from shadcn's own source by
@@ -72,11 +72,9 @@ type Row = Unbuilt | Built | Declined
  * every parity component is either at parity, carries a named gap with the task that closes it, or
  * is not built yet with the task that builds it.
  *
- * Task 15's §5.2 renames land one at a time, so a row moves from unbuilt to a gap as its file
- * appears under shadcn's name. `drawer` is still unbuilt here while `sheet.tsx` carries its
- * code under Apple's name. Auditing them under shadcn's names is
- * deliberate: it is the rename that owes the parity, and each row fails the moment its file
- * appears.
+ * Task 15's §5.2 renames have all landed, so each is audited under shadcn's name against the
+ * file that now carries it. `sheet` is the one row that went the other way: the bottom sheet
+ * left under `drawer`, and the name is held for Task 19's edge panel.
  */
 const LEDGER: Record<string, Row> = {
   accordion: { gap: ["AccordionContent"], closes: "Task 15" },
@@ -151,8 +149,12 @@ const LEDGER: Record<string, Row> = {
   dialog: { gap: [] },
   direction: { task: "Task 52–58 (the AI set)" },
   drawer: {
-    task: "Task 15",
-    note: "today's bottom `sheet` renamed; gains DrawerHeader/DrawerFooter there (spec §5.2).",
+    gap: ["DrawerOverlay", "DrawerPortal", "DrawerSwipeHandle"],
+    closes: "Task 15",
+    note:
+      "the rename of the bottom `sheet`. `DrawerHeader` and `DrawerFooter` already existed as " +
+      "`SheetHeader`/`SheetFooter`, so the rename delivered them; the three in the gap are " +
+      "parts `DrawerContent` renders itself rather than exposing.",
   },
   "dropdown-menu": {
     gap: ["DropdownMenuPortal"],
@@ -219,11 +221,11 @@ const LEDGER: Record<string, Row> = {
   select: { gap: [] },
   separator: { gap: [] },
   sheet: {
-    gap: [],
+    task: "Task 19",
     note:
-      "today's `sheet` is the bottom sheet, which spec §5.2 renames to `drawer`. It matches " +
-      "shadcn's edge-panel `sheet` surface by coincidence of naming; Task 19 builds the real " +
-      "edge panel under this name and re-audits the row.",
+      "spec §5.2 freed this name: the bottom sheet that answered to it is now `drawer`. The " +
+      "old row read as parity because `Sheet*` and shadcn's edge-panel `Sheet*` spell the same " +
+      "symbols, not because applecn shipped an edge panel. Task 19 builds the real one.",
   },
   sidebar: {
     gap: [

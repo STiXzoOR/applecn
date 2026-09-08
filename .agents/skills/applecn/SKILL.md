@@ -29,7 +29,7 @@ Then add the theme, and components as needed (dependencies resolve automatically
 
 ```sh
 npx shadcn@latest add @applecn/apple
-npx shadcn@latest add @applecn/button @applecn/list @applecn/sheet
+npx shadcn@latest add @applecn/button @applecn/list @applecn/drawer
 ```
 
 Without the namespace, the URL form works:
@@ -60,7 +60,7 @@ Without the namespace, the URL form works:
   `ios` and `web`) in the project's stylesheet. `data-elevated` raises a dark surface one step (portals
   set it themselves). `[data-contrast="more"]` is Increase Contrast;
   `prefers-reduced-transparency` swaps glass for opaque materials.
-- **Overlays adapt**: `Sheet` is a bottom sheet with detents on a phone and a centred card from
+- **Overlays adapt**: `Drawer` is a bottom sheet with detents on a phone and a centred card from
   `sm`; `ActionSheet` becomes a popover on desktop. Tab bars, toolbars and menus float on glass.
 - **Icons**: `Icon` wraps Hugeicons with the SF Symbols sizing model (`scale`, `weight`); do
   not import lucide.
@@ -108,20 +108,20 @@ Install any of these as `@applecn/<name>`.
 - `select` — Select (Pickers, pop-up buttons): The menu picker: a tinted inline value on iOS, AppKit’s pop-up button bezel on macOS 26, a pill on the web, opening a glass menu with leading check marks.
 - `combobox` — Combo box (Combo boxes): A text field that offers suggestions filtered as the person types, in a glass menu with the platform’s rows.
 - `checkbox-group` — Checkbox group (Checkboxes): Checkboxes that share a value under a parent that turns them all on or off and shows the mixed state — macOS’s settings hierarchy.
-- `passcode-field` — Passcode field (Text fields): A row of one-character boxes for a verification code that advances as digits are typed and fills on paste.
+- `input-otp` — Input OTP (Text fields): A row of one-character boxes for a verification code that advances as digits are typed and fills on paste.
 - `color-well` — Color well (Color wells): The native colour input as Apple presents it: a ring around the swatch on iOS, AppKit’s capsule on macOS.
 
 ### Overlays
 
-- `menu` — Menu (Menus, pull-down buttons): Liquid Glass menus: 250 pt panels of 44 pt rows with leading glyphs on iOS 26; AppKit’s 24 pt rows, hairlines and accent highlight on macOS 26.
+- `dropdown-menu` — Dropdown menu (Menus, pull-down buttons): Liquid Glass menus: 250 pt panels of 44 pt rows with leading glyphs on iOS 26; AppKit’s 24 pt rows, hairlines and accent highlight on macOS 26.
 - `context-menu` — Context menu (Context menus): The same menu, opened by a secondary click or a long press on an item.
 - `popover` — Popover (Popovers): A transient Liquid Glass card with an arrow, on the platform’s popover corner.
 - `tooltip` — Tooltip (Tooltips): A brief phrase on thick material after a short hover.
 - `alert-dialog` — Alert (Alerts): The iOS 26 alert: 320 pt, 34 pt corners, Liquid Glass, left-aligned text and 48 pt capsule actions; AppKit’s 260 pt alert with 28 pt push buttons on macOS.
 - `action-sheet` — Action sheet (Action sheets): Choices related to an action: the iOS 26 card with 48 pt capsule actions from the bottom on a phone, a popover anchored to the control from the sm breakpoint.
-- `sheet` — Sheet (Sheets): A bottom sheet with a grabber and detents on phones, a centred card from the sm breakpoint.
+- `drawer` — Drawer (Sheets): A bottom sheet with a grabber and detents on phones, a centred card from the sm breakpoint.
 - `dialog` — Dialog (Sheets (macOS), form sheets): A modal card: the macOS sheet and the iPad form sheet, on the platform’s dialog corner and width.
-- `preview-card` — Preview card (Link previews): Safari’s link preview: a Liquid Glass card that appears after hovering a link for a moment.
+- `hover-card` — Hover card (Link previews): Safari’s link preview: a Liquid Glass card that appears after hovering a link for a moment.
 - `toast` — Toast (Notifications): Notification banners: a Liquid Glass card with an icon, title and message that drops in from the top and can be swiped away.
 
 ### Navigation
@@ -141,7 +141,7 @@ Install any of these as `@applecn/<name>`.
 - `list` — List (Lists and tables): Plain, grouped, inset grouped and sidebar lists with rows, accessories and sections — 26 pt corners and 52 pt rows on iOS 26, 10 pt corners and 28 pt rows on macOS 26.
 - `card` — Card (Boxes): A group box on the grouped card surface with the platform’s card corner.
 - `table` — Table (Tables (macOS)): The macOS table with small column headers, compact rows and a tinted selection.
-- `disclosure-group` — Disclosure group (Disclosure controls): A row that reveals details, its chevron turning as it opens.
+- `collapsible` — Collapsible (Disclosure controls): A row that reveals details, its chevron turning as it opens.
 - `empty` — Empty (ContentUnavailableView): The unavailable-content view: a symbol, a title, a description and an action.
 - `skeleton` — Skeleton (Redacted placeholders): A redacted placeholder for loading content.
 - `avatar` — Avatar (Contact photos): A person’s picture or their monogram on gray.

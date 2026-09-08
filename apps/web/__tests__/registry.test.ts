@@ -180,11 +180,11 @@ describe("registry", () => {
   })
 
   test("published items carry each file's content and never a ../ import", () => {
-    const sheet = publishItem(registry.items.find((i) => i.name === "sheet")!)
-    expect(sheet.$schema).toBe(
+    const drawer = publishItem(registry.items.find((i) => i.name === "drawer")!)
+    expect(drawer.$schema).toBe(
       "https://ui.shadcn.com/schema/registry-item.json"
     )
-    expect(sheet.files[0]!.content).toContain('from "@/hooks/use-media-query"')
+    expect(drawer.files[0]!.content).toContain('from "@/hooks/use-media-query"')
     for (const item of registry.items) {
       for (const file of publishItem(item).files) {
         expect(file.content, `${item.name}: ${file.path}`).not.toMatch(

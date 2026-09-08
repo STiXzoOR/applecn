@@ -17,19 +17,19 @@ import { dialogBackdropClassName, dialogPopupClassName } from "./dialog"
  * Sheets (HIG › Sheets). Below the `sm` breakpoint a sheet rises from the bottom on the sheet
  * radius with a grabber, resting at the `large` detent or, with `detent="medium"`, at half
  * height as an inset card with all corners rounded (iOS 26). From `sm` up the same children
- * render as a centred card. `SheetToolbar` places Cancel leading, the title centred and Done
+ * render as a centred card. `DrawerToolbar` places Cancel leading, the title centred and Done
  * trailing, the way iOS sheets do.
  */
 type Presentation = "sheet" | "dialog"
 
 const PresentationContext = createContext<Presentation>("sheet")
 
-type SheetProps = Pick<
+type DrawerProps = Pick<
   DialogPrimitive.Root.Props,
   "open" | "defaultOpen" | "onOpenChange" | "modal" | "children"
 >
 
-function Sheet(props: SheetProps) {
+function Drawer(props: DrawerProps) {
   const desktop = useIsDesktop()
   const presentation: Presentation = desktop ? "dialog" : "sheet"
   return (
@@ -47,12 +47,12 @@ function Sheet(props: SheetProps) {
   )
 }
 
-function useSheetPresentation() {
+function useDrawerPresentation() {
   return useContext(PresentationContext)
 }
 
-function SheetTrigger(props: DialogPrimitive.Trigger.Props) {
-  const presentation = useSheetPresentation()
+function DrawerTrigger(props: DialogPrimitive.Trigger.Props) {
+  const presentation = useDrawerPresentation()
   return presentation === "dialog" ? (
     <DialogPrimitive.Trigger data-slot="sheet-trigger" {...props} />
   ) : (
@@ -63,8 +63,8 @@ function SheetTrigger(props: DialogPrimitive.Trigger.Props) {
   )
 }
 
-function SheetClose({ className, ...props }: DialogPrimitive.Close.Props) {
-  const presentation = useSheetPresentation()
+function DrawerClose({ className, ...props }: DialogPrimitive.Close.Props) {
+  const presentation = useDrawerPresentation()
   const closeClassName = cn(
     "type-body text-primary outline-none focus-visible:ring-4 focus-visible:ring-ring/60 active:opacity-60",
     className
@@ -84,18 +84,18 @@ function SheetClose({ className, ...props }: DialogPrimitive.Close.Props) {
   )
 }
 
-type SheetContentProps = DialogPrimitive.Popup.Props & {
+type DrawerContentProps = DialogPrimitive.Popup.Props & {
   /** Where the sheet rests on a phone: the full `large` height, or `medium` at half height. */
   detent?: "medium" | "large"
 }
 
-function SheetContent({
+function DrawerContent({
   className,
   children,
   detent = "large",
   ...props
-}: SheetContentProps) {
-  const presentation = useSheetPresentation()
+}: DrawerContentProps) {
+  const presentation = useDrawerPresentation()
 
   if (presentation === "dialog") {
     return (
@@ -158,8 +158,8 @@ function SheetContent({
   )
 }
 
-function SheetTitle({ className, ...props }: DialogPrimitive.Title.Props) {
-  const presentation = useSheetPresentation()
+function DrawerTitle({ className, ...props }: DialogPrimitive.Title.Props) {
+  const presentation = useDrawerPresentation()
   const titleClassName = cn(
     "truncate text-center text-[length:var(--nav-bar-title-font)] font-semibold text-label",
     className
@@ -179,11 +179,11 @@ function SheetTitle({ className, ...props }: DialogPrimitive.Title.Props) {
   )
 }
 
-function SheetDescription({
+function DrawerDescription({
   className,
   ...props
 }: DialogPrimitive.Description.Props) {
-  const presentation = useSheetPresentation()
+  const presentation = useDrawerPresentation()
   const descriptionClassName = cn("type-subheadline text-label-2", className)
   return presentation === "dialog" ? (
     <DialogPrimitive.Description
@@ -200,20 +200,20 @@ function SheetDescription({
   )
 }
 
-type SheetToolbarProps = ComponentProps<"div"> & {
+type DrawerToolbarProps = ComponentProps<"div"> & {
   /** Leading item: Cancel, Close or Back. */
   cancel?: ReactNode
   /** Trailing item: Done, Add, Save. */
   done?: ReactNode
 }
 
-function SheetToolbar({
+function DrawerToolbar({
   className,
   cancel,
   done,
   children,
   ...props
-}: SheetToolbarProps) {
+}: DrawerToolbarProps) {
   return (
     <div
       data-slot="sheet-toolbar"
@@ -244,9 +244,9 @@ function SheetToolbar({
 
 /**
  * The title and description at the top of the sheet, on its 16 pt inset. shadcn's Drawer header;
- * `SheetToolbar` is the iOS alternative, with Cancel and Done flanking a centred title.
+ * `DrawerToolbar` is the iOS alternative, with Cancel and Done flanking a centred title.
  */
-function SheetHeader({ className, ...props }: ComponentProps<"div">) {
+function DrawerHeader({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       data-slot="sheet-header"
@@ -257,7 +257,7 @@ function SheetHeader({ className, ...props }: ComponentProps<"div">) {
 }
 
 /** The actions under the sheet's body, pinned to its bottom. shadcn's Drawer footer. */
-function SheetFooter({ className, ...props }: ComponentProps<"div">) {
+function DrawerFooter({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       data-slot="sheet-footer"
@@ -270,7 +270,7 @@ function SheetFooter({ className, ...props }: ComponentProps<"div">) {
   )
 }
 
-function SheetSection({ className, ...props }: ComponentProps<"div">) {
+function DrawerSection({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       data-slot="sheet-section"
@@ -281,16 +281,16 @@ function SheetSection({ className, ...props }: ComponentProps<"div">) {
 }
 
 export {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetSection,
-  SheetTitle,
-  SheetToolbar,
-  SheetTrigger,
-  useSheetPresentation,
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerSection,
+  DrawerTitle,
+  DrawerToolbar,
+  DrawerTrigger,
+  useDrawerPresentation,
 }
-export type { SheetContentProps, SheetProps, SheetToolbarProps }
+export type { DrawerContentProps, DrawerProps, DrawerToolbarProps }

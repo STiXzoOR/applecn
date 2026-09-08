@@ -156,6 +156,20 @@
     "type-headline",
     "type-subheadline"
   ],
+  "drawer.tsx": [
+    "--nav-bar-height",
+    "--nav-bar-title-font",
+    "--sheet-grabber-height",
+    "--sheet-grabber-width",
+    "--sheet-toolbar-height",
+    "min-h-0",
+    "min-w-0",
+    "rounded-full",
+    "rounded-sheet",
+    "rounded-t-sheet",
+    "type-body",
+    "type-subheadline"
+  ],
   "dropdown-menu.tsx": [
     "--available-height",
     "--menu-font",
@@ -357,20 +371,6 @@
     "w-full"
   ],
   "separator.tsx": [],
-  "sheet.tsx": [
-    "--nav-bar-height",
-    "--nav-bar-title-font",
-    "--sheet-grabber-height",
-    "--sheet-grabber-width",
-    "--sheet-toolbar-height",
-    "min-h-0",
-    "min-w-0",
-    "rounded-full",
-    "rounded-sheet",
-    "rounded-t-sheet",
-    "type-body",
-    "type-subheadline"
-  ],
   "sidebar.tsx": [
     "--sidebar-font",
     "--sidebar-item-gap",

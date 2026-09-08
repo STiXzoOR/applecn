@@ -4,31 +4,31 @@ import { Button } from "@applecn/ui/components/button"
 import { Input } from "@applecn/ui/components/input"
 import { List, ListRow, ListSection } from "@applecn/ui/components/list"
 import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetSection,
-  SheetTitle,
-  SheetToolbar,
-  SheetTrigger,
-} from "@applecn/ui/components/sheet"
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerSection,
+  DrawerTitle,
+  DrawerToolbar,
+  DrawerTrigger,
+} from "@applecn/ui/components/drawer"
 import { Switch } from "@applecn/ui/components/switch"
 
-export default function SheetBasic() {
+export default function DrawerBasic() {
   return (
-    <Sheet>
-      <SheetTrigger render={<Button />}>New Event</SheetTrigger>
-      <SheetContent>
-        <SheetToolbar
-          cancel={<SheetClose>Cancel</SheetClose>}
-          done={<SheetClose>Add</SheetClose>}
+    <Drawer>
+      <DrawerTrigger render={<Button />}>New Event</DrawerTrigger>
+      <DrawerContent>
+        <DrawerToolbar
+          cancel={<DrawerClose>Cancel</DrawerClose>}
+          done={<DrawerClose>Add</DrawerClose>}
         >
-          <SheetTitle>New Event</SheetTitle>
-        </SheetToolbar>
-        <SheetSection>
+          <DrawerTitle>New Event</DrawerTitle>
+        </DrawerToolbar>
+        <DrawerSection>
           <Input aria-label="Title" placeholder="Title" />
           <Input aria-label="Location" placeholder="Location or Video Call" />
-        </SheetSection>
+        </DrawerSection>
         <List aria-label="Options" className="py-0">
           <ListSection>
             <ListRow
@@ -39,7 +39,7 @@ export default function SheetBasic() {
             <ListRow title="Ends" value="Today, 10:00" />
           </ListSection>
         </List>
-      </SheetContent>
-    </Sheet>
+      </DrawerContent>
+    </Drawer>
   )
 }
