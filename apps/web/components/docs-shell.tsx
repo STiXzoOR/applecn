@@ -60,7 +60,7 @@ export function DocsShell({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   return (
     <SidebarProvider>
-      <div className="grid min-h-dvh grid-cols-1 bg-grouped-background-1 lg:grid-cols-[var(--split-view-sidebar-width)_1fr]">
+      <div className="grid min-h-dvh w-full grid-cols-1 bg-grouped-background-1 lg:grid-cols-[var(--split-view-sidebar-width)_1fr]">
         <Sidebar
           collapsible
           aria-label="Documentation"

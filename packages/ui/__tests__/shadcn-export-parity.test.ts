@@ -274,46 +274,18 @@ const LEDGER: Record<string, Row> = {
       "symbols, not because applecn shipped an edge panel. Task 19 builds the real one.",
   },
   sidebar: {
-    gap: [
-      "SidebarContent",
-      "SidebarGroupAction",
-      "SidebarGroupContent",
-      "SidebarGroupLabel",
-      "SidebarInput",
-      "SidebarInset",
-      "SidebarMenu",
-      "SidebarMenuAction",
-      "SidebarMenuBadge",
-      "SidebarMenuButton",
-      "SidebarMenuItem",
-      "SidebarMenuSkeleton",
-      "SidebarMenuSub",
-      "SidebarMenuSubButton",
-      "SidebarMenuSubItem",
-      "SidebarRail",
-      "SidebarSeparator",
-    ],
-    slotGap: [
-      "sidebar-container",
-      "sidebar-content",
-      "sidebar-gap",
-      "sidebar-group-content",
-      "sidebar-inner",
-      "sidebar-input",
-      "sidebar-inset",
-      "sidebar-menu",
-      "sidebar-menu-badge",
-      "sidebar-menu-item",
-      "sidebar-menu-skeleton",
-      "sidebar-menu-sub",
-      "sidebar-menu-sub-item",
-      "sidebar-rail",
-      "sidebar-separator",
-      "sidebar-wrapper",
-    ],
-    slotCloses: "Task 15c",
-    closes: "Task 15c",
-    note: "the widest gap in the catalogue — a task of its own inside Task 15.",
+    gap: [],
+    note:
+      "the widest gap in the catalogue, closed by Task 15c. The composition question was the " +
+      "layout model: shadcn's sidebar is `position: fixed` with a spacer holding its place, and " +
+      "applecn's stands in a grid, which is how macOS's split view works. They are not in " +
+      'conflict — shadcn\'s own `collapsible="none"` is the standing sidebar exactly — so ' +
+      '`collapsible` now takes both vocabularies: `false`/`"none"` stands in the layout, ' +
+      '`true` is Apple\'s sheet presentation, and `"offcanvas"`/`"icon"` render shadcn\'s ' +
+      "`sidebar-gap`/`sidebar-container`/`sidebar-inner` structure. `useSidebar` took shadcn's " +
+      "meanings with it: `open` is now the standing sidebar and `openMobile` the sheet, where " +
+      "applecn had one `open` that meant the sheet. `SidebarItem` and `SidebarMenuButton` are " +
+      "the same measured row wearing two APIs.",
   },
   skeleton: { gap: [] },
   slider: { gap: [] },

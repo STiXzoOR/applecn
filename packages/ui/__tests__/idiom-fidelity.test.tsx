@@ -64,6 +64,15 @@ import {
   SegmentedControl,
   SegmentedControlItem,
 } from "../src/components/segmented-control"
+import {
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  SidebarProvider,
+} from "../src/components/sidebar"
 import { Switch } from "../src/components/switch"
 import { Toggle } from "../src/components/toggle"
 import { ToggleGroup, ToggleGroupItem } from "../src/components/toggle-group"
@@ -435,6 +444,28 @@ const navLink = (active: boolean) => (
   </NavigationMenu>
 )
 
+const sidebarRow = (active: boolean) => (
+  <SidebarProvider>
+    <SidebarMenu>
+      <SidebarMenuItem>
+        <SidebarMenuButton isActive={active}>t</SidebarMenuButton>
+      </SidebarMenuItem>
+    </SidebarMenu>
+  </SidebarProvider>
+)
+
+const sidebarSubRow = (active: boolean) => (
+  <SidebarProvider>
+    <SidebarMenuSub>
+      <SidebarMenuSubItem>
+        <SidebarMenuSubButton href="/t" isActive={active}>
+          t
+        </SidebarMenuSubButton>
+      </SidebarMenuSubItem>
+    </SidebarMenuSub>
+  </SidebarProvider>
+)
+
 /** Every selectable control, with the two states that must be visually distinct. */
 const CONTROLS: readonly Control[] = [
   {
@@ -520,6 +551,22 @@ const CONTROLS: readonly Control[] = [
     disables: false,
     on: navLink(true),
     off: navLink(false),
+  },
+  {
+    name: "sidebar-menu-button",
+    role: "button",
+    options: { name: "t" },
+    state: { on: "data-active" },
+    on: sidebarRow(true),
+    off: sidebarRow(false),
+  },
+  {
+    name: "sidebar-menu-sub-button",
+    role: "link",
+    options: { name: "t" },
+    state: { on: "data-active" },
+    on: sidebarSubRow(true),
+    off: sidebarSubRow(false),
   },
 ]
 

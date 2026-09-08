@@ -4380,6 +4380,11 @@
         "https://applecn.vercel.app/r/button.json",
         "https://applecn.vercel.app/r/drawer.json",
         "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/input.json",
+        "https://applecn.vercel.app/r/separator.json",
+        "https://applecn.vercel.app/r/skeleton.json",
+        "https://applecn.vercel.app/r/tooltip.json",
+        "https://applecn.vercel.app/r/use-media-query.json",
         "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
