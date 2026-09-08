@@ -87,6 +87,15 @@ export interface MenuTokens {
     readonly px: string
     readonly highlightBg: string
     readonly highlightText: string
+    /**
+     * What a `variant="destructive"` row's label becomes when highlighted. macOS turns it
+     * white like any other highlighted row — AppKit fills with the selection colour and the
+     * label follows — while iOS and the web never recolour a highlight, so the row keeps the
+     * red it shows at rest. An explicit slot rather than letting the resting destructive rule
+     * and the highlight rule race: both weigh the same, so which paints would otherwise be
+     * decided by the order Tailwind happens to emit two attribute variants in.
+     */
+    readonly highlightTextDestructive: string
     readonly shortcutHighlightText: string
   }
   /**
@@ -495,6 +504,7 @@ const iosMenu: MenuTokens = {
     px: "1rem",
     highlightBg: "var(--fill-3)",
     highlightText: "var(--label)",
+    highlightTextDestructive: "var(--destructive)",
     shortcutHighlightText: "var(--label-2)",
   },
   label: {
@@ -517,6 +527,7 @@ const macosMenu: MenuTokens = {
     px: "0.625rem",
     highlightBg: "var(--selection)",
     highlightText: "white",
+    highlightTextDestructive: "white",
     shortcutHighlightText: "rgb(255 255 255 / 0.7)",
   },
   label: {
@@ -1005,6 +1016,7 @@ const menuLines = (m: MenuTokens): Line[] => [
   ["menu-item-px", m.item.px],
   ["menu-item-highlight-bg", m.item.highlightBg],
   ["menu-item-highlight-text", m.item.highlightText],
+  ["menu-item-highlight-text-destructive", m.item.highlightTextDestructive],
   ["menu-shortcut-highlight-text", m.item.shortcutHighlightText],
   ["menu-label-py", m.label.py],
   ["menu-label-font-size", m.label.fontSize],

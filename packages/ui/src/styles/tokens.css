@@ -916,6 +916,7 @@
   --menu-item-px: 1rem;
   --menu-item-highlight-bg: var(--fill-3);
   --menu-item-highlight-text: var(--label);
+  --menu-item-highlight-text-destructive: var(--destructive);
   --menu-shortcut-highlight-text: var(--label-2);
   --menu-label-py: 0.5rem;
   --menu-label-font-size: var(--type-footnote-size);
@@ -1317,6 +1318,7 @@
   --menu-item-px: 0.625rem;
   --menu-item-highlight-bg: var(--selection);
   --menu-item-highlight-text: white;
+  --menu-item-highlight-text-destructive: white;
   --menu-shortcut-highlight-text: rgb(255 255 255 / 0.7);
   --menu-label-py: 0.25rem;
   --menu-label-font-size: var(--type-caption-1-size);
@@ -1712,6 +1714,7 @@
   --menu-item-px: 1rem;
   --menu-item-highlight-bg: var(--fill-3);
   --menu-item-highlight-text: var(--label);
+  --menu-item-highlight-text-destructive: var(--destructive);
   --menu-shortcut-highlight-text: var(--label-2);
   --menu-label-py: 0.5rem;
   --menu-label-font-size: var(--type-footnote-size);

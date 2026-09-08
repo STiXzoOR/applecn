@@ -215,6 +215,25 @@ describe("menu appearance tokens", () => {
     )
   })
 
+  test("a highlighted destructive row keeps AppKit's white label on macOS, red elsewhere", () => {
+    // Measured against main@c67c4d3 in a browser: on macOS a highlighted "Delete" row paints
+    // white on the selection blue, exactly as a default row does; iOS and the web leave the
+    // resting red alone, having no highlight recolour at all.
+    expect(componentTokens.macos.menu.item.highlightTextDestructive).toBe(
+      "white"
+    )
+    expect(componentTokens.ios.menu.item.highlightTextDestructive).toBe(
+      "var(--destructive)"
+    )
+    expect(componentTokens.web.menu.item.highlightTextDestructive).toBe(
+      "var(--destructive)"
+    )
+    expect(componentLines("macos")).toContainEqual([
+      "menu-item-highlight-text-destructive",
+      "white",
+    ])
+  })
+
   test("the group label's own padding narrows from 0.5rem to 0.25rem off iOS", () => {
     expect(componentTokens.ios.menu.label.py).toBe("0.5rem")
     expect(componentTokens.macos.menu.label.py).toBe("0.25rem")
