@@ -301,17 +301,11 @@
     "rounded-sm"
   ],
   "list.tsx": [
-    "--list-font",
     "--list-footer-font",
     "--list-header-font",
     "--list-header-font-weight",
     "--list-inset",
-    "--list-row-min-height",
-    "--list-subtitle-font",
-    "min-w-0",
-    "rounded-list",
-    "rounded-md",
-    "w-full"
+    "rounded-list"
   ],
   "lockup.tsx": [
     "min-w-0",

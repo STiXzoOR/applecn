@@ -15,6 +15,14 @@ import {
 } from "react"
 
 import { Icon } from "./icon"
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemMedia,
+  ItemTitle,
+} from "./item"
 
 /**
  * Lists (HIG › Lists and tables). `inset-grouped` is the iOS 26 Settings list: sections on
@@ -147,6 +155,17 @@ type ListRowProps = Omit<ComponentProps<"li">, "title" | "onClick"> & {
   destructive?: boolean
 }
 
+/**
+ * A row is an `item` (§5.6): shadcn's `Item` is the row `list` used to draw itself, down to the
+ * same `--list-row-min-height`, the same `--list-row-padding-x/y` and the same 2.5 gap, so the
+ * row markup this file used to carry is now a composition of `Item`, `ItemMedia`, `ItemContent`,
+ * `ItemTitle`, `ItemDescription` and `ItemActions`. The Apple-facing props are unchanged, and so
+ * is every measured number — they are read one file over, in `item.tsx`.
+ *
+ * The `<li>` stays, and stays this file's own: it carries the list semantics `ItemGroup`
+ * deliberately does not, and the leading-inset hairline, which Apple draws as a pseudo-element on
+ * the row rather than as an element between rows.
+ */
 function ListRow({
   className,
   leading,
@@ -163,88 +182,17 @@ function ListRow({
   ...props
 }: ListRowProps) {
   const interactive = Boolean(href || onClick)
-  const rowClassName = cn(
-    "flex min-h-(--list-row-min-height) w-full items-center gap-2.5 px-(--list-row-padding-x) py-(--list-row-padding-y) text-start text-[length:var(--list-font)] leading-snug text-label",
-    interactive &&
-      "transition-[background-color] duration-(--duration-press) outline-none hover:bg-fill-4 focus-visible:bg-fill-4 active:bg-fill-3",
-    destructive && "text-destructive",
-    disabled && "pointer-events-none opacity-40"
-  )
-
-  const content = (
-    <>
-      {leading ? (
-        <span
-          data-slot="list-row-leading"
-          className="flex size-(--list-icon-tile) shrink-0 items-center justify-center rounded-md [&_svg]:size-[70%]"
-        >
-          {leading}
-        </span>
-      ) : null}
-      <span
-        data-slot="list-row-content"
-        className="flex min-w-0 flex-1 flex-col"
-      >
-        <span data-slot="list-row-title" className="truncate">
-          {title}
-        </span>
-        {subtitle ? (
-          <span
-            data-slot="list-row-subtitle"
-            className="truncate text-[length:var(--list-subtitle-font)] text-label-2"
-          >
-            {subtitle}
-          </span>
-        ) : null}
-      </span>
-      {value ? (
-        <span
-          data-slot="list-row-value"
-          className="shrink-0 truncate text-[length:var(--list-font)] text-label-2"
-        >
-          {value}
-        </span>
-      ) : null}
-      {trailing ? (
-        <span
-          data-slot="list-row-trailing"
-          className="flex shrink-0 items-center"
-        >
-          {trailing}
-        </span>
-      ) : null}
-      {accessory !== "none" ? (
-        <span
-          data-slot="list-row-accessory"
-          data-accessory={accessory}
-          className="flex shrink-0 items-center"
-        >
-          {accessory === "disclosure" ? (
-            <Icon
-              icon={ArrowRight01Icon}
-              weight="semibold"
-              className="text-label-3"
-            />
-          ) : null}
-          {accessory === "checkmark" ? (
-            <Icon
-              icon={Tick02Icon}
-              weight="bold"
-              className={cn(
-                "text-primary",
-                checked ? "opacity-100" : "opacity-0"
-              )}
-            />
-          ) : null}
-          {accessory === "detail" ? (
-            <Icon icon={InformationCircleIcon} className="text-primary" />
-          ) : null}
-        </span>
-      ) : null}
-    </>
-  )
-
   const radio = accessory === "checkmark" && checked !== undefined
+  const render = href ? (
+    <a href={href} aria-disabled={disabled || undefined} />
+  ) : onClick ? (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      {...(radio ? { role: "radio", "aria-checked": checked } : {})}
+    />
+  ) : undefined
 
   return (
     <li
@@ -259,27 +207,67 @@ function ListRow({
       )}
       {...props}
     >
-      {href ? (
-        <a
-          href={href}
-          className={rowClassName}
-          aria-disabled={disabled || undefined}
-        >
-          {content}
-        </a>
-      ) : onClick ? (
-        <button
-          type="button"
-          className={rowClassName}
-          onClick={onClick}
-          disabled={disabled}
-          {...(radio ? { role: "radio", "aria-checked": checked } : {})}
-        >
-          {content}
-        </button>
-      ) : (
-        <div className={rowClassName}>{content}</div>
-      )}
+      <Item
+        render={render}
+        className={cn(
+          // `leading-snug`, written again because `item`'s own is dead: `cn` merges a font-size
+          // utility as conflicting with `leading-*`, and `itemVariants` puts `text-[length:…]`
+          // in the size variant AFTER the base's `leading-snug`, so the base's is dropped. A row
+          // written here survives, which is what keeps this rewrite pixel-for-pixel identical.
+          "leading-snug",
+          interactive &&
+            "transition-[background-color] duration-(--duration-press) hover:bg-fill-4 active:bg-fill-3",
+          destructive && "text-destructive",
+          disabled && "pointer-events-none opacity-40"
+        )}
+      >
+        {leading ? <ItemMedia>{leading}</ItemMedia> : null}
+        <ItemContent>
+          <ItemTitle>{title}</ItemTitle>
+          {subtitle ? <ItemDescription>{subtitle}</ItemDescription> : null}
+        </ItemContent>
+        {value || trailing || accessory !== "none" ? (
+          <ItemActions className="gap-2.5">
+            {value ? (
+              <span
+                data-slot="list-row-value"
+                className="shrink-0 truncate text-label-2"
+              >
+                {value}
+              </span>
+            ) : null}
+            {trailing}
+            {accessory !== "none" ? (
+              <span
+                data-slot="list-row-accessory"
+                data-accessory={accessory}
+                className="flex shrink-0 items-center"
+              >
+                {accessory === "disclosure" ? (
+                  <Icon
+                    icon={ArrowRight01Icon}
+                    weight="semibold"
+                    className="text-label-3"
+                  />
+                ) : null}
+                {accessory === "checkmark" ? (
+                  <Icon
+                    icon={Tick02Icon}
+                    weight="bold"
+                    className={cn(
+                      "text-primary",
+                      checked ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                ) : null}
+                {accessory === "detail" ? (
+                  <Icon icon={InformationCircleIcon} className="text-primary" />
+                ) : null}
+              </span>
+            ) : null}
+          </ItemActions>
+        ) : null}
+      </Item>
     </li>
   )
 }

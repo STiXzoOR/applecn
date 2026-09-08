@@ -106,3 +106,31 @@ describe("List", () => {
     expect(listVariants({ style: "sidebar" })).toContain("gap-1")
   })
 })
+
+describe("List composes Item", () => {
+  test("a row is an Item underneath, so shadcn markup drops in", () => {
+    render(
+      <List>
+        <ListSection>
+          <ListRow title="Wi-Fi" />
+        </ListSection>
+      </List>
+    )
+    const row = screen.getByText("Wi-Fi").closest('[data-slot="item"]')
+    expect(row).not.toBeNull()
+  })
+
+  test("the inset grouped list keeps its 26 pt corners", () => {
+    render(
+      <List style="inset-grouped">
+        <ListSection>
+          <ListRow title="A" />
+        </ListSection>
+      </List>
+    )
+    expect(
+      screen.getByText("A").closest('[data-slot="list-section-group"]')!
+        .className
+    ).toContain("rounded-list")
+  })
+})
