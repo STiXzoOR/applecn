@@ -100,6 +100,26 @@ function visibleProperty(utility: string): string | null {
   return null
 }
 
+/**
+ * A selection painted in JAVASCRIPT rather than declared in a class string. `pagination` writes
+ * `const variant = isActive ? "tinted" : "plain"` and hands it to `buttonVariants`, so the
+ * selected paint never appears under a state modifier anywhere and `declaresSelection` cannot see
+ * it: the guard did not require `PaginationLink` in the harness, and it was not there — a
+ * component built this phase, ungated, against the §4.5 failure mode.
+ *
+ * What can be seen is the pair. A selectable control must REPORT its state for assistive
+ * technology, and a JS-chosen paint goes through a cva. Both halves are required, and the second
+ * is what keeps this from over-reaching: `rating` stamps `aria-checked` on its star radios but
+ * shows the value as an inline width on an overlay, which is not a paint the harness compares at
+ * all. That is a real gap of a different shape, not this one, and pulling it in here would only
+ * force an EXEMPT entry — which this file does not have and does not want.
+ */
+const STAMPS_SELECTION = new RegExp(`(?:data|aria)-(?:${NAME})\\s*=\\s*\\{`)
+const CHOOSES_VARIANT = /\b[a-z]\w*Variants\s*\(/
+
+const paintsSelectionInJs = (body: string) =>
+  STAMPS_SELECTION.test(body) && CHOOSES_VARIANT.test(body)
+
 /** Does this class string declare a selection-state rule on a visible property? */
 function declaresSelection(source: string): boolean {
   for (const [, block] of source.matchAll(/"([^"\n]*)"/g))
@@ -159,7 +179,11 @@ function carriers(): Carrier[] {
         isComponent(declaration.name) && declaration.body.includes("<")
     )
     for (const declaration of declarations) {
-      if (!declaresSelection(declaration.body)) continue
+      if (
+        !declaresSelection(declaration.body) &&
+        !paintsSelectionInJs(declaration.body)
+      )
+        continue
       const required = isComponent(declaration.name)
         ? [declaration.name]
         : components
@@ -241,6 +265,28 @@ describe("every selection rule is covered by the idiom-fidelity harness", () => 
         declaresSelection(`const x = "${form}"`),
         `${form} is not a selection rule`
       ).toBe(false)
+  })
+
+  // The third hole, and the one a component shipped through: a paint chosen in JS declares no
+  // state modifier at all, so the class-string scan above is blind to it by construction.
+  test("a selection chosen in JavaScript is a selection rule too", () => {
+    const planted =
+      "function X({ isActive }) {\n" +
+      '  const variant = isActive ? "tinted" : "plain"\n' +
+      '  return <a aria-current={isActive ? "page" : undefined} ' +
+      "className={buttonVariants({ variant })} />\n}"
+    expect(declaresSelection(planted), "no state modifier to read").toBe(false)
+    expect(paintsSelectionInJs(planted)).toBe(true)
+  })
+
+  // And it must not swallow every component that reports a state: the paint has to be one the
+  // harness can compare. `rating` stamps `aria-checked` and paints with an inline width.
+  test("reporting a state without a variant paint is not this rule", () => {
+    const planted =
+      "function X({ value }) {\n" +
+      '  return <button role="radio" aria-checked={value === 1} ' +
+      'style={{ width: "50%" }} />\n}'
+    expect(paintsSelectionInJs(planted)).toBe(false)
   })
 
   // A second canary, on the matching rather than the scanning: a planted rule in a module nobody

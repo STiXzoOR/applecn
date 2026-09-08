@@ -55,6 +55,7 @@ import {
   NavigationMenuList,
 } from "../src/components/navigation-menu"
 import { PageControl } from "../src/components/page-control"
+import { PaginationLink } from "../src/components/pagination"
 import { RadioGroup, RadioGroupItem } from "../src/components/radio-group"
 import {
   Select,
@@ -337,8 +338,14 @@ interface Control {
    *   SAME `--label` as its neighbours (the pill is what reads); only macOS re-colours. So the
    *   assertion for these is not "the label changes colour" but "the pill is visible on the
    *   track, and the label is visible on the pill".
+   * - `variant`: the selection is chosen in JAVASCRIPT and handed to a cva —
+   *   `pagination`'s `const variant = isActive ? "tinted" : "plain"`. There is no state modifier
+   *   to read a rule off, so nothing here can be answered from one render. R16's tautology does
+   *   not apply either: the class strings of the two renders genuinely DIFFER, because the branch
+   *   ran before the class was built. So the comparison is between the two renders' own
+   *   unmodified fills.
    */
-  readonly paints?: "fill" | "ink" | "indicator"
+  readonly paints?: "fill" | "ink" | "indicator" | "variant"
   /**
    * Whether the control has a disabled state to dim. Default true. `navigation-menu`'s link is an
    * `<a>` and Base UI's `NavigationMenu.Link` takes no `disabled` prop, so there is no such state
@@ -486,6 +493,20 @@ const tabBarItem = (current: boolean) => (
   </TabBar>
 )
 
+/**
+ * The page you are on. `PaginationLink` picks its paint in JavaScript — `const variant = isActive
+ * ? "tinted" : "plain"` — so it writes no state modifier at all, which is why the coverage guard
+ * could not see it and why it was not here. It reports the state the way ARIA asks
+ * (`aria-current="page"`, not `"true"`), and the fill it reports it with is the whole difference:
+ * the visual review found the current page and its neighbours drawn in the same tint, with the
+ * pill the only distinction of the set.
+ */
+const paginationLink = (active: boolean) => (
+  <PaginationLink href="/1" isActive={active}>
+    1
+  </PaginationLink>
+)
+
 /** Every selectable control, with the two states that must be visually distinct. */
 const CONTROLS: readonly Control[] = [
   {
@@ -537,6 +558,15 @@ const CONTROLS: readonly Control[] = [
         <ToggleGroupItem value="t" aria-label="t" />
       </ToggleGroup>
     ),
+  },
+  {
+    name: "pagination-link",
+    role: "link",
+    options: { name: "1" },
+    state: { on: "aria-[current=page]" },
+    paints: "variant",
+    on: paginationLink(true),
+    off: paginationLink(false),
   },
   {
     name: "toggle",
@@ -698,10 +728,47 @@ describe("selection is visible on every idiom", () => {
       })
 
       test(`${control.name} on ${idiom} declares a selected paint its resting state does not`, () => {
-        render(
+        const first = render(
           <PlatformProvider platform={idiom}>{control.on}</PlatformProvider>
         )
         const element = find()
+
+        // A JS-chosen paint writes no state modifier, so the selected fill is the element's own
+        // unmodified background and the resting one is the other render's. Both renders are
+        // needed, which is why this branch does its own and returns.
+        if (paints === "variant") {
+          const chosen = baseColour(element, "bg")
+          expect(
+            chosen,
+            `${where} declares a fill when selected`
+          ).not.toBeNull()
+          expect(element.className, `${where} dims when disabled`).toMatch(
+            /\bdisabled(?:=true\])?:opacity-/
+          )
+          first.unmount()
+          render(
+            <PlatformProvider platform={idiom}>{control.off}</PlatformProvider>
+          )
+          const resting = restingColour(
+            find(),
+            control.state,
+            "background-color"
+          )
+          expect(
+            `${chosen!.value}/${chosen!.alpha}`,
+            `${where}: the selected and resting variants declare one fill`
+          ).not.toBe(`${resting.value}/${resting.alpha}`)
+          if (chosen!.alpha === resting.alpha)
+            for (const environment of ENVIRONMENTS) {
+              const vars = variableMap(idiom, environment)
+              expect(
+                resolve(chosen!.value, vars),
+                `${where}/${environment.name}: ${chosen!.value} and ${resting.value} resolve alike`
+              ).not.toBe(resolve(resting.value, vars))
+            }
+          return
+        }
+
         const selected = rulesFor(element.className, control.state.on)
 
         // An `indicator` control paints nothing on its own root; the element that carries its
