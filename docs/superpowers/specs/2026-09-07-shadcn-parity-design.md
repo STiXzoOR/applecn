@@ -90,6 +90,17 @@ instead**: identical paint, identical props, identical `data-slot`, link semanti
 surface layers still match shadcn exactly; only the internal composition differs. Task 40's
 `page-control` inherits this.
 
+The third instance, which lands the opposite way to the first and is worth reading beside it:
+`cmdk` renders `role="separator"` inside its own `role="listbox"`, so axe fails
+`aria-required-children` on shadcn's markup too. **applecn's `CommandSeparator` defaults to
+`role="none"`.** That is the remedy rejected for `ItemSeparator`, and the difference is which levers
+exist. In `item` a better one did: dropping the container's `role="list"` removed the violation while
+leaving the separator's semantics intact. Here the container's role is load-bearing — `listbox` is how
+a command palette announces its options — so the separator is the only lever. Nothing real is lost:
+`separator` is not a permitted child of `listbox` under ARIA, so assistive-technology behaviour there
+was undefined already, and `role="none"` only makes explicit what the spec implies. The rule is
+"remove the degradation with the smallest loss", not "always prefer one fix".
+
 ## 4. Findings that motivate this
 
 Measured on 2026-09-07 against the registry as published at commit `c67c4d3`.
