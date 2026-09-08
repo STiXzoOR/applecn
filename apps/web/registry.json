@@ -3993,6 +3993,25 @@
       ]
     },
     {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "A row of content — media, a title and description, trailing actions — on the list-row metrics: 52 pt rows with 15 × 16 pt padding on iOS 26, 28 pt rows on macOS 26.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/separator.json",
+        "https://applecn.vercel.app/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/item.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "kbd",
       "type": "registry:ui",
       "title": "Kbd",

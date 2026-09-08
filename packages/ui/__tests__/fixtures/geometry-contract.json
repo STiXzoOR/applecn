@@ -222,6 +222,15 @@
     "type-subheadline",
     "w-full"
   ],
+  "item.tsx": [
+    "--list-font",
+    "--list-row-min-height",
+    "--list-subtitle-font",
+    "min-w-0",
+    "rounded-md",
+    "size-full",
+    "w-full"
+  ],
   "kbd.tsx": ["h-5", "min-w-5", "rounded-md", "type-caption-1"],
   "label.tsx": ["type-body"],
   "link.tsx": [

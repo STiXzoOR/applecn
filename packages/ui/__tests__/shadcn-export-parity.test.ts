@@ -238,7 +238,23 @@ const LEDGER: Record<string, Row> = {
       "input. One divergence stands: shadcn's slot is a `<div>` echoing one hidden input, " +
       "because it wraps the `input-otp` package; Base UI gives each box a real `<input>`.",
   },
-  item: { task: "Task 17" },
+  item: {
+    gap: [],
+    note:
+      "shadcn's row primitive on Apple's list metrics: the `--list-row-*` tokens give it 52 pt " +
+      "rows with 15 × 16 pt padding on iOS 26 and AppKit's 28 pt with 4 × 10 on macOS, which is " +
+      "what lets Task 31 rebuild `list` on it without a measured metric moving. " +
+      '`data-slot="item"` is stamped by `useRender`\'s state rather than written, exactly as ' +
+      "shadcn stamps it, so it is a literal in neither source and neither side of this row " +
+      "carries it. Two divergences are deliberate. shadcn's `Item` is a cva over `variant` " +
+      "(default/outline/muted) and `size` (default/sm/xs) resolving to classes its own theme CSS " +
+      "defines; applecn ships one row, because the surface belongs to the list style — plain, " +
+      "grouped, inset grouped — and not to the row, and Task 31 owns whether a second look " +
+      'exists. And shadcn\'s `ItemGroup` sets `role="list"` over rows that are not `listitem`s, ' +
+      "which announces an empty list and, with a separator among them, fails axe's " +
+      "`aria-required-children`; applecn's group leaves the role to a caller who supplies real " +
+      "list rows.",
+  },
   kbd: { gap: [] },
   label: { gap: [] },
   marker: { task: "Task 52–58 (the AI set)" },

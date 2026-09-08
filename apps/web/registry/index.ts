@@ -560,6 +560,16 @@ export const componentDocs: ComponentDoc[] = [
   },
   // ---------- content ----------
   {
+    name: "item",
+    title: "Item",
+    description:
+      "A row of content — media, a title and description, trailing actions — on the list-row metrics: 52 pt rows with 15 × 16 pt padding on iOS 26, 28 pt rows on macOS 26.",
+    group: "content",
+    apple: { name: "Lists and tables", hig: hig("lists-and-tables") },
+    primitive: "element",
+    examples: [{ name: "basic", title: "Rows in a group" }],
+  },
+  {
     name: "list",
     title: "List",
     description:

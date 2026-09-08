@@ -137,6 +137,7 @@ Install any of these as `@applecn/<name>`.
 
 ### Content
 
+- `item` — Item (Lists and tables): A row of content — media, a title and description, trailing actions — on the list-row metrics: 52 pt rows with 15 × 16 pt padding on iOS 26, 28 pt rows on macOS 26.
 - `list` — List (Lists and tables): Plain, grouped, inset grouped and sidebar lists with rows, accessories and sections — 26 pt corners and 52 pt rows on iOS 26, 10 pt corners and 28 pt rows on macOS 26.
 - `card` — Card (Boxes): A group box on the grouped card surface with the platform’s card corner.
 - `table` — Table (Tables (macOS)): The macOS table with small column headers, compact rows and a tinted selection.
