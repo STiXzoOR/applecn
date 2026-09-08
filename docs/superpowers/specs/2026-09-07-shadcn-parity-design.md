@@ -61,9 +61,15 @@ divergence shipped undetected at it, so a fourth layer should be assumed missing
 
 ### 3.2 When parity and accessibility conflict, accessibility wins — narrowly, and on the record
 
-shadcn's markup is not always accessible. Where copying it would introduce a violation the repo's own
-axe gate catches, applecn diverges by the smallest amount that removes the violation, and records why
-here. Guards are never weakened to accommodate a copied defect.
+shadcn's markup is not always accessible. Where copying it would **degrade what assistive technology
+reports**, applecn diverges by the smallest amount that removes the degradation, and records why here.
+Guards are never weakened to accommodate a copied defect.
+
+An axe failure is _sufficient_ evidence of that, not _necessary_ — this section first said "a violation
+the axe gate catches" and was widened on 2026-09-08, because the second instance below is a real
+semantic loss that axe does not flag. The test is what a screen reader ends up announcing, not what a
+linter happens to detect. A divergence taken under this section must keep all three surface layers of
+§3.1 identical, so nothing a shadcn user pastes breaks; only internal composition may differ.
 
 The first instance: shadcn's `ItemGroup` sets `role="list"` (`item.tsx:11`), but `ItemSeparator` —
 the sibling that group exists to hold — carries `role="separator"`, which is not a permitted child of
@@ -74,6 +80,15 @@ props and composition all still match, so nothing a shadcn user pastes breaks; o
 role differs, and it differs in the direction of announcing nothing rather than announcing an empty
 list. The rejected alternative — `role="none"` on `ItemSeparator` inside a group — hides a real
 separator from assistive technology, trading one defect for another to paper over someone else's bug.
+
+The second instance, and the one that widened this section: shadcn's `PaginationLink` renders Base UI
+`Button` with `nativeButton={false}` and `render={<a aria-current="page" …/>}`, which stamps
+`role="button"` on the anchor. A pagination link then announces as a button, drops out of a screen
+reader's list of links, and carries `aria-current="page"` on something that is no longer a link —
+while still navigating. Axe does not flag it. **applecn reads `buttonVariants` onto the anchor
+instead**: identical paint, identical props, identical `data-slot`, link semantics kept. All three
+surface layers still match shadcn exactly; only the internal composition differs. Task 40's
+`page-control` inherits this.
 
 ## 4. Findings that motivate this
 
