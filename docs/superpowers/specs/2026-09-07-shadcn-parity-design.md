@@ -321,6 +321,31 @@ are a product surface rather than primitives.
 
 `navigation-bar`, `window`, `meter`, `rating`, `icon`, and the two utilities `glass` and `material`.
 
+#### 5.7.1 ReUI as a sanctioned source for primitives shadcn lacks
+
+Approved by the owner on 2026-09-08. Where shadcn ships no primitive at all, applecn may take one
+from **ReUI** (`https://reui.io/r/<name>.json`, `keenthemes/reui`, MIT, ~1,700 registry items) rather
+than inventing a shape. ReUI is shadcn-schema-compatible and builds on the same `@base-ui/react`
+primitives this project already uses, so a component taken from it needs restyling, not rearchitecting.
+
+This does not touch the parity rule. §3 governs everything shadcn _does_ ship; this covers only the
+gaps. Verified absent from shadcn's Base UI registry and present in ReUI: `number-field`, `stepper`
+(ReUI's is a _wizard_ stepper, not a numeric one), `rating`, `tree`, `timeline`, `kanban`,
+`phone-input`, `cascader`, `data-grid`.
+
+The immediate consequence is **`number-field`**. Apple's stepper — the 94 × 32 capsule with − and + —
+is semantically a number field, and Base UI ships `number-field` with the increment, decrement,
+clamping and scrub behaviour already solved. ReUI wraps it as `NumberField`, `NumberFieldGroup`,
+`NumberFieldInput`, `NumberFieldIncrement`, `NumberFieldDecrement`, `NumberFieldScrubArea`. So
+§5.6's `stepper` is better built on a `number-field` primitive than on `input-group` alone:
+`input-group` supplies the capsule chrome, `number-field` supplies the behaviour. Task 34 owns this.
+
+ReUI's `data-grid` is also worth weighing for §5.4's `data-table`, since shadcn has no `data-table`
+component either — see the note in §5.4.
+
+Attribution: components derived from ReUI carry a source comment naming the upstream item and its
+MIT licence.
+
 ### 5.8 New Apple primitives (2)
 
 - **`responsive-dialog`** — drawer below `sm`, dialog from `sm`.

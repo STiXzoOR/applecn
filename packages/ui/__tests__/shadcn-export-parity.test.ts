@@ -275,13 +275,17 @@ const LEDGER: Record<string, Row> = {
     propCloses: "Task 59",
     gap: [],
     slotGap: ["input-group-button"],
-    slotCloses: "Task 18",
+    slotCloses: "Task 59e",
     note:
       "`ComboboxLabel` was the naming split the Phase 2 review flagged as M6, and it resolved " +
       "against shadcn rather than by preference: shadcn's `ComboboxLabel` wraps Base UI's " +
       '`Combobox.GroupLabel` and carries `data-slot="combobox-label"`. Task 15b closed the slot ' +
       "half; Task 15c renamed the export and kept `ComboboxGroupLabel` as an alias of it. " +
-      "`input-group-button` waits for Task 18's `input-group`, which is what stamps it. One " +
+      "`input-group-button` was labelled for Task 18 on the assumption that `input-group` stamps " +
+      "it. It does not: shadcn stamps that literal in `combobox.tsx:89`, and `input-group.tsx` " +
+      "emits only `input-group`, `input-group-addon` and `input-group-control`. Closing it means " +
+      "rebuilding `ComboboxInput` on `InputGroup`, which is a combobox rebuild — so it is Task " +
+      "59e's, not Task 18's. One " +
       "value in this row is a phantom on both sides: Base UI's `Collection` renders the rows " +
       "and no element of its own and takes only `children`, so shadcn's " +
       '`data-slot="combobox-collection"` never reaches the DOM there either. applecn carries it ' +
