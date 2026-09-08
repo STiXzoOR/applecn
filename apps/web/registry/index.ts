@@ -386,6 +386,16 @@ export const componentDocs: ComponentDoc[] = [
     examples: [{ name: "basic", title: "Verification code" }],
   },
   {
+    name: "calendar",
+    title: "Calendar",
+    description:
+      "A month grid where a day is a hit target you can hit: 44 pt circles on iOS, 28 on macOS, today in the tint and the selection filled.",
+    group: "forms",
+    apple: { name: "Pickers", hig: hig("pickers") },
+    primitive: "element",
+    examples: [{ name: "basic", title: "Pick a date" }],
+  },
+  {
     name: "color-well",
     title: "Color well",
     description:

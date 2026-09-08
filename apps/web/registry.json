@@ -3688,6 +3688,27 @@
       ]
     },
     {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "A month grid where a day is a hit target you can hit: 44 pt circles on iOS, 28 on macOS, today in the tint and the selection filled.",
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "react-day-picker"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/button.json",
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/calendar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "card",
       "type": "registry:ui",
       "title": "Card",

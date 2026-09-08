@@ -15,6 +15,7 @@ export const examples: Record<string, () => Promise<{ default: ComponentType }>>
   'button/shapes': () => import('./examples/button/shapes'),
   'button/sizes': () => import('./examples/button/sizes'),
   'button/styles': () => import('./examples/button/styles'),
+  'calendar/basic': () => import('./examples/calendar/basic'),
   'card/basic': () => import('./examples/card/basic'),
   'carousel/basic': () => import('./examples/carousel/basic'),
   'checkbox-group/basic': () => import('./examples/checkbox-group/basic'),

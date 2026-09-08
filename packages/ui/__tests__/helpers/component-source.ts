@@ -129,9 +129,13 @@ export function exportedNames(source: string): string[] {
 /**
  * Words that make a custom property a MEASURED one — a number out of
  * `docs/research/apple-design-system-reference.md` rather than a colour or a duration.
+ *
+ * `target` was added for `--hit-target`, the 44 / 28 / 44 pt minimum the HIG publishes. It is as
+ * measured as any control height, `calendar` sizes its day cell from it, and the contract could
+ * not see it — the word list, not the token, was the limit.
  */
 const MEASURED =
-  /(?:height|width|size|radius|inset|gap|font|leading|tracking|weight|scale|offset|indent|dot|-p[xytblr]?$|-p[xytblr]-)/
+  /(?:height|width|size|radius|inset|gap|font|leading|tracking|weight|scale|offset|indent|dot|target|-p[xytblr]?$|-p[xytblr]-)/
 
 /** Numeric geometry written as a literal utility rather than read from a token. */
 const LITERAL_GEOMETRY =

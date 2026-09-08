@@ -9,6 +9,7 @@ import userEvent from "@testing-library/user-event"
 import type { ReactElement } from "react"
 import { describe, expect, test } from "vitest"
 
+import { Calendar, CalendarDayButton } from "../src/components/calendar"
 import { Checkbox } from "../src/components/checkbox"
 import { Command, CommandItem, CommandList } from "../src/components/command"
 import {
@@ -502,6 +503,23 @@ const commandRow = (selected: boolean) => (
   </Command>
 )
 
+/**
+ * A calendar day. Three things about `react-day-picker` shape this: it renders a day BUTTON only
+ * when a `mode` makes the grid interactive, it leaves `modifiers.selected` undefined rather than
+ * false on an unselected day (so the resting state is the attribute's absence), and
+ * `CalendarDayButton` reaches the tree through `components` — the documented override, and the
+ * composition a caller writes to customise a day, so naming it here is the real API rather than a
+ * contrivance for the coverage guard.
+ */
+const calendarDay = (selected: boolean) => (
+  <Calendar
+    mode="single"
+    month={new Date(2026, 8, 1)}
+    selected={selected ? new Date(2026, 8, 15) : undefined}
+    components={{ DayButton: (props) => <CalendarDayButton {...props} /> }}
+  />
+)
+
 /** Every selectable control, with the two states that must be visually distinct. */
 const CONTROLS: readonly Control[] = [
   {
@@ -589,6 +607,14 @@ const CONTROLS: readonly Control[] = [
     state: { on: "data-active" },
     on: sidebarRow(true),
     off: sidebarRow(false),
+  },
+  {
+    name: "calendar-day",
+    role: "button",
+    options: { name: /September 15th/ },
+    state: { on: "data-[selected-single=true]" },
+    on: calendarDay(true),
+    off: calendarDay(false),
   },
   {
     name: "command-item",

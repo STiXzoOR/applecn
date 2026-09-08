@@ -250,7 +250,24 @@ const LEDGER: Record<string, Row> = {
     closes: "Task 42",
     note: "Task 42 rebuilds `toolbar` on `button-group` and owns its surface.",
   },
-  calendar: { task: "Task 28" },
+  calendar: {
+    gap: [],
+    note:
+      "built on `react-day-picker`, which is what shadcn's Base UI variant imports — the task " +
+      "brief said it was hand-built on their `button` and icons alone, and shadcn's own file at " +
+      "the fixture's commit disagrees: `DayPicker`, `getDefaultClassNames`, `DayButton` and " +
+      "`Locale` all come from the library, and the prop surface this row checks (`classNames`, " +
+      "`components`, `formatters`, `showOutsideDays`, `captionLayout`, and `day`/`modifiers` on " +
+      "`CalendarDayButton`) is that library's, so no dependency-free component could match it. " +
+      "Two exports, one slot, every prop. Apple's is `UICalendarView` and the graphical " +
+      "`NSDatePicker`: the day cell is `--hit-target` (44 / 28 / 44 — Apple's own minimum " +
+      "target, not a calendar metric invented here), a day is a circle, today's number takes " +
+      "the tint and a selected day fills that circle. Two internal differences, neither " +
+      "touching a name: the range band is drawn with logical properties because the catalogue " +
+      "is RTL-correct throughout, and the day button carries `text-inherit` over `variant=" +
+      '"plain"` — applecn has no `ghost` — so the cell\'s `today` tint reaches the number ' +
+      "through inheritance rather than by outranking anything in the cascade.",
+  },
   card: {
     propGap: ["Card.size"],
     propCloses: "Task 59",

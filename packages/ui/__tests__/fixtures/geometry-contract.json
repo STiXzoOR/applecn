@@ -95,6 +95,22 @@
     "rounded-full",
     "rounded-lg"
   ],
+  "calendar.tsx": [
+    "--control-radius-small",
+    "--hit-target",
+    "h-full",
+    "rounded-e-full",
+    "rounded-full",
+    "rounded-none",
+    "rounded-s-full",
+    "size-3.5",
+    "size-4",
+    "type-caption-1",
+    "type-caption-2",
+    "type-headline",
+    "w-4",
+    "w-full"
+  ],
   "card.tsx": ["rounded-card", "type-body", "type-footnote", "type-headline"],
   "carousel.tsx": ["--list-inset", "w-full"],
   "checkbox-group.tsx": [],
