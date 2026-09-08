@@ -1606,6 +1606,12 @@ and a prop that goes missing later fails the same test.
       work rather than plumbing. `carousel`'s four are embla's API over a carousel that scrolls
       natively and takes no carousel library, so that row may end in an argued `declined`-shaped
       note instead — decide it explicitly, do not let it lapse.
+- [ ] **Task 59e — `combobox`'s `input-group-button` slot.** The one surface gap here that is not a
+      prop. It was labelled for Task 18 on the assumption that `input-group` stamps it; shadcn stamps
+      that literal in `combobox.tsx:89`, and `input-group.tsx` emits only `input-group`,
+      `input-group-addon` and `input-group-control`. Closing it honestly means rebuilding
+      `ComboboxInput` on `InputGroup` — a combobox change, not an input-group one. Grouped here
+      because it is the same "surface gap needing a composition change" shape as the rest of Phase 7.
 
 ---
 
