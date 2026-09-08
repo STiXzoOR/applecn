@@ -16,6 +16,7 @@ import {
   DrawerToolbar,
   DrawerTrigger,
 } from "../src/components/drawer"
+import { checkA11y } from "./helpers/axe"
 import { setViewport } from "./helpers/viewport"
 
 function NewEvent(props: { detent?: "medium" | "large" }) {
@@ -182,4 +183,18 @@ describe("Drawer exposes the parts shadcn composes with", () => {
       "the content portals through DrawerPortal"
     ).not.toBeNull()
   })
+})
+
+describe("Drawer accessibility", () => {
+  test.each(["phone", "desktop"] as const)(
+    "has no violations open on a %s",
+    async (viewport) => {
+      setViewport(viewport)
+      render(<ShadcnShaped />)
+      await userEvent.click(screen.getByRole("button", { name: "New Event" }))
+      await screen.findByRole("dialog")
+      // The drawer is portaled out of the render container, so axe runs on the document.
+      expect(await checkA11y(document.body)).toHaveNoViolations()
+    }
+  )
 })

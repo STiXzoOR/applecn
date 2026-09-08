@@ -7,6 +7,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "../src/components/collapsible"
+import { checkA11y } from "./helpers/axe"
 
 describe("Collapsible", () => {
   test("hides its details until the row is pressed, turning the chevron", async () => {
@@ -26,5 +27,19 @@ describe("Collapsible", () => {
     await userEvent.click(trigger)
     expect(trigger).toHaveAttribute("aria-expanded", "true")
     expect(screen.getByText("Details")).toBeVisible()
+  })
+
+  test("has no accessibility violations, open or closed", async () => {
+    const { container } = render(
+      <Collapsible>
+        <CollapsibleTrigger>Advanced Options</CollapsibleTrigger>
+        <CollapsibleContent>Details</CollapsibleContent>
+      </Collapsible>
+    )
+    expect(await checkA11y(container)).toHaveNoViolations()
+    await userEvent.click(
+      screen.getByRole("button", { name: "Advanced Options" })
+    )
+    expect(await checkA11y(container)).toHaveNoViolations()
   })
 })

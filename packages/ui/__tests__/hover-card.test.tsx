@@ -7,6 +7,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "../src/components/hover-card"
+import { checkA11y } from "./helpers/axe"
 
 describe("HoverCard", () => {
   test("a link shows a preview card on hover, as a glass popover with the platform corner", async () => {
@@ -44,5 +45,27 @@ describe("HoverCard stamps shadcn's portal slot", () => {
     await userEvent.hover(screen.getByText("applecn"))
     const card = await screen.findByText("A registry.")
     expect(card.closest('[data-slot="hover-card-portal"]')).not.toBeNull()
+  })
+})
+
+describe("HoverCard accessibility", () => {
+  test("has no violations, trigger or showing card", async () => {
+    const { container } = render(
+      <HoverCard>
+        <HoverCardTrigger href="https://www.apple.com/" delay={0}>
+          apple.com
+        </HoverCardTrigger>
+        <HoverCardContent>
+          <p>Apple</p>
+        </HoverCardContent>
+      </HoverCard>
+    )
+    expect(await checkA11y(container)).toHaveNoViolations()
+    await userEvent.hover(screen.getByRole("link", { name: "apple.com" }))
+    const card = await screen.findByText("Apple")
+    // The card portals out of the render container, so it is scanned where it lands.
+    expect(
+      await checkA11y(card.closest('[data-slot="hover-card-content"]')!)
+    ).toHaveNoViolations()
   })
 })

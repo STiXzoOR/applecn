@@ -14,6 +14,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "../src/components/dropdown-menu"
+import { checkA11y } from "./helpers/axe"
 
 function Actions() {
   return (
@@ -149,5 +150,16 @@ describe("DropdownMenu takes shadcn's markup unchanged", () => {
       "the content portals through DropdownMenuPortal"
     ).not.toBeNull()
     expect(DropdownMenuPortal).toBeTypeOf("function")
+  })
+})
+
+describe("DropdownMenu accessibility", () => {
+  test("has no violations, trigger or open menu", async () => {
+    const { container } = render(<Actions />)
+    expect(await checkA11y(container)).toHaveNoViolations()
+    await userEvent.click(screen.getByRole("button", { name: "Actions" }))
+    const menu = await screen.findByRole("menu")
+    // The menu portals out of the render container, so it is scanned where it lands.
+    expect(await checkA11y(menu)).toHaveNoViolations()
   })
 })

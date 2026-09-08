@@ -8,6 +8,7 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "../src/components/input-otp"
+import { checkA11y } from "./helpers/axe"
 
 describe("InputOTP", () => {
   test("is a row of one-character boxes that advances as digits are typed", async () => {
@@ -94,5 +95,29 @@ describe("InputOTP composed shadcn's way", () => {
     render(<InputOTP aria-label="Code" length={2} />)
     for (const box of screen.getAllByRole("textbox"))
       expect(box).toHaveAttribute("data-slot", "input-otp-slot")
+  })
+})
+
+describe("InputOTP accessibility", () => {
+  test("has no violations, generated boxes or explicit ones", async () => {
+    const generated = render(
+      <InputOTP aria-label="Verification code" length={4} />
+    )
+    expect(await checkA11y(generated.container)).toHaveNoViolations()
+    generated.unmount()
+    const explicit = render(
+      <InputOTP aria-label="Verification code" length={4}>
+        <InputOTPGroup>
+          <InputOTPSlot index={0} />
+          <InputOTPSlot index={1} />
+        </InputOTPGroup>
+        <InputOTPSeparator />
+        <InputOTPGroup>
+          <InputOTPSlot index={2} />
+          <InputOTPSlot index={3} />
+        </InputOTPGroup>
+      </InputOTP>
+    )
+    expect(await checkA11y(explicit.container)).toHaveNoViolations()
   })
 })
