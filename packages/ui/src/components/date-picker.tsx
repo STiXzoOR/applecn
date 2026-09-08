@@ -188,17 +188,22 @@ function DatePickerContent({
   ...props
 }: Omit<ComponentProps<typeof Calendar>, "mode" | "selected" | "onSelect">) {
   const { value, setValue, presentation } = useDatePicker()
+  const inline = presentation === "inline"
   const calendar = (
     <Calendar
       mode="single"
       selected={value}
       onSelect={setValue}
       defaultMonth={value}
-      className={cn(presentation === "inline" && className)}
+      className={cn(inline && className)}
+      // The label is destructured for the popover branch below, where it names the popup. Inline
+      // there is no popup, so it has to reach the grid itself or a caller who names an inline
+      // picker is silently ignored.
+      {...(inline ? { "aria-label": label } : {})}
       {...props}
     />
   )
-  if (presentation === "inline") return calendar
+  if (inline) return calendar
   // The popup is a `role="dialog"`, and a calendar gives it nothing to be named by: there is no
   // title to show — Apple's compact picker opens straight onto the grid — so axe fails
   // `aria-dialog-name` without one. The label is a prop, defaulted rather than hardcoded.

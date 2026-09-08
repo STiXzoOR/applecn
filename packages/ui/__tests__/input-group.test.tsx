@@ -100,6 +100,24 @@ describe("InputGroup", () => {
     expect(screen.getByLabelText("Handle")).toHaveFocus()
   })
 
+  /**
+   * The same click, in the group's other shape. The addon looked for an `input` only, so in a
+   * textarea group — which the file two lines up already knows about, `has-[>textarea]` — it
+   * focused nothing at all.
+   */
+  test("clicking an addon in a textarea group puts the caret in the textarea", async () => {
+    render(
+      <InputGroup>
+        <InputGroupTextarea aria-label="Note" />
+        <InputGroupAddon align="block-end" data-testid="addon">
+          <span>0/280</span>
+        </InputGroupAddon>
+      </InputGroup>
+    )
+    await userEvent.click(screen.getByTestId("addon"))
+    expect(screen.getByLabelText("Note")).toHaveFocus()
+  })
+
   test("a button in an addon keeps its own focus, and does not steal the caret", async () => {
     render(
       <InputGroup>

@@ -111,12 +111,22 @@ describe("Pagination", () => {
     ).toHaveTextContent("Older")
   })
 
-  test("the gap is decoration on the control's own footprint", () => {
+  /**
+   * shadcn puts `aria-hidden` on the ellipsis and an `sr-only` "More pages" INSIDE it, which
+   * hides the whole subtree: the label can never be announced, and copying it verbatim shipped a
+   * span that does nothing. The glyph is the decoration and the label is the meaning, so the
+   * hiding belongs on the glyph — which `Icon` already does for an unlabelled icon.
+   */
+  test("the gap announces itself, and only its glyph is decoration", () => {
     render(<Pages />)
     const ellipsis = document.querySelector(
       '[data-slot="pagination-ellipsis"]'
     )!
-    expect(ellipsis).toHaveAttribute("aria-hidden")
+    expect(ellipsis).not.toHaveAttribute("aria-hidden")
+    expect(ellipsis.querySelector('[data-slot="icon"]')).toHaveAttribute(
+      "aria-hidden"
+    )
+    expect(ellipsis).toHaveTextContent("More pages")
     expect(ellipsis.className).toContain("size-(--control-height-small)")
   })
 

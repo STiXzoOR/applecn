@@ -37,6 +37,20 @@ describe("DatePicker", () => {
     expect(day("2026-09-15")).toHaveAttribute("data-selected-single", "true")
   })
 
+  /**
+   * `DatePickerContent` destructures `aria-label` for the popover branch, where axe needs a name
+   * on the `role="dialog"`. The inline branch returned the calendar without forwarding it, so a
+   * caller naming an inline picker was silently ignored.
+   */
+  test("an inline picker keeps the name its caller gave it", () => {
+    render(
+      <DatePicker presentation="inline" defaultValue={SEPTEMBER}>
+        <DatePickerContent aria-label="Departure" />
+      </DatePicker>
+    )
+    expect(screen.getByLabelText("Departure")).toBeInTheDocument()
+  })
+
   test("inline is the month grid itself, with no trigger and no popover", () => {
     const { container } = render(
       <DatePicker presentation="inline" defaultValue={SEPTEMBER} />

@@ -122,6 +122,18 @@ describe("Command", () => {
     expect(screen.getByText("Applications")).toBeVisible()
   })
 
+  /**
+   * `CommandItem` used to render a trailing tick gated on `group-data-[checked=true]`. `cmdk`
+   * never writes `data-checked`, nothing in the catalogue or the registry examples writes it on a
+   * command item, and shadcn renders no tick at all — so the icon sat at `opacity-0` in every row
+   * and the affordance was undiscoverable. A row carries what its caller puts in it.
+   */
+  test("a result row renders no affordance nothing can reach", () => {
+    render(<Spotlight />)
+    const item = screen.getByText("Reminders").closest("[data-slot]")!
+    expect(item.querySelector('[data-slot="icon"]')).toBeNull()
+  })
+
   test("a caller can take the separator role back", () => {
     const { container } = render(
       <Command label="Spotlight">

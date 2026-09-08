@@ -56,7 +56,9 @@ const inputGroupAddonVariants = cva(
 
 /**
  * Clicking the addon puts the caret in the field, as clicking the magnifier in Apple's search
- * capsule does — unless the click landed on a button, which keeps its own press.
+ * capsule does — unless the click landed on a button, which keeps its own press. The field is
+ * either of the two the group can hold: `has-[>textarea]` above already knows a group can be a
+ * textarea group, and looking only for an `input` focused nothing in one.
  */
 function InputGroupAddon({
   className,
@@ -73,7 +75,9 @@ function InputGroupAddon({
       onClick={(event) => {
         onClick?.(event)
         if ((event.target as HTMLElement).closest("button")) return
-        event.currentTarget.parentElement?.querySelector("input")?.focus()
+        event.currentTarget.parentElement
+          ?.querySelector<HTMLElement>("input, textarea")
+          ?.focus()
       }}
       {...props}
     />

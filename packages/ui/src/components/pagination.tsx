@@ -129,11 +129,17 @@ function PaginationNext({
   )
 }
 
-/** The pages that were skipped, on the same footprint as a page so the row stays even. */
+/**
+ * The pages that were skipped, on the same footprint as a page so the row stays even.
+ *
+ * shadcn puts `aria-hidden` on this span with an `sr-only` "More pages" inside it, which hides the
+ * whole subtree — the label it went to the trouble of writing can never be announced. The glyph is
+ * the decoration and the label is the meaning, so the hiding sits on the glyph, which `Icon`
+ * already does for itself when it carries no label.
+ */
 function PaginationEllipsis({ className, ...props }: ComponentProps<"span">) {
   return (
     <span
-      aria-hidden
       data-slot="pagination-ellipsis"
       className={cn(
         "flex size-(--control-height-small) items-center justify-center text-label-3",

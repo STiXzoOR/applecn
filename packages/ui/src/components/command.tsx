@@ -1,10 +1,6 @@
 "use client"
 
-import {
-  Cancel01Icon,
-  Search01Icon,
-  Tick02Icon,
-} from "@hugeicons/core-free-icons"
+import { Cancel01Icon, Search01Icon } from "@hugeicons/core-free-icons"
 import { Command as CommandPrimitive } from "cmdk"
 import { cn } from "../lib/utils"
 import type { ComponentProps } from "react"
@@ -166,28 +162,25 @@ function CommandSeparator({
 /**
  * A result. `cmdk` writes `data-selected` and `data-disabled` with a value on every row rather
  * than only on the current one, so both rules read the value rather than the attribute.
+ *
+ * The row carries what its caller puts in it and nothing else. It used to append a trailing tick
+ * gated on `group-data-[checked=true]`, which `cmdk` never writes and nothing in the catalogue or
+ * the registry examples writes either — so the icon rendered at `opacity-0` in every row and the
+ * affordance was undiscoverable. shadcn renders no tick here at all.
  */
 function CommandItem({
   className,
-  children,
   ...props
 }: ComponentProps<typeof CommandPrimitive.Item>) {
   return (
     <CommandPrimitive.Item
       data-slot="command-item"
       className={cn(
-        "group/command-item relative flex h-(--menu-item-height) cursor-default items-center gap-(--menu-item-gap) rounded-menu-item px-(--menu-item-px) text-[length:var(--menu-font)] text-label outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-40 data-[selected=true]:bg-(--menu-item-highlight-bg) data-[selected=true]:text-(--menu-item-highlight-text) data-[selected=true]:[&_[data-slot=command-shortcut]]:text-(--menu-shortcut-highlight-text) [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "relative flex h-(--menu-item-height) cursor-default items-center gap-(--menu-item-gap) rounded-menu-item px-(--menu-item-px) text-[length:var(--menu-font)] text-label outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-40 data-[selected=true]:bg-(--menu-item-highlight-bg) data-[selected=true]:text-(--menu-item-highlight-text) data-[selected=true]:[&_[data-slot=command-shortcut]]:text-(--menu-shortcut-highlight-text) [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className
       )}
       {...props}
-    >
-      {children}
-      <Icon
-        icon={Tick02Icon}
-        weight="bold"
-        className="ms-auto opacity-0 group-has-data-[slot=command-shortcut]/command-item:hidden group-data-[checked=true]/command-item:opacity-100"
-      />
-    </CommandPrimitive.Item>
+    />
   )
 }
 
