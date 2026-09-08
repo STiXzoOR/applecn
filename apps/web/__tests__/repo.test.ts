@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process"
-import { existsSync, readFileSync } from "node:fs"
+import { existsSync, readdirSync, readFileSync } from "node:fs"
 import { join } from "node:path"
 
 import { describe, expect, test } from "vitest"
@@ -61,5 +61,34 @@ describe("repository hygiene", () => {
       "utf8"
     )
     expect(skill).toMatch(/^---\nname: applecn\ndescription: /)
+  })
+
+  /**
+   * Task 15's five renames each moved a component's file, exports and registry entry, and each
+   * time SKILL.md's catalogue had to be edited by hand — with nothing to fail if it was not. The
+   * `@applecn/<name>` check above only reads `shadcn@latest add` lines, and the catalogue does not
+   * install anything, so `preview-card`, `disclosure-group`, `passcode-field`, `menu` and `sheet`
+   * could all have survived there behind a green suite. This closes that: the catalogue is the
+   * component list, exactly, so a rename fails here and so does a component built without a docs
+   * entry.
+   */
+  test("SKILL.md's catalogue is exactly the components that exist", () => {
+    const catalogue = [
+      ...readFileSync(
+        join(root, ".agents/skills/applecn/SKILL.md"),
+        "utf8"
+      ).matchAll(/^- `([a-z0-9-]+)` — /gm),
+    ].map(([, name]) => name!)
+    const components = readdirSync(join(root, "packages/ui/src/components"))
+      .filter((f) => f.endsWith(".tsx"))
+      .map((f) => f.replace(/\.tsx$/, ""))
+    expect(
+      catalogue.filter((n) => !components.includes(n)),
+      "SKILL.md documents a component that no longer exists — renamed, or deleted"
+    ).toEqual([])
+    expect(
+      components.filter((n) => !catalogue.includes(n)),
+      "a component exists that SKILL.md's catalogue does not document"
+    ).toEqual([])
   })
 })
