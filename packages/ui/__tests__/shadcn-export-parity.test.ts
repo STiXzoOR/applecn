@@ -334,23 +334,13 @@ const LEDGER: Record<string, Row> = {
   },
   textarea: { gap: [] },
   toast: {
-    gap: [
-      "Toast",
-      "ToastAction",
-      "ToastClose",
-      "ToastContent",
-      "ToastDescription",
-      "ToastPortal",
-      "ToastProvider",
-      "ToastTitle",
-      "ToastViewport",
-      "toast",
-      "useToastManager",
-    ],
-    slotGap: ["toast-portal"],
-    slotCloses: "Task 15c",
-    closes: "Task 15c",
-    note: "applecn ships `Toaster` only; the composable surface is unbuilt.",
+    gap: [],
+    note:
+      "Task 15c split the banner `Toaster` rendered inline into shadcn's parts, so the stack a " +
+      "caller assembles themselves is the one `Toaster` assembles. `useToast` is kept as an " +
+      "alias of `useToastManager`, `ToastIcon` is the Apple addition (Notification Center's " +
+      "app icon, drawn from the toast's `data.icon` rather than shadcn's `type`), and " +
+      "`Toaster` keeps its 5 s default timeout.",
   },
   toggle: { gap: [] },
   "toggle-group": { gap: [] },

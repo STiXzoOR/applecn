@@ -3,7 +3,21 @@ import userEvent from "@testing-library/user-event"
 import { describe, expect, test } from "vitest"
 
 import { Button } from "../src/components/button"
-import { Toaster, useToast } from "../src/components/toast"
+import {
+  Toast,
+  ToastAction,
+  ToastClose,
+  ToastContent,
+  ToastDescription,
+  ToastPortal,
+  ToastProvider,
+  ToastTitle,
+  Toaster,
+  ToastViewport,
+  toast as toastManager,
+  useToast,
+  useToastManager,
+} from "../src/components/toast"
 
 function Notify() {
   const toast = useToast()
@@ -70,5 +84,49 @@ describe("Toast is idiom-agnostic", () => {
       '[data-slot="toast-viewport"]'
     )!
     expect(viewport.className).not.toMatch(/(^|\s)(ios|macos|web):/)
+  })
+})
+
+describe("Toast composed shadcn's way", () => {
+  test("the parts Toaster renders are the parts a caller can render themselves", async () => {
+    function List() {
+      const { toasts } = useToastManager()
+      return toasts.map((item) => (
+        <Toast key={item.id} toast={item}>
+          <ToastContent>
+            <ToastTitle />
+            <ToastDescription />
+          </ToastContent>
+          <ToastAction />
+          <ToastClose />
+        </Toast>
+      ))
+    }
+    render(
+      <ToastProvider>
+        <Notify />
+        <ToastPortal>
+          <ToastViewport>
+            <List />
+          </ToastViewport>
+        </ToastPortal>
+      </ToastProvider>
+    )
+    await userEvent.click(screen.getByRole("button", { name: "Notify" }))
+    const banner = await screen.findByRole("dialog")
+    expect(banner).toHaveAttribute("data-slot", "toast")
+    expect(banner.className).toContain("glass")
+    expect(banner.querySelector('[data-slot="toast-content"]')).not.toBeNull()
+    expect(screen.getByText("Messages")).toHaveAttribute(
+      "data-slot",
+      "toast-title"
+    )
+  })
+})
+
+describe("the toast manager", () => {
+  test("`toast` posts from outside React, and `useToast` still names the hook", () => {
+    expect(useToast).toBe(useToastManager)
+    expect(typeof toastManager.add).toBe("function")
   })
 })
