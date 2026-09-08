@@ -127,17 +127,36 @@ function item(
   }
 }
 
+/** Where the CLI installs each source directory, and so what a sibling import must name. */
+const ALIASES: Readonly<Record<string, string>> = {
+  components: "@/components/ui",
+  hooks: "@/hooks",
+  lib: "@/lib",
+}
+
 /**
  * The content a consumer receives. Package sources import relatively, but `../hooks/<name>`
  * and `../lib/<name>` would point at `components/hooks/` and `components/lib/` once copied
  * into `components/ui/`, and a sibling import like `./dialog` would too, once `checkbox`
  * imports `./icon` and `icon` isn't necessarily copied alongside it. So every relative import
  * is rewritten to the alias form the CLI maps: `@/hooks/…`, `@/lib/…`, `@/components/ui/…`.
+ *
+ * `dir` is the importing file's own directory, and it decides what a sibling resolves to: a
+ * sibling of a `src/lib` module installs at `@/lib/<name>`, not `@/components/ui/<name>`.
+ * Rewriting every sibling to the component alias published `lib/detect-platform.ts`'s
+ * `./platform` as `@/components/ui/platform` while `platform.tsx` installs at `@/lib/platform`,
+ * and the consumer's build failed on the missing module.
  */
-export function publishedContent(source: string): string {
+export function publishedContent(source: string, dir = "components"): string {
+  const alias = ALIASES[dir] ?? ALIASES.components!
   return source
     .replace(/from "\.\.\/(hooks|lib)\//g, 'from "@/$1/')
-    .replace(/from "\.\/([a-z-]+)"/g, 'from "@/components/ui/$1"')
+    .replace(/from "\.\/([a-z-]+)"/g, `from "${alias}/$1"`)
+}
+
+/** The `src/<dir>/<file>` directory a published path came from. */
+function sourceDir(path: string): string {
+  return path.split("/")[1] ?? "components"
 }
 
 export function publishItem(entry: RegistryItem): PublishedItem {
@@ -146,7 +165,10 @@ export function publishItem(entry: RegistryItem): PublishedItem {
     ...entry,
     files: entry.files.map((file) => ({
       ...file,
-      content: publishedContent(readSource(`${UI_PACKAGE}/${file.path}`)),
+      content: publishedContent(
+        readSource(`${UI_PACKAGE}/${file.path}`),
+        sourceDir(file.path)
+      ),
     })),
   }
 }

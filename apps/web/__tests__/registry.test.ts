@@ -160,11 +160,21 @@ describe("registry", () => {
       'import { platform } from "../lib/platform"',
       'import { Dialog } from "./dialog"',
     ].join("\n")
-    expect(publishedContent(source).split("\n")).toEqual([
+    expect(publishedContent(source, "components").split("\n")).toEqual([
       'import { useIsDesktop } from "@/hooks/use-media-query"',
       'import { platform } from "@/lib/platform"',
       'import { Dialog } from "@/components/ui/dialog"',
     ])
+  })
+
+  test("a sibling import resolves against the importing file's own directory", () => {
+    const source = 'import type { Platform } from "./platform"'
+    expect(publishedContent(source, "lib")).toBe(
+      'import type { Platform } from "@/lib/platform"'
+    )
+    expect(publishedContent(source, "hooks")).toBe(
+      'import type { Platform } from "@/hooks/platform"'
+    )
   })
 
   test("published items carry each file's content and never a ../ import", () => {
@@ -550,5 +560,54 @@ describe("named Tailwind utilities the components use are shipped, not just decl
   test("progress.tsx's animate-[progress-indeterminate_…] arbitrary value has a matching @keyframes shipped, since the bracket syntax needs no theme registration but still needs the rule to exist", () => {
     expect(componentSource).toContain("animate-[progress-indeterminate")
     expect(base.css?.["@keyframes progress-indeterminate"]).toBeTruthy()
+  })
+})
+
+/**
+ * A sibling import (`./platform`) means "the file next to me", and where that file lands in a
+ * consumer depends on the importing file's own directory: `src/components/*` installs at
+ * `components/ui/`, `src/lib/*` at `lib/`, `src/hooks/*` at `hooks/`. Rewriting every sibling
+ * to `@/components/ui/` therefore breaks any lib or hook that imports its neighbour —
+ * `lib/detect-platform.ts`'s `./platform` published as `@/components/ui/platform` while
+ * `platform.tsx` installs at `@/lib/platform`, so the consumer's build failed on a missing
+ * module. The guard that let it through only asserted no `./x` *survived*; it never asked
+ * whether the target it was rewritten to is where that file actually installs.
+ */
+describe("rewritten imports point at where the file they name actually installs", () => {
+  const items = buildRegistry().items
+
+  /** The alias prefix the CLI installs each item under, from its registry type. */
+  const ALIAS: Readonly<Record<string, string>> = {
+    "registry:ui": "@/components/ui",
+    "registry:lib": "@/lib",
+    "registry:hook": "@/hooks",
+  }
+  const prefixOf = new Map(
+    items.filter((i) => ALIAS[i.type]).map((i) => [i.name, ALIAS[i.type]!])
+  )
+
+  test("a lib module's sibling import resolves to @/lib, not @/components/ui", () => {
+    const detect = items.find((i) => i.name === "detect-platform")!
+    const content = publishItem(detect).files[0]!.content
+    expect(content).toContain('from "@/lib/platform"')
+    expect(content).not.toContain('from "@/components/ui/platform"')
+  })
+
+  test("every alias import in every published file names the directory that item installs into", () => {
+    const problems: string[] = []
+    for (const item of items) {
+      for (const file of publishItem(item).files) {
+        for (const match of file.content.matchAll(
+          /from "(@\/(?:components\/ui|lib|hooks))\/([\w-]+)"/g
+        )) {
+          const expected = prefixOf.get(match[2]!)
+          if (expected && expected !== match[1])
+            problems.push(
+              `${item.name} imports ${match[2]} as ${match[1]}, but it installs at ${expected}`
+            )
+        }
+      }
+    }
+    expect(problems).toEqual([])
   })
 })
