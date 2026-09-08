@@ -98,11 +98,11 @@ export default async function ComponentPage({
 
       <Section
         title="Install"
-        description="From the registry this site publishes, with dependencies resolved by the CLI."
+        description="From the registry this site publishes, with dependencies resolved by the CLI. Install an idiom first if you have not already: the component reads tokens it does not carry."
       >
         <CodeBlock
           lang="bash"
-          code={`npx shadcn@latest add ${REGISTRY_URL}/${doc.name}.json`}
+          code={`npx shadcn@latest add ${REGISTRY_URL}/ios.json\nnpx shadcn@latest add ${REGISTRY_URL}/${doc.name}.json`}
         />
       </Section>
 

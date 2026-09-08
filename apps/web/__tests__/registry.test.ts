@@ -766,3 +766,33 @@ describe("everything the generated stylesheet defines reaches a consumer", () =>
     expect(problems).toEqual([])
   })
 })
+
+/**
+ * The three idiom themes became installable in phase 1 and nothing on the site said so; nor
+ * did anything say that a component installed on its own arrives with no tokens behind it,
+ * since no `registry:ui` item declares a theme as a `registryDependency` (shadcn's own
+ * convention — a component does not drag a theme in). Both are documentation gaps rather than
+ * code defects, so the guard is that the page a reader lands on names what they can install.
+ */
+describe("the docs name the installable idiom themes", () => {
+  const overview = readFileSync(
+    join(process.cwd(), "app/(docs)/docs/page.tsx"),
+    "utf8"
+  )
+  const component = readFileSync(
+    join(process.cwd(), "app/(docs)/components/[name]/page.tsx"),
+    "utf8"
+  )
+
+  test.each(
+    buildRegistry()
+      .items.filter((i) => i.type === "registry:theme" && i.name !== "base")
+      .map((i) => i.name)
+  )("the overview page offers %s", (name) => {
+    expect(overview).toContain(`${name}.json`)
+  })
+
+  test("a component's own install block says a theme has to come first", () => {
+    expect(component).toMatch(/apple\.json|ios\.json/)
+  })
+})

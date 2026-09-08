@@ -79,11 +79,11 @@ export default function OverviewPage() {
       </Section>
       <Section
         title="Use it in a project"
-        description="The site publishes a shadcn registry. Point the CLI at any component and it installs with its dependencies; add the style item once to get every token."
+        description="The site publishes a shadcn registry. Install an idiom first — a component carries its own markup and class names, not the tokens they read, so one added on its own arrives unstyled. Each idiom pulls in the shared layer of colours, type, motion and materials on its own."
       >
         <CodeBlock
           lang="bash"
-          code={`npx shadcn@latest add ${REGISTRY_URL}/apple.json\nnpx shadcn@latest add ${REGISTRY_URL}/button.json ${REGISTRY_URL}/list.json`}
+          code={`# one idiom: iOS, macOS or the web\nnpx shadcn@latest add ${REGISTRY_URL}/ios.json\nnpx shadcn@latest add ${REGISTRY_URL}/macos.json\nnpx shadcn@latest add ${REGISTRY_URL}/web.json\n\n# or all three, switchable at runtime with data-platform\nnpx shadcn@latest add ${REGISTRY_URL}/apple.json\n\n# then any component, with its dependencies resolved by the CLI\nnpx shadcn@latest add ${REGISTRY_URL}/button.json ${REGISTRY_URL}/list.json`}
         />
       </Section>
     </>
