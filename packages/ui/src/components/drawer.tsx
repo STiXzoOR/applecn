@@ -35,10 +35,10 @@ function Drawer(props: DrawerProps) {
   return (
     <PresentationContext.Provider value={presentation}>
       {desktop ? (
-        <DialogPrimitive.Root data-slot="sheet" {...props} />
+        <DialogPrimitive.Root data-slot="drawer" {...props} />
       ) : (
         <DrawerPrimitive.Root
-          data-slot="sheet"
+          data-slot="drawer"
           swipeDirection="down"
           {...(props as DrawerPrimitive.Root.Props)}
         />
@@ -54,10 +54,10 @@ function useDrawerPresentation() {
 function DrawerTrigger(props: DialogPrimitive.Trigger.Props) {
   const presentation = useDrawerPresentation()
   return presentation === "dialog" ? (
-    <DialogPrimitive.Trigger data-slot="sheet-trigger" {...props} />
+    <DialogPrimitive.Trigger data-slot="drawer-trigger" {...props} />
   ) : (
     <DrawerPrimitive.Trigger
-      data-slot="sheet-trigger"
+      data-slot="drawer-trigger"
       {...(props as DrawerPrimitive.Trigger.Props)}
     />
   )
@@ -71,13 +71,13 @@ function DrawerClose({ className, ...props }: DialogPrimitive.Close.Props) {
   )
   return presentation === "dialog" ? (
     <DialogPrimitive.Close
-      data-slot="sheet-close"
+      data-slot="drawer-close"
       className={closeClassName}
       {...props}
     />
   ) : (
     <DrawerPrimitive.Close
-      data-slot="sheet-close"
+      data-slot="drawer-close"
       className={closeClassName}
       {...props}
     />
@@ -101,11 +101,11 @@ function DrawerContent({
     return (
       <DialogPrimitive.Portal>
         <DialogPrimitive.Backdrop
-          data-slot="sheet-backdrop"
+          data-slot="drawer-overlay"
           className={dialogBackdropClassName}
         />
         <DialogPrimitive.Popup
-          data-slot="sheet-content"
+          data-slot="drawer-popup"
           data-presentation="dialog"
           data-elevated=""
           className={cn(dialogPopupClassName, "gap-0 p-0", className)}
@@ -120,15 +120,15 @@ function DrawerContent({
   return (
     <DrawerPrimitive.Portal>
       <DrawerPrimitive.Backdrop
-        data-slot="sheet-backdrop"
+        data-slot="drawer-overlay"
         className="fixed inset-0 z-50 [background-color:rgb(0_0_0/var(--sheet-scrim))] opacity-[calc(1-var(--drawer-swipe-progress))] transition-opacity duration-(--duration-sheet) ease-(--ease-sheet) data-ending-style:opacity-0 data-starting-style:opacity-0 data-swiping:duration-0"
       />
       <DrawerPrimitive.Viewport
-        data-slot="sheet-viewport"
+        data-slot="drawer-viewport"
         className="fixed inset-0 z-50"
       >
         <DrawerPrimitive.Popup
-          data-slot="sheet-content"
+          data-slot="drawer-popup"
           data-presentation="sheet"
           data-detent={detent}
           data-elevated=""
@@ -142,12 +142,12 @@ function DrawerContent({
           {...(props as DrawerPrimitive.Popup.Props)}
         >
           <div
-            data-slot="sheet-grabber"
+            data-slot="drawer-swipe-handle"
             aria-hidden="true"
             className="mx-auto mt-[5px] h-(--sheet-grabber-height) w-(--sheet-grabber-width) shrink-0 rounded-full bg-fill-2"
           />
           <DrawerPrimitive.Content
-            data-slot="sheet-body"
+            data-slot="drawer-content"
             className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain"
           >
             {children}
@@ -166,13 +166,13 @@ function DrawerTitle({ className, ...props }: DialogPrimitive.Title.Props) {
   )
   return presentation === "dialog" ? (
     <DialogPrimitive.Title
-      data-slot="sheet-title"
+      data-slot="drawer-title"
       className={titleClassName}
       {...props}
     />
   ) : (
     <DrawerPrimitive.Title
-      data-slot="sheet-title"
+      data-slot="drawer-title"
       className={titleClassName}
       {...props}
     />
@@ -187,13 +187,13 @@ function DrawerDescription({
   const descriptionClassName = cn("type-subheadline text-label-2", className)
   return presentation === "dialog" ? (
     <DialogPrimitive.Description
-      data-slot="sheet-description"
+      data-slot="drawer-description"
       className={descriptionClassName}
       {...props}
     />
   ) : (
     <DrawerPrimitive.Description
-      data-slot="sheet-description"
+      data-slot="drawer-description"
       className={descriptionClassName}
       {...props}
     />
@@ -216,7 +216,7 @@ function DrawerToolbar({
 }: DrawerToolbarProps) {
   return (
     <div
-      data-slot="sheet-toolbar"
+      data-slot="drawer-toolbar"
       className={cn(
         "grid h-(--sheet-toolbar-height) shrink-0 grid-cols-[1fr_auto_1fr] items-center gap-2 px-4",
         className
@@ -224,16 +224,16 @@ function DrawerToolbar({
       {...props}
     >
       <div
-        data-slot="sheet-toolbar-leading"
+        data-slot="drawer-toolbar-leading"
         className="flex justify-self-start"
       >
         {cancel}
       </div>
-      <div data-slot="sheet-toolbar-title" className="min-w-0">
+      <div data-slot="drawer-toolbar-title" className="min-w-0">
         {children}
       </div>
       <div
-        data-slot="sheet-toolbar-trailing"
+        data-slot="drawer-toolbar-trailing"
         className="flex justify-self-end font-semibold"
       >
         {done}
@@ -249,7 +249,7 @@ function DrawerToolbar({
 function DrawerHeader({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
-      data-slot="sheet-header"
+      data-slot="drawer-header"
       className={cn("flex shrink-0 flex-col gap-1 px-4 py-4", className)}
       {...props}
     />
@@ -260,7 +260,7 @@ function DrawerHeader({ className, ...props }: ComponentProps<"div">) {
 function DrawerFooter({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
-      data-slot="sheet-footer"
+      data-slot="drawer-footer"
       className={cn(
         "mt-auto flex shrink-0 flex-col gap-2 px-4 pb-4",
         className
@@ -273,7 +273,7 @@ function DrawerFooter({ className, ...props }: ComponentProps<"div">) {
 function DrawerSection({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
-      data-slot="sheet-section"
+      data-slot="drawer-section"
       className={cn("flex flex-col gap-4 px-4 py-4", className)}
       {...props}
     />

@@ -1440,9 +1440,11 @@ describe("ResponsiveDialog", () => {
       </ResponsiveDialog>
     )
     await userEvent.click(screen.getByText("Open"))
+    // shadcn puts `drawer-popup` on the Popup — the element that carries
+    // `role="dialog"` — and `drawer-content` on the scrolling region inside it.
     expect(await screen.findByRole("dialog")).toHaveAttribute(
       "data-slot",
-      "drawer-content"
+      "drawer-popup"
     )
   })
 

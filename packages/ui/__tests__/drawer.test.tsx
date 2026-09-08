@@ -38,12 +38,14 @@ describe("Drawer", () => {
     render(<NewEvent />)
     await userEvent.click(screen.getByRole("button", { name: "New Event" }))
     const sheet = await screen.findByRole("dialog", { name: "New Event" })
-    expect(sheet).toHaveAttribute("data-slot", "sheet-content")
+    expect(sheet).toHaveAttribute("data-slot", "drawer-popup")
     expect(sheet).toHaveAttribute("data-presentation", "sheet")
-    expect(sheet.querySelector('[data-slot="sheet-grabber"]')).not.toBeNull()
+    expect(
+      sheet.querySelector('[data-slot="drawer-swipe-handle"]')
+    ).not.toBeNull()
     expect(sheet.className).toContain("rounded-t-sheet")
     expect(
-      sheet.querySelector('[data-slot="sheet-toolbar"]')!.className
+      sheet.querySelector('[data-slot="drawer-toolbar"]')!.className
     ).toContain("h-(--sheet-toolbar-height)")
     expect(screen.getByRole("button", { name: "Cancel" })).toBeInTheDocument()
     expect(screen.getByRole("button", { name: "Add" })).toBeInTheDocument()
@@ -64,7 +66,7 @@ describe("Drawer", () => {
     await userEvent.click(screen.getByRole("button", { name: "New Event" }))
     const sheet = await screen.findByRole("dialog", { name: "New Event" })
     expect(sheet).toHaveAttribute("data-presentation", "dialog")
-    expect(sheet.querySelector('[data-slot="sheet-grabber"]')).toBeNull()
+    expect(sheet.querySelector('[data-slot="drawer-swipe-handle"]')).toBeNull()
     expect(sheet.className).toContain("rounded-dialog")
   })
 
@@ -109,12 +111,42 @@ describe("Drawer takes shadcn's Drawer markup unchanged", () => {
     render(<ShadcnShaped />)
     await userEvent.click(screen.getByRole("button", { name: "New Event" }))
     const sheet = await screen.findByRole("dialog")
-    const header = sheet.querySelector('[data-slot="sheet-header"]')!
+    const header = sheet.querySelector('[data-slot="drawer-header"]')!
     expect(header.className).toContain("flex-col")
     expect(header.className).toContain("px-4")
     expect(header).toContainElement(
       screen.getByText("Add it to your calendar.")
     )
+  })
+
+  test("every part a shadcn user targets in CSS answers to a drawer-* slot", async () => {
+    setViewport("phone")
+    render(<ShadcnShaped />)
+    await userEvent.click(screen.getByRole("button", { name: "New Event" }))
+    const popup = await screen.findByRole("dialog")
+    // shadcn puts `drawer-popup` on the Popup and `drawer-content` on the scrolling
+    // region inside it; the two are not interchangeable.
+    expect(popup).toHaveAttribute("data-slot", "drawer-popup")
+    const viewport = popup.parentElement!
+    expect(viewport).toHaveAttribute("data-slot", "drawer-viewport")
+    expect(
+      viewport.parentElement!.querySelector('[data-slot="drawer-overlay"]')
+    ).not.toBeNull()
+    for (const slot of [
+      "drawer-content",
+      "drawer-header",
+      "drawer-title",
+      "drawer-description",
+      "drawer-footer",
+      "drawer-close",
+    ])
+      expect(
+        popup.querySelector(`[data-slot="${slot}"]`),
+        `${slot} is missing`
+      ).not.toBeNull()
+    expect(
+      document.querySelector('[data-slot="drawer-trigger"]')
+    ).not.toBeNull()
   })
 
   test.each(["phone", "desktop"] as const)(
@@ -124,7 +156,7 @@ describe("Drawer takes shadcn's Drawer markup unchanged", () => {
       render(<ShadcnShaped />)
       await userEvent.click(screen.getByRole("button", { name: "New Event" }))
       const sheet = await screen.findByRole("dialog")
-      const footer = sheet.querySelector('[data-slot="sheet-footer"]')!
+      const footer = sheet.querySelector('[data-slot="drawer-footer"]')!
       expect(footer.className).toContain("mt-auto")
       expect(footer.className).toContain("px-4")
       expect(footer).toContainElement(
