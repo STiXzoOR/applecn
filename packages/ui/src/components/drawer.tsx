@@ -84,6 +84,61 @@ function DrawerClose({ className, ...props }: DialogPrimitive.Close.Props) {
   )
 }
 
+/**
+ * The portal both presentations already used, exposed under shadcn's name. Which primitive it
+ * belongs to follows the presentation, exactly as every other part here does.
+ */
+function DrawerPortal(props: DialogPrimitive.Portal.Props) {
+  const presentation = useDrawerPresentation()
+  return presentation === "dialog" ? (
+    <DialogPrimitive.Portal data-slot="drawer-portal" {...props} />
+  ) : (
+    <DrawerPrimitive.Portal
+      data-slot="drawer-portal"
+      {...(props as DrawerPrimitive.Portal.Props)}
+    />
+  )
+}
+
+/** The scrim behind the sheet. shadcn's `DrawerOverlay`; Base UI calls it the Backdrop. */
+function DrawerOverlay({
+  className,
+  ...props
+}: DialogPrimitive.Backdrop.Props) {
+  const presentation = useDrawerPresentation()
+  return presentation === "dialog" ? (
+    <DialogPrimitive.Backdrop
+      data-slot="drawer-overlay"
+      className={cn(dialogBackdropClassName, className)}
+      {...props}
+    />
+  ) : (
+    <DrawerPrimitive.Backdrop
+      data-slot="drawer-overlay"
+      className={cn(
+        "fixed inset-0 z-50 [background-color:rgb(0_0_0/var(--sheet-scrim))] opacity-[calc(1-var(--drawer-swipe-progress))] transition-opacity duration-(--duration-sheet) ease-(--ease-sheet) data-ending-style:opacity-0 data-starting-style:opacity-0 data-swiping:duration-0",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+/** The grabber at the top of a phone sheet. shadcn calls it the swipe handle. */
+function DrawerSwipeHandle({ className, ...props }: ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="drawer-swipe-handle"
+      aria-hidden="true"
+      className={cn(
+        "mx-auto mt-[5px] h-(--sheet-grabber-height) w-(--sheet-grabber-width) shrink-0 rounded-full bg-fill-2",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
 type DrawerContentProps = DialogPrimitive.Popup.Props & {
   /** Where the sheet rests on a phone: the full `large` height, or `medium` at half height. */
   detent?: "medium" | "large"
@@ -99,11 +154,8 @@ function DrawerContent({
 
   if (presentation === "dialog") {
     return (
-      <DialogPrimitive.Portal>
-        <DialogPrimitive.Backdrop
-          data-slot="drawer-overlay"
-          className={dialogBackdropClassName}
-        />
+      <DrawerPortal>
+        <DrawerOverlay />
         <DialogPrimitive.Popup
           data-slot="drawer-popup"
           data-presentation="dialog"
@@ -113,16 +165,13 @@ function DrawerContent({
         >
           {children}
         </DialogPrimitive.Popup>
-      </DialogPrimitive.Portal>
+      </DrawerPortal>
     )
   }
 
   return (
-    <DrawerPrimitive.Portal>
-      <DrawerPrimitive.Backdrop
-        data-slot="drawer-overlay"
-        className="fixed inset-0 z-50 [background-color:rgb(0_0_0/var(--sheet-scrim))] opacity-[calc(1-var(--drawer-swipe-progress))] transition-opacity duration-(--duration-sheet) ease-(--ease-sheet) data-ending-style:opacity-0 data-starting-style:opacity-0 data-swiping:duration-0"
-      />
+    <DrawerPortal>
+      <DrawerOverlay />
       <DrawerPrimitive.Viewport
         data-slot="drawer-viewport"
         className="fixed inset-0 z-50"
@@ -141,11 +190,7 @@ function DrawerContent({
           )}
           {...(props as DrawerPrimitive.Popup.Props)}
         >
-          <div
-            data-slot="drawer-swipe-handle"
-            aria-hidden="true"
-            className="mx-auto mt-[5px] h-(--sheet-grabber-height) w-(--sheet-grabber-width) shrink-0 rounded-full bg-fill-2"
-          />
+          <DrawerSwipeHandle />
           <DrawerPrimitive.Content
             data-slot="drawer-content"
             className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain"
@@ -154,7 +199,7 @@ function DrawerContent({
           </DrawerPrimitive.Content>
         </DrawerPrimitive.Popup>
       </DrawerPrimitive.Viewport>
-    </DrawerPrimitive.Portal>
+    </DrawerPortal>
   )
 }
 
@@ -287,7 +332,10 @@ export {
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
+  DrawerOverlay,
+  DrawerPortal,
   DrawerSection,
+  DrawerSwipeHandle,
   DrawerTitle,
   DrawerToolbar,
   DrawerTrigger,

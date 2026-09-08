@@ -1,9 +1,10 @@
 "use client"
 
 import { ContextMenu as ContextMenuPrimitive } from "@base-ui/react/context-menu"
-import { Tick02Icon } from "@hugeicons/core-free-icons"
+import { ArrowRight01Icon, Tick02Icon } from "@hugeicons/core-free-icons"
 import type { IconSvgElement } from "@hugeicons/react"
 import { cn } from "../lib/utils"
+import type { ComponentProps } from "react"
 
 import { Icon } from "./icon"
 import { menuContentClassName, menuItemClassName } from "./dropdown-menu"
@@ -19,12 +20,19 @@ function ContextMenuTrigger(props: ContextMenuPrimitive.Trigger.Props) {
   )
 }
 
+/** The portal the content already used, exposed under shadcn's name. */
+function ContextMenuPortal(props: ContextMenuPrimitive.Portal.Props) {
+  return (
+    <ContextMenuPrimitive.Portal data-slot="context-menu-portal" {...props} />
+  )
+}
+
 function ContextMenuContent({
   className,
   ...props
 }: ContextMenuPrimitive.Popup.Props) {
   return (
-    <ContextMenuPrimitive.Portal>
+    <ContextMenuPortal>
       <ContextMenuPrimitive.Positioner className="isolate z-50 outline-none">
         <ContextMenuPrimitive.Popup
           data-slot="context-menu-content"
@@ -33,7 +41,7 @@ function ContextMenuContent({
           {...props}
         />
       </ContextMenuPrimitive.Positioner>
-    </ContextMenuPrimitive.Portal>
+    </ContextMenuPortal>
   )
 }
 
@@ -121,6 +129,103 @@ function ContextMenuSeparator({
   )
 }
 
+function ContextMenuRadioGroup(props: ContextMenuPrimitive.RadioGroup.Props) {
+  return (
+    <ContextMenuPrimitive.RadioGroup
+      data-slot="context-menu-radio-group"
+      {...props}
+    />
+  )
+}
+
+function ContextMenuRadioItem({
+  className,
+  children,
+  ...props
+}: ContextMenuPrimitive.RadioItem.Props) {
+  return (
+    <ContextMenuPrimitive.RadioItem
+      data-slot="context-menu-radio-item"
+      className={cn(menuItemClassName, "ps-2", className)}
+      {...props}
+    >
+      <span
+        data-slot="context-menu-radio-item-indicator"
+        className="flex w-5 shrink-0 items-center justify-center text-primary"
+      >
+        <ContextMenuPrimitive.RadioItemIndicator
+          render={<Icon icon={Tick02Icon} weight="bold" />}
+        />
+      </span>
+      {children}
+    </ContextMenuPrimitive.RadioItem>
+  )
+}
+
+function ContextMenuShortcut({ className, ...props }: ComponentProps<"span">) {
+  return (
+    <span
+      data-slot="context-menu-shortcut"
+      className={cn(
+        "ms-auto ps-6 text-[length:var(--menu-font)] text-label-2",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function ContextMenuSub(props: ContextMenuPrimitive.SubmenuRoot.Props) {
+  return (
+    <ContextMenuPrimitive.SubmenuRoot data-slot="context-menu-sub" {...props} />
+  )
+}
+
+function ContextMenuSubTrigger({
+  className,
+  children,
+  ...props
+}: ContextMenuPrimitive.SubmenuTrigger.Props) {
+  return (
+    <ContextMenuPrimitive.SubmenuTrigger
+      data-slot="context-menu-sub-trigger"
+      className={cn(menuItemClassName, "data-popup-open:bg-fill-3", className)}
+      {...props}
+    >
+      {children}
+      <Icon
+        icon={ArrowRight01Icon}
+        weight="semibold"
+        className="ms-auto text-label-3"
+      />
+    </ContextMenuPrimitive.SubmenuTrigger>
+  )
+}
+
+function ContextMenuSubContent({
+  className,
+  ...props
+}: ContextMenuPrimitive.Popup.Props) {
+  return (
+    <ContextMenuPortal>
+      <ContextMenuPrimitive.Positioner
+        className="isolate z-50 outline-none"
+        align="start"
+        alignOffset={-4}
+        side="right"
+        sideOffset={0}
+      >
+        <ContextMenuPrimitive.Popup
+          data-slot="context-menu-sub-content"
+          data-elevated=""
+          className={cn(menuContentClassName, className)}
+          {...props}
+        />
+      </ContextMenuPrimitive.Positioner>
+    </ContextMenuPortal>
+  )
+}
+
 export {
   ContextMenu,
   ContextMenuCheckboxItem,
@@ -128,7 +233,14 @@ export {
   ContextMenuGroup,
   ContextMenuItem,
   ContextMenuLabel,
+  ContextMenuPortal,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
   ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
   ContextMenuTrigger,
 }
 export type { ContextMenuItemProps }

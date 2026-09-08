@@ -141,6 +141,7 @@
     "w-full"
   ],
   "context-menu.tsx": [
+    "--menu-font",
     "--menu-item-px",
     "--menu-label-font-size",
     "--menu-label-leading",

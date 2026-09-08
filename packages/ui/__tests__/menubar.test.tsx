@@ -9,6 +9,9 @@ import {
   MenubarItem,
   MenubarLabel,
   MenubarMenu,
+  MenubarPortal,
+  MenubarRadioGroup,
+  MenubarRadioItem,
   MenubarSeparator,
   MenubarShortcut,
   MenubarTrigger,
@@ -87,5 +90,35 @@ describe("Menubar is idiom-agnostic", () => {
       .closest('[data-slot="menubar-content"]')!
       .querySelector('[data-slot="menubar-separator"]')!
     expect(separator.className).not.toMatch(/(^|\s)(ios|macos|web):/)
+  })
+})
+
+describe("Menubar takes shadcn's markup unchanged", () => {
+  test("a radio group marks the chosen view and switches on click", async () => {
+    render(
+      <Menubar>
+        <MenubarMenu>
+          <MenubarTrigger>View</MenubarTrigger>
+          <MenubarContent>
+            <MenubarRadioGroup defaultValue="list">
+              <MenubarRadioItem value="icons">as Icons</MenubarRadioItem>
+              <MenubarRadioItem value="list">as List</MenubarRadioItem>
+            </MenubarRadioGroup>
+          </MenubarContent>
+        </MenubarMenu>
+      </Menubar>
+    )
+    await userEvent.click(screen.getByRole("menuitem", { name: "View" }))
+    const chosen = await screen.findByRole("menuitemradio", { name: "as List" })
+    expect(chosen).toHaveAttribute("aria-checked", "true")
+    expect(chosen.closest('[data-slot="menubar-radio-group"]')).not.toBeNull()
+    expect(
+      chosen.querySelector('[data-slot="menubar-radio-item-indicator"]')
+    ).not.toBeNull()
+    expect(
+      chosen.closest('[data-slot="menubar-portal"]'),
+      "the content portals through MenubarPortal"
+    ).not.toBeNull()
+    expect(MenubarPortal).toBeTypeOf("function")
   })
 })

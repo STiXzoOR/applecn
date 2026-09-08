@@ -185,52 +185,24 @@ const LEDGER: Record<string, Row> = {
       "as an alias.",
   },
   command: { task: "Task 27" },
-  "context-menu": {
-    gap: [
-      "ContextMenuPortal",
-      "ContextMenuRadioGroup",
-      "ContextMenuRadioItem",
-      "ContextMenuShortcut",
-      "ContextMenuSub",
-      "ContextMenuSubContent",
-      "ContextMenuSubTrigger",
-    ],
-    slotGap: [
-      "context-menu-portal",
-      "context-menu-radio-group",
-      "context-menu-radio-item",
-      "context-menu-shortcut",
-      "context-menu-sub",
-      "context-menu-sub-content",
-      "context-menu-sub-trigger",
-    ],
-    slotCloses: "Task 15c",
-    closes: "Task 15c",
-  },
+  "context-menu": { gap: [] },
   dialog: { gap: [] },
   direction: { task: "Task 52–58 (the AI set)" },
   drawer: {
-    gap: ["DrawerOverlay", "DrawerPortal", "DrawerSwipeHandle"],
-    slotGap: ["drawer-portal"],
-    slotCloses: "Task 15c",
-    closes: "Task 15c",
+    gap: [],
     note:
-      "the rename of the bottom `sheet`. `DrawerHeader` and `DrawerFooter` already existed as " +
-      "`SheetHeader`/`SheetFooter`, so the rename delivered them; the three in the gap are " +
-      "parts `DrawerContent` renders itself rather than exposing. Task 15b re-slotted it from " +
-      "the `sheet-*` values the rename left behind, which Task 19's real edge panel would " +
-      "otherwise have collided with.",
+      "the rename of the bottom `sheet`. Task 15b re-slotted it from the `sheet-*` values the " +
+      "rename left behind, which Task 19's real edge panel would otherwise have collided with, " +
+      "and Task 15c exposed the three parts `DrawerContent` used to render inline: " +
+      "`DrawerPortal`, `DrawerOverlay` and `DrawerSwipeHandle` (the grabber's shadcn name).",
   },
   "dropdown-menu": {
-    gap: ["DropdownMenuPortal"],
-    slotGap: ["dropdown-menu-portal"],
-    slotCloses: "Task 15c",
-    closes: "Task 15c",
+    gap: [],
     note:
-      "the rename of `menu`. The whole `Menu*` surface came across; `DropdownMenuPortal` is a " +
-      "sub-component applecn never had, since `DropdownMenuContent` portals itself. Task 15b " +
-      "re-slotted its 17 `menu-*` values, and widened the shared item class's shortcut selector " +
-      "to `[data-slot$=-shortcut]` so `menubar` and `context-menu` keep their own names.",
+      "the rename of `menu`. Task 15b re-slotted its 17 `menu-*` values and widened the shared " +
+      "item class's shortcut selector to `[data-slot$=-shortcut]` so `menubar` and " +
+      "`context-menu` keep their own names; `DropdownMenuPortal` is the portal " +
+      "`DropdownMenuContent` always used, now exposed.",
   },
   empty: {
     gap: [],
@@ -258,12 +230,10 @@ const LEDGER: Record<string, Row> = {
   },
   "hover-card": {
     gap: [],
-    slotGap: ["hover-card-portal"],
-    slotCloses: "Task 15c",
     note:
-      "the rename of `preview-card`; the three exports match shadcn's exactly. Task 15b " +
-      "re-slotted it; `hover-card-portal` is the one slot left, on a Portal applecn does not " +
-      "expose.",
+      "the rename of `preview-card`; the three exports match shadcn's exactly, and Task 15b " +
+      "re-slotted it — including `hover-card-portal`, which shadcn stamps inside its content " +
+      "rather than exporting.",
   },
   input: { gap: [] },
   "input-group": { task: "Task 18" },
@@ -281,12 +251,7 @@ const LEDGER: Record<string, Row> = {
   kbd: { gap: [] },
   label: { gap: [] },
   marker: { task: "Task 52–58 (the AI set)" },
-  menubar: {
-    gap: ["MenubarPortal", "MenubarRadioGroup", "MenubarRadioItem"],
-    slotGap: ["menubar-portal", "menubar-radio-group", "menubar-radio-item"],
-    slotCloses: "Task 15c",
-    closes: "Task 15c",
-  },
+  menubar: { gap: [] },
   message: { task: "Task 52–58 (the AI set)" },
   "message-scroller": { task: "Task 52–58 (the AI set)" },
   "native-select": { task: "Task 22" },

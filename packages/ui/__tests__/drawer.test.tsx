@@ -9,6 +9,9 @@ import {
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
+  DrawerOverlay,
+  DrawerPortal,
+  DrawerSwipeHandle,
   DrawerTitle,
   DrawerToolbar,
   DrawerTrigger,
@@ -164,4 +167,19 @@ describe("Drawer takes shadcn's Drawer markup unchanged", () => {
       )
     }
   )
+})
+
+describe("Drawer exposes the parts shadcn composes with", () => {
+  test("the overlay, the portal and the swipe handle are all exported", async () => {
+    for (const part of [DrawerOverlay, DrawerPortal, DrawerSwipeHandle])
+      expect(part).toBeTypeOf("function")
+    setViewport("phone")
+    render(<ShadcnShaped />)
+    await userEvent.click(screen.getByRole("button", { name: "New Event" }))
+    const popup = await screen.findByRole("dialog")
+    expect(
+      popup.closest('[data-slot="drawer-portal"]'),
+      "the content portals through DrawerPortal"
+    ).not.toBeNull()
+  })
 })

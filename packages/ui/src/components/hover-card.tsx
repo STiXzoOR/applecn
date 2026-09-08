@@ -42,7 +42,7 @@ function HoverCardContent({
     "align" | "alignOffset" | "side" | "sideOffset"
   >) {
   return (
-    <PreviewCardPrimitive.Portal>
+    <PreviewCardPrimitive.Portal data-slot="hover-card-portal">
       <PreviewCardPrimitive.Positioner
         side={side}
         sideOffset={sideOffset}

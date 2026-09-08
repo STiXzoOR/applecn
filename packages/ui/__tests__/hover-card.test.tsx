@@ -30,3 +30,19 @@ describe("HoverCard", () => {
     expect(popup.className).toContain("glass")
   })
 })
+
+describe("HoverCard stamps shadcn's portal slot", () => {
+  test("the content portals through an element a shadcn selector finds", async () => {
+    render(
+      <HoverCard>
+        <HoverCardTrigger href="#" delay={0}>
+          applecn
+        </HoverCardTrigger>
+        <HoverCardContent>A registry.</HoverCardContent>
+      </HoverCard>
+    )
+    await userEvent.hover(screen.getByText("applecn"))
+    const card = await screen.findByText("A registry.")
+    expect(card.closest('[data-slot="hover-card-portal"]')).not.toBeNull()
+  })
+})

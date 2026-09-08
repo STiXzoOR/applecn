@@ -8,7 +8,14 @@ import {
   ContextMenuGroup,
   ContextMenuItem,
   ContextMenuLabel,
+  ContextMenuPortal,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
   ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "../src/components/context-menu"
 
@@ -73,5 +80,49 @@ describe("ContextMenu is idiom-agnostic", () => {
       .closest('[data-slot="context-menu-content"]')!
       .querySelector('[data-slot="context-menu-separator"]')!
     expect(separator.className).not.toMatch(/(^|\s)(ios|macos|web):/)
+  })
+})
+
+describe("ContextMenu takes shadcn's markup unchanged", () => {
+  test("a shortcut, a radio group and a submenu all render", async () => {
+    render(
+      <ContextMenu>
+        <ContextMenuTrigger>Photo</ContextMenuTrigger>
+        <ContextMenuContent>
+          <ContextMenuItem>
+            Copy <ContextMenuShortcut>⌘C</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuRadioGroup defaultValue="large">
+            <ContextMenuRadioItem value="small">Small</ContextMenuRadioItem>
+            <ContextMenuRadioItem value="large">Large</ContextMenuRadioItem>
+          </ContextMenuRadioGroup>
+          <ContextMenuSub>
+            <ContextMenuSubTrigger>Share</ContextMenuSubTrigger>
+            <ContextMenuSubContent>
+              <ContextMenuItem>Mail</ContextMenuItem>
+            </ContextMenuSubContent>
+          </ContextMenuSub>
+        </ContextMenuContent>
+      </ContextMenu>
+    )
+    fireEvent.contextMenu(screen.getByText("Photo"))
+    const copy = await screen.findByRole("menuitem", { name: /Copy/ })
+    expect(
+      copy.querySelector('[data-slot="context-menu-shortcut"]')
+    ).toHaveTextContent("⌘C")
+    expect(
+      copy.closest('[data-slot="context-menu-portal"]'),
+      "the content portals through ContextMenuPortal"
+    ).not.toBeNull()
+    const large = screen.getByRole("menuitemradio", { name: "Large" })
+    expect(large).toHaveAttribute("aria-checked", "true")
+    expect(
+      large.closest('[data-slot="context-menu-radio-group"]')
+    ).not.toBeNull()
+    expect(screen.getByRole("menuitem", { name: "Share" })).toHaveAttribute(
+      "data-slot",
+      "context-menu-sub-trigger"
+    )
+    expect(ContextMenuPortal).toBeTypeOf("function")
   })
 })

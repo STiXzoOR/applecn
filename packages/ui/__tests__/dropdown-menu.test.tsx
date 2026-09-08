@@ -8,6 +8,7 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuPortal,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
@@ -128,5 +129,25 @@ describe("DropdownMenu is idiom-agnostic", () => {
     expect(separator.className).toContain("mx-(--menu-separator-mx)")
     const label = screen.getByText("Edit")
     expect(label.className).not.toMatch(/(^|\s)(ios|macos|web):/)
+  })
+})
+
+describe("DropdownMenu takes shadcn's markup unchanged", () => {
+  test("DropdownMenuPortal is the portal the content already used, now exposed", async () => {
+    render(
+      <DropdownMenu>
+        <DropdownMenuTrigger>Actions</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>Copy</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    )
+    await userEvent.click(screen.getByRole("button", { name: "Actions" }))
+    const menu = await screen.findByRole("menu")
+    expect(
+      menu.closest('[data-slot="dropdown-menu-portal"]'),
+      "the content portals through DropdownMenuPortal"
+    ).not.toBeNull()
+    expect(DropdownMenuPortal).toBeTypeOf("function")
   })
 })

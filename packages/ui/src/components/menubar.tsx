@@ -45,6 +45,11 @@ function MenubarTrigger({ className, ...props }: MenuPrimitive.Trigger.Props) {
   )
 }
 
+/** The portal the content already used, exposed under shadcn's name. */
+function MenubarPortal(props: MenuPrimitive.Portal.Props) {
+  return <MenuPrimitive.Portal data-slot="menubar-portal" {...props} />
+}
+
 function MenubarContent({
   className,
   align = "start",
@@ -54,7 +59,7 @@ function MenubarContent({
 }: MenuPrimitive.Popup.Props &
   Pick<MenuPrimitive.Positioner.Props, "align" | "side" | "sideOffset">) {
   return (
-    <MenuPrimitive.Portal>
+    <MenubarPortal>
       <MenuPrimitive.Positioner
         className="isolate z-50 outline-none"
         align={align}
@@ -68,7 +73,7 @@ function MenubarContent({
           {...props}
         />
       </MenuPrimitive.Positioner>
-    </MenuPrimitive.Portal>
+    </MenubarPortal>
   )
 }
 
@@ -122,6 +127,34 @@ function MenubarCheckboxItem({
       </span>
       {children}
     </MenuPrimitive.CheckboxItem>
+  )
+}
+
+function MenubarRadioGroup(props: MenuPrimitive.RadioGroup.Props) {
+  return <MenuPrimitive.RadioGroup data-slot="menubar-radio-group" {...props} />
+}
+
+function MenubarRadioItem({
+  className,
+  children,
+  ...props
+}: MenuPrimitive.RadioItem.Props) {
+  return (
+    <MenuPrimitive.RadioItem
+      data-slot="menubar-radio-item"
+      className={cn(menuItemClassName, "ps-2", className)}
+      {...props}
+    >
+      <span
+        data-slot="menubar-radio-item-indicator"
+        className="flex w-5 shrink-0 items-center justify-center text-primary"
+      >
+        <MenuPrimitive.RadioItemIndicator
+          render={<Icon icon={Tick02Icon} weight="bold" />}
+        />
+      </span>
+      {children}
+    </MenuPrimitive.RadioItem>
   )
 }
 
@@ -188,7 +221,7 @@ function MenubarSubContent({
 }: ComponentProps<typeof MenubarContent> &
   Pick<MenuPrimitive.Positioner.Props, "alignOffset">) {
   return (
-    <MenuPrimitive.Portal>
+    <MenubarPortal>
       <MenuPrimitive.Positioner
         className="isolate z-50 outline-none"
         align={align}
@@ -203,7 +236,7 @@ function MenubarSubContent({
           {...props}
         />
       </MenuPrimitive.Positioner>
-    </MenuPrimitive.Portal>
+    </MenubarPortal>
   )
 }
 
@@ -215,6 +248,9 @@ export {
   MenubarItem,
   MenubarLabel,
   MenubarMenu,
+  MenubarPortal,
+  MenubarRadioGroup,
+  MenubarRadioItem,
   MenubarSeparator,
   MenubarShortcut,
   MenubarSub,
