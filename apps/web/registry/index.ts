@@ -690,7 +690,15 @@ export const componentDocs: ComponentDoc[] = [
     group: "content",
     apple: { name: "Tables (macOS)", hig: hig("lists-and-tables") },
     primitive: "element",
-    examples: [{ name: "basic", title: "Files" }],
+    examples: [
+      { name: "basic", title: "Files" },
+      {
+        name: "data-table",
+        title: "Data table",
+        description:
+          "shadcn ships no `data-table` component — their Data Table page is a guide composing `table` with TanStack Table. This is that guide on Apple's table: sorting, filtering, column visibility, row selection and paging.",
+      },
+    ],
   },
   {
     name: "chart",

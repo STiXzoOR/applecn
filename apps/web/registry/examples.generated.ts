@@ -75,6 +75,7 @@ export const examples: Record<string, () => Promise<{ default: ComponentType }>>
   'switch/basic': () => import('./examples/switch/basic'),
   'tab-bar/basic': () => import('./examples/tab-bar/basic'),
   'table/basic': () => import('./examples/table/basic'),
+  'table/data-table': () => import('./examples/table/data-table'),
   'tabs/basic': () => import('./examples/tabs/basic'),
   'text/styles': () => import('./examples/text/styles'),
   'textarea/basic': () => import('./examples/textarea/basic'),
