@@ -3,7 +3,10 @@ import { describe, expect, test } from "vitest"
 
 import {
   Avatar,
+  AvatarBadge,
   AvatarFallback,
+  AvatarGroup,
+  AvatarGroupCount,
   AvatarImage,
   avatarVariants,
 } from "../src/components/avatar"
@@ -38,6 +41,46 @@ describe("Avatar", () => {
     )
     expect(avatarVariants({ size: "large" })).toContain("size-16")
     expect(avatarVariants({ size: "small" })).toContain("size-7")
+  })
+})
+
+describe("AvatarBadge", () => {
+  test("sits in the trailing bottom corner and takes its size from the avatar", () => {
+    render(
+      <Avatar size="large">
+        <AvatarFallback>AL</AvatarFallback>
+        <AvatarBadge data-testid="badge" className="bg-system-green" />
+      </Avatar>
+    )
+    const badge = screen.getByTestId("badge")
+    expect(badge).toHaveAttribute("data-slot", "avatar-badge")
+    expect(badge.className).toContain("group-data-[size=large]/avatar:size-4")
+    expect(badge.className).toContain("ring-background")
+    expect(badge.className).toContain("bg-system-green")
+  })
+})
+
+describe("AvatarGroup", () => {
+  test("overlaps its avatars, rings them in the page background, and counts the rest", () => {
+    render(
+      <AvatarGroup data-testid="group">
+        <Avatar size="small">
+          <AvatarFallback>AL</AvatarFallback>
+        </Avatar>
+        <Avatar size="small">
+          <AvatarFallback>GH</AvatarFallback>
+        </Avatar>
+        <AvatarGroupCount size="small">+3</AvatarGroupCount>
+      </AvatarGroup>
+    )
+    const group = screen.getByTestId("group")
+    expect(group).toHaveAttribute("data-slot", "avatar-group")
+    expect(group.className).toContain("-space-x-2")
+    expect(group.className).toContain("*:data-[slot=avatar]:ring-background")
+    const count = screen.getByText("+3")
+    expect(count).toHaveAttribute("data-slot", "avatar-group-count")
+    expect(count.className).toContain("size-7")
+    expect(count.className).toContain("rounded-full")
   })
 })
 

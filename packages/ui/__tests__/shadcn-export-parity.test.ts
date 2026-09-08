@@ -114,10 +114,11 @@ const LEDGER: Record<string, Row> = {
   "aspect-ratio": { task: "Task 21" },
   attachment: { task: "Task 52–58 (the AI set)" },
   avatar: {
-    gap: ["AvatarBadge", "AvatarGroup", "AvatarGroupCount"],
-    slotGap: ["avatar-badge", "avatar-group", "avatar-group-count"],
-    slotCloses: "Task 15c",
-    closes: "Task 15c",
+    gap: [],
+    note:
+      "`AvatarBadge`, `AvatarGroup` and `AvatarGroupCount` are Task 15c's. shadcn keys the " +
+      "badge's size off `group-data-[size=…]/avatar`, so applecn's do the same against its own " +
+      "`small`/`medium`/`large` — the size names are an older divergence, not this task's.",
   },
   badge: { gap: [] },
   breadcrumb: {
