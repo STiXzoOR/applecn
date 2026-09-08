@@ -250,21 +250,6 @@ export interface ToggleTokens {
   readonly activeScale: string
 }
 
-/**
- * The segmented control's sliding indicator and active label — the same white/shadowed vs.
- * accent-filled race as `ToggleGroupTokens`, kept separate since this component is folded away
- * in a later phase.
- */
-export interface SegmentedControlTokens {
-  readonly indicator: {
-    readonly bg: string
-    readonly shadow: string
-  }
-  readonly item: {
-    readonly activeText: string
-  }
-}
-
 /** The sidebar row's icon-to-label gap and a group label's colour. */
 export interface SidebarTokens {
   readonly itemGap: string
@@ -327,7 +312,6 @@ export interface ComponentTokens {
   readonly toggleGroup: ToggleGroupTokens
   readonly toggle: ToggleTokens
   readonly textarea: FieldBorderTokens
-  readonly segmentedControl: SegmentedControlTokens
   readonly input: FieldBorderTokens
   readonly sidebar: SidebarTokens
   readonly navigationBar: NavigationBarTokens
@@ -818,19 +802,6 @@ const iosToggle: ToggleTokens = { fontWeight: "600", activeScale: "0.97" }
 const macosToggle: ToggleTokens = { fontWeight: "400", activeScale: "1" }
 const webToggle: ToggleTokens = { fontWeight: "400", activeScale: "0.97" }
 
-// The same white/shadowed vs. accent-filled race as ToggleGroup's pressed segment.
-const iosSegmentedControl: SegmentedControlTokens = {
-  indicator: { bg: iosSegmentPress.bg, shadow: iosSegmentPress.shadow },
-  item: { activeText: iosSegmentPress.text },
-}
-
-const macosSegmentedControl: SegmentedControlTokens = {
-  indicator: { bg: macosSegmentPress.bg, shadow: macosSegmentPress.shadow },
-  item: { activeText: macosSegmentPress.text },
-}
-
-const webSegmentedControl: SegmentedControlTokens = iosSegmentedControl
-
 // Measured 2026-09-07: macOS packs sidebar rows tighter (0.5rem icon-to-label gap vs 0.625rem)
 // and steps its group label down from label-3 to label-2
 // (docs/research/apple-design-system-reference.md §sidebars).
@@ -905,7 +876,6 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     toggleGroup: iosToggleGroup,
     toggle: iosToggle,
     textarea: iosFieldBorder,
-    segmentedControl: iosSegmentedControl,
     input: iosFieldBorder,
     sidebar: iosSidebar,
     navigationBar: iosNavigationBar,
@@ -930,7 +900,6 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     toggleGroup: macosToggleGroup,
     toggle: macosToggle,
     textarea: macosFieldBorder,
-    segmentedControl: macosSegmentedControl,
     input: macosFieldBorder,
     sidebar: macosSidebar,
     navigationBar: macosNavigationBar,
@@ -955,7 +924,6 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
     toggleGroup: webToggleGroup,
     toggle: webToggle,
     textarea: webFieldBorder,
-    segmentedControl: webSegmentedControl,
     input: webFieldBorder,
     sidebar: webSidebar,
     navigationBar: webNavigationBar,
@@ -1087,12 +1055,6 @@ const searchFieldLines = (s: SearchFieldTokens): Line[] => [
   ["search-field-border-color", s.borderColor],
 ]
 
-const segmentedControlLines = (s: SegmentedControlTokens): Line[] => [
-  ["segmented-control-indicator-bg", s.indicator.bg],
-  ["segmented-control-indicator-shadow", s.indicator.shadow],
-  ["segmented-control-item-active-text", s.item.activeText],
-]
-
 const sidebarLines = (s: SidebarTokens): Line[] => [
   ["sidebar-item-gap", s.itemGap],
   ["sidebar-group-label-text", s.groupLabelText],
@@ -1159,7 +1121,6 @@ export function componentLines(platform: Platform): Line[] {
     ...toggleGroupLines(t.toggleGroup),
     ...toggleLines(t.toggle),
     ...fieldBorderLines("textarea", t.textarea),
-    ...segmentedControlLines(t.segmentedControl),
     ...fieldBorderLines("input", t.input),
     ...sidebarLines(t.sidebar),
     ...navigationBarLines(t.navigationBar),

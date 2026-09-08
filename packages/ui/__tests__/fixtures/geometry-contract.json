@@ -542,17 +542,7 @@
     "type-subheadline",
     "w-full"
   ],
-  "tabs.tsx": [
-    "--active-tab-width",
-    "--radius-segmented",
-    "--segmented-font",
-    "--segmented-height",
-    "--segmented-inset",
-    "min-w-0",
-    "rounded-segmented",
-    "type-body",
-    "w-full"
-  ],
+  "tabs.tsx": ["--active-tab-width", "type-body", "w-full"],
   "text.tsx": [
     "type-body",
     "type-callout",

@@ -13,6 +13,34 @@ import {
 import { cn } from "../lib/utils"
 
 /**
+ * The segmented surface itself — the track, the pill and a segment — exported because `tabs`
+ * draws the same one and §4.4 named these class strings the catalogue's only true duplication.
+ * The fold in §5.3 removed the FILE; keeping a second copy of the strings here and in `tabs.tsx`
+ * would only have moved the duplication, and within the same phase the two copies had already
+ * drifted. So this is the single source, read the way `drawer` reads `dialogPopupClassName`.
+ *
+ * What each surface adds on top is what genuinely differs, and only that: `Tabs` spans its
+ * container (`w-full`) and keys its item off `data-active`, a `ToggleGroup` hugs its content and
+ * keys off `data-pressed`; the two indicators carry different position variables because each
+ * measures its own segment. The paint is `--toggle-group-pressed-*` for both — the same three
+ * slots the deleted `--segmented-control-*` family held, at the same values.
+ */
+const segmentedTrackClassName =
+  "relative inline-flex h-(--segmented-height) items-stretch rounded-segmented bg-fill-3 p-(--segmented-inset)"
+
+const segmentedIndicatorClassName =
+  "absolute top-(--segmented-inset) bottom-(--segmented-inset) left-0 rounded-[calc(var(--radius-segmented)-var(--segmented-inset))] bg-(--toggle-group-pressed-bg) shadow-(--toggle-group-pressed-shadow) transition-[translate,width] duration-(--duration-overlay) ease-(--ease-standard) motion-reduce:transition-none"
+
+/**
+ * A segment is never narrower than it is tall, which is what a segmented control looks like on
+ * both surfaces — an icon-only segment stays square rather than collapsing to its glyph. That is
+ * the one place the two copies had diverged (`tabs` wrote `min-w-0`), resolved here rather than
+ * left to whichever file a reader opens first.
+ */
+const segmentedItemClassName =
+  "relative z-10 inline-flex min-w-(--segmented-height) flex-1 items-center justify-center gap-1.5 overflow-hidden rounded-[calc(var(--radius-segmented)-var(--segmented-inset))] px-3 text-[length:var(--segmented-font)] leading-none font-medium whitespace-nowrap text-label transition-[background-color,box-shadow,color] duration-(--duration-press) ease-(--ease-standard) outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:shrink-0"
+
+/**
  * A toggle group (HIG › Segmented controls): a joined set of toggle buttons on the fill —
  * Photos' Day/Week/Month, Keynote's bold/italic/underline — single-select by default, or
  * `multiple`. It carries the platform's height and corner, and a white pill with the segment
@@ -25,6 +53,7 @@ import { cn } from "../lib/utils"
  * measured here instead. A `multiple` group has no single pressed segment for one pill to stand
  * on, so it paints each pressed segment instead — the two are mutually exclusive by construction.
  */
+
 type ToggleGroupProps = ToggleGroupPrimitive.Props & {
   "aria-label"?: string
 }
@@ -33,10 +62,7 @@ function ToggleGroup({ className, children, ...props }: ToggleGroupProps) {
   return (
     <ToggleGroupPrimitive
       data-slot="toggle-group"
-      className={cn(
-        "group/toggle-group relative inline-flex h-(--segmented-height) items-stretch rounded-segmented bg-fill-3 p-(--segmented-inset)",
-        className
-      )}
+      className={cn("group/toggle-group", segmentedTrackClassName, className)}
       {...props}
     >
       <ToggleGroupIndicator />
@@ -122,7 +148,10 @@ function ToggleGroupIndicator() {
             } as CSSProperties)
           : undefined
       }
-      className="absolute top-(--segmented-inset) bottom-(--segmented-inset) left-0 w-(--active-toggle-width) translate-x-(--active-toggle-left) rounded-[calc(var(--radius-segmented)-var(--segmented-inset))] bg-(--toggle-group-pressed-bg) shadow-(--toggle-group-pressed-shadow) transition-[translate,width] duration-(--duration-overlay) ease-(--ease-standard) motion-reduce:transition-none"
+      className={cn(
+        segmentedIndicatorClassName,
+        "w-(--active-toggle-width) translate-x-(--active-toggle-left)"
+      )}
     />
   )
 }
@@ -132,7 +161,8 @@ function ToggleGroupItem({ className, ...props }: TogglePrimitive.Props) {
     <TogglePrimitive
       data-slot="toggle-group-item"
       className={cn(
-        "relative z-10 inline-flex min-w-(--segmented-height) flex-1 items-center justify-center gap-1.5 overflow-hidden rounded-[calc(var(--radius-segmented)-var(--segmented-inset))] px-3 text-[length:var(--segmented-font)] leading-none font-medium whitespace-nowrap text-label transition-[background-color,box-shadow,color] duration-(--duration-press) ease-(--ease-standard) outline-none select-none focus-visible:ring-4 focus-visible:ring-ring/60 disabled:opacity-40 data-pressed:font-semibold data-pressed:text-(--toggle-group-pressed-text) group-data-multiple/toggle-group:data-pressed:bg-(--toggle-group-pressed-bg) group-data-multiple/toggle-group:data-pressed:shadow-(--toggle-group-pressed-shadow) [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        segmentedItemClassName,
+        "data-pressed:font-semibold data-pressed:text-(--toggle-group-pressed-text) group-data-multiple/toggle-group:data-pressed:bg-(--toggle-group-pressed-bg) group-data-multiple/toggle-group:data-pressed:shadow-(--toggle-group-pressed-shadow)",
         className
       )}
       {...props}
@@ -140,5 +170,11 @@ function ToggleGroupItem({ className, ...props }: TogglePrimitive.Props) {
   )
 }
 
-export { ToggleGroup, ToggleGroupItem }
+export {
+  segmentedIndicatorClassName,
+  segmentedItemClassName,
+  segmentedTrackClassName,
+  ToggleGroup,
+  ToggleGroupItem,
+}
 export type { ToggleGroupProps }

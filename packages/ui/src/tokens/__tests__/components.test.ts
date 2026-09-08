@@ -690,49 +690,38 @@ describe("textarea appearance tokens", () => {
   })
 })
 
-describe("segmented control appearance tokens", () => {
-  test("the sliding indicator is the same white/shadowed vs. accent-filled race as ToggleGroup", () => {
-    expect(componentTokens.ios.segmentedControl.indicator.bg).toBe(
-      "var(--background)"
-    )
-    expect(componentTokens.macos.segmentedControl.indicator.bg).toBe(
-      "var(--primary)"
-    )
-    expect(componentTokens.ios.segmentedControl.indicator.shadow).toBe(
+/**
+ * Spec §5.3 folded `segmented-control` into `toggle-group`, and its token family followed. The
+ * three slots — the pill's fill, the pill's shadow and the selected label's colour — were
+ * duplicated at identical values under two names, one of them naming a component that no longer
+ * exists; `tabs` and `toggle-group` now read the surviving family through one shared class
+ * constant. No value moved: `ToggleGroupTokens` above holds exactly what the deleted family held.
+ */
+describe("the folded segmented-control token family", () => {
+  test("is gone, and nothing emits it any more", () => {
+    for (const platform of ["ios", "macos", "web"] as const) {
+      expect(
+        componentLines(platform).filter(([name]) =>
+          name.startsWith("segmented-control-")
+        ),
+        `${platform} still emits the folded family`
+      ).toEqual([])
+      expect(componentTokens[platform]).not.toHaveProperty("segmentedControl")
+    }
+  })
+
+  test("its three values live on under toggle-group, unchanged", () => {
+    expect(componentTokens.ios.toggleGroup.pressed.bg).toBe("var(--background)")
+    expect(componentTokens.macos.toggleGroup.pressed.bg).toBe("var(--primary)")
+    expect(componentTokens.ios.toggleGroup.pressed.shadow).toBe(
       "var(--elevation-segment)"
     )
-    expect(componentTokens.macos.segmentedControl.indicator.shadow).toBe(
-      "0 0 #0000"
-    )
-  })
-
-  test("the active label stays the resting label colour off macOS, which turns it white", () => {
-    expect(componentTokens.ios.segmentedControl.item.activeText).toBe(
-      "var(--label)"
-    )
-    expect(componentTokens.web.segmentedControl.item.activeText).toBe(
-      "var(--label)"
-    )
-    expect(componentTokens.macos.segmentedControl.item.activeText).toBe("white")
-  })
-
-  test("emits kebab-case CSS variable lines", () => {
-    const lines = componentLines("macos")
-    expect(lines).toContainEqual([
-      "segmented-control-indicator-bg",
-      "var(--primary)",
-    ])
-    expect(lines).toContainEqual([
-      "segmented-control-indicator-shadow",
-      "0 0 #0000",
-    ])
-    expect(lines).toContainEqual([
-      "segmented-control-item-active-text",
-      "white",
-    ])
+    expect(componentTokens.macos.toggleGroup.pressed.shadow).toBe("0 0 #0000")
+    expect(componentTokens.ios.toggleGroup.pressed.text).toBe("var(--label)")
+    expect(componentTokens.web.toggleGroup.pressed.text).toBe("var(--label)")
+    expect(componentTokens.macos.toggleGroup.pressed.text).toBe("white")
   })
 })
-
 describe("input appearance tokens", () => {
   test("the bordered variant shares the same field border race as textarea and passcode-field", () => {
     expect(componentTokens.ios.input.borderWidth).toBe(0.5)

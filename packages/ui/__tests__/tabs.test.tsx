@@ -10,6 +10,11 @@ import {
   TabsTab,
   TabsTrigger,
 } from "../src/components/tabs"
+import {
+  segmentedIndicatorClassName,
+  segmentedItemClassName,
+  segmentedTrackClassName,
+} from "../src/components/toggle-group"
 
 function Views() {
   return (
@@ -70,25 +75,48 @@ describe("Tabs", () => {
     expect(indicator.className).toContain(
       "rounded-[calc(var(--radius-segmented)-var(--segmented-inset))]"
     )
+    expect(indicator.className).toContain("bg-(--toggle-group-pressed-bg)")
     expect(indicator.className).toContain(
-      "bg-(--segmented-control-indicator-bg)"
-    )
-    expect(indicator.className).toContain(
-      "shadow-(--segmented-control-indicator-shadow)"
+      "shadow-(--toggle-group-pressed-shadow)"
     )
     const tab = screen.getByRole("tab", { name: "Event" })
     expect(tab.className).toContain("text-[length:var(--segmented-font)]")
     expect(tab.className).toContain("font-medium")
     expect(tab.className).toContain("data-active:font-semibold")
     expect(tab.className).toContain(
-      "data-active:text-(--segmented-control-item-active-text)"
+      "data-active:text-(--toggle-group-pressed-text)"
     )
   })
 
   test("a tab too narrow for its label clips inside the track instead of painting outside it", () => {
     render(<Views />)
     const tab = screen.getByRole("tab", { name: "Event" })
-    expect(tab.className).toContain("min-w-0")
+    expect(tab.className).toContain("min-w-(--segmented-height)")
     expect(tab.className).toContain("overflow-hidden")
+  })
+
+  /**
+   * Spec §4.4 recorded the segmented tracks as the catalogue's only true duplication, and §5.3
+   * folded `segmented-control` into `toggle-group` to remove it. What shipped removed the FILE
+   * and kept the duplication: two copies of the track, pill and item class strings in two modules,
+   * painted from two token families with identical values — and inside that same phase the two
+   * copies had already drifted (`min-w-0` against `min-w-(--segmented-height)`, one transition
+   * list against another, and nothing comparing them).
+   *
+   * So the surface is one constant now, exported from the module §5.3 gave it to, and read here
+   * the way `drawer` reads `dialogPopupClassName`. What each surface adds on top is what genuinely
+   * differs: `Tabs` spans its container and keys off `data-active`, `ToggleGroup` hugs and keys
+   * off `data-pressed`.
+   */
+  test("the segmented surface is one constant, shared with toggle-group rather than copied", () => {
+    render(<Views />)
+    const list = screen.getByRole("tablist")
+    expect(list.className).toContain(segmentedTrackClassName)
+    expect(
+      list.querySelector('[data-slot="tabs-indicator"]')!.className
+    ).toContain(segmentedIndicatorClassName)
+    expect(screen.getByRole("tab", { name: "Event" }).className).toContain(
+      segmentedItemClassName
+    )
   })
 })
