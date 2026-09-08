@@ -4496,6 +4496,29 @@
       ]
     },
     {
+      "name": "number-field",
+      "type": "registry:ui",
+      "title": "Number field",
+      "description": "A text field holding a number, with − and + and a draggable label. Base UI’s number field on the text field’s own height, corner and hairline.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/input-group.json",
+        "https://applecn.vercel.app/r/label.json",
+        "https://applecn.vercel.app/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/number-field.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "page-control",
       "type": "registry:ui",
       "title": "Page control",
@@ -4828,11 +4851,11 @@
       "title": "Stepper",
       "description": "The 94×32 pt capsule with − and + halves on iOS 26; AppKit’s 20×26 vertical stepper on macOS 26.",
       "dependencies": [
-        "@base-ui/react",
         "@hugeicons/core-free-icons"
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/number-field.json",
         "https://applecn.vercel.app/r/platform.json",
         "https://applecn.vercel.app/r/utils.json"
       ],

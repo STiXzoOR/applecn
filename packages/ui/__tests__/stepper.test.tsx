@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs"
+import { join } from "node:path"
+
 import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { describe, expect, test } from "vitest"
@@ -16,6 +19,29 @@ describe("Stepper", () => {
     expect(input).toHaveValue("2")
     await userEvent.click(screen.getByRole("button", { name: "Decrement" }))
     expect(input).toHaveValue("1")
+  })
+
+  /**
+   * Spec §5.7.1, approved 2026-09-08: Apple's stepper is semantically a number field, and Base UI
+   * ships one with the increment, decrement and clamping already solved. This file used to reach
+   * straight into `@base-ui/react/number-field` for it, which the governing rule forbids an Apple
+   * component — it composes applecn's own primitives and never past them. `number-field` is that
+   * primitive, and `data-size` on its root is the mark of having gone through it rather than
+   * through Base UI's `Root` directly.
+   */
+  test("is a number-field underneath, and reaches Base UI only through it", () => {
+    render(<Stepper aria-label="Copies" defaultValue={1} />)
+    const root = screen
+      .getByRole("group", { name: "Copies" })
+      .closest('[data-slot="stepper-root"]')!
+    expect(root).toHaveAttribute("data-size", "default")
+    const source = readFileSync(
+      join(import.meta.dirname, "../src/components/stepper.tsx"),
+      "utf8"
+    )
+    // An import, not a mention: the doc comment names the primitive it no longer reaches for.
+    expect(source).not.toMatch(/from "@base-ui\/react/)
+    expect(source).toMatch(/from "\.\/number-field"/)
   })
 
   test("is the 94×32 capsule on iOS, with a hairline between the halves", () => {

@@ -378,6 +378,14 @@
     "w-full",
     "w-screen"
   ],
+  "number-field.tsx": [
+    "--control-font-large",
+    "--control-font-small",
+    "--control-height-large",
+    "--control-height-small",
+    "min-w-0",
+    "w-full"
+  ],
   "page-control.tsx": [
     "--page-control-dot",
     "--page-control-gap",
@@ -509,6 +517,7 @@
   "stepper.tsx": [
     "--stepper-height",
     "--stepper-width",
+    "--type-body-size",
     "rounded-stepper",
     "w-full"
   ],

@@ -98,6 +98,7 @@ Install any of these as `@applecn/<name>`.
 - `checkbox` — Checkbox (Checkboxes): A 22 pt circle on iOS, a 16 pt rounded square on the bezel on macOS 26, with a mixed state.
 - `radio-group` — Radio group (Radio buttons): Two to five mutually exclusive options as rings that fill with the tint and show a white dot.
 - `slider` — Slider (Sliders): A 6 pt track with the 37×24 pill knob on iOS 26 (a 20×16 oval on macOS 26) and optional images at either end.
+- `number-field` — Number field (Text fields): A text field holding a number, with − and + and a draggable label. Base UI's number field on the text field's own height, corner and hairline.
 - `stepper` — Stepper (Steppers): The 94×32 pt capsule with − and + halves on iOS 26; AppKit’s 20×26 vertical stepper on macOS 26.
 - `tabs` — Tabs (Tab views): A segmented control that switches between related subviews.
 - `input` — Input (Text fields): The bordered text field on every platform — 34 pt with 5 pt corners on iOS 26, AppKit’s 24 pt bezel, the App Store’s 32 px field — plus filled and plain variants and the iOS clear button.

@@ -255,6 +255,16 @@ export const componentDocs: ComponentDoc[] = [
     examples: [{ name: "basic", title: "With value labels" }],
   },
   {
+    name: "number-field",
+    title: "Number field",
+    description:
+      "A text field holding a number, with − and + and a draggable label. Base UI’s number field on the text field’s own height, corner and hairline.",
+    group: "forms",
+    apple: { name: "Text fields", hig: hig("text-fields") },
+    primitive: "NumberField",
+    examples: [{ name: "basic", title: "Quantity" }],
+  },
+  {
     name: "stepper",
     title: "Stepper",
     description:
