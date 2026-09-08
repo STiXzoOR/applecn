@@ -9,6 +9,8 @@ import userEvent from "@testing-library/user-event"
 import type { ReactElement } from "react"
 import { describe, expect, test } from "vitest"
 
+import { Home01Icon } from "@hugeicons/core-free-icons"
+
 import { Calendar, CalendarDayButton } from "../src/components/calendar"
 import { Checkbox } from "../src/components/checkbox"
 import { Command, CommandItem, CommandList } from "../src/components/command"
@@ -52,6 +54,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "../src/components/navigation-menu"
+import { PageControl } from "../src/components/page-control"
 import { RadioGroup, RadioGroupItem } from "../src/components/radio-group"
 import {
   Select,
@@ -63,6 +66,7 @@ import {
   SelectValue,
 } from "../src/components/select"
 import {
+  SidebarItem,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -72,6 +76,8 @@ import {
   SidebarProvider,
 } from "../src/components/sidebar"
 import { Switch } from "../src/components/switch"
+import { TabBar, TabBarItem } from "../src/components/tab-bar"
+import { Table, TableBody, TableCell, TableRow } from "../src/components/table"
 import { Tabs, TabsList, TabsPanel, TabsTab } from "../src/components/tabs"
 import { Toggle } from "../src/components/toggle"
 import { ToggleGroup, ToggleGroupItem } from "../src/components/toggle-group"
@@ -302,11 +308,13 @@ interface State {
 function attribute(
   modifier: string
 ): [name: string, value: string | undefined] {
-  const arbitrary = /^data-\[([\w-]+)(?:=(.*))?\]$/.exec(modifier)
-  // `toHaveAttribute` reads an undefined value as "present, whatever it says", which is exactly
-  // what the bare form means — so one tuple shape serves both.
-  if (!arbitrary) return [modifier, undefined]
-  return [`data-${arbitrary[1]!}`, arbitrary[2]]
+  const arbitrary = /^(data|aria)-\[([\w-]+)(?:=(.*))?\]$/.exec(modifier)
+  if (arbitrary) return [`${arbitrary[1]!}-${arbitrary[2]!}`, arbitrary[3]]
+  // `toHaveAttribute` reads an undefined value as "present, whatever it says", which is what the
+  // bare `data-*` form means. The bare `aria-*` form does NOT: Tailwind compiles `aria-selected:`
+  // to `[aria-selected="true"]`, so a row that says `aria-selected="false"` is resting, and
+  // reading it as presence would call it selected.
+  return [modifier, modifier.startsWith("aria-") ? "true" : undefined]
 }
 
 interface Rule {
@@ -437,6 +445,13 @@ interface Control {
     readonly persists?: boolean
     readonly tracksState?: boolean
   }
+  /**
+   * Whether the selected fill carries a mark that has to read against it. Default true. A
+   * `page-control` dot is the one control where it is false and that is not an omission: the dot
+   * has no content at all — it IS the selection — so there is no tick, dot or label to contrast,
+   * and asking for one would be asking for a glyph inside a 7 pt circle.
+   */
+  readonly marks?: boolean
   readonly on: ReactElement
   readonly off: ReactElement
 }
@@ -518,6 +533,45 @@ const calendarDay = (selected: boolean) => (
     selected={selected ? new Date(2026, 8, 15) : undefined}
     components={{ DayButton: (props) => <CalendarDayButton {...props} /> }}
   />
+)
+
+/**
+ * The four ARIA-stated controls. Each was invisible to the coverage guard until it learned to
+ * read `aria-*` beside `data-*`, and each paints a real selection: a selected table row, the
+ * current page's dot, the sidebar row you are on, the tab you are in.
+ *
+ * `aria-selected` and `aria-current` differ in how they rest, and both are the components' own
+ * doing rather than a choice here: React writes `aria-selected={false}` as the string "false",
+ * so a resting row still carries the attribute, while `aria-current={undefined}` is omitted
+ * entirely.
+ */
+const tableRow = (selected: boolean) => (
+  <Table>
+    <TableBody>
+      <TableRow selected={selected}>
+        <TableCell>t</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+)
+
+const pageDot = (selected: boolean) => (
+  <PageControl count={2} index={selected ? 0 : 1} />
+)
+
+const sidebarItem = (current: boolean) => (
+  <SidebarProvider>
+    <SidebarItem href="/t" current={current}>
+      t
+    </SidebarItem>
+  </SidebarProvider>
+)
+
+const tabBarItem = (current: boolean) => (
+  <TabBar value={current ? "t" : "u"}>
+    <TabBarItem value="t" icon={Home01Icon} label="t" />
+    <TabBarItem value="u" icon={Home01Icon} label="u" />
+  </TabBar>
 )
 
 /** Every selectable control, with the two states that must be visually distinct. */
@@ -623,6 +677,41 @@ const CONTROLS: readonly Control[] = [
     state: { on: "data-[selected=true]", off: "data-[selected=false]" },
     on: commandRow(true),
     off: commandRow(false),
+  },
+  {
+    name: "table-row",
+    role: "row",
+    state: { on: "aria-selected", off: "aria-[selected=false]" },
+    disables: false,
+    on: tableRow(true),
+    off: tableRow(false),
+  },
+  {
+    name: "page-control-dot",
+    role: "tab",
+    options: { name: "Page 1" },
+    state: { on: "aria-selected", off: "aria-[selected=false]" },
+    disables: false,
+    marks: false,
+    on: pageDot(true),
+    off: pageDot(false),
+  },
+  {
+    name: "sidebar-item",
+    role: "link",
+    options: { name: "t" },
+    state: { on: "aria-[current=page]" },
+    on: sidebarItem(true),
+    off: sidebarItem(false),
+  },
+  {
+    name: "tab-bar-item",
+    role: "button",
+    options: { name: "t" },
+    state: { on: "aria-[current=true]" },
+    disables: false,
+    on: tabBarItem(true),
+    off: tabBarItem(false),
   },
   {
     name: "sidebar-menu-sub-button",
@@ -802,8 +891,9 @@ describe("selection is visible on every idiom", () => {
         const fill = rulesFor(element.className, control.state.on).get(
           "background-color"
         )?.[0]?.paint
-        const mark = inkColour(element, indicator, control.state)
         expect(fill, `${where} paints a selected background`).toBeDefined()
+        if (control.marks === false) return
+        const mark = inkColour(element, indicator, control.state)
         expect(
           mark,
           `${where}'s selected indicator declares no colour this harness can read — ` +

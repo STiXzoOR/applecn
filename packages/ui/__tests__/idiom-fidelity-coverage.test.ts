@@ -57,6 +57,9 @@ const SELECTION_MODIFIERS = [
   "off",
   "active",
   "inactive",
+  // ARIA's own, which no Base UI data attribute has a twin for: `aria-current` is how a
+  // navigation item says it is the one you are on, and `sidebar` and `tab-bar` paint off it.
+  "current",
 ]
 
 /**
@@ -71,9 +74,18 @@ const SELECTION_MODIFIERS = [
  * state is still that state. It may not be a different word: `data-[side=left]`,
  * `data-[size=sm]` and `data-[variant=destructive]` are placement, scale and intent, and
  * demanding harness coverage for those would be noise rather than a gate.
+ *
+ * Both namespaces, and that is the second hole this guard had. A selection is as often an ARIA
+ * state as a data one — a `<tr aria-selected>`, a `<button role="tab" aria-selected>`, an
+ * `<a aria-current="page">` — and four components painted off one where the guard could not see
+ * it: `table`, `page-control`, `sidebar` and `tab-bar`. Tailwind's bare `aria-*` variants key on
+ * the value `"true"` rather than on the attribute's presence, which is what `attribute()` in the
+ * harness reads them as.
  */
 const NAME = `(?:${SELECTION_MODIFIERS.join("|")})(?:-[a-z]+)*`
-const SELECTION = new RegExp(`^data-(?:${NAME}|\\[${NAME}(?:=[^\\]]*)?\\])$`)
+const SELECTION = new RegExp(
+  `^(?:data|aria)-(?:${NAME}|\\[${NAME}(?:=[^\\]]*)?\\])$`
+)
 
 /**
  * A property that makes selection visible. `paintedProperty` covers the colours, the shadow and
@@ -197,6 +209,22 @@ describe("every selection rule is covered by the idiom-fidelity harness", () => 
       ).toBe(true)
   })
 
+  // The same hole a second time, in the other namespace. A selection is as often an ARIA state
+  // as a data one — `aria-selected` on a table row and a page-control dot, `aria-current` on a
+  // sidebar item and a tab-bar item — and the guard read only `data-`.
+  test("an ARIA state is a selection rule too", () => {
+    for (const form of [
+      "aria-selected:bg-selection",
+      "aria-[selected=true]:bg-primary",
+      "aria-[current=page]:bg-fill-3",
+      "aria-current:text-primary",
+    ])
+      expect(
+        declaresSelection(`const x = "${form}"`),
+        `${form} declares a selection rule`
+      ).toBe(true)
+  })
+
   // The widening must not swallow every bracketed state: `data-[side=left]` and `data-[size=sm]`
   // are placement and scale, and a guard that demands harness coverage for those is noise.
   test("a bracketed state that is not a selection is not one", () => {
@@ -205,6 +233,9 @@ describe("every selection rule is covered by the idiom-fidelity harness", () => 
       "data-[size=sm]:text-label",
       "data-[variant=destructive]:text-destructive",
       "data-[disabled=true]:opacity-40",
+      "aria-invalid:ring-3",
+      "aria-expanded:bg-fill-3",
+      "aria-[orientation=horizontal]:h-[0.5px]",
     ])
       expect(
         declaresSelection(`const x = "${form}"`),
