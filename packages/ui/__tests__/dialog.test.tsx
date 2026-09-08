@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { describe, expect, test } from "vitest"
 
+import { checkA11y } from "./helpers/axe"
 import {
   Dialog,
   DialogClose,
@@ -57,5 +58,14 @@ describe("Dialog", () => {
     await screen.findByRole("dialog")
     await userEvent.keyboard("{Escape}")
     expect(screen.queryByRole("dialog")).toBeNull()
+  })
+})
+
+describe("Dialog accessibility", () => {
+  test("the titled composition has no violations", async () => {
+    render(<Rename />)
+    await userEvent.click(screen.getByRole("button", { name: "Rename" }))
+    const dialog = await screen.findByRole("dialog", { name: "Rename Folder" })
+    expect(await checkA11y(dialog)).toHaveNoViolations()
   })
 })

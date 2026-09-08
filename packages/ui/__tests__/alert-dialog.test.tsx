@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { describe, expect, test } from "vitest"
 
+import { checkA11y } from "./helpers/axe"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -190,5 +191,16 @@ describe("AlertDialog takes shadcn's markup", () => {
     expect(overlay.className).toContain(
       "[background-color:rgb(0_0_0/var(--sheet-scrim))]"
     )
+  })
+})
+
+describe("AlertDialog accessibility", () => {
+  test("the titled composition has no violations", async () => {
+    render(<DeleteNote />)
+    await userEvent.click(screen.getByRole("button", { name: "Delete" }))
+    const alert = await screen.findByRole("alertdialog", {
+      name: "Delete Note?",
+    })
+    expect(await checkA11y(alert)).toHaveNoViolations()
   })
 })
