@@ -61,10 +61,6 @@ import {
   SelectValue,
 } from "../src/components/select"
 import {
-  SegmentedControl,
-  SegmentedControlItem,
-} from "../src/components/segmented-control"
-import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -74,6 +70,7 @@ import {
   SidebarProvider,
 } from "../src/components/sidebar"
 import { Switch } from "../src/components/switch"
+import { Tabs, TabsList, TabsPanel, TabsTab } from "../src/components/tabs"
 import { Toggle } from "../src/components/toggle"
 import { ToggleGroup, ToggleGroupItem } from "../src/components/toggle-group"
 import { PlatformProvider, type Platform } from "../src/lib/platform"
@@ -280,9 +277,9 @@ function property(utility: string): string | null {
  * emits `data-pressed` when pressed and NOTHING when it is not — `ToggleDataAttributes` exports
  * `pressed` and `disabled`, with no `unpressed` twin. The first version of this harness hardcoded
  * `RESTING = "data-unchecked"`, which is why `toggle` and `toggle-group` had to be exempted from
- * its own coverage guard. That was a limit of this file, not of the primitive, and spec §5.3 folds
- * `segmented-control` — the sliding indicator and all — into `toggle-group`, so the exemption was
- * about to swallow the one component §5.3 rebuilds. A resting state is now allowed to be *the
+ * its own coverage guard. That was a limit of this file, not of the primitive, and spec §5.3 folded
+ * `segmented-control` — the sliding indicator and all — into `toggle-group`, so the exemption
+ * would have swallowed the one component §5.3 rebuilds. A resting state is now allowed to be *the
  * absence of the selected attribute*, and the resting paint is then read off the cascade the way a
  * browser reads it: the element's own unmodified background, or the nearest ancestor's.
  */
@@ -394,8 +391,8 @@ interface Control {
    * - `fill`: the root's own background swaps (checkbox, radio, switch, toggle). The indicator
    *   then sits ON that fill and must contrast with it.
    * - `ink`: the root is untouched and the content re-colours (`navigation-menu`'s active link).
-   * - `indicator`: a separate element carries the whole selection — `segmented-control`'s pill
-   *   slides to the selected segment. On iOS and the web its selected label is deliberately the
+   * - `indicator`: a separate element carries the whole selection — the pill `tabs` and
+   *   `toggle-group` slide to the selected segment. On iOS and the web the selected label is the
    *   SAME `--label` as its neighbours (the pill is what reads); only macOS re-colours. So the
    *   assertion for these is not "the label changes colour" but "the pill is visible on the
    *   track, and the label is visible on the pill".
@@ -425,11 +422,15 @@ interface Control {
 
 /* --- rendered controls: read verbatim by idiom-fidelity-coverage.test.ts --- */
 
-const segments = (
-  <>
-    <SegmentedControlItem value="a">t</SegmentedControlItem>
-    <SegmentedControlItem value="b">u</SegmentedControlItem>
-  </>
+const views = (selected: "a" | "b") => (
+  <Tabs value={selected}>
+    <TabsList aria-label="s">
+      <TabsTab value="a">t</TabsTab>
+      <TabsTab value="b">u</TabsTab>
+    </TabsList>
+    <TabsPanel value="a">t</TabsPanel>
+    <TabsPanel value="b">u</TabsPanel>
+  </Tabs>
 )
 
 const navLink = (active: boolean) => (
@@ -505,6 +506,8 @@ const CONTROLS: readonly Control[] = [
     role: "button",
     options: { name: "t" },
     state: { on: "data-pressed" },
+    paints: "indicator",
+    indicator: { slot: "toggle-group-indicator", persists: true },
     on: (
       <ToggleGroup defaultValue={["t"]}>
         <ToggleGroupItem value="t" aria-label="t" />
@@ -525,22 +528,14 @@ const CONTROLS: readonly Control[] = [
     off: <Toggle aria-label="t" />,
   },
   {
-    name: "segmented-control",
+    name: "tabs",
     role: "tab",
     options: { name: "t" },
     state: { on: "data-active" },
     paints: "indicator",
-    indicator: { slot: "segmented-control-indicator", persists: true },
-    on: (
-      <SegmentedControl defaultValue="a" aria-label="s">
-        {segments}
-      </SegmentedControl>
-    ),
-    off: (
-      <SegmentedControl defaultValue="b" aria-label="s">
-        {segments}
-      </SegmentedControl>
-    ),
+    indicator: { slot: "tabs-indicator", persists: true },
+    on: views("a"),
+    off: views("b"),
   },
   {
     name: "navigation-menu",

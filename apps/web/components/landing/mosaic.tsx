@@ -29,10 +29,6 @@ import { Rating } from "@applecn/ui/components/rating"
 import { SearchField } from "@applecn/ui/components/search-field"
 import { Slider } from "@applecn/ui/components/slider"
 import { Switch } from "@applecn/ui/components/switch"
-import {
-  SegmentedControl,
-  SegmentedControlItem,
-} from "@applecn/ui/components/segmented-control"
 import { Spinner } from "@applecn/ui/components/spinner"
 import { Stepper } from "@applecn/ui/components/stepper"
 import {
@@ -84,22 +80,6 @@ const tiles: Tile[] = [
           <TabBarSearch icon={Search01Icon} />
         </TabBar>
       </div>
-    ),
-  },
-  {
-    href: "/components/segmented-control",
-    title: "Segmented control",
-    roomy: true,
-    children: (
-      <SegmentedControl
-        aria-label="Range"
-        defaultValue="week"
-        className="w-full"
-      >
-        <SegmentedControlItem value="day">Day</SegmentedControlItem>
-        <SegmentedControlItem value="week">Week</SegmentedControlItem>
-        <SegmentedControlItem value="month">Month</SegmentedControlItem>
-      </SegmentedControl>
     ),
   },
   {

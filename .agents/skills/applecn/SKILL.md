@@ -86,7 +86,7 @@ Install any of these as `@applecn/<name>`.
 - `spinner` — Spinner (Activity indicator): The activity indicator: eight fading bars at the medium and large sizes.
 - `progress` — Progress (Progress indicators): The 4 pt linear bar and the circular ring, determinate or indeterminate.
 - `link` — Link (Buttons, links): A link in the link colour: apple.com’s “Learn more ›” with its chevron, a pill button, or a quiet inline link.
-- `toggle-group` — Toggle group (Segmented controls (select any)): A joined set of toggle buttons in the segmented control’s geometry, single- or multi-select — Keynote’s bold, italic and underline.
+- `toggle-group` — Toggle group (Segmented controls): The segmented control: equal segments with a white pill that slides to the selection on iOS 26 and the web, the accent fill on macOS 26 — Photos’ Day/Week/Month, or `multiple` for Keynote’s bold, italic and underline.
 - `meter` — Meter (Gauges): Gauges for a value in a range that is not progress: the linear meter with a label and percentage, and the circular gauge with the value in the centre.
 - `button-group` — Button group (Buttons): Adjacent buttons joined into one control — AppKit’s segmented push buttons, apple.com’s paired actions.
 - `rating` — Rating (Rating indicators): The App Store’s five stars: read-only with the value in its name, or a radio group the person can set.
@@ -98,7 +98,6 @@ Install any of these as `@applecn/<name>`.
 - `radio-group` — Radio group (Radio buttons): Two to five mutually exclusive options as rings that fill with the tint and show a white dot.
 - `slider` — Slider (Sliders): A 6 pt track with the 37×24 pill knob on iOS 26 (a 20×16 oval on macOS 26) and optional images at either end.
 - `stepper` — Stepper (Steppers): The 94×32 pt capsule with − and + halves on iOS 26; AppKit’s 20×26 vertical stepper on macOS 26.
-- `segmented-control` — Segmented control (Segmented controls): Equal segments with a sliding selection: a white pill in a 32 pt capsule on iOS 26, the accent fill in a 24 pt rounded rectangle on macOS 26.
 - `tabs` — Tabs (Tab views): A segmented control that switches between related subviews.
 - `input` — Input (Text fields): The bordered text field on every platform — 34 pt with 5 pt corners on iOS 26, AppKit’s 24 pt bezel, the App Store’s 32 px field — plus filled and plain variants and the iOS clear button.
 - `textarea` — Textarea (Text views): The text view for longer text, on the same surface as the text field.

@@ -17,9 +17,9 @@ import {
   DropdownMenuTrigger,
 } from "@applecn/ui/components/dropdown-menu"
 import {
-  SegmentedControl,
-  SegmentedControlItem,
-} from "@applecn/ui/components/segmented-control"
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@applecn/ui/components/toggle-group"
 
 import type { Platform } from "@applecn/ui/lib/platform"
 
@@ -28,16 +28,18 @@ import { useAppearance } from "@/components/appearance"
 export function PlatformSwitch({ className }: { className?: string }) {
   const { platform, setPlatform } = useAppearance()
   return (
-    <SegmentedControl
+    <ToggleGroup
       aria-label="Platform"
-      value={platform}
-      onValueChange={(v) => setPlatform(v as Platform)}
+      value={[platform]}
+      // A toggle group lets its pressed item be pressed off again; the documentation is always
+      // being read under some idiom, so a second press on the current one keeps it.
+      onValueChange={([next]) => next && setPlatform(next as Platform)}
       className={className}
     >
-      <SegmentedControlItem value="ios">iOS</SegmentedControlItem>
-      <SegmentedControlItem value="macos">macOS</SegmentedControlItem>
-      <SegmentedControlItem value="web">Web</SegmentedControlItem>
-    </SegmentedControl>
+      <ToggleGroupItem value="ios">iOS</ToggleGroupItem>
+      <ToggleGroupItem value="macos">macOS</ToggleGroupItem>
+      <ToggleGroupItem value="web">Web</ToggleGroupItem>
+    </ToggleGroup>
   )
 }
 

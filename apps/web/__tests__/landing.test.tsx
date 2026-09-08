@@ -45,18 +45,26 @@ describe("landing page", () => {
 
   test("the showcase switches the device between iOS, macOS and the web", async () => {
     render(<Showcase />)
-    expect(screen.getByRole("tab", { name: "iOS 26" })).toHaveAttribute(
-      "aria-selected",
+    expect(screen.getByRole("button", { name: "iOS 26" })).toHaveAttribute(
+      "aria-pressed",
       "true"
     )
     expect(screen.getByLabelText("iPhone")).toBeInTheDocument()
-    await userEvent.click(screen.getByRole("tab", { name: "macOS 26" }))
+    await userEvent.click(screen.getByRole("button", { name: "macOS 26" }))
     expect(await screen.findByLabelText("Mac")).toBeInTheDocument()
     expect(
       screen.getByLabelText("Mac").closest("[data-platform]")
     ).toHaveAttribute("data-platform", "macos")
-    await userEvent.click(screen.getByRole("tab", { name: "Web" }))
+    await userEvent.click(screen.getByRole("button", { name: "Web" }))
     expect(await screen.findByLabelText("Browser")).toBeInTheDocument()
+    // A toggle group lets a pressed item be pressed off; the showcase always shows a device, so
+    // pressing the selected idiom again leaves it selected.
+    await userEvent.click(screen.getByRole("button", { name: "Web" }))
+    expect(screen.getByRole("button", { name: "Web" })).toHaveAttribute(
+      "aria-pressed",
+      "true"
+    )
+    expect(screen.getByLabelText("Browser")).toBeInTheDocument()
   })
 
   test("the evidence band shows measured controls with their sources", () => {
@@ -78,7 +86,7 @@ describe("landing page", () => {
 })
 
 describe("the mosaic on a phone", () => {
-  const roomy = ["Segmented control", "Gauges", "Rating", "Switch"]
+  const roomy = ["Gauges", "Rating", "Switch"]
 
   test("gives the demos wider than half a phone the whole row until the grid widens", () => {
     render(<Mosaic />)

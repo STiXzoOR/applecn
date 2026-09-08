@@ -4308,24 +4308,6 @@
       ]
     },
     {
-      "name": "segmented-control",
-      "type": "registry:ui",
-      "title": "Segmented control",
-      "description": "Equal segments with a sliding selection: a white pill in a 32 pt capsule on iOS 26, the accent fill in a 24 pt rounded rectangle on macOS 26.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "https://applecn.vercel.app/r/utils.json"
-      ],
-      "files": [
-        {
-          "path": "src/components/segmented-control.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "select",
       "type": "registry:ui",
       "title": "Select",
@@ -4544,7 +4526,6 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "https://applecn.vercel.app/r/segmented-control.json",
         "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
@@ -4611,7 +4592,7 @@
       "name": "toggle-group",
       "type": "registry:ui",
       "title": "Toggle group",
-      "description": "A joined set of toggle buttons in the segmented control’s geometry, single- or multi-select — Keynote’s bold, italic and underline.",
+      "description": "The segmented control: equal segments with a white pill that slides to the selection on iOS 26 and the web, the accent fill on macOS 26 — Photos’ Day/Week/Month, or `multiple` for Keynote’s bold, italic and underline.",
       "dependencies": [
         "@base-ui/react"
       ],

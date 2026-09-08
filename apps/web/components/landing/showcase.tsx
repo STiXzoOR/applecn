@@ -3,9 +3,9 @@
 import { useState } from "react"
 
 import {
-  SegmentedControl,
-  SegmentedControlItem,
-} from "@applecn/ui/components/segmented-control"
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@applecn/ui/components/toggle-group"
 import { Text } from "@applecn/ui/components/text"
 import { PlatformProvider, type Platform } from "@applecn/ui/lib/platform"
 
@@ -59,18 +59,22 @@ export function Showcase() {
         }}
       />
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-6">
-        <SegmentedControl
-          aria-label="Platform"
-          value={platform}
-          onValueChange={(value) => setPlatform(value as Platform)}
-          className="w-full max-w-sm glass"
-        >
-          {idioms.map((i) => (
-            <SegmentedControlItem key={i.value} value={i.value}>
-              {i.label}
-            </SegmentedControlItem>
-          ))}
-        </SegmentedControl>
+        {/* The glass sits behind the track rather than on it: the fill is translucent, and one
+            element cannot carry both backgrounds. */}
+        <div className="w-full max-w-sm rounded-segmented glass">
+          <ToggleGroup
+            aria-label="Platform"
+            value={[platform]}
+            onValueChange={([value]) => value && setPlatform(value as Platform)}
+            className="w-full"
+          >
+            {idioms.map((i) => (
+              <ToggleGroupItem key={i.value} value={i.value}>
+                {i.label}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+        </div>
         <Text
           variant="footnote"
           color="label-2"

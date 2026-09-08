@@ -37,9 +37,9 @@ import {
 } from "@applecn/ui/components/navigation-menu"
 import { Rating } from "@applecn/ui/components/rating"
 import {
-  SegmentedControl,
-  SegmentedControlItem,
-} from "@applecn/ui/components/segmented-control"
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@applecn/ui/components/toggle-group"
 import {
   Select,
   SelectContent,
@@ -135,18 +135,18 @@ export function IosScreen() {
               <ListRow
                 title="Appearance"
                 trailing={
-                  <SegmentedControl
+                  <ToggleGroup
                     aria-label="Appearance"
-                    defaultValue="light"
+                    defaultValue={["light"]}
                     className="w-40"
                   >
-                    <SegmentedControlItem value="light">
+                    <ToggleGroupItem value="light">
                       <Icon icon={Sun03Icon} scale="small" /> Light
-                    </SegmentedControlItem>
-                    <SegmentedControlItem value="dark">
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="dark">
                       <Icon icon={Moon02Icon} scale="small" /> Dark
-                    </SegmentedControlItem>
-                  </SegmentedControl>
+                    </ToggleGroupItem>
+                  </ToggleGroup>
                 }
               />
               <ListRow
@@ -226,21 +226,15 @@ export function MacScreen() {
               <ListRow
                 title="Appearance"
                 trailing={
-                  <SegmentedControl
+                  <ToggleGroup
                     aria-label="Appearance"
-                    defaultValue="auto"
+                    defaultValue={["auto"]}
                     className="w-56"
                   >
-                    <SegmentedControlItem value="light">
-                      Light
-                    </SegmentedControlItem>
-                    <SegmentedControlItem value="dark">
-                      Dark
-                    </SegmentedControlItem>
-                    <SegmentedControlItem value="auto">
-                      Auto
-                    </SegmentedControlItem>
-                  </SegmentedControl>
+                    <ToggleGroupItem value="light">Light</ToggleGroupItem>
+                    <ToggleGroupItem value="dark">Dark</ToggleGroupItem>
+                    <ToggleGroupItem value="auto">Auto</ToggleGroupItem>
+                  </ToggleGroup>
                 }
               />
               <ListRow

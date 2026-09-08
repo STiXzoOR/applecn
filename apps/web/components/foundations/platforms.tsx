@@ -3,9 +3,9 @@ import { Checkbox } from "@applecn/ui/components/checkbox"
 import { Input } from "@applecn/ui/components/input"
 import { Label } from "@applecn/ui/components/label"
 import {
-  SegmentedControl,
-  SegmentedControlItem,
-} from "@applecn/ui/components/segmented-control"
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@applecn/ui/components/toggle-group"
 import { Slider } from "@applecn/ui/components/slider"
 import { Switch } from "@applecn/ui/components/switch"
 import { Text } from "@applecn/ui/components/text"
@@ -31,10 +31,10 @@ function Sample() {
           <Checkbox defaultChecked /> Remember
         </Label>
       </div>
-      <SegmentedControl aria-label="View" defaultValue="list">
-        <SegmentedControlItem value="list">List</SegmentedControlItem>
-        <SegmentedControlItem value="grid">Grid</SegmentedControlItem>
-      </SegmentedControl>
+      <ToggleGroup aria-label="View" defaultValue={["list"]}>
+        <ToggleGroupItem value="list">List</ToggleGroupItem>
+        <ToggleGroupItem value="grid">Grid</ToggleGroupItem>
+      </ToggleGroup>
       <Slider aria-label="Volume" defaultValue={60} />
       <Input
         aria-label="Name"

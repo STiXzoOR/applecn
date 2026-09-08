@@ -351,16 +351,6 @@
     "size-5",
     "w-full"
   ],
-  "segmented-control.tsx": [
-    "--active-tab-width",
-    "--radius-segmented",
-    "--segmented-font",
-    "--segmented-height",
-    "--segmented-inset",
-    "min-w-0",
-    "rounded-segmented",
-    "w-full"
-  ],
   "select.tsx": [
     "--available-height",
     "--control-font-regular",
@@ -456,7 +446,17 @@
     "type-subheadline",
     "w-full"
   ],
-  "tabs.tsx": ["type-body"],
+  "tabs.tsx": [
+    "--active-tab-width",
+    "--radius-segmented",
+    "--segmented-font",
+    "--segmented-height",
+    "--segmented-inset",
+    "min-w-0",
+    "rounded-segmented",
+    "type-body",
+    "w-full"
+  ],
   "text.tsx": [
     "type-body",
     "type-callout",
@@ -489,6 +489,7 @@
     "w-full"
   ],
   "toggle-group.tsx": [
+    "--active-toggle-width",
     "--radius-segmented",
     "--segmented-font",
     "--segmented-height",

@@ -21,11 +21,10 @@ function shell(children = <p>Page</p>) {
 describe("the documentation shell", () => {
   test("gives the platform switch room for all three idioms instead of a fixed width", () => {
     shell()
-    const list = screen.getByRole("tablist", { name: "Platform" })
-    const root = list.closest('[data-slot="segmented-control-root"]')!
+    const track = screen.getByRole("group", { name: "Platform" })
     // "iOS macOS Web" needs ~170 px; a fixed w-40 pushes "Web" outside the track.
-    expect(root.className).not.toMatch(/(^|\s)(max-)?w-\d+(\s|$)/)
-    expect(root.className).toContain("shrink-0")
+    expect(track.className).not.toMatch(/(^|\s)(max-)?w-\d+(\s|$)/)
+    expect(track.className).toContain("shrink-0")
   })
 
   test("offers every idiom the tokens ship", () => {
@@ -36,11 +35,12 @@ describe("the documentation shell", () => {
         </AppearanceProvider>
       </ThemeProvider>
     )
-    expect(screen.getAllByRole("tab").map((t) => t.textContent)).toEqual([
-      "iOS",
-      "macOS",
-      "Web",
-    ])
+    const track = screen.getByRole("group", { name: "Platform" })
+    expect(
+      within(track)
+        .getAllByRole("button")
+        .map((segment) => segment.textContent)
+    ).toEqual(["iOS", "macOS", "Web"])
   })
 })
 

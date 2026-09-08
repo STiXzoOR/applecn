@@ -161,14 +161,17 @@ export const componentDocs: ComponentDoc[] = [
     name: "toggle-group",
     title: "Toggle group",
     description:
-      "A joined set of toggle buttons in the segmented control’s geometry, single- or multi-select — Keynote’s bold, italic and underline.",
+      "The segmented control: equal segments with a white pill that slides to the selection on iOS 26 and the web, the accent fill on macOS 26 — Photos’ Day/Week/Month, or `multiple` for Keynote’s bold, italic and underline.",
     group: "controls",
     apple: {
-      name: "Segmented controls (select any)",
+      name: "Segmented controls",
       hig: hig("segmented-controls"),
     },
     primitive: "ToggleGroup",
-    examples: [{ name: "basic", title: "Alignment and font style" }],
+    examples: [
+      { name: "single-choice", title: "Single choice" },
+      { name: "basic", title: "Alignment and font style" },
+    ],
   },
   {
     name: "meter",
@@ -250,16 +253,6 @@ export const componentDocs: ComponentDoc[] = [
     apple: { name: "Steppers", hig: hig("steppers") },
     primitive: "NumberField",
     examples: [{ name: "basic", title: "Paired with a value" }],
-  },
-  {
-    name: "segmented-control",
-    title: "Segmented control",
-    description:
-      "Equal segments with a sliding selection: a white pill in a 32 pt capsule on iOS 26, the accent fill in a 24 pt rounded rectangle on macOS 26.",
-    group: "forms",
-    apple: { name: "Segmented controls", hig: hig("segmented-controls") },
-    primitive: "Tabs",
-    examples: [{ name: "basic", title: "Single choice" }],
   },
   {
     name: "tabs",

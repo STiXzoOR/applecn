@@ -59,11 +59,11 @@ describe("registry", () => {
   })
 
   test("local imports become registry dependencies and packages become dependencies", () => {
-    const tabs = registry.items.find((i) => i.name === "tabs")!
-    expect(tabs.registryDependencies).toContain(
-      `${REGISTRY_URL}/segmented-control.json`
+    const menubar = registry.items.find((i) => i.name === "menubar")!
+    expect(menubar.registryDependencies).toContain(
+      `${REGISTRY_URL}/dropdown-menu.json`
     )
-    expect(tabs.dependencies).toContain("@base-ui/react")
+    expect(menubar.dependencies).toContain("@base-ui/react")
     const icon = registry.items.find((i) => i.name === "icon")!
     expect(icon.dependencies).toEqual(
       expect.arrayContaining(["@hugeicons/react", "class-variance-authority"])

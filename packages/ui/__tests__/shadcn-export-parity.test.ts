@@ -50,8 +50,9 @@ const modulePath = (name: string) => join(COMPONENTS_DIR, `${name}.tsx`)
  * The `data-slot` values one module stamps, read from its source the same way the generator reads
  * shadcn's. Static rather than rendered on purpose: a rendered tree only shows the branch the test
  * happened to take — `drawer` alone has a phone branch and a desktop one — and a slot a component
- * borrows from a sibling file (today `tabs`, which renders `segmented-control`'s parts) genuinely
- * does not answer to shadcn's selector, which is the divergence worth catching.
+ * borrows from a sibling file genuinely does not answer to shadcn's selector, which is the
+ * divergence worth catching. `tabs` was the case that proved it, renaming nothing while it
+ * rendered `segmented-control`'s parts, until Task 16's fold gave it its own.
  */
 function slotsOf(source: string): Set<string> {
   return new Set(
@@ -299,10 +300,15 @@ const LEDGER: Record<string, Row> = {
   switch: { gap: [] },
   table: { gap: [] },
   tabs: {
-    gap: ["TabsContent", "TabsTrigger", "tabsListVariants"],
-    slotGap: ["tabs-content", "tabs-list", "tabs-trigger"],
-    closes: "Task 16",
-    note: "applecn uses Base UI's TabsPanel/TabsTab names; Task 16 owns the tabs surface.",
+    gap: ["tabsListVariants"],
+    closes: "Task 38",
+    note:
+      "Task 16's fold gave `tabs` the segmented list, tab and sliding indicator it used to " +
+      "borrow from `segmented-control`, so it stamps shadcn's three slots itself and exports " +
+      "`TabsTrigger`/`TabsContent` as aliases of Base UI's `TabsTab`/`TabsPanel`. " +
+      "`tabsListVariants` switches shadcn's list between its `default` and `line` looks; " +
+      "applecn ships one look, the Apple segmented control, so Task 38 — which rebuilds " +
+      "`tab-bar` on `tabs` — owns whether a second list style exists.",
   },
   textarea: { gap: [] },
   toast: {
