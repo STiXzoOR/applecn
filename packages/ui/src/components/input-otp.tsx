@@ -33,7 +33,7 @@ function InputOTP({
   return (
     <OTPFieldPrimitive.Root
       id={id}
-      data-slot="passcode-field"
+      data-slot="input-otp"
       length={length}
       inputMode="numeric"
       className={cn("flex items-center gap-2", className)}
@@ -45,7 +45,7 @@ function InputOTP({
       {Array.from({ length }, (_, i) => (
         <OTPFieldPrimitive.Input
           key={i}
-          data-slot="passcode-field-input"
+          data-slot="input-otp-input"
           aria-label={`Digit ${i + 1}`}
           className="h-(--passcode-field-height) w-(--passcode-field-width) rounded-field border-(length:--passcode-field-border-width) border-(--passcode-field-border-color) bg-background-3 text-center text-[length:var(--control-font-large)] font-medium text-label shadow-(--passcode-field-shadow) transition-[box-shadow] duration-(--duration-hover) outline-none focus-visible:ring-4 focus-visible:ring-ring/60"
         />

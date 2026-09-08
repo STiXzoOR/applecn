@@ -1046,6 +1046,33 @@ Each is mechanical and identical in shape; do them one commit at a time.
 
 - [ ] For each row: `git mv` the component, its test and its registry example; rename the exported symbols; update `apps/web/registry/index.ts`; update every import; add `DrawerHeader`/`DrawerFooter` for the last row; run `pnpm check`; commit as `refactor(ui): rename <old> to <new> for shadcn parity`.
 
+### Task 15b: The public surface is exports **and** `data-slot`
+
+Added 2026-09-08, after a Phase 2 audit found work spec §5.1 mandates that no task owned.
+`data-slot` is how a shadcn consumer targets a sub-component in CSS, so spec §3 governs it exactly
+as it governs an export name — and nothing audited it. Done: `drawer` re-slotted from its
+pre-rename `sheet-*` values, the generated fixture extended to carry shadcn's `data-slot` values
+beside its exports, a guard row per component, and the nine components whose parts existed under
+the wrong slot name re-slotted to shadcn's.
+
+### Task 15c: Close the parity gaps on the components already built
+
+The ledger in `packages/ui/__tests__/shadcn-export-parity.test.ts` records, per component, the
+shadcn exports applecn does not export and the `data-slot` values it does not stamp. Task 13 built
+that ledger but no task was ever assigned to empty it, so 17 rows were labelled `closes: "Task 15"`
+against a rename task that closes none of them. Each remaining row is a sub-component shadcn ships
+on a component applecn already has; none needs new Apple research, and each is a failing ledger row
+first, then the smallest component that empties it.
+
+Rows owned elsewhere and NOT part of this task: `tabs` (Task 16), `field` (Task 37),
+`button-group` (Task 42), and combobox's `input-group-button` slot, which arrives with Task 18.
+
+- [ ] One commit per component, cheapest first: `card`, `kbd`, `scroll-area`, `accordion`, `empty`,
+      `breadcrumb`, then `dropdown-menu`/`menubar`/`context-menu` (the shared menu surface),
+      `drawer`/`hover-card` (the portal parts), `navigation-menu`, `carousel`, `avatar`,
+      `input-otp`, `combobox`, `sidebar`, `toast`.
+- [ ] Each: shrink the row in the ledger, watch it fail, add the sub-component, `pnpm check`.
+
 ### Task 16: Fold `segmented-control` into `toggle-group`
 
 - [ ] **Step 1:** Move the sliding `Tabs.Indicator` treatment from `segmented-control.tsx` into `toggle-group.tsx`, replacing its `data-pressed:bg-background` approach.

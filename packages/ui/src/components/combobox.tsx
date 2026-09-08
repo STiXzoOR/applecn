@@ -144,7 +144,7 @@ function ComboboxGroupLabel({
 }: ComboboxPrimitive.GroupLabel.Props) {
   return (
     <ComboboxPrimitive.GroupLabel
-      data-slot="combobox-group-label"
+      data-slot="combobox-label"
       className={cn(
         "px-(--menu-item-px) py-(--menu-label-py) text-[length:var(--menu-label-font-size)] leading-(--menu-label-leading) font-(--menu-label-weight) tracking-(--menu-label-tracking) text-label-2",
         className

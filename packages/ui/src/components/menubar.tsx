@@ -144,7 +144,7 @@ function MenubarSeparator({
 function MenubarShortcut({ className, ...props }: ComponentProps<"span">) {
   return (
     <span
-      data-slot="menu-shortcut"
+      data-slot="menubar-shortcut"
       className={cn(
         "ms-auto ps-6 text-[length:var(--menu-font)] text-label-2",
         className

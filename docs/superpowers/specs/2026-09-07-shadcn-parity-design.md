@@ -171,6 +171,16 @@ are now exported. The general rule this earns: **a fixture encoding an external 
 claim about the world and must be checked against that world**, never against the document that
 asserts it.
 
+**Extension (2026-09-08, Task 15b).** The public surface is the exported symbols **and** the
+`data-slot` values. `data-slot` is how a shadcn consumer targets a sub-component in CSS, so §3's
+"shadcn's name, shadcn's exports, shadcn's semantics" governs it as it governs an export name, and
+nothing audited it. The generated fixture now carries shadcn's `data-slot` values beside its
+exports, the ledger a `slotGap` per component, and nine components were re-slotted to shadcn's
+names — `drawer` (17 values still reading `sheet-*` after §5.2's rename, which Task 19's real edge
+panel would have collided with), `dropdown-menu` (17 reading `menu-*`), `menubar`, `hover-card`,
+`input-otp`, `collapsible`, `accordion`, `carousel`, `combobox` and `empty`. The gaps that remain
+are sub-components applecn has not built; Task 15c owns them.
+
 The remaining known gaps, all recorded in the test's ledger: `sidebar` (17 symbols), `toast` (11),
 `combobox` (9), `context-menu` (7), `field` (5), `carousel` (4), `avatar`/`breadcrumb`/
 `button-group`/`empty`/`menubar`/`navigation-menu`/`tabs` (3 each), and one each in `accordion`,

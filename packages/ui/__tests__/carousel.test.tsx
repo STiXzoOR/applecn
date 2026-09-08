@@ -14,7 +14,7 @@ describe("Carousel", () => {
     )
     const region = screen.getByRole("region", { name: "Featured" })
     expect(region).toHaveAttribute("data-slot", "carousel")
-    const track = region.querySelector('[data-slot="carousel-track"]')!
+    const track = region.querySelector('[data-slot="carousel-content"]')!
     expect(track.className).toContain("snap-x")
     expect(track.className).toContain("overflow-x-auto")
     expect(region.querySelectorAll('[data-slot="carousel-item"]')).toHaveLength(

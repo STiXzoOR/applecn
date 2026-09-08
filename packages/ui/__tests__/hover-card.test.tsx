@@ -21,11 +21,11 @@ describe("HoverCard", () => {
       </HoverCard>
     )
     const link = screen.getByRole("link", { name: "apple.com" })
-    expect(link).toHaveAttribute("data-slot", "preview-card-trigger")
+    expect(link).toHaveAttribute("data-slot", "hover-card-trigger")
     expect(link.className).toContain("text-link")
     await userEvent.hover(link)
     const card = await screen.findByText("Apple")
-    const popup = card.closest('[data-slot="preview-card-content"]')!
+    const popup = card.closest('[data-slot="hover-card-content"]')!
     expect(popup.className).toContain("rounded-popover")
     expect(popup.className).toContain("glass")
   })

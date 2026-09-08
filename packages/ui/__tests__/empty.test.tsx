@@ -37,7 +37,7 @@ describe("Empty (ContentUnavailableView)", () => {
     expect(
       screen
         .getByRole("button", { name: "Clear" })
-        .closest('[data-slot="empty-actions"]')
+        .closest('[data-slot="empty-content"]')
     ).not.toBeNull()
   })
 })

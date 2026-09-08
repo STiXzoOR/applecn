@@ -1,7 +1,9 @@
 /**
- * Regenerates `__tests__/fixtures/shadcn-exports.json` — the export surface of every component
+ * Regenerates `__tests__/fixtures/shadcn-exports.json` — the **public surface** of every component
  * shadcn ships in its **Base UI** base variant, which spec §8 names as applecn's reference
- * ("§7.2's export audit must compare against _those_, not the Radix originals").
+ * ("§7.2's export audit must compare against _those_, not the Radix originals"). Public surface is
+ * two things: the symbols a module exports, and the `data-slot` values it stamps. The second is
+ * there because a shadcn consumer selects on it in CSS, so it is as breakable as an export name.
  *
  * Why this exists rather than a hand-written list: the Phase 2 review found two entries of a
  * hand-copied fixture wrong (`dialog` claimed 8 exports where shadcn ships 10, `alert-dialog` 11
@@ -36,6 +38,7 @@ interface Fixture {
   readonly commitDate: string
   readonly fetchedAt: string
   readonly exports: Record<string, string[]>
+  readonly slots: Record<string, string[]>
 }
 
 async function json<T>(url: string): Promise<T> {
@@ -81,7 +84,19 @@ function exportedValues(source: string): string[] {
   return [...names].sort()
 }
 
-async function fetchExports(): Promise<
+/**
+ * The `data-slot` values one component module stamps. Every assignment in shadcn's source is a
+ * string literal, so a literal match is exact; the bare `[data-slot=item-content]` forms that
+ * appear inside Tailwind class strings are CSS selectors, not assignments, and are correctly
+ * skipped by requiring the quote.
+ */
+function stampedSlots(source: string): string[] {
+  return [
+    ...new Set([...source.matchAll(/data-slot="([^"]+)"/g)].map(([, s]) => s!)),
+  ].sort()
+}
+
+async function fetchSurface(): Promise<
   Omit<Fixture, "$generated" | "fetchedAt">
 > {
   const [commit] = await json<
@@ -97,14 +112,16 @@ async function fetchExports(): Promise<
   const components = listing.filter((file) => file.name.endsWith(".tsx"))
 
   const exports: Record<string, string[]> = {}
+  const slots: Record<string, string[]> = {}
   await Promise.all(
     components.map(async (file) => {
       const response = await fetch(file.download_url)
       if (!response.ok)
         throw new Error(`${response.status} fetching ${file.name}`)
-      exports[file.name.replace(/\.tsx$/, "")] = exportedValues(
-        await response.text()
-      )
+      const source = await response.text()
+      const name = file.name.replace(/\.tsx$/, "")
+      exports[name] = exportedValues(source)
+      slots[name] = stampedSlots(source)
     })
   )
 
@@ -120,33 +137,48 @@ async function fetchExports(): Promise<
         .sort()
         .map((name) => [name, exports[name]!])
     ),
+    slots: Object.fromEntries(
+      Object.keys(slots)
+        .sort()
+        .map((name) => [name, slots[name]!])
+    ),
   }
 }
 
-const fresh = await fetchExports()
+const fresh = await fetchSurface()
+
+/** The `+added -gone` lines for one half of the surface, empty when that half has not moved. */
+function driftLines(
+  label: string,
+  committed: Record<string, string[]>,
+  now: Record<string, string[]>
+): string[] {
+  const names = [
+    ...new Set([...Object.keys(committed), ...Object.keys(now)]),
+  ].sort()
+  const lines: string[] = []
+  for (const name of names) {
+    const was = committed[name] ?? []
+    const is = now[name] ?? []
+    const gone = was.filter((entry) => !is.includes(entry))
+    const added = is.filter((entry) => !was.includes(entry))
+    if (gone.length || added.length)
+      lines.push(
+        `  ${name} ${label}: ${added.map((s) => `+${s}`).join(" ")} ${gone.map((s) => `-${s}`).join(" ")}`.trimEnd()
+      )
+  }
+  return lines
+}
 
 if (process.argv.includes("--check")) {
   const committed = JSON.parse(readFileSync(FIXTURE, "utf8")) as Fixture
-  const names = [
-    ...new Set([
-      ...Object.keys(committed.exports),
-      ...Object.keys(fresh.exports),
-    ]),
-  ].sort()
-  const drift: string[] = []
-  for (const name of names) {
-    const was = committed.exports[name] ?? []
-    const now = fresh.exports[name] ?? []
-    const gone = was.filter((symbol) => !now.includes(symbol))
-    const added = now.filter((symbol) => !was.includes(symbol))
-    if (gone.length || added.length)
-      drift.push(
-        `  ${name}: ${added.map((s) => `+${s}`).join(" ")} ${gone.map((s) => `-${s}`).join(" ")}`.trimEnd()
-      )
-  }
+  const drift = [
+    ...driftLines("exports", committed.exports, fresh.exports),
+    ...driftLines("slots", committed.slots ?? {}, fresh.slots),
+  ]
   if (drift.length) {
     console.error(
-      `shadcn's export surface has moved since ${committed.commit.slice(0, 7)} (${committed.commitDate}):\n${drift.join("\n")}\n\n` +
+      `shadcn's public surface has moved since ${committed.commit.slice(0, 7)} (${committed.commitDate}):\n${drift.join("\n")}\n\n` +
         `Re-run without --check to refresh the fixture, then close or record the new gaps in shadcn-export-parity.test.ts.`
     )
     process.exit(1)

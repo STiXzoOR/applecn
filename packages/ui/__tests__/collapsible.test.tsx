@@ -19,9 +19,7 @@ describe("Collapsible", () => {
     const trigger = screen.getByRole("button", { name: "Advanced Options" })
     expect(trigger).toHaveAttribute("aria-expanded", "false")
     expect(screen.queryByText("Details")).toBeNull()
-    const chevron = trigger.querySelector(
-      '[data-slot="disclosure-group-chevron"]'
-    )!
+    const chevron = trigger.querySelector('[data-slot="collapsible-chevron"]')!
     expect(chevron.getAttribute("class")).toContain(
       "group-data-open/disclosure:rotate-90"
     )

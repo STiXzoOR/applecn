@@ -62,7 +62,7 @@ function AccordionTrigger({
         <Icon
           icon={ArrowDown01Icon}
           weight="semibold"
-          data-slot="accordion-chevron"
+          data-slot="accordion-trigger-icon"
           className="shrink-0 text-label-3 transition-transform duration-(--duration-press) ease-(--ease-standard) group-data-open/accordion-item:rotate-180 motion-reduce:transition-none"
         />
       </AccordionPrimitive.Trigger>
@@ -77,7 +77,7 @@ function AccordionPanel({
 }: AccordionPrimitive.Panel.Props) {
   return (
     <AccordionPrimitive.Panel
-      data-slot="accordion-panel"
+      data-slot="accordion-content"
       className={cn(
         "h-(--accordion-panel-height) overflow-hidden transition-[height] duration-(--duration-overlay) ease-(--ease-standard) data-ending-style:h-0 data-starting-style:h-0 motion-reduce:transition-none",
         className
@@ -85,7 +85,7 @@ function AccordionPanel({
       {...props}
     >
       <div
-        data-slot="accordion-panel-content"
+        data-slot="accordion-content-inner"
         className="px-(--list-row-padding-x) pb-(--list-row-padding-y) text-[length:var(--list-subtitle-font)] leading-snug text-label-2"
       >
         {children}

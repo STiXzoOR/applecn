@@ -74,7 +74,7 @@ function Carousel({
     >
       <div
         ref={trackRef}
-        data-slot="carousel-track"
+        data-slot="carousel-content"
         className="flex w-full snap-x snap-mandatory [scrollbar-width:none] gap-(--list-inset) overflow-x-auto scroll-smooth px-(--list-inset) [&::-webkit-scrollbar]:hidden"
       >
         {children}

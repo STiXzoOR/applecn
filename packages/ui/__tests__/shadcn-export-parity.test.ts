@@ -4,9 +4,17 @@ import { join } from "node:path"
 import { describe, expect, test } from "vitest"
 
 /**
- * Export-surface parity with shadcn (spec §3, §5.1, §7.2). applecn may export MORE than shadcn —
- * the Apple additions, `AlertDialogActions`, `DrawerToolbar` and the rest — and may never export
- * fewer, or a shadcn user's copy-pasted markup breaks.
+ * Public-surface parity with shadcn (spec §3, §5.1, §7.2) — the exported symbols AND the
+ * `data-slot` values. applecn may ship MORE than shadcn — the Apple additions, `AlertDialogActions`,
+ * `DrawerToolbar`, `data-slot="drawer-toolbar"` and the rest — and may never ship fewer, or a shadcn
+ * user's copy-pasted markup breaks.
+ *
+ * `data-slot` belongs here because it is not decoration: it is how a shadcn consumer targets a
+ * sub-component in CSS (`[data-slot="dropdown-menu-item"] { … }`), so spec §3's "shadcn's name,
+ * shadcn's exports, shadcn's semantics" governs it exactly as it governs an export name. Nothing
+ * audited it until Task 15b, and three components had drifted: `drawer` still emitted every
+ * `sheet-*` value from before its rename, `dropdown-menu` every `menu-*` value from before its own,
+ * and `menubar` borrowed `menu-shortcut` from the file it shares styles with.
  *
  * The reference is `fixtures/shadcn-exports.json`, which is GENERATED from shadcn's own source by
  * `scripts/refresh-shadcn-exports.ts` and carries the upstream commit it was taken from. It is not
@@ -32,10 +40,24 @@ const FIXTURE = JSON.parse(
   readonly commit: string
   readonly commitDate: string
   readonly exports: Record<string, string[]>
+  readonly slots: Record<string, string[]>
 }
 
 const COMPONENTS_DIR = join(import.meta.dirname, "../src/components")
 const modulePath = (name: string) => join(COMPONENTS_DIR, `${name}.tsx`)
+
+/**
+ * The `data-slot` values one module stamps, read from its source the same way the generator reads
+ * shadcn's. Static rather than rendered on purpose: a rendered tree only shows the branch the test
+ * happened to take — `drawer` alone has a phone branch and a desktop one — and a slot a component
+ * borrows from a sibling file (today `tabs`, which renders `segmented-control`'s parts) genuinely
+ * does not answer to shadcn's selector, which is the divergence worth catching.
+ */
+function slotsOf(source: string): Set<string> {
+  return new Set(
+    [...source.matchAll(/data-slot="([^"]+)"/g)].map(([, slot]) => slot!)
+  )
+}
 
 /**
  * A component applecn has not built yet. `task` names what builds it. The row asserts the module
@@ -50,12 +72,16 @@ interface Unbuilt {
 
 /**
  * A component applecn ships. `gap` is EXACTLY the set of shadcn symbols it does not export today,
- * and `closes` names the task that empties it. Exact rather than "at most": closing part of a gap
- * forces this list to shrink, and a symbol that goes missing later fails here.
+ * and `slotGap` EXACTLY the set of shadcn `data-slot` values it does not stamp; `closes` names the
+ * task that empties them, `slotCloses` overriding it where the two are owned by different tasks.
+ * Exact rather than "at most": closing part of a gap forces this list to shrink, and a symbol or
+ * slot that goes missing later fails here.
  */
 interface Built {
   readonly gap: readonly string[]
   readonly closes?: string
+  readonly slotGap?: readonly string[]
+  readonly slotCloses?: string
   readonly note?: string
 }
 
@@ -77,32 +103,44 @@ type Row = Unbuilt | Built | Declined
  * left under `drawer`, and the name is held for Task 19's edge panel.
  */
 const LEDGER: Record<string, Row> = {
-  accordion: { gap: ["AccordionContent"], closes: "Task 15" },
+  accordion: { gap: ["AccordionContent"], closes: "Task 15c" },
   alert: { task: "Task 20" },
   "alert-dialog": { gap: [] },
   "aspect-ratio": { task: "Task 21" },
   attachment: { task: "Task 52–58 (the AI set)" },
   avatar: {
     gap: ["AvatarBadge", "AvatarGroup", "AvatarGroupCount"],
-    closes: "Task 15",
+    slotGap: ["avatar-badge", "avatar-group", "avatar-group-count"],
+    slotCloses: "Task 15c",
+    closes: "Task 15c",
   },
   badge: { gap: [] },
   breadcrumb: {
     gap: ["BreadcrumbEllipsis", "BreadcrumbList", "BreadcrumbSeparator"],
-    closes: "Task 15",
+    slotGap: ["breadcrumb-ellipsis"],
+    slotCloses: "Task 15c",
+    closes: "Task 15c",
   },
   bubble: { task: "Task 52–58 (the AI set)" },
   button: { gap: [] },
   "button-group": {
     gap: ["ButtonGroupSeparator", "ButtonGroupText", "buttonGroupVariants"],
+    slotGap: ["button-group-separator"],
     closes: "Task 42",
     note: "Task 42 rebuilds `toolbar` on `button-group` and owns its surface.",
   },
   calendar: { task: "Task 28" },
-  card: { gap: ["CardAction"], closes: "Task 15" },
+  card: {
+    gap: ["CardAction"],
+    slotGap: ["card-action"],
+    slotCloses: "Task 15c",
+    closes: "Task 15c",
+  },
   carousel: {
     gap: ["CarouselContent", "CarouselNext", "CarouselPrevious", "useCarousel"],
-    closes: "Task 15",
+    slotGap: ["carousel-next", "carousel-previous"],
+    slotCloses: "Task 15c",
+    closes: "Task 15c",
   },
   chart: { task: "Task 30b" },
   checkbox: { gap: [] },
@@ -111,7 +149,8 @@ const LEDGER: Record<string, Row> = {
     note:
       "the rename of `disclosure-group`. Base UI names the region `Panel`, so the sub-component " +
       "took shadcn's `CollapsibleContent` rather than a literal `CollapsiblePanel`; Task 26 " +
-      "verifies exactly that pair. Its `data-slot` values still read `disclosure-group*`.",
+      "verifies exactly that pair. Task 15b re-slotted it: `collapsible`, `collapsible-trigger` " +
+      "and `collapsible-content`, with `collapsible-chevron` the Apple addition.",
   },
   combobox: {
     gap: [
@@ -125,13 +164,25 @@ const LEDGER: Record<string, Row> = {
       "ComboboxValue",
       "useComboboxAnchor",
     ],
-    closes: "Task 15",
+    slotGap: [
+      "combobox-chip",
+      "combobox-chip-input",
+      "combobox-chip-remove",
+      "combobox-chips",
+      "combobox-collection",
+      "combobox-separator",
+      "combobox-value",
+      "input-group-button",
+    ],
+    slotCloses: "Task 15c",
+    closes: "Task 15c",
     note:
       "`ComboboxLabel` is the naming split the Phase 2 review flagged as M6, and it resolves " +
       "against shadcn rather than by preference: shadcn's `ComboboxLabel` wraps Base UI's " +
       '`Combobox.GroupLabel` and carries `data-slot="combobox-label"`, so applecn\'s ' +
       "`ComboboxGroupLabel`/`combobox-group-label` diverges on both the export name and the " +
-      "slot. Task 15 renames it and keeps the old name as an alias.",
+      "slot. Task 15b closed the slot half; Task 15c renames the export and keeps the old name " +
+      "as an alias.",
   },
   command: { task: "Task 27" },
   "context-menu": {
@@ -144,28 +195,48 @@ const LEDGER: Record<string, Row> = {
       "ContextMenuSubContent",
       "ContextMenuSubTrigger",
     ],
-    closes: "Task 15",
+    slotGap: [
+      "context-menu-portal",
+      "context-menu-radio-group",
+      "context-menu-radio-item",
+      "context-menu-shortcut",
+      "context-menu-sub",
+      "context-menu-sub-content",
+      "context-menu-sub-trigger",
+    ],
+    slotCloses: "Task 15c",
+    closes: "Task 15c",
   },
   dialog: { gap: [] },
   direction: { task: "Task 52–58 (the AI set)" },
   drawer: {
     gap: ["DrawerOverlay", "DrawerPortal", "DrawerSwipeHandle"],
-    closes: "Task 15",
+    slotGap: ["drawer-portal"],
+    slotCloses: "Task 15c",
+    closes: "Task 15c",
     note:
       "the rename of the bottom `sheet`. `DrawerHeader` and `DrawerFooter` already existed as " +
       "`SheetHeader`/`SheetFooter`, so the rename delivered them; the three in the gap are " +
-      "parts `DrawerContent` renders itself rather than exposing.",
+      "parts `DrawerContent` renders itself rather than exposing. Task 15b re-slotted it from " +
+      "the `sheet-*` values the rename left behind, which Task 19's real edge panel would " +
+      "otherwise have collided with.",
   },
   "dropdown-menu": {
     gap: ["DropdownMenuPortal"],
-    closes: "Task 15",
+    slotGap: ["dropdown-menu-portal"],
+    slotCloses: "Task 15c",
+    closes: "Task 15c",
     note:
       "the rename of `menu`. The whole `Menu*` surface came across; `DropdownMenuPortal` is a " +
-      "sub-component applecn never had, since `DropdownMenuContent` portals itself.",
+      "sub-component applecn never had, since `DropdownMenuContent` portals itself. Task 15b " +
+      "re-slotted its 17 `menu-*` values, and widened the shared item class's shortcut selector " +
+      "to `[data-slot$=-shortcut]` so `menubar` and `context-menu` keep their own names.",
   },
   empty: {
     gap: ["EmptyContent", "EmptyHeader", "EmptyMedia"],
-    closes: "Task 15",
+    slotGap: ["empty-header"],
+    slotCloses: "Task 15c",
+    closes: "Task 15c",
   },
   field: {
     gap: [
@@ -175,30 +246,51 @@ const LEDGER: Record<string, Row> = {
       "FieldSet",
       "FieldTitle",
     ],
+    slotGap: [
+      "field-content",
+      "field-legend",
+      "field-separator",
+      "field-separator-content",
+      "field-set",
+    ],
     closes: "Task 37",
     note: "Task 37 rebuilds `checkbox-group` on FieldSet/FieldGroup and needs these.",
   },
   "hover-card": {
     gap: [],
-    note: "the rename of `preview-card`; the three exports match shadcn's exactly.",
+    slotGap: ["hover-card-portal"],
+    slotCloses: "Task 15c",
+    note:
+      "the rename of `preview-card`; the three exports match shadcn's exactly. Task 15b " +
+      "re-slotted it; `hover-card-portal` is the one slot left, on a Portal applecn does not " +
+      "expose.",
   },
   input: { gap: [] },
   "input-group": { task: "Task 18" },
   "input-otp": {
     gap: ["InputOTPGroup", "InputOTPSeparator", "InputOTPSlot"],
-    closes: "Task 15",
+    slotGap: ["input-otp-group", "input-otp-separator", "input-otp-slot"],
+    slotCloses: "Task 15c",
+    closes: "Task 15c",
     note:
       "the rename of `passcode-field`. applecn's field renders its own boxes from a `length` " +
       "prop, so shadcn's three composition parts have never existed here; the rename does not " +
       "invent them.",
   },
   item: { task: "Task 17" },
-  kbd: { gap: ["KbdGroup"], closes: "Task 15" },
+  kbd: {
+    gap: ["KbdGroup"],
+    slotGap: ["kbd-group"],
+    slotCloses: "Task 15c",
+    closes: "Task 15c",
+  },
   label: { gap: [] },
   marker: { task: "Task 52–58 (the AI set)" },
   menubar: {
     gap: ["MenubarPortal", "MenubarRadioGroup", "MenubarRadioItem"],
-    closes: "Task 15",
+    slotGap: ["menubar-portal", "menubar-radio-group", "menubar-radio-item"],
+    slotCloses: "Task 15c",
+    closes: "Task 15c",
   },
   message: { task: "Task 52–58 (the AI set)" },
   "message-scroller": { task: "Task 52–58 (the AI set)" },
@@ -209,7 +301,9 @@ const LEDGER: Record<string, Row> = {
       "NavigationMenuPositioner",
       "navigationMenuTriggerStyle",
     ],
-    closes: "Task 15",
+    slotGap: ["navigation-menu-indicator"],
+    slotCloses: "Task 15c",
+    closes: "Task 15c",
   },
   pagination: { task: "Task 23" },
   popover: { gap: [] },
@@ -217,7 +311,7 @@ const LEDGER: Record<string, Row> = {
   questionnaire: { task: "Task 52–58 (the AI set)" },
   "radio-group": { gap: [] },
   resizable: { task: "Task 24" },
-  "scroll-area": { gap: ["ScrollBar"], closes: "Task 15" },
+  "scroll-area": { gap: ["ScrollBar"], closes: "Task 15c" },
   select: { gap: [] },
   separator: { gap: [] },
   sheet: {
@@ -247,7 +341,26 @@ const LEDGER: Record<string, Row> = {
       "SidebarRail",
       "SidebarSeparator",
     ],
-    closes: "Task 15",
+    slotGap: [
+      "sidebar-container",
+      "sidebar-content",
+      "sidebar-gap",
+      "sidebar-group-content",
+      "sidebar-inner",
+      "sidebar-input",
+      "sidebar-inset",
+      "sidebar-menu",
+      "sidebar-menu-badge",
+      "sidebar-menu-item",
+      "sidebar-menu-skeleton",
+      "sidebar-menu-sub",
+      "sidebar-menu-sub-item",
+      "sidebar-rail",
+      "sidebar-separator",
+      "sidebar-wrapper",
+    ],
+    slotCloses: "Task 15c",
+    closes: "Task 15c",
     note: "the widest gap in the catalogue — a task of its own inside Task 15.",
   },
   skeleton: { gap: [] },
@@ -263,6 +376,7 @@ const LEDGER: Record<string, Row> = {
   table: { gap: [] },
   tabs: {
     gap: ["TabsContent", "TabsTrigger", "tabsListVariants"],
+    slotGap: ["tabs-content", "tabs-list", "tabs-trigger"],
     closes: "Task 16",
     note: "applecn uses Base UI's TabsPanel/TabsTab names; Task 16 owns the tabs surface.",
   },
@@ -281,7 +395,9 @@ const LEDGER: Record<string, Row> = {
       "toast",
       "useToastManager",
     ],
-    closes: "Task 15",
+    slotGap: ["toast-portal"],
+    slotCloses: "Task 15c",
+    closes: "Task 15c",
     note: "applecn ships `Toaster` only; the composable surface is unbuilt.",
   },
   toggle: { gap: [] },
@@ -330,6 +446,31 @@ describe("export parity with shadcn", () => {
     expect(unattributed, "every gap names the task that closes it").toEqual([])
   })
 
+  test("a recorded slot gap names the task that closes it", () => {
+    const unattributed = built
+      .filter(
+        ([, row]) =>
+          (row.slotGap?.length ?? 0) > 0 && !(row.slotCloses ?? row.closes)
+      )
+      .map(([name]) => name)
+    expect(
+      unattributed,
+      "every slot gap names the task that closes it"
+    ).toEqual([])
+  })
+
+  test("the fixture records shadcn's data-slot values alongside its exports", () => {
+    expect(Object.keys(FIXTURE.slots).sort()).toEqual(
+      Object.keys(FIXTURE.exports).sort()
+    )
+    // A canary on the generator: `data-slot` is shadcn's own convention, so a component that
+    // stamps none at all means the extraction broke, not that shadcn stopped using it.
+    const slotless = Object.entries(FIXTURE.slots)
+      .filter(([, slots]) => slots.length === 0)
+      .map(([name]) => name)
+    expect(slotless).toEqual(["badge", "direction", "sonner"])
+  })
+
   for (const [name, row] of declined)
     test(`${name} is deliberately not shipped`, () => {
       expect(row.declined.length, `${name}'s reason is argued`).toBeGreaterThan(
@@ -369,5 +510,19 @@ describe("export parity with shadcn", () => {
         `${name}'s gap against shadcn ${FIXTURE.commit.slice(0, 7)} changed. ` +
           `Either close it, or record it exactly in this file's LEDGER with the task that will.`
       ).toEqual([...row.gap].sort())
+    })
+
+  for (const [name, row] of built)
+    test(`${name} stamps every data-slot shadcn does`, () => {
+      const present = slotsOf(readFileSync(modulePath(name), "utf8"))
+      const missing = FIXTURE.slots[name]!.filter(
+        (slot) => !present.has(slot)
+      ).sort()
+      expect(
+        missing,
+        `${name}'s data-slot gap against shadcn ${FIXTURE.commit.slice(0, 7)} changed. ` +
+          `A shadcn user's CSS selects on these, so either close the gap, or record it exactly ` +
+          `in this file's LEDGER as \`slotGap\` with the task that will.`
+      ).toEqual([...(row.slotGap ?? [])].sort())
     })
 })

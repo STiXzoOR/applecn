@@ -15,7 +15,7 @@ describe("InputOTP", () => {
       />
     )
     const group = screen.getByRole("group", { name: "Verification code" })
-    expect(group).toHaveAttribute("data-slot", "passcode-field")
+    expect(group).toHaveAttribute("data-slot", "input-otp")
     const inputs = group.querySelectorAll("input")
     expect(inputs).toHaveLength(4)
     expect(inputs[0]!.className).toContain("rounded-field")

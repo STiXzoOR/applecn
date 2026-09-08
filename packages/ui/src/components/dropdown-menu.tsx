@@ -19,14 +19,14 @@ const menuContentClassName =
   "glass z-50 flex max-h-(--available-height) min-w-(--menu-width) origin-(--transform-origin) flex-col overflow-x-hidden overflow-y-auto rounded-menu p-(--menu-padding) text-label shadow-glass outline-none duration-(--duration-overlay) ease-(--ease-standard) data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 motion-reduce:animate-none"
 
 const menuItemClassName =
-  "group/menu-item relative flex h-(--menu-item-height) w-full shrink-0 cursor-default items-center gap-(--menu-item-gap) rounded-menu-item px-(--menu-item-px) text-[length:var(--menu-font)] text-label outline-hidden select-none focus:bg-(--menu-item-highlight-bg) focus:text-(--menu-item-highlight-text) data-highlighted:bg-(--menu-item-highlight-bg) data-highlighted:text-(--menu-item-highlight-text) data-highlighted:[&_[data-slot=menu-shortcut]]:text-(--menu-shortcut-highlight-text) data-disabled:pointer-events-none data-disabled:opacity-40 data-[variant=destructive]:text-destructive focus:data-[variant=destructive]:text-(--menu-item-highlight-text-destructive) data-highlighted:data-[variant=destructive]:text-(--menu-item-highlight-text-destructive) [&_svg]:pointer-events-none [&_svg]:shrink-0"
+  "group/menu-item relative flex h-(--menu-item-height) w-full shrink-0 cursor-default items-center gap-(--menu-item-gap) rounded-menu-item px-(--menu-item-px) text-[length:var(--menu-font)] text-label outline-hidden select-none focus:bg-(--menu-item-highlight-bg) focus:text-(--menu-item-highlight-text) data-highlighted:bg-(--menu-item-highlight-bg) data-highlighted:text-(--menu-item-highlight-text) data-highlighted:[&_[data-slot$=-shortcut]]:text-(--menu-shortcut-highlight-text) data-disabled:pointer-events-none data-disabled:opacity-40 data-[variant=destructive]:text-destructive focus:data-[variant=destructive]:text-(--menu-item-highlight-text-destructive) data-highlighted:data-[variant=destructive]:text-(--menu-item-highlight-text-destructive) [&_svg]:pointer-events-none [&_svg]:shrink-0"
 
 function DropdownMenu(props: MenuPrimitive.Root.Props) {
-  return <MenuPrimitive.Root data-slot="menu" {...props} />
+  return <MenuPrimitive.Root data-slot="dropdown-menu" {...props} />
 }
 
 function DropdownMenuTrigger(props: MenuPrimitive.Trigger.Props) {
-  return <MenuPrimitive.Trigger data-slot="menu-trigger" {...props} />
+  return <MenuPrimitive.Trigger data-slot="dropdown-menu-trigger" {...props} />
 }
 
 function DropdownMenuContent({
@@ -51,7 +51,7 @@ function DropdownMenuContent({
         sideOffset={sideOffset}
       >
         <MenuPrimitive.Popup
-          data-slot="menu-content"
+          data-slot="dropdown-menu-content"
           data-elevated=""
           className={cn(menuContentClassName, className)}
           {...props}
@@ -62,7 +62,7 @@ function DropdownMenuContent({
 }
 
 function DropdownMenuGroup(props: MenuPrimitive.Group.Props) {
-  return <MenuPrimitive.Group data-slot="menu-group" {...props} />
+  return <MenuPrimitive.Group data-slot="dropdown-menu-group" {...props} />
 }
 
 function DropdownMenuLabel({
@@ -71,7 +71,7 @@ function DropdownMenuLabel({
 }: MenuPrimitive.GroupLabel.Props) {
   return (
     <MenuPrimitive.GroupLabel
-      data-slot="menu-label"
+      data-slot="dropdown-menu-label"
       className={cn(
         "px-(--menu-item-px) py-(--menu-label-py) text-[length:var(--menu-label-font-size)] leading-(--menu-label-leading) font-(--menu-label-weight) tracking-(--menu-label-tracking) text-label-2",
         className
@@ -96,12 +96,12 @@ function DropdownMenuItem({
 }: DropdownMenuItemProps) {
   return (
     <MenuPrimitive.Item
-      data-slot="menu-item"
+      data-slot="dropdown-menu-item"
       data-variant={variant}
       className={cn(menuItemClassName, className)}
       {...props}
     >
-      {icon ? <Icon icon={icon} data-slot="menu-item-icon" /> : null}
+      {icon ? <Icon icon={icon} data-slot="dropdown-menu-item-icon" /> : null}
       {children}
     </MenuPrimitive.Item>
   )
@@ -114,12 +114,12 @@ function DropdownMenuCheckboxItem({
 }: MenuPrimitive.CheckboxItem.Props) {
   return (
     <MenuPrimitive.CheckboxItem
-      data-slot="menu-checkbox-item"
+      data-slot="dropdown-menu-checkbox-item"
       className={cn(menuItemClassName, "ps-2", className)}
       {...props}
     >
       <span
-        data-slot="menu-checkbox-item-indicator"
+        data-slot="dropdown-menu-checkbox-item-indicator"
         className="flex w-5 shrink-0 items-center justify-center text-primary"
       >
         <MenuPrimitive.CheckboxItemIndicator
@@ -132,7 +132,12 @@ function DropdownMenuCheckboxItem({
 }
 
 function DropdownMenuRadioGroup(props: MenuPrimitive.RadioGroup.Props) {
-  return <MenuPrimitive.RadioGroup data-slot="menu-radio-group" {...props} />
+  return (
+    <MenuPrimitive.RadioGroup
+      data-slot="dropdown-menu-radio-group"
+      {...props}
+    />
+  )
 }
 
 function DropdownMenuRadioItem({
@@ -142,12 +147,12 @@ function DropdownMenuRadioItem({
 }: MenuPrimitive.RadioItem.Props) {
   return (
     <MenuPrimitive.RadioItem
-      data-slot="menu-radio-item"
+      data-slot="dropdown-menu-radio-item"
       className={cn(menuItemClassName, "ps-2", className)}
       {...props}
     >
       <span
-        data-slot="menu-radio-item-indicator"
+        data-slot="dropdown-menu-radio-item-indicator"
         className="flex w-5 shrink-0 items-center justify-center text-primary"
       >
         <MenuPrimitive.RadioItemIndicator
@@ -165,7 +170,7 @@ function DropdownMenuSeparator({
 }: MenuPrimitive.Separator.Props) {
   return (
     <MenuPrimitive.Separator
-      data-slot="menu-separator"
+      data-slot="dropdown-menu-separator"
       className={cn(
         "mx-(--menu-separator-mx) my-1 h-(--menu-separator-height) shrink-0 bg-(--menu-separator-bg)",
         className
@@ -178,7 +183,7 @@ function DropdownMenuSeparator({
 function DropdownMenuShortcut({ className, ...props }: ComponentProps<"span">) {
   return (
     <span
-      data-slot="menu-shortcut"
+      data-slot="dropdown-menu-shortcut"
       className={cn(
         "ms-auto text-[length:var(--menu-font)] text-label-2",
         className
@@ -189,7 +194,7 @@ function DropdownMenuShortcut({ className, ...props }: ComponentProps<"span">) {
 }
 
 function DropdownMenuSub(props: MenuPrimitive.SubmenuRoot.Props) {
-  return <MenuPrimitive.SubmenuRoot data-slot="menu-sub" {...props} />
+  return <MenuPrimitive.SubmenuRoot data-slot="dropdown-menu-sub" {...props} />
 }
 
 function DropdownMenuSubTrigger({
@@ -199,7 +204,7 @@ function DropdownMenuSubTrigger({
 }: MenuPrimitive.SubmenuTrigger.Props) {
   return (
     <MenuPrimitive.SubmenuTrigger
-      data-slot="menu-sub-trigger"
+      data-slot="dropdown-menu-sub-trigger"
       className={cn(menuItemClassName, "data-popup-open:bg-fill-3", className)}
       {...props}
     >
@@ -222,7 +227,7 @@ function DropdownMenuSubContent({
 }: ComponentProps<typeof DropdownMenuContent>) {
   return (
     <DropdownMenuContent
-      data-slot="menu-sub-content"
+      data-slot="dropdown-menu-sub-content"
       align={align}
       alignOffset={alignOffset}
       side={side}

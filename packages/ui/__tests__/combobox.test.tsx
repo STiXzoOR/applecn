@@ -81,7 +81,7 @@ describe("Combobox", () => {
       "group-data-highlighted/combobox-item:text-(--combobox-item-indicator-highlight-text)"
     )
     const label = screen.getByText("Fruit", {
-      selector: "[data-slot=combobox-group-label]",
+      selector: "[data-slot=combobox-label]",
     })
     expect(label.className).toContain("px-(--menu-item-px)")
     expect(label.className).toContain("py-(--menu-label-py)")
@@ -103,7 +103,7 @@ describe("Combobox is idiom-agnostic", () => {
     const option = (await screen.findAllByRole("option"))[0]!
     expect(option.className).not.toMatch(/(^|\s)(ios|macos|web):/)
     const label = screen.getByText("Fruit", {
-      selector: "[data-slot=combobox-group-label]",
+      selector: "[data-slot=combobox-label]",
     })
     expect(label.className).not.toMatch(/(^|\s)(ios|macos|web):/)
   })

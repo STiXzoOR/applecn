@@ -54,7 +54,7 @@ function EmptyDescription({ className, ...props }: ComponentProps<"p">) {
 function EmptyActions({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
-      data-slot="empty-actions"
+      data-slot="empty-content"
       className={cn("mt-2 flex items-center gap-2", className)}
       {...props}
     />

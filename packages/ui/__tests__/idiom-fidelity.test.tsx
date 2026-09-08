@@ -722,7 +722,7 @@ interface LabelFixture {
 const LABELS: readonly LabelFixture[] = [
   {
     name: "menu",
-    slot: "menu-label",
+    slot: "dropdown-menu-label",
     family: "menu",
     element: () => (
       <DropdownMenu>
@@ -803,7 +803,7 @@ const LABELS: readonly LabelFixture[] = [
   },
   {
     name: "combobox",
-    slot: "combobox-group-label",
+    slot: "combobox-label",
     family: "menu",
     element: () => (
       <Combobox items={["Apple", "Apricot"]}>
