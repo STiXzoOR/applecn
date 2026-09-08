@@ -140,10 +140,13 @@ const LEDGER: Record<string, Row> = {
   calendar: { task: "Task 28" },
   card: { gap: [] },
   carousel: {
-    gap: ["CarouselContent", "CarouselNext", "CarouselPrevious", "useCarousel"],
-    slotGap: ["carousel-next", "carousel-previous"],
-    slotCloses: "Task 15c",
-    closes: "Task 15c",
+    gap: [],
+    note:
+      "the same shape as `breadcrumb`: `Carousel` looks for a `CarouselContent` among its " +
+      "children and, finding none, supplies the track itself — keeping the arrows out of it, " +
+      "since an arrow is not a slide. `useCarousel` returns the scroller and where it has got " +
+      "to; shadcn's returns embla's `api` and `opts` beside those, and applecn's carousel " +
+      "scrolls natively and takes no carousel library, so it has neither.",
   },
   chart: { task: "Task 30b" },
   checkbox: { gap: [] },

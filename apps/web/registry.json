@@ -3668,7 +3668,12 @@
       "type": "registry:ui",
       "title": "Carousel",
       "description": "A snapping horizontal shelf of items with a page control, scrolled natively — the App Store’s shelves.",
+      "dependencies": [
+        "@hugeicons/core-free-icons"
+      ],
       "registryDependencies": [
+        "https://applecn.vercel.app/r/button.json",
+        "https://applecn.vercel.app/r/icon.json",
         "https://applecn.vercel.app/r/page-control.json",
         "https://applecn.vercel.app/r/utils.json"
       ],
