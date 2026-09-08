@@ -4,6 +4,13 @@ import type { ComponentProps } from "react"
 /**
  * Split views (HIG › Split views): two or three adjacent panes — sidebar, content list, detail —
  * with 1 pt dividers, stacking into a single column below the `lg` breakpoint.
+ *
+ * It is a grid rather than a `resizable` group, and that is a decision rather than an omission
+ * (spec §5.6, corrected 2026-09-08). `react-resizable-panels` writes a panel's size as an inline
+ * flex ratio and takes no `var()`, so the measured per-idiom pane widths could only reach it as a
+ * literal; and the group fixes `display`, `flex-direction`, `flex-wrap` and `overflow` inline, so
+ * the one-column collapse below `lg` could not survive it. A split view that wants a draggable
+ * seam composes `resizable` around these panes, which is what a shadcn user reaches for anyway.
  */
 type SplitViewProps = ComponentProps<"div"> & {
   columns?: 2 | 3

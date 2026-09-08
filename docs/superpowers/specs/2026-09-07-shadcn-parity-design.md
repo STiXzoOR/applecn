@@ -406,21 +406,21 @@ are a product surface rather than primitives.
 
 ### 5.6 Apple compositions on a shadcn base (13)
 
-| applecn          | built on                      | Apple reference                               |
-| ---------------- | ----------------------------- | --------------------------------------------- |
-| `list`           | `item`                        | inset grouped list, 26 pt corners, 52 pt rows |
-| `lockup`         | nothing — verification only   | media + title + description, Apple's metrics  |
-| `search-field`   | `input-group`                 | 44 pt capsule, magnifier addon, clear, cancel |
-| `stepper`        | `input-group`                 | 94 × 32 capsule, −/+ as `InputGroupButton`    |
-| `color-well`     | nothing — verification only   | 28 pt ring on iOS, AppKit's 48 × 24 capsule   |
-| `split-view`     | `resizable`                   | gains the drag it never had                   |
-| `checkbox-group` | `field` (FieldSet/FieldGroup) | macOS text-style hierarchy                    |
-| `tab-bar`        | `tabs`                        | platter 62 inset 21, items 54, labels 10      |
-| `action-sheet`   | `drawer`                      | 48 pt capsule actions from the bottom         |
-| `page-control`   | `pagination`                  | iOS dots                                      |
-| `text`           | the `type-*` scale            | the eleven text styles                        |
-| `toolbar`        | `button-group`                | partial — grouped actions                     |
-| `link`           | the `type-*` scale            |                                               |
+| applecn          | built on                      | Apple reference                                    |
+| ---------------- | ----------------------------- | -------------------------------------------------- |
+| `list`           | `item`                        | inset grouped list, 26 pt corners, 52 pt rows      |
+| `lockup`         | nothing — verification only   | media + title + description, Apple's metrics       |
+| `search-field`   | `input-group`                 | 44 pt capsule, magnifier addon, clear, cancel      |
+| `stepper`        | `input-group`                 | 94 × 32 capsule, −/+ as `InputGroupButton`         |
+| `color-well`     | nothing — verification only   | 28 pt ring on iOS, AppKit's 48 × 24 capsule        |
+| `split-view`     | nothing — verification only   | two or three panes, measured widths, 1 pt dividers |
+| `checkbox-group` | `field` (FieldSet/FieldGroup) | macOS text-style hierarchy                         |
+| `tab-bar`        | `tabs`                        | platter 62 inset 21, items 54, labels 10           |
+| `action-sheet`   | `drawer`                      | 48 pt capsule actions from the bottom              |
+| `page-control`   | `pagination`                  | iOS dots                                           |
+| `text`           | the `type-*` scale            | the eleven text styles                             |
+| `toolbar`        | `button-group`                | partial — grouped actions                          |
+| `link`           | the `type-*` scale            |                                                    |
 
 **Correction (2026-09-08, Task 25 scope review).** The `text` and `link` rows read "`typography`"
 until the row above it was checked against shadcn. There is no `typography` component to compose —
@@ -476,6 +476,32 @@ So Task 35 becomes verification-only, like Tasks 26, 32, 41 and 43, and
 `packages/ui/__tests__/color-well.test.tsx` pins each of those numbers against the field value it
 would have taken. §5.7.1's `number-field` is unaffected: Task 34 DID compose `input-group`, at the
 number field's group, where the field's own metrics are the right ones.
+
+**Correction (2026-09-08, Task 36).** The `split-view` row read "`resizable` — gains the drag it
+never had". It cannot: `resizable` wraps `react-resizable-panels`, and the library owns exactly the
+two behaviours the split view publishes. Spiked against 4.12.4 and abandoned:
+
+- **The pane widths cannot be given to it.** A panel's size is an inline `flex` ratio the library
+  writes, and its `defaultSize` takes a number of pixels or a string with a unit — never a `var()`.
+  applecn's widths are per-idiom tokens (`--split-view-sidebar-width` is 320 pt on iOS, 240 on
+  macOS, 260 on the web; `--split-view-content-width` 375 / 320 / 320), so they could only reach the
+  library as a literal in the component, which is the one thing a token exists to prevent, and one
+  literal would be wrong on two idioms out of three.
+- **The one-column collapse cannot survive.** The group writes `display`, `flex-direction`,
+  `flex-wrap` and `overflow` inline, and the library documents those four as un-overridable. A split
+  view is `grid-cols-1` until `lg` — that is how three panes become a phone's single column — and a
+  class cannot beat an inline declaration. Keeping it would mean a second markup tree behind a
+  media-query hook, which is the delegation shape §5.2's correction is currently taking OUT of
+  `drawer`.
+- **A pane is a labelled region, and a panel is not.** Each pane is a `<section aria-label>` a
+  screen reader can jump to; a panel is a `div` whose `className` lands on the scroll box the
+  library wraps the children in, not on the panel itself (recorded in `resizable.tsx`). Every pane
+  would grow two library divs inside it to keep its own element.
+
+So Task 36 becomes verification-only, like Tasks 26, 32, 35, 41 and 43, and
+`packages/ui/__tests__/split-view.test.tsx` pins each of those three against what the panel does
+instead. The drag is not delivered by this phase; a split view that wants it composes `resizable`
+directly, which is what a shadcn user would reach for anyway.
 
 ### 5.7 Genuinely Apple-only (7)
 
