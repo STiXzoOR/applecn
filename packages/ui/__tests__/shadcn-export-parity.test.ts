@@ -122,10 +122,12 @@ const LEDGER: Record<string, Row> = {
   },
   badge: { gap: [] },
   breadcrumb: {
-    gap: ["BreadcrumbEllipsis", "BreadcrumbList", "BreadcrumbSeparator"],
-    slotGap: ["breadcrumb-ellipsis"],
-    slotCloses: "Task 15c",
-    closes: "Task 15c",
+    gap: [],
+    note:
+      "two markups reach the same tree, which is how Task 15c settled `BreadcrumbList`: " +
+      "`Breadcrumb` looks for a `BreadcrumbList` among its children and, finding one, renders " +
+      "what it was given — shadcn's explicit composition, one `<ol>`, only the separators " +
+      "written. Finding none, it keeps applecn's shorthand and supplies both.",
   },
   bubble: { task: "Task 52–58 (the AI set)" },
   button: { gap: [] },
