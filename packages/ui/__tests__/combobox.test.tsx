@@ -73,9 +73,12 @@ describe("Combobox", () => {
     expect(option.className).toContain(
       "data-highlighted:text-(--menu-item-highlight-text)"
     )
+    // The indicator reads the row's highlight state, so the row has to name the group it
+    // belongs to: a bare `group-*` modifier matches no ancestor and never fires.
+    expect(option.className).toContain("group/combobox-item")
     const indicator = option.querySelector("span")!
     expect(indicator.className).toContain(
-      "group-data-highlighted:text-(--combobox-item-indicator-highlight-text)"
+      "group-data-highlighted/combobox-item:text-(--combobox-item-indicator-highlight-text)"
     )
     const label = screen.getByText("Fruit", {
       selector: "[data-slot=combobox-group-label]",

@@ -25,6 +25,9 @@ describe("Switch", () => {
     expect(thumb.className).toContain("w-(--switch-thumb-width)")
     expect(thumb.className).toContain("h-(--switch-thumb-height)")
     expect(thumb.className).toContain("shadow-(--elevation-thumb)")
+    // The other two properties the deleted `knob` utility supplied.
+    expect(thumb.className).toContain("bg-white")
+    expect(thumb.className).toContain("rounded-full")
     expect(thumb.className).toContain("start-(--switch-inset)")
     expect(thumb.className).toContain(
       "data-checked:translate-x-[calc(var(--switch-width)-var(--switch-thumb-width)-2*var(--switch-inset))]"

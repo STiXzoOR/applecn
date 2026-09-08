@@ -155,11 +155,8 @@ export interface SelectTokens {
  * Row highlight and the group label reuse `MenuTokens`, since the list is menu-shaped.
  */
 export interface ComboboxTokens {
-  readonly field: {
-    readonly borderWidth: number
-    readonly borderColor: string
-    readonly shadow: string
-  }
+  /** The same bordered shell `Input`, `Textarea` and `PasscodeField` read, value for value. */
+  readonly field: FieldBorderTokens
   readonly item: {
     readonly indicatorHighlightText: string
   }
@@ -611,39 +608,48 @@ const webSelect: SelectTokens = {
   label: iosSelectLabel,
 }
 
+// Measured 2026-09-06/07: the bordered field keeps its resting 0.5px separator hairline on iOS
+// and macOS — macOS alone carrying the control bezel shadow; only the web widens it to a 1px
+// label-4 border (docs/research/apple-design-system-reference.md §text fields).
+const iosFieldBorder: FieldBorderTokens = {
+  borderWidth: 0.5,
+  borderColor: "var(--separator)",
+  shadow: "0 0 #0000",
+}
+
+const macosFieldBorder: FieldBorderTokens = {
+  borderWidth: 0.5,
+  borderColor: "var(--separator)",
+  shadow: "var(--elevation-control)",
+}
+
+const webFieldBorder: FieldBorderTokens = {
+  borderWidth: 1,
+  borderColor: "var(--label-4)",
+  shadow: "0 0 #0000",
+}
+
 // Measured 2026-09-07: the field keeps its resting 0.5px separator hairline on iOS and macOS;
 // only the web widens it to a 1px label-4 border, the same race `select`'s popup border
 // resolved (docs/research/apple-design-system-reference.md §combo boxes). The selected row's
 // check mark turns white to read against macOS's selection-coloured highlight; iOS and the web
 // leave it tinted, since their highlight never recolours it.
 const iosCombobox: ComboboxTokens = {
-  field: {
-    borderWidth: 0.5,
-    borderColor: "var(--separator)",
-    shadow: "0 0 #0000",
-  },
+  field: iosFieldBorder,
   item: {
     indicatorHighlightText: "var(--primary)",
   },
 }
 
 const macosCombobox: ComboboxTokens = {
-  field: {
-    borderWidth: 0.5,
-    borderColor: "var(--separator)",
-    shadow: "var(--elevation-control)",
-  },
+  field: macosFieldBorder,
   item: {
     indicatorHighlightText: "white",
   },
 }
 
 const webCombobox: ComboboxTokens = {
-  field: {
-    borderWidth: 1,
-    borderColor: "var(--label-4)",
-    shadow: "0 0 #0000",
-  },
+  field: webFieldBorder,
   item: {
     indicatorHighlightText: "var(--primary)",
   },
@@ -746,27 +752,6 @@ const webSearchField: SearchFieldTokens = {
   shadow: "0 0 #0000",
   borderWidth: 1,
   borderColor: "var(--label-4)",
-}
-
-// Measured 2026-09-06/07: the bordered field keeps its resting 0.5px separator hairline on iOS
-// and macOS — macOS alone carrying the control bezel shadow; only the web widens it to a 1px
-// label-4 border (docs/research/apple-design-system-reference.md §text fields).
-const iosFieldBorder: FieldBorderTokens = {
-  borderWidth: 0.5,
-  borderColor: "var(--separator)",
-  shadow: "0 0 #0000",
-}
-
-const macosFieldBorder: FieldBorderTokens = {
-  borderWidth: 0.5,
-  borderColor: "var(--separator)",
-  shadow: "var(--elevation-control)",
-}
-
-const webFieldBorder: FieldBorderTokens = {
-  borderWidth: 1,
-  borderColor: "var(--label-4)",
-  shadow: "0 0 #0000",
 }
 
 // Measured 2026-09-07: the box narrows from 2.5rem to 2rem on macOS; its height reads the same

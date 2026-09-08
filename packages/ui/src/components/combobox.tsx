@@ -106,12 +106,12 @@ function ComboboxItem({
     <ComboboxPrimitive.Item
       data-slot="combobox-item"
       className={cn(
-        "flex h-(--menu-item-height) shrink-0 cursor-default items-center gap-2 rounded-menu-item ps-2 pe-4 text-[length:var(--menu-font)] text-label outline-none select-none data-highlighted:bg-(--menu-item-highlight-bg) data-highlighted:text-(--menu-item-highlight-text) data-disabled:opacity-40",
+        "group/combobox-item flex h-(--menu-item-height) shrink-0 cursor-default items-center gap-2 rounded-menu-item ps-2 pe-4 text-[length:var(--menu-font)] text-label outline-none select-none data-highlighted:bg-(--menu-item-highlight-bg) data-highlighted:text-(--menu-item-highlight-text) data-disabled:opacity-40",
         className
       )}
       {...props}
     >
-      <span className="flex w-5 shrink-0 items-center justify-center text-primary group-data-highlighted:text-(--combobox-item-indicator-highlight-text)">
+      <span className="flex w-5 shrink-0 items-center justify-center text-primary group-data-highlighted/combobox-item:text-(--combobox-item-indicator-highlight-text)">
         <ComboboxPrimitive.ItemIndicator
           render={<Icon icon={Tick02Icon} weight="bold" />}
         />

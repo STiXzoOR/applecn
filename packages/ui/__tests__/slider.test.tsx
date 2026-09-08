@@ -31,6 +31,9 @@ describe("Slider", () => {
     expect(thumb.className).toContain("w-(--slider-thumb-width)")
     expect(thumb.className).toContain("h-(--slider-thumb-height)")
     expect(thumb.className).toContain("shadow-(--elevation-thumb)")
+    // The other two properties the deleted `knob` utility supplied.
+    expect(thumb.className).toContain("bg-white")
+    expect(thumb.className).toContain("rounded-full")
     expect(thumb.className).toContain("data-dragging:scale-110")
   })
 

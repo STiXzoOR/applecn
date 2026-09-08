@@ -25,6 +25,7 @@ describe("Checkbox", () => {
     expect(c.className).toContain("rounded-checkbox")
     expect(c.className).toContain("border-(length:--checkbox-border-width)")
     expect(c.className).toContain("data-unchecked:bg-(--checkbox-bg)")
+    expect(c.className).toContain("data-unchecked:border-(--checkbox-border)")
     expect(c.className).toContain("shadow-(--checkbox-shadow)")
     expect(c.className).toContain("data-checked:bg-primary")
     expect(c.className).toContain("data-checked:border-primary")
