@@ -270,6 +270,18 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* The UA paints its own controls — the `<select>` popup, scrollbars, date pickers, spin buttons,
+     `Canvas`/`CanvasText` — from the CSS `color-scheme` property, which no class can reach. Dark
+     mode here is `.dark` on the root, so without these two the OS keeps drawing every one of those
+     light while the page is dark. */
+  :root {
+    color-scheme: light;
+  }
+
+  .dark {
+    color-scheme: dark;
+  }
+
   a,
   button,
   [role="button"],

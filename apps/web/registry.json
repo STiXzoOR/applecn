@@ -694,6 +694,12 @@
           "body": {
             "-webkit-font-smoothing": "antialiased"
           },
+          ":root": {
+            "color-scheme": "light"
+          },
+          ".dark": {
+            "color-scheme": "dark"
+          },
           "a,\n  button,\n  [role=\"button\"],\n  label,\n  summary": {
             "touch-action": "manipulation"
           },

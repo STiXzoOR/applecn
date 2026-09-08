@@ -94,6 +94,19 @@ describe("registry", () => {
     expect(macos["--platform"]).toBe("macos")
   })
 
+  test("base ships the UA colour scheme, so a consumer's OS-drawn controls follow the theme", () => {
+    // `native-select`'s popup, scrollbars and every other UA-painted widget read the CSS
+    // `color-scheme` property, which no class reaches. It has to travel with the install or a
+    // consumer toggling `.dark` on a light OS gets a light `<select>` menu over a dark page.
+    const base = registry.items.find((i) => i.name === "base")!
+    const layer = base.css?.["@layer base"] as Record<
+      string,
+      Record<string, string>
+    >
+    expect(layer[":root"]?.["color-scheme"]).toBe("light")
+    expect(layer[".dark"]?.["color-scheme"]).toBe("dark")
+  })
+
   test("base carries every primitive as cssVars, light and dark", () => {
     const base = registry.items.find((i) => i.name === "base")!
     expect(base.type).toBe("registry:theme")

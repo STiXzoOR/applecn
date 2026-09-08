@@ -94,6 +94,26 @@ describe("globals.css", () => {
     expect(css).toContain("var(--material-regular-fallback)")
   })
 
+  test("base layer: the UA colour scheme follows the theme class, so OS-drawn controls do too", () => {
+    // Dark mode here is a class (`@custom-variant dark (&:is(.dark *))`), and the UA does not read
+    // classes: `Canvas`, `CanvasText`, scrollbars, date pickers and the `<select>` popup all follow
+    // the CSS `color-scheme` property. Without these two declarations a page toggled dark on a light
+    // OS keeps drawing every UA-painted widget light — `native-select`'s `bg-[Canvas]` popup most
+    // visibly. Both live in `@layer base` so `registry-data.ts` ships them to consumers too.
+    const start = css.indexOf("@layer base {")
+    expect(start).toBeGreaterThan(-1)
+    let depth = 1
+    let end = start + "@layer base {".length
+    while (depth > 0 && end < css.length) {
+      if (css[end] === "{") depth++
+      if (css[end] === "}") depth--
+      end++
+    }
+    const base = css.slice(start, end)
+    expect(base).toMatch(/:root\s*\{[^}]*color-scheme: light;/)
+    expect(base).toMatch(/\.dark\s*\{[^}]*color-scheme: dark;/)
+  })
+
   test("base layer: tap highlight, optical sizing, coarse-pointer input size, Dynamic Type root", () => {
     expect(css).toContain("-webkit-tap-highlight-color: transparent;")
     expect(css).toContain("font-optical-sizing: auto;")
