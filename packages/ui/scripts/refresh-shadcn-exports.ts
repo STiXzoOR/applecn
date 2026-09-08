@@ -2,8 +2,10 @@
  * Regenerates `__tests__/fixtures/shadcn-exports.json` — the **public surface** of every component
  * shadcn ships in its **Base UI** base variant, which spec §8 names as applecn's reference
  * ("§7.2's export audit must compare against _those_, not the Radix originals"). Public surface is
- * two things: the symbols a module exports, and the `data-slot` values it stamps. The second is
- * there because a shadcn consumer selects on it in CSS, so it is as breakable as an export name.
+ * three things: the symbols a module exports, the `data-slot` values it stamps, and the props each
+ * exported component names. The second is there because a shadcn consumer selects on it in CSS; the
+ * third because a shadcn consumer *writes* those props, and a component that silently drops one
+ * breaks their copy-pasted markup exactly as a missing export does.
  *
  * Why this exists rather than a hand-written list: the Phase 2 review found two entries of a
  * hand-copied fixture wrong (`dialog` claimed 8 exports where shadcn ships 10, `alert-dialog` 11
@@ -39,6 +41,7 @@ interface Fixture {
   readonly fetchedAt: string
   readonly exports: Record<string, string[]>
   readonly slots: Record<string, string[]>
+  readonly props: Record<string, Record<string, string[]>>
 }
 
 async function json<T>(url: string): Promise<T> {
@@ -96,6 +99,81 @@ function stampedSlots(source: string): string[] {
   ].sort()
 }
 
+/** The text between `source[open]` and its matching bracket, exclusive. */
+function bracketBody(source: string, open: number): string {
+  let depth = 0
+  for (let i = open; i < source.length; i++) {
+    const char = source[i]!
+    if (char === "{" || char === "(" || char === "[") depth++
+    else if (char === "}" || char === ")" || char === "]") {
+      depth--
+      if (depth === 0) return source.slice(open + 1, i)
+    }
+  }
+  return ""
+}
+
+/** One destructuring pattern's entries, split on the commas that are not inside anything. */
+function patternEntries(pattern: string): string[] {
+  const entries: string[] = []
+  let depth = 0
+  let start = 0
+  let quote = ""
+  for (let i = 0; i < pattern.length; i++) {
+    const char = pattern[i]!
+    if (quote) {
+      if (char === quote && pattern[i - 1] !== "\\") quote = ""
+      continue
+    }
+    if (char === '"' || char === "'" || char === "`") quote = char
+    else if ("{[(".includes(char)) depth++
+    else if ("}])".includes(char)) depth--
+    else if (char === "," && depth === 0) {
+      entries.push(pattern.slice(start, i))
+      start = i + 1
+    }
+  }
+  entries.push(pattern.slice(start))
+  return entries.map((entry) => entry.trim()).filter(Boolean)
+}
+
+/**
+ * The props each component in one module **names in its signature** — the destructuring pattern of
+ * its first parameter, minus the `...rest`.
+ *
+ * Why this and not the props *type*: shadcn's components and applecn's wrap different primitives, so
+ * their prop types are different objects by construction and comparing them would report a
+ * divergence on every line. What a shadcn user's copy-pasted markup depends on is narrower and
+ * sharper — a prop the component reads and acts on. In shadcn's source that is exactly the
+ * destructured set: a prop reached through `...props` is forwarded untouched and needs no matching
+ * declaration on applecn's side, while a destructured one is being *consumed* — turned into a class,
+ * a positioner offset, an extra element — and a component that does not name it silently drops it.
+ *
+ * This subsumes the cva variant props rather than needing a second pass for them: checked across all
+ * 62 components at `c257f68`, every key of every `cva({ variants })` block is destructured by the
+ * component that applies it, so `variant`, `size` and `spacing` arrive here already.
+ */
+function namedProps(source: string): Record<string, string[]> {
+  const components: Record<string, string[]> = {}
+  for (const match of source.matchAll(
+    /^(?:export\s+)?function\s+([A-Z]\w*)\s*\(/gm
+  )) {
+    const parameters = bracketBody(
+      source,
+      match.index + match[0].length - 1
+    ).trim()
+    // A component that takes its props whole (`function X(props: …)`) names none, and forwards
+    // everything: there is nothing for the other side to have to declare.
+    if (!parameters.startsWith("{")) continue
+    const named = patternEntries(bracketBody(parameters, 0))
+      .filter((entry) => !entry.startsWith("..."))
+      .map((entry) => entry.split(/[:=]/)[0]!.trim())
+      .filter(Boolean)
+    components[match[1]!] = [...new Set(named)].sort()
+  }
+  return components
+}
+
 async function fetchSurface(): Promise<
   Omit<Fixture, "$generated" | "fetchedAt">
 > {
@@ -113,6 +191,7 @@ async function fetchSurface(): Promise<
 
   const exports: Record<string, string[]> = {}
   const slots: Record<string, string[]> = {}
+  const props: Record<string, Record<string, string[]>> = {}
   await Promise.all(
     components.map(async (file) => {
       const response = await fetch(file.download_url)
@@ -122,6 +201,14 @@ async function fetchSurface(): Promise<
       const name = file.name.replace(/\.tsx$/, "")
       exports[name] = exportedValues(source)
       slots[name] = stampedSlots(source)
+      // Only the components shadcn actually exports: `ComboboxClear`, `SheetPortal`,
+      // `SheetOverlay`, `ToastIcon` and `ToastList` are internal to their modules at `c257f68`,
+      // so nothing a shadcn user writes can pass them a prop.
+      props[name] = Object.fromEntries(
+        Object.entries(namedProps(source))
+          .filter(([component]) => exports[name]!.includes(component))
+          .sort(([a], [b]) => (a < b ? -1 : 1))
+      )
     })
   )
 
@@ -141,6 +228,11 @@ async function fetchSurface(): Promise<
       Object.keys(slots)
         .sort()
         .map((name) => [name, slots[name]!])
+    ),
+    props: Object.fromEntries(
+      Object.keys(props)
+        .sort()
+        .map((name) => [name, props[name]!])
     ),
   }
 }
@@ -170,11 +262,29 @@ function driftLines(
   return lines
 }
 
+/** `{ item: { Item: [...] } }` → `{ "item.Item": [...] }`, so one `driftLines` reads both shapes. */
+function flatten(
+  nested: Record<string, Record<string, string[]>>
+): Record<string, string[]> {
+  return Object.fromEntries(
+    Object.entries(nested).flatMap(([module, components]) =>
+      Object.entries(components).map(
+        ([component, props]) => [`${module}.${component}`, props] as const
+      )
+    )
+  )
+}
+
 if (process.argv.includes("--check")) {
   const committed = JSON.parse(readFileSync(FIXTURE, "utf8")) as Fixture
   const drift = [
     ...driftLines("exports", committed.exports, fresh.exports),
     ...driftLines("slots", committed.slots ?? {}, fresh.slots),
+    ...driftLines(
+      "props",
+      flatten(committed.props ?? {}),
+      flatten(fresh.props)
+    ),
   ]
   if (drift.length) {
     console.error(

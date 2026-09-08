@@ -1,13 +1,14 @@
-import { existsSync, readFileSync } from "node:fs"
+import { existsSync, readdirSync, readFileSync } from "node:fs"
 import { join } from "node:path"
 
+import ts from "typescript"
 import { describe, expect, test } from "vitest"
 
 /**
- * Public-surface parity with shadcn (spec §3, §5.1, §7.2) — the exported symbols AND the
- * `data-slot` values. applecn may ship MORE than shadcn — the Apple additions, `AlertDialogActions`,
- * `DrawerToolbar`, `data-slot="drawer-toolbar"` and the rest — and may never ship fewer, or a shadcn
- * user's copy-pasted markup breaks.
+ * Public-surface parity with shadcn (spec §3, §5.1, §7.2) — the exported symbols, the `data-slot`
+ * values AND the props. applecn may ship MORE than shadcn — the Apple additions,
+ * `AlertDialogActions`, `DrawerToolbar`, `data-slot="drawer-toolbar"` and the rest — and may never
+ * ship fewer, or a shadcn user's copy-pasted markup breaks.
  *
  * `data-slot` belongs here because it is not decoration: it is how a shadcn consumer targets a
  * sub-component in CSS (`[data-slot="dropdown-menu-item"] { … }`), so spec §3's "shadcn's name,
@@ -28,6 +29,26 @@ import { describe, expect, test } from "vitest"
  *
  * The variant is shadcn's **Base UI** base (`apps/v4/registry/bases/base/ui`), which spec §8
  * requires: "§7.2's export audit must compare against _those_, not the Radix originals".
+ *
+ * The props layer is the third and newest, and it exists because the first two did not bite where
+ * spec §1 says parity lives — "same props where the underlying primitive allows". `item` shipped
+ * with every export and every slot shadcn has, green on both layers, while `Item` took `className`
+ * and `render` against shadcn's `className`, `render`, `variant` and `size`: a `<Item variant=
+ * "outline">` transplanted from shadcn's docs put an unknown attribute on a `<div>` and changed
+ * nothing. That is the same class of hole `data-slot` was before Task 15b, caught the same way —
+ * from shadcn's own source, against the same recorded commit.
+ *
+ * The two sides are read differently, on purpose:
+ *
+ * - **shadcn's side is syntactic** — the props each component names in its signature, which is what
+ *   the generator can see in a repo it only fetches. It is also the right set: a prop reached
+ *   through `...props` is forwarded untouched, while a destructured one is being consumed.
+ * - **applecn's side is the type** — `ts`'s view of what the exported component's props actually
+ *   admit. This repo is here to be asked, so it is asked the exact question a shadcn user's editor
+ *   would: does `<DropdownMenuItem inset>` typecheck? Reading applecn's destructuring instead would
+ *   report a divergence every time applecn forwards a prop its primitive already handles — Base UI
+ *   takes `orientation` on `Tabs.Root` and `modal` on `Dialog.Root`, so applecn's `Tabs` and
+ *   `Drawer` need not name them, and a syntactic read called all three a gap. The type does not.
  */
 
 const FIXTURE = JSON.parse(
@@ -41,10 +62,62 @@ const FIXTURE = JSON.parse(
   readonly commitDate: string
   readonly exports: Record<string, string[]>
   readonly slots: Record<string, string[]>
+  readonly props: Record<string, Record<string, string[]>>
 }
 
 const COMPONENTS_DIR = join(import.meta.dirname, "../src/components")
 const modulePath = (name: string) => join(COMPONENTS_DIR, `${name}.tsx`)
+
+/**
+ * One TypeScript program over every component, built on first use (~0.7 s) and reused for the rest
+ * of the file. Its only job is to answer "which props does this exported component admit?".
+ */
+let program: ts.Program | undefined
+function typeChecker(): ts.TypeChecker {
+  if (!program) {
+    const root = join(import.meta.dirname, "..")
+    const config = ts.readConfigFile(join(root, "tsconfig.json"), (path) =>
+      ts.sys.readFile(path)
+    )
+    const parsed = ts.parseJsonConfigFileContent(config.config, ts.sys, root)
+    const sources = readdirSync(COMPONENTS_DIR)
+      .filter((file) => file.endsWith(".tsx"))
+      .map((file) => join(COMPONENTS_DIR, file))
+    program = ts.createProgram(sources, { ...parsed.options, noEmit: true })
+  }
+  return program.getTypeChecker()
+}
+
+/**
+ * The prop names `name.tsx`'s exported `component` admits, or `null` when the module does not
+ * export it as something callable — which means the export gap above already owns the divergence.
+ */
+function acceptedProps(name: string, component: string): Set<string> | null {
+  const checker = typeChecker()
+  const source = program!.getSourceFile(modulePath(name))
+  if (!source) return null
+  const moduleSymbol = checker.getSymbolAtLocation(source)
+  if (!moduleSymbol) return null
+  const exported = checker
+    .getExportsOfModule(moduleSymbol)
+    .find((symbol) => symbol.name === component)
+  if (!exported) return null
+  const [signature] = checker
+    .getTypeOfSymbolAtLocation(exported, source)
+    .getCallSignatures()
+  if (!signature) return null
+  const [parameter] = signature.getParameters()
+  if (!parameter) return new Set()
+  return new Set(
+    checker
+      .getTypeOfSymbolAtLocation(
+        parameter,
+        parameter.valueDeclaration ?? source
+      )
+      .getProperties()
+      .map((symbol) => symbol.name)
+  )
+}
 
 /**
  * The `data-slot` values one module stamps, read from its source the same way the generator reads
@@ -83,6 +156,14 @@ interface Built {
   readonly closes?: string
   readonly slotGap?: readonly string[]
   readonly slotCloses?: string
+  /**
+   * EXACTLY the `Component.prop` pairs shadcn names that applecn's type does not admit, with
+   * `propCloses` (falling back to `closes`) naming the task that empties them. A pair only belongs
+   * here when applecn exports the component: a component it does not export yet is already a `gap`,
+   * and listing its props too would double-count the same divergence.
+   */
+  readonly propGap?: readonly string[]
+  readonly propCloses?: string
   readonly note?: string
 }
 
@@ -111,7 +192,15 @@ const LEDGER: Record<string, Row> = {
       "`AccordionPanel` so both names reach the same component.",
   },
   alert: { task: "Task 20" },
-  "alert-dialog": { gap: [] },
+  "alert-dialog": {
+    propGap: [
+      "AlertDialogCancel.size",
+      "AlertDialogCancel.variant",
+      "AlertDialogContent.size",
+    ],
+    propCloses: "Task 59",
+    gap: [],
+  },
   "aspect-ratio": { task: "Task 21" },
   attachment: { task: "Task 52–58 (the AI set)" },
   avatar: {
@@ -121,8 +210,14 @@ const LEDGER: Record<string, Row> = {
       "badge's size off `group-data-[size=…]/avatar`, so applecn's do the same against its own " +
       "`small`/`medium`/`large` — the size names are an older divergence, not this task's.",
   },
-  badge: { gap: [] },
+  badge: {
+    propGap: ["Badge.render"],
+    propCloses: "Task 59",
+    gap: [],
+  },
   breadcrumb: {
+    propGap: ["BreadcrumbLink.render"],
+    propCloses: "Task 59",
     gap: [],
     note:
       "two markups reach the same tree, which is how Task 15c settled `BreadcrumbList`: " +
@@ -139,8 +234,19 @@ const LEDGER: Record<string, Row> = {
     note: "Task 42 rebuilds `toolbar` on `button-group` and owns its surface.",
   },
   calendar: { task: "Task 28" },
-  card: { gap: [] },
+  card: {
+    propGap: ["Card.size"],
+    propCloses: "Task 59",
+    gap: [],
+  },
   carousel: {
+    propGap: [
+      "Carousel.opts",
+      "Carousel.orientation",
+      "Carousel.plugins",
+      "Carousel.setApi",
+    ],
+    propCloses: "Task 59",
     gap: [],
     note:
       "the same shape as `breadcrumb`: `Carousel` looks for a `CarouselContent` among its " +
@@ -160,6 +266,13 @@ const LEDGER: Record<string, Row> = {
       "and `collapsible-content`, with `collapsible-chevron` the Apple addition.",
   },
   combobox: {
+    propGap: [
+      "ComboboxContent.alignOffset",
+      "ComboboxContent.anchor",
+      "ComboboxInput.showClear",
+      "ComboboxInput.showTrigger",
+    ],
+    propCloses: "Task 59",
     gap: [],
     slotGap: ["input-group-button"],
     slotCloses: "Task 18",
@@ -175,10 +288,34 @@ const LEDGER: Record<string, Row> = {
       "for source parity; nothing can select on it in either project.",
   },
   command: { task: "Task 27" },
-  "context-menu": { gap: [] },
-  dialog: { gap: [] },
+  "context-menu": {
+    propGap: [
+      "ContextMenuCheckboxItem.inset",
+      "ContextMenuContent.align",
+      "ContextMenuContent.alignOffset",
+      "ContextMenuContent.side",
+      "ContextMenuContent.sideOffset",
+      "ContextMenuItem.inset",
+      "ContextMenuLabel.inset",
+      "ContextMenuRadioItem.inset",
+      "ContextMenuSubTrigger.inset",
+    ],
+    propCloses: "Task 59",
+    gap: [],
+  },
+  dialog: {
+    propGap: ["DialogContent.showCloseButton", "DialogFooter.showCloseButton"],
+    propCloses: "Task 59",
+    gap: [],
+  },
   direction: { task: "Task 52–58 (the AI set)" },
   drawer: {
+    propGap: [
+      "Drawer.showSwipeHandle",
+      "Drawer.snapPoints",
+      "Drawer.swipeDirection",
+    ],
+    propCloses: "Task 59",
     gap: [],
     note:
       "the rename of the bottom `sheet`. Task 15b re-slotted it from the `sheet-*` values the " +
@@ -187,6 +324,14 @@ const LEDGER: Record<string, Row> = {
       "`DrawerPortal`, `DrawerOverlay` and `DrawerSwipeHandle` (the grabber's shadcn name).",
   },
   "dropdown-menu": {
+    propGap: [
+      "DropdownMenuCheckboxItem.inset",
+      "DropdownMenuItem.inset",
+      "DropdownMenuLabel.inset",
+      "DropdownMenuRadioItem.inset",
+      "DropdownMenuSubTrigger.inset",
+    ],
+    propCloses: "Task 59",
     gap: [],
     note:
       "the rename of `menu`. Task 15b re-slotted its 17 `menu-*` values and widened the shared " +
@@ -201,6 +346,7 @@ const LEDGER: Record<string, Row> = {
       "general media well beside `EmptyIcon`, and both stamp `empty-icon` as shadcn's does.",
   },
   field: {
+    propGap: ["Field.orientation", "FieldError.errors"],
     gap: [
       "FieldContent",
       "FieldLegend",
@@ -228,6 +374,8 @@ const LEDGER: Record<string, Row> = {
   input: { gap: [] },
   "input-group": { task: "Task 18" },
   "input-otp": {
+    propGap: ["InputOTP.containerClassName"],
+    propCloses: "Task 59",
     gap: [],
     note:
       "the rename of `passcode-field`. Task 15c built shadcn's three composition parts on Base " +
@@ -240,6 +388,8 @@ const LEDGER: Record<string, Row> = {
   },
   item: {
     gap: [],
+    propGap: ["Item.size", "Item.variant"],
+    propCloses: "Task 17b",
     note:
       "shadcn's row primitive on Apple's list metrics: the `--list-row-*` tokens give it 52 pt " +
       "rows with 15 × 16 pt padding on iOS 26 and AppKit's 28 pt with 4 × 10 on macOS, which is " +
@@ -258,7 +408,18 @@ const LEDGER: Record<string, Row> = {
   kbd: { gap: [] },
   label: { gap: [] },
   marker: { task: "Task 52–58 (the AI set)" },
-  menubar: { gap: [] },
+  menubar: {
+    propGap: [
+      "MenubarCheckboxItem.inset",
+      "MenubarContent.alignOffset",
+      "MenubarItem.inset",
+      "MenubarLabel.inset",
+      "MenubarRadioItem.inset",
+      "MenubarSubTrigger.inset",
+    ],
+    propCloses: "Task 59",
+    gap: [],
+  },
   message: { task: "Task 52–58 (the AI set)" },
   "message-scroller": { task: "Task 52–58 (the AI set)" },
   "native-select": { task: "Task 22" },
@@ -281,7 +442,11 @@ const LEDGER: Record<string, Row> = {
     gap: [],
     note: "`ScrollBar` is shadcn's name for `ScrollAreaScrollbar`, exported as an alias.",
   },
-  select: { gap: [] },
+  select: {
+    propGap: ["SelectTrigger.size"],
+    propCloses: "Task 59",
+    gap: [],
+  },
   separator: { gap: [] },
   sheet: {
     task: "Task 19",
@@ -291,6 +456,8 @@ const LEDGER: Record<string, Row> = {
       "symbols, not because applecn shipped an edge panel. Task 19 builds the real one.",
   },
   sidebar: {
+    propGap: ["SidebarMenuButton.size", "SidebarMenuButton.variant"],
+    propCloses: "Task 59",
     gap: [],
     note:
       "the widest gap in the catalogue, closed by Task 15c. The composition question was the " +
@@ -313,9 +480,14 @@ const LEDGER: Record<string, Row> = {
       "catalogue does not list it.",
   },
   spinner: { gap: [] },
-  switch: { gap: [] },
+  switch: {
+    propGap: ["Switch.size"],
+    propCloses: "Task 59",
+    gap: [],
+  },
   table: { gap: [] },
   tabs: {
+    propGap: ["TabsList.variant"],
     gap: ["tabsListVariants"],
     closes: "Task 38",
     note:
@@ -336,8 +508,22 @@ const LEDGER: Record<string, Row> = {
       "app icon, drawn from the toast's `data.icon` rather than shadcn's `type`), and " +
       "`Toaster` keeps its 5 s default timeout.",
   },
-  toggle: { gap: [] },
-  "toggle-group": { gap: [] },
+  toggle: {
+    propGap: ["Toggle.variant"],
+    propCloses: "Task 59",
+    gap: [],
+  },
+  "toggle-group": {
+    propGap: [
+      "ToggleGroup.size",
+      "ToggleGroup.spacing",
+      "ToggleGroup.variant",
+      "ToggleGroupItem.size",
+      "ToggleGroupItem.variant",
+    ],
+    propCloses: "Task 59",
+    gap: [],
+  },
   tooltip: { gap: [] },
 }
 
@@ -395,6 +581,19 @@ describe("export parity with shadcn", () => {
     ).toEqual([])
   })
 
+  test("a recorded prop gap names the task that closes it", () => {
+    const unattributed = built
+      .filter(
+        ([, row]) =>
+          (row.propGap?.length ?? 0) > 0 && !(row.propCloses ?? row.closes)
+      )
+      .map(([name]) => name)
+    expect(
+      unattributed,
+      "every prop gap names the task that closes it"
+    ).toEqual([])
+  })
+
   test("the fixture records shadcn's data-slot values alongside its exports", () => {
     expect(Object.keys(FIXTURE.slots).sort()).toEqual(
       Object.keys(FIXTURE.exports).sort()
@@ -405,6 +604,37 @@ describe("export parity with shadcn", () => {
       .filter(([, slots]) => slots.length === 0)
       .map(([name]) => name)
     expect(slotless).toEqual(["badge", "direction", "sonner"])
+  })
+
+  test("the fixture records the props shadcn's components name", () => {
+    expect(Object.keys(FIXTURE.props).sort()).toEqual(
+      Object.keys(FIXTURE.exports).sort()
+    )
+    // Every component recorded must be one shadcn exports: the internal `ToastList`, `ToastIcon`,
+    // `ComboboxClear`, `SheetPortal` and `SheetOverlay` are not surface a user writes against.
+    for (const [name, components] of Object.entries(FIXTURE.props))
+      for (const component of Object.keys(components))
+        expect(FIXTURE.exports[name], `${name} exports ${component}`).toContain(
+          component
+        )
+    // Canaries on the extraction. A component naming nothing is real and common — `function
+    // Dialog({ ...props })` forwards everything and consumes none — so emptiness is not the
+    // signal. A collapse in the *count* is: the parse either reads a signature or skips the
+    // component entirely, so a broken one shows up as components going missing.
+    const recorded = Object.values(FIXTURE.props).flatMap((components) =>
+      Object.keys(components)
+    )
+    expect(recorded.length).toBeGreaterThan(300)
+    // And a module recording nothing at all must be one that declares no component: `direction`
+    // re-exports Base UI's provider untouched, `sonner` wraps the third-party toaster.
+    const componentless = Object.entries(FIXTURE.props)
+      .filter(([, components]) => Object.keys(components).length === 0)
+      .map(([name]) => name)
+    expect(componentless).toEqual(["direction", "sonner"])
+    // And the sharpest one: `variant`/`size` on `Item` are the pair this layer was added for. If
+    // the extraction stops seeing cva variant props, it has stopped being worth running.
+    expect(FIXTURE.props.item?.Item).toContain("variant")
+    expect(FIXTURE.props.item?.Item).toContain("size")
   })
 
   for (const [name, row] of declined)
@@ -460,5 +690,33 @@ describe("export parity with shadcn", () => {
           `A shadcn user's CSS selects on these, so either close the gap, or record it exactly ` +
           `in this file's LEDGER as \`slotGap\` with the task that will.`
       ).toEqual([...(row.slotGap ?? [])].sort())
+    })
+
+  for (const [name, row] of built)
+    test(`${name} takes every prop shadcn's components name`, () => {
+      const missing: string[] = []
+      const unexported: string[] = []
+      for (const [component, props] of Object.entries(FIXTURE.props[name]!)) {
+        const accepted = acceptedProps(name, component)
+        if (!accepted) {
+          unexported.push(component)
+          continue
+        }
+        for (const prop of props)
+          if (!accepted.has(prop)) missing.push(`${component}.${prop}`)
+      }
+      // A component whose props cannot be read is one applecn does not export as a component. That
+      // is an export gap, already recorded above — but only if it IS recorded, so the skip cannot
+      // become a quiet hole where a component is exported as something uncallable.
+      expect(
+        unexported.filter((component) => !row.gap.includes(component)),
+        `${name} exports these but not as components, and no export gap covers them`
+      ).toEqual([])
+      expect(
+        missing.sort(),
+        `${name}'s prop gap against shadcn ${FIXTURE.commit.slice(0, 7)} changed. ` +
+          `A shadcn user writes these props, so either take them, or record them exactly in ` +
+          `this file's LEDGER as \`propGap\` with the task that will.`
+      ).toEqual([...(row.propGap ?? [])].sort())
     })
 })

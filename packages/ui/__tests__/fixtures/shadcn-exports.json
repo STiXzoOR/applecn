@@ -837,5 +837,622 @@
       "tooltip-trigger"
     ]
   },
+  "props": {
+    "accordion": {
+      "Accordion": ["className"],
+      "AccordionContent": ["children", "className"],
+      "AccordionItem": ["className"],
+      "AccordionTrigger": ["children", "className"]
+    },
+    "alert": {
+      "Alert": ["className", "variant"],
+      "AlertAction": ["className"],
+      "AlertDescription": ["className"],
+      "AlertTitle": ["className"]
+    },
+    "alert-dialog": {
+      "AlertDialog": [],
+      "AlertDialogAction": ["className"],
+      "AlertDialogCancel": ["className", "size", "variant"],
+      "AlertDialogContent": ["className", "size"],
+      "AlertDialogDescription": ["className"],
+      "AlertDialogFooter": ["className"],
+      "AlertDialogHeader": ["className"],
+      "AlertDialogMedia": ["className"],
+      "AlertDialogOverlay": ["className"],
+      "AlertDialogPortal": [],
+      "AlertDialogTitle": ["className"],
+      "AlertDialogTrigger": []
+    },
+    "aspect-ratio": {
+      "AspectRatio": ["className", "ratio"]
+    },
+    "attachment": {
+      "Attachment": ["className", "orientation", "size", "state"],
+      "AttachmentAction": ["className", "size", "variant"],
+      "AttachmentActions": ["className"],
+      "AttachmentContent": ["className"],
+      "AttachmentDescription": ["className"],
+      "AttachmentGroup": ["className"],
+      "AttachmentMedia": ["className", "variant"],
+      "AttachmentTitle": ["className"],
+      "AttachmentTrigger": ["className", "render", "type"]
+    },
+    "avatar": {
+      "Avatar": ["className", "size"],
+      "AvatarBadge": ["className"],
+      "AvatarFallback": ["className"],
+      "AvatarGroup": ["className"],
+      "AvatarGroupCount": ["className"],
+      "AvatarImage": ["className"]
+    },
+    "badge": {
+      "Badge": ["className", "render", "variant"]
+    },
+    "breadcrumb": {
+      "Breadcrumb": ["className"],
+      "BreadcrumbEllipsis": ["className"],
+      "BreadcrumbItem": ["className"],
+      "BreadcrumbLink": ["className", "render"],
+      "BreadcrumbList": ["className"],
+      "BreadcrumbPage": ["className"],
+      "BreadcrumbSeparator": ["children", "className"]
+    },
+    "bubble": {
+      "Bubble": ["align", "className", "variant"],
+      "BubbleContent": ["className", "render"],
+      "BubbleGroup": ["className"],
+      "BubbleReactions": ["align", "className", "side"]
+    },
+    "button": {
+      "Button": ["className", "size", "variant"]
+    },
+    "button-group": {
+      "ButtonGroup": ["className", "orientation"],
+      "ButtonGroupSeparator": ["className", "orientation"],
+      "ButtonGroupText": ["className", "render"]
+    },
+    "calendar": {
+      "Calendar": [
+        "buttonVariant",
+        "captionLayout",
+        "className",
+        "classNames",
+        "components",
+        "formatters",
+        "locale",
+        "showOutsideDays"
+      ],
+      "CalendarDayButton": ["className", "day", "locale", "modifiers"]
+    },
+    "card": {
+      "Card": ["className", "size"],
+      "CardAction": ["className"],
+      "CardContent": ["className"],
+      "CardDescription": ["className"],
+      "CardFooter": ["className"],
+      "CardHeader": ["className"],
+      "CardTitle": ["className"]
+    },
+    "carousel": {
+      "Carousel": [
+        "children",
+        "className",
+        "opts",
+        "orientation",
+        "plugins",
+        "setApi"
+      ],
+      "CarouselContent": ["className"],
+      "CarouselItem": ["className"],
+      "CarouselNext": ["className", "size", "variant"],
+      "CarouselPrevious": ["className", "size", "variant"]
+    },
+    "chart": {
+      "ChartContainer": [
+        "children",
+        "className",
+        "config",
+        "id",
+        "initialDimension"
+      ],
+      "ChartLegendContent": [
+        "className",
+        "hideIcon",
+        "nameKey",
+        "payload",
+        "verticalAlign"
+      ],
+      "ChartTooltipContent": [
+        "active",
+        "className",
+        "color",
+        "formatter",
+        "hideIndicator",
+        "hideLabel",
+        "indicator",
+        "label",
+        "labelClassName",
+        "labelFormatter",
+        "labelKey",
+        "nameKey",
+        "payload"
+      ]
+    },
+    "checkbox": {
+      "Checkbox": ["className"]
+    },
+    "collapsible": {
+      "Collapsible": [],
+      "CollapsibleContent": [],
+      "CollapsibleTrigger": []
+    },
+    "combobox": {
+      "ComboboxChip": ["children", "className", "showRemove"],
+      "ComboboxChips": ["className"],
+      "ComboboxChipsInput": ["className"],
+      "ComboboxCollection": [],
+      "ComboboxContent": [
+        "align",
+        "alignOffset",
+        "anchor",
+        "className",
+        "side",
+        "sideOffset"
+      ],
+      "ComboboxEmpty": ["className"],
+      "ComboboxGroup": ["className"],
+      "ComboboxInput": [
+        "children",
+        "className",
+        "disabled",
+        "showClear",
+        "showTrigger"
+      ],
+      "ComboboxItem": ["children", "className"],
+      "ComboboxLabel": ["className"],
+      "ComboboxList": ["className"],
+      "ComboboxSeparator": ["className"],
+      "ComboboxTrigger": ["children", "className"],
+      "ComboboxValue": []
+    },
+    "command": {
+      "Command": ["className"],
+      "CommandDialog": [
+        "children",
+        "className",
+        "description",
+        "showCloseButton",
+        "title"
+      ],
+      "CommandEmpty": ["className"],
+      "CommandGroup": ["className"],
+      "CommandInput": ["className"],
+      "CommandItem": ["children", "className"],
+      "CommandList": ["className"],
+      "CommandSeparator": ["className"],
+      "CommandShortcut": ["className"]
+    },
+    "context-menu": {
+      "ContextMenu": [],
+      "ContextMenuCheckboxItem": ["checked", "children", "className", "inset"],
+      "ContextMenuContent": [
+        "align",
+        "alignOffset",
+        "className",
+        "side",
+        "sideOffset"
+      ],
+      "ContextMenuGroup": [],
+      "ContextMenuItem": ["className", "inset", "variant"],
+      "ContextMenuLabel": ["className", "inset"],
+      "ContextMenuPortal": [],
+      "ContextMenuRadioGroup": [],
+      "ContextMenuRadioItem": ["children", "className", "inset"],
+      "ContextMenuSeparator": ["className"],
+      "ContextMenuShortcut": ["className"],
+      "ContextMenuSub": [],
+      "ContextMenuSubContent": [],
+      "ContextMenuSubTrigger": ["children", "className", "inset"],
+      "ContextMenuTrigger": ["className"]
+    },
+    "dialog": {
+      "Dialog": [],
+      "DialogClose": [],
+      "DialogContent": ["children", "className", "showCloseButton"],
+      "DialogDescription": ["className"],
+      "DialogFooter": ["children", "className", "showCloseButton"],
+      "DialogHeader": ["className"],
+      "DialogOverlay": ["className"],
+      "DialogPortal": [],
+      "DialogTitle": ["className"],
+      "DialogTrigger": []
+    },
+    "direction": {},
+    "drawer": {
+      "Drawer": ["modal", "showSwipeHandle", "snapPoints", "swipeDirection"],
+      "DrawerClose": [],
+      "DrawerContent": ["children", "className"],
+      "DrawerDescription": ["className"],
+      "DrawerFooter": ["className"],
+      "DrawerHeader": ["className"],
+      "DrawerOverlay": ["className"],
+      "DrawerPortal": [],
+      "DrawerSwipeHandle": ["className"],
+      "DrawerTitle": ["className"],
+      "DrawerTrigger": []
+    },
+    "dropdown-menu": {
+      "DropdownMenu": [],
+      "DropdownMenuCheckboxItem": ["checked", "children", "className", "inset"],
+      "DropdownMenuContent": [
+        "align",
+        "alignOffset",
+        "className",
+        "side",
+        "sideOffset"
+      ],
+      "DropdownMenuGroup": [],
+      "DropdownMenuItem": ["className", "inset", "variant"],
+      "DropdownMenuLabel": ["className", "inset"],
+      "DropdownMenuPortal": [],
+      "DropdownMenuRadioGroup": [],
+      "DropdownMenuRadioItem": ["children", "className", "inset"],
+      "DropdownMenuSeparator": ["className"],
+      "DropdownMenuShortcut": ["className"],
+      "DropdownMenuSub": [],
+      "DropdownMenuSubContent": [
+        "align",
+        "alignOffset",
+        "className",
+        "side",
+        "sideOffset"
+      ],
+      "DropdownMenuSubTrigger": ["children", "className", "inset"],
+      "DropdownMenuTrigger": []
+    },
+    "empty": {
+      "Empty": ["className"],
+      "EmptyContent": ["className"],
+      "EmptyDescription": ["className"],
+      "EmptyHeader": ["className"],
+      "EmptyMedia": ["className", "variant"],
+      "EmptyTitle": ["className"]
+    },
+    "field": {
+      "Field": ["className", "orientation"],
+      "FieldContent": ["className"],
+      "FieldDescription": ["className"],
+      "FieldError": ["children", "className", "errors"],
+      "FieldGroup": ["className"],
+      "FieldLabel": ["className"],
+      "FieldLegend": ["className", "variant"],
+      "FieldSeparator": ["children", "className"],
+      "FieldSet": ["className"],
+      "FieldTitle": ["className"]
+    },
+    "hover-card": {
+      "HoverCard": [],
+      "HoverCardContent": [
+        "align",
+        "alignOffset",
+        "className",
+        "side",
+        "sideOffset"
+      ],
+      "HoverCardTrigger": []
+    },
+    "input": {
+      "Input": ["className", "type"]
+    },
+    "input-group": {
+      "InputGroup": ["className"],
+      "InputGroupAddon": ["align", "className"],
+      "InputGroupButton": ["className", "size", "type", "variant"],
+      "InputGroupInput": ["className"],
+      "InputGroupText": ["className"],
+      "InputGroupTextarea": ["className"]
+    },
+    "input-otp": {
+      "InputOTP": ["className", "containerClassName"],
+      "InputOTPGroup": ["className"],
+      "InputOTPSeparator": [],
+      "InputOTPSlot": ["className", "index"]
+    },
+    "item": {
+      "Item": ["className", "render", "size", "variant"],
+      "ItemActions": ["className"],
+      "ItemContent": ["className"],
+      "ItemDescription": ["className"],
+      "ItemFooter": ["className"],
+      "ItemGroup": ["className"],
+      "ItemHeader": ["className"],
+      "ItemMedia": ["className", "variant"],
+      "ItemSeparator": ["className"],
+      "ItemTitle": ["className"]
+    },
+    "kbd": {
+      "Kbd": ["className"],
+      "KbdGroup": ["className"]
+    },
+    "label": {
+      "Label": ["className"]
+    },
+    "marker": {
+      "Marker": ["className", "render", "variant"],
+      "MarkerContent": ["className"],
+      "MarkerIcon": ["className"]
+    },
+    "menubar": {
+      "Menubar": ["className"],
+      "MenubarCheckboxItem": ["checked", "children", "className", "inset"],
+      "MenubarContent": ["align", "alignOffset", "className", "sideOffset"],
+      "MenubarGroup": [],
+      "MenubarItem": ["className", "inset", "variant"],
+      "MenubarLabel": ["className", "inset"],
+      "MenubarMenu": [],
+      "MenubarPortal": [],
+      "MenubarRadioGroup": [],
+      "MenubarRadioItem": ["children", "className", "inset"],
+      "MenubarSeparator": ["className"],
+      "MenubarShortcut": ["className"],
+      "MenubarSub": [],
+      "MenubarSubContent": ["className"],
+      "MenubarSubTrigger": ["className", "inset"],
+      "MenubarTrigger": ["className"]
+    },
+    "message": {
+      "Message": ["align", "className"],
+      "MessageAvatar": ["className"],
+      "MessageContent": ["className"],
+      "MessageFooter": ["className"],
+      "MessageGroup": ["className"],
+      "MessageHeader": ["className"]
+    },
+    "message-scroller": {
+      "MessageScroller": ["className"],
+      "MessageScrollerButton": [
+        "children",
+        "className",
+        "direction",
+        "render",
+        "size",
+        "variant"
+      ],
+      "MessageScrollerContent": ["className"],
+      "MessageScrollerItem": ["className", "scrollAnchor"],
+      "MessageScrollerViewport": ["className"]
+    },
+    "native-select": {
+      "NativeSelect": ["className", "size"],
+      "NativeSelectOptGroup": ["className"],
+      "NativeSelectOption": ["className"]
+    },
+    "navigation-menu": {
+      "NavigationMenu": ["align", "children", "className"],
+      "NavigationMenuContent": ["className"],
+      "NavigationMenuIndicator": ["className"],
+      "NavigationMenuItem": ["className"],
+      "NavigationMenuLink": ["className"],
+      "NavigationMenuList": ["className"],
+      "NavigationMenuPositioner": [
+        "align",
+        "alignOffset",
+        "className",
+        "side",
+        "sideOffset"
+      ],
+      "NavigationMenuTrigger": ["children", "className"]
+    },
+    "pagination": {
+      "Pagination": ["className"],
+      "PaginationContent": ["className"],
+      "PaginationEllipsis": ["className"],
+      "PaginationItem": [],
+      "PaginationLink": ["className", "isActive", "size"],
+      "PaginationNext": ["className", "text"],
+      "PaginationPrevious": ["className", "text"]
+    },
+    "popover": {
+      "Popover": [],
+      "PopoverContent": [
+        "align",
+        "alignOffset",
+        "className",
+        "side",
+        "sideOffset"
+      ],
+      "PopoverDescription": ["className"],
+      "PopoverHeader": ["className"],
+      "PopoverTitle": ["className"],
+      "PopoverTrigger": []
+    },
+    "progress": {
+      "Progress": ["children", "className", "value"],
+      "ProgressIndicator": ["className"],
+      "ProgressLabel": ["className"],
+      "ProgressTrack": ["className"],
+      "ProgressValue": ["className"]
+    },
+    "questionnaire": {
+      "Questionnaire": ["className"],
+      "QuestionnaireActions": ["className"],
+      "QuestionnaireChoice": ["children", "className"],
+      "QuestionnaireChoiceDescription": ["className"],
+      "QuestionnaireChoices": ["className"],
+      "QuestionnaireDescription": ["className"],
+      "QuestionnaireError": ["className"],
+      "QuestionnaireInput": ["className"],
+      "QuestionnaireItem": ["className"],
+      "QuestionnaireNext": ["children", "className", "size", "variant"],
+      "QuestionnairePrevious": ["children", "className", "size", "variant"],
+      "QuestionnaireProgress": ["className"],
+      "QuestionnaireSkip": ["children", "className", "size", "variant"],
+      "QuestionnaireSubmit": ["children", "className", "size", "variant"],
+      "QuestionnaireTitle": ["className"]
+    },
+    "radio-group": {
+      "RadioGroup": ["className"],
+      "RadioGroupItem": ["className"]
+    },
+    "resizable": {
+      "ResizableHandle": ["className", "withHandle"],
+      "ResizablePanel": [],
+      "ResizablePanelGroup": ["className"]
+    },
+    "scroll-area": {
+      "ScrollArea": ["children", "className"],
+      "ScrollBar": ["className", "orientation"]
+    },
+    "select": {
+      "SelectContent": [
+        "align",
+        "alignItemWithTrigger",
+        "alignOffset",
+        "children",
+        "className",
+        "side",
+        "sideOffset"
+      ],
+      "SelectGroup": ["className"],
+      "SelectItem": ["children", "className"],
+      "SelectLabel": ["className"],
+      "SelectScrollDownButton": ["className"],
+      "SelectScrollUpButton": ["className"],
+      "SelectSeparator": ["className"],
+      "SelectTrigger": ["children", "className", "size"],
+      "SelectValue": ["className"]
+    },
+    "separator": {
+      "Separator": ["className", "orientation"]
+    },
+    "sheet": {
+      "Sheet": [],
+      "SheetClose": [],
+      "SheetContent": ["children", "className", "showCloseButton", "side"],
+      "SheetDescription": ["className"],
+      "SheetFooter": ["className"],
+      "SheetHeader": ["className"],
+      "SheetTitle": ["className"],
+      "SheetTrigger": []
+    },
+    "sidebar": {
+      "Sidebar": [
+        "children",
+        "className",
+        "collapsible",
+        "dir",
+        "side",
+        "variant"
+      ],
+      "SidebarContent": ["className"],
+      "SidebarFooter": ["className"],
+      "SidebarGroup": ["className"],
+      "SidebarGroupAction": ["className", "render"],
+      "SidebarGroupContent": ["className"],
+      "SidebarGroupLabel": ["className", "render"],
+      "SidebarHeader": ["className"],
+      "SidebarInput": ["className"],
+      "SidebarInset": ["className"],
+      "SidebarMenu": ["className"],
+      "SidebarMenuAction": ["className", "render", "showOnHover"],
+      "SidebarMenuBadge": ["className"],
+      "SidebarMenuButton": [
+        "className",
+        "isActive",
+        "render",
+        "size",
+        "tooltip",
+        "variant"
+      ],
+      "SidebarMenuItem": ["className"],
+      "SidebarMenuSkeleton": ["className", "showIcon"],
+      "SidebarMenuSub": ["className"],
+      "SidebarMenuSubButton": ["className", "isActive", "render", "size"],
+      "SidebarMenuSubItem": ["className"],
+      "SidebarProvider": [
+        "children",
+        "className",
+        "defaultOpen",
+        "onOpenChange",
+        "open",
+        "style"
+      ],
+      "SidebarRail": ["className"],
+      "SidebarSeparator": ["className"],
+      "SidebarTrigger": ["className", "onClick"]
+    },
+    "skeleton": {
+      "Skeleton": ["className"]
+    },
+    "slider": {
+      "Slider": ["className", "defaultValue", "max", "min", "value"]
+    },
+    "sonner": {},
+    "spinner": {
+      "Spinner": ["className"]
+    },
+    "switch": {
+      "Switch": ["className", "size"]
+    },
+    "table": {
+      "Table": ["className"],
+      "TableBody": ["className"],
+      "TableCaption": ["className"],
+      "TableCell": ["className"],
+      "TableFooter": ["className"],
+      "TableHead": ["className"],
+      "TableHeader": ["className"],
+      "TableRow": ["className"]
+    },
+    "tabs": {
+      "Tabs": ["className", "orientation"],
+      "TabsContent": ["className"],
+      "TabsList": ["className", "variant"],
+      "TabsTrigger": ["className"]
+    },
+    "textarea": {
+      "Textarea": ["className"]
+    },
+    "toast": {
+      "Toast": ["className"],
+      "ToastAction": ["className", "render"],
+      "ToastClose": ["children", "className", "render"],
+      "ToastContent": ["className"],
+      "ToastDescription": ["className"],
+      "ToastPortal": [],
+      "ToastProvider": [],
+      "ToastTitle": ["className"],
+      "ToastViewport": ["className"],
+      "Toaster": ["children", "toastManager"]
+    },
+    "toggle": {
+      "Toggle": ["className", "size", "variant"]
+    },
+    "toggle-group": {
+      "ToggleGroup": [
+        "children",
+        "className",
+        "orientation",
+        "size",
+        "spacing",
+        "variant"
+      ],
+      "ToggleGroupItem": ["children", "className", "size", "variant"]
+    },
+    "tooltip": {
+      "Tooltip": [],
+      "TooltipContent": [
+        "align",
+        "alignOffset",
+        "children",
+        "className",
+        "side",
+        "sideOffset"
+      ],
+      "TooltipProvider": ["delay"],
+      "TooltipTrigger": []
+    }
+  },
   "fetchedAt": "2026-09-08"
 }

@@ -1571,6 +1571,44 @@ Spec §7.6. Seven primitives — `attachment`, `bubble`, `direction`, `marker`, 
 
 ---
 
+# Phase 7 — the prop gaps the parity sweep found
+
+Spec §1's "same props where the underlying primitive allows". Task 17b added the third layer to
+`shadcn-export-parity.test.ts` — the props each shadcn component names, checked against what
+applecn's exported component's type admits — and swept all 62 rows against shadcn `c257f68`. It
+found **55 gaps in 21 components**; `item`'s two were closed in that task, and `field`'s two and
+`tabs`'s one are already owned by Tasks 37 and 38. The remaining **50 in 18 components** are recorded
+row by row as `propGap` and are this phase's work. Each is exact: closing one shrinks the ledger,
+and a prop that goes missing later fails the same test.
+
+- [ ] **Task 59a — the positioner props.** `ContextMenuContent` takes none of `align`,
+      `alignOffset`, `side`, `sideOffset`; `MenubarContent` and `ComboboxContent` are missing
+      `alignOffset`, and `ComboboxContent` also `anchor`. Pure forwarding to the Base UI positioner,
+      and `DropdownMenuContent` and `DropdownMenuSubContent` already do exactly this — copy them.
+      No design decision, no measured value. 7 gaps.
+- [ ] **Task 59b — `inset`.** 15 gaps, one decision: `DropdownMenu`/`ContextMenu`/`Menubar`'s
+      `Item`, `Label`, `SubTrigger`, `CheckboxItem` and `RadioItem` all take shadcn's `inset`, which
+      indents a label to line up with the rows that have icons. applecn's menu row already sizes its
+      icon well, so the indent is that well plus the row gap — one shared class, no new token. Do
+      all three menus together; they share the item class.
+- [ ] **Task 59c — the cva `size` and `variant` props with no measured Apple analogue.**
+      `AlertDialogCancel.size`/`.variant`, `AlertDialogContent.size`, `Card.size`,
+      `SelectTrigger.size`, `Switch.size`, `SidebarMenuButton.size`/`.variant`, `Toggle.variant`,
+      `ToggleGroup.size`/`.spacing`/`.variant`, `ToggleGroupItem.size`/`.variant`. 14 gaps.
+      **`item` is the worked precedent**: carry shadcn's prop with shadcn's default, and resolve it
+      to slots Apple already measured rather than inventing pixels — the grouped card's radius and
+      hairline, the fill ramp, the type one and two steps down. Where a smaller size has no measured
+      floor, drop the floor rather than assert a number. No token value may change.
+- [ ] **Task 59d — the behaviour props.** `Carousel.opts`/`.orientation`/`.plugins`/`.setApi` (4),
+      `Drawer.showSwipeHandle`/`.snapPoints`/`.swipeDirection` (3), `DialogContent.showCloseButton`
+      and `DialogFooter.showCloseButton` (2), `ComboboxInput.showClear`/`.showTrigger` (2),
+      `InputOTP.containerClassName`, `Badge.render`, `BreadcrumbLink.render`. 14 gaps, each real
+      work rather than plumbing. `carousel`'s four are embla's API over a carousel that scrolls
+      natively and takes no carousel library, so that row may end in an argued `declined`-shaped
+      note instead — decide it explicitly, do not let it lapse.
+
+---
+
 ## Self-review notes
 
 - **Spec coverage:** §4.1's three install gaps → Tasks 8 and 11. §4.2 detokenisation → Tasks 3–6. §4.3's retained utilities → Task 7 (deletions only; `type-*`, `material-*`, `glass*` are deliberately untouched). §4.4's fold → Task 16. §4.5's harness → Task 12. §5 catalogue → Tasks 15–44 and Phase 6. §6.2 themes → Task 10. §6.5 conventions → Tasks 1, 2, 9. §7.5 docs and brand → Tasks 45–51.
