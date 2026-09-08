@@ -4390,6 +4390,28 @@
       ]
     },
     {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "A modal panel attached to an edge of the window — the iPadOS and macOS inspector — flush to its edge on the sidebar width, sliding in on the sheet curve.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/button.json",
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/sheet.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "sidebar",
       "type": "registry:ui",
       "title": "Sidebar",

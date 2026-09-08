@@ -391,6 +391,14 @@
     "w-full"
   ],
   "separator.tsx": [],
+  "sheet.tsx": [
+    "--sidebar-width",
+    "h-full",
+    "size-3",
+    "type-headline",
+    "type-subheadline",
+    "w-full"
+  ],
   "sidebar.tsx": [
     "--sidebar-font",
     "--sidebar-item-gap",

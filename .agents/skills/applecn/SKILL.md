@@ -120,6 +120,7 @@ Install any of these as `@applecn/<name>`.
 - `alert-dialog` — Alert (Alerts): The iOS 26 alert: 320 pt, 34 pt corners, Liquid Glass, left-aligned text and 48 pt capsule actions; AppKit’s 260 pt alert with 28 pt push buttons on macOS.
 - `action-sheet` — Action sheet (Action sheets): Choices related to an action: the iOS 26 card with 48 pt capsule actions from the bottom on a phone, a popover anchored to the control from the sm breakpoint.
 - `drawer` — Drawer (Sheets): A bottom sheet with a grabber and detents on phones, a centred card from the sm breakpoint.
+- `sheet` — Sheet (Panels): A modal panel attached to an edge of the window — the iPadOS and macOS inspector — flush to its edge on the sidebar width, sliding in on the sheet curve.
 - `dialog` — Dialog (Sheets (macOS), form sheets): A modal card: the macOS sheet and the iPad form sheet, on the platform’s dialog corner and width.
 - `hover-card` — Hover card (Link previews): Safari’s link preview: a Liquid Glass card that appears after hovering a link for a moment.
 - `toast` — Toast (Notifications): Notification banners: a Liquid Glass card with an icon, title and message that drops in from the top and can be swiped away.

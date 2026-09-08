@@ -54,6 +54,7 @@ export const examples: Record<string, () => Promise<{ default: ComponentType }>>
   'search-field/basic': () => import('./examples/search-field/basic'),
   'select/basic': () => import('./examples/select/basic'),
   'separator/basic': () => import('./examples/separator/basic'),
+  'sheet/basic': () => import('./examples/sheet/basic'),
   'sidebar/basic': () => import('./examples/sidebar/basic'),
   'skeleton/basic': () => import('./examples/skeleton/basic'),
   'slider/basic': () => import('./examples/slider/basic'),

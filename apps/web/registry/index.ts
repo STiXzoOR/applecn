@@ -449,6 +449,16 @@ export const componentDocs: ComponentDoc[] = [
     examples: [{ name: "basic", title: "New event" }],
   },
   {
+    name: "sheet",
+    title: "Sheet",
+    description:
+      "A modal panel attached to an edge of the window — the iPadOS and macOS inspector — flush to its edge on the sidebar width, sliding in on the sheet curve.",
+    group: "overlays",
+    apple: { name: "Panels", hig: hig("panels") },
+    primitive: "Dialog",
+    examples: [{ name: "basic", title: "Inspector" }],
+  },
+  {
     name: "dialog",
     title: "Dialog",
     description:

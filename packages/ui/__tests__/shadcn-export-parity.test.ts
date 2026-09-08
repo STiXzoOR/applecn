@@ -463,11 +463,18 @@ const LEDGER: Record<string, Row> = {
   },
   separator: { gap: [] },
   sheet: {
-    task: "Task 19",
+    gap: [],
     note:
       "spec §5.2 freed this name: the bottom sheet that answered to it is now `drawer`. The " +
       "old row read as parity because `Sheet*` and shadcn's edge-panel `Sheet*` spell the same " +
-      "symbols, not because applecn shipped an edge panel. Task 19 builds the real one.",
+      "symbols, not because applecn shipped an edge panel. Task 19 built the real one, from " +
+      "shadcn's source: shadcn EXPORTS eight symbols, not the ten the task brief listed — " +
+      "`SheetPortal` and `SheetOverlay` are defined upstream and kept internal, which is why " +
+      "`sheet-portal` and `sheet-overlay` are in the slot list and not the export list. " +
+      "applecn exports both, as it exports `DialogPortal` and `DialogOverlay`, which is MORE " +
+      "than shadcn and so still parity. Apple's geometry is the inspector panel: flush to its " +
+      "edge on `--sidebar-width`, sliding its whole width on the sheet curve rather than " +
+      "shadcn's 2.5 rem nudge. No token was added.",
   },
   sidebar: {
     propGap: ["SidebarMenuButton.size", "SidebarMenuButton.variant"],
