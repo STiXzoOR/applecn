@@ -1444,8 +1444,28 @@ Same cycle. Rebuild each on its shadcn base, keep the Apple-facing prop names, d
 
 ### Task 44: `responsive-dialog` and `responsive-alert-dialog`
 
+**Scope widened 2026-09-08 (owner correction, spec §5.2).** This task now also fixes `drawer`. Task 15
+renamed today's Apple bottom sheet to `drawer`, but that component calls `useIsDesktop()` and switches
+to Base UI **Dialog** above the breakpoint, whereas shadcn's Drawer is always a drawer. The breakpoint
+switch is the Apple presentation pattern and belongs here, in `responsive-dialog`. So:
+
+1. Strip the `useIsDesktop()` delegation and the `useDrawerPresentation` context out of `drawer.tsx`,
+   leaving shadcn's Drawer: always a drawer, `snapPoints`/`showSwipeHandle` in place of the
+   Apple-invented `detent` prop, Apple's measured styling untouched, `DrawerSection`/`DrawerToolbar`
+   kept as additive Apple extras.
+2. Build `responsive-dialog` on that lifted delegation.
+3. Repoint every consumer that relied on drawer-becomes-dialog-on-desktop. Find them; do not assume
+   the list is short.
+
+**`responsive-dialog` and `responsive-alert-dialog` compose applecn's own `dialog`, `drawer` and
+`action-sheet` components — never `@base-ui/react` directly.** An attempt on 2026-09-08 that held two
+raw Base UI roots failed to typecheck outright: Base UI's Dialog and Drawer roots carry incompatible
+`onOpenChange` event-detail types. Import `Dialog`/`DialogContent` from `./dialog` and
+`Drawer`/`DrawerContent` from `./drawer`.
+
 **Files:**
 
+- Modify: `packages/ui/src/components/drawer.tsx` (remove the desktop delegation).
 - Create: `packages/ui/src/components/responsive-dialog.tsx`, `responsive-alert-dialog.tsx`, and their tests and examples.
 
 **Interfaces:**

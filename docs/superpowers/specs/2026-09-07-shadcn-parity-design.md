@@ -191,13 +191,35 @@ and combobox's `input-group-button` slot (Task 18).
 
 ### 5.2 Parity, rename (5)
 
-| from               | to              | note                                                                                                         |
-| ------------------ | --------------- | ------------------------------------------------------------------------------------------------------------ |
-| `menu`             | `dropdown-menu` |                                                                                                              |
-| `preview-card`     | `hover-card`    |                                                                                                              |
-| `passcode-field`   | `input-otp`     |                                                                                                              |
-| `disclosure-group` | `collapsible`   |                                                                                                              |
-| `sheet`            | `drawer`        | today's bottom sheet **is** shadcn's Drawer; the name `sheet` is then freed for the edge panel built in §5.4 |
+| from               | to              | note                                                                                                                                                   |
+| ------------------ | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `menu`             | `dropdown-menu` |                                                                                                                                                        |
+| `preview-card`     | `hover-card`    |                                                                                                                                                        |
+| `passcode-field`   | `input-otp`     |                                                                                                                                                        |
+| `disclosure-group` | `collapsible`   |                                                                                                                                                        |
+| `sheet`            | `drawer`        | the name `sheet` is freed for the edge panel built in §5.4. See the correction below — `drawer` must be shadcn's Drawer, not today's component renamed |
+
+**Correction (2026-09-08, owner).** This row previously read "today's bottom sheet **is** shadcn's
+Drawer", and Task 15 executed the rename on that basis. The premise conflated a _component_ with a
+_presentation pattern_, and it broke the owner's governing rule: expose shadcn's primitives as they
+are, and build Apple's behaviour as additional primitives on top of them. A shadcn name is never
+occupied by an Apple component wearing it.
+
+What is actually true, verified against `shadcn-ui/ui@main` and Base UI:
+
+- shadcn's Drawer is built on `@base-ui/react/drawer` and already ships `snapPoints` (Apple's
+  detents), `showSwipeHandle` (the grabber), `swipeDirection`, nested drawers, and swipe-progress
+  overlay opacity on `cubic-bezier(0.32, 0.72, 0, 1)` — the iOS sheet curve. It **is** an accessible
+  bottom sheet matching Apple's model, so Apple needs no bottom-sheet primitive of its own.
+- applecn's component already imports that same Base UI primitive; it was never hand-rolled.
+- The only thing making it not shadcn's Drawer is that it calls `useIsDesktop()` and switches to
+  Base UI **Dialog** above the breakpoint. shadcn's Drawer is always a drawer.
+
+So `drawer` becomes shadcn's Drawer — always a drawer, `snapPoints`/`showSwipeHandle` in place of the
+Apple-invented `detent` prop, Apple's measured styling unchanged, and `DrawerSection`/`DrawerToolbar`
+retained as additive Apple extras, which §3 permits. The breakpoint switching moves to
+`responsive-dialog` (§5.8), which is where the owner said it belonged from the start. **Task 44 owns
+this**; it is not a Phase 3 change.
 
 ### 5.3 Parity, fold (1)
 
@@ -260,10 +282,21 @@ Both follow shadcn's export shape exactly: `ResponsiveDialog`, `ResponsiveDialog
 `ResponsiveDialogContent`, `ResponsiveDialogHeader`, `ResponsiveDialogFooter`, `ResponsiveDialogTitle`,
 `ResponsiveDialogDescription`, `ResponsiveDialogClose`.
 
-Delegation follows today's `sheet.tsx`: `useIsDesktop()` picks the primitive and a context tells the
-parts which to render. The alternative — render both, hide one with CSS — gives two focus traps and
-duplicate DOM, and is rejected. The media query is JS, so the trigger renders before the breakpoint
-is known; this is harmless because content is portaled and exists only while open.
+Delegation: `useIsDesktop()` picks the branch and a context tells the parts which to render. The
+alternative — render both, hide one with CSS — gives two focus traps and duplicate DOM, and is
+rejected. The media query is JS, so the trigger renders before the breakpoint is known; this is
+harmless because content is portaled and exists only while open.
+
+**Both compose applecn's own `dialog` and `drawer` components — never `@base-ui/react` directly.**
+This is the layering the whole spec rests on: a shadcn-named primitive wraps the underlying library,
+and everything Apple composes those primitives. Reaching past the shadcn layer into Base UI is what
+§5.6's thirteen rebuilds exist to undo, and a new Apple primitive must not reintroduce it. It is also
+concretely unsound: Base UI's Dialog and Drawer roots carry incompatible `onOpenChange` event-detail
+types, so a component holding both raw roots does not typecheck. Compose `Dialog`/`DialogContent`
+from `./dialog` and `Drawer`/`DrawerContent` from `./drawer`.
+
+The delegation source is today's `drawer.tsx`, which already implements exactly this switch and must
+have it removed as part of §5.2's correction — `drawer` keeps the drawer branch only.
 
 ## 6. Architecture
 
