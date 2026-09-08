@@ -1067,10 +1067,25 @@ first, then the smallest component that empties it.
 Rows owned elsewhere and NOT part of this task: `tabs` (Task 16), `field` (Task 37),
 `button-group` (Task 42), and combobox's `input-group-button` slot, which arrives with Task 18.
 
-- [ ] One commit per component, cheapest first: `card`, `kbd`, `scroll-area`, `accordion`, `empty`,
-      `breadcrumb`, then `dropdown-menu`/`menubar`/`context-menu` (the shared menu surface),
-      `drawer`/`hover-card` (the portal parts), `navigation-menu`, `carousel`, `avatar`,
-      `input-otp`, `combobox`, `sidebar`, `toast`.
+Task 15b closed the ten cheapest rows on its way past: `card`, `kbd`, `scroll-area`, `accordion`,
+`empty`, `dropdown-menu`, `menubar`, `context-menu`, `drawer` and `hover-card` are at parity on
+both halves. Seven rows are left, each carrying a composition question the cheap ones did not:
+
+- [ ] `breadcrumb` (3 exports, 1 slot) — `BreadcrumbList` is the decision: applecn's `Breadcrumb`
+      renders the `<ol>` itself and auto-inserts separators between children, so shadcn's
+      `<Breadcrumb><BreadcrumbList><BreadcrumbItem/><BreadcrumbSeparator/>` would nest one `<ol>`
+      in another and double the separators. Decide how both markups can hold.
+- [ ] `navigation-menu` (3, 1) — `NavigationMenuIndicator`, `NavigationMenuPositioner`,
+      `navigationMenuTriggerStyle`.
+- [ ] `carousel` (4, 2) — `CarouselContent` is the same question as `BreadcrumbList`: applecn's
+      `Carousel` renders the track. Plus `CarouselNext`/`CarouselPrevious`/`useCarousel`.
+- [ ] `avatar` (3, 3) — `AvatarGroup`, `AvatarGroupCount`, `AvatarBadge`: real Apple design.
+- [ ] `input-otp` (3, 3) — applecn renders its boxes from a `length` prop; shadcn composes
+      `InputOTPGroup`/`InputOTPSlot`/`InputOTPSeparator`.
+- [ ] `combobox` (9, 8) — the chips surface, `ComboboxValue`, `ComboboxCollection`,
+      `ComboboxSeparator`, and `ComboboxGroupLabel` renamed to `ComboboxLabel` with the old name
+      kept as an alias. `input-group-button` arrives with Task 18, not here.
+- [ ] `sidebar` (17, 16) and `toast` (11, 1) — the two big ones; each is a task-sized rebuild.
 - [ ] Each: shrink the row in the ledger, watch it fail, add the sub-component, `pnpm check`.
 
 ### Task 16: Fold `segmented-control` into `toggle-group`

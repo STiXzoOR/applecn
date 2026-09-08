@@ -181,12 +181,13 @@ panel would have collided with), `dropdown-menu` (17 reading `menu-*`), `menubar
 `input-otp`, `collapsible`, `accordion`, `carousel`, `combobox` and `empty`. The gaps that remain
 are sub-components applecn has not built; Task 15c owns them.
 
-The remaining known gaps, all recorded in the test's ledger: `sidebar` (17 symbols), `toast` (11),
-`combobox` (9), `context-menu` (7), `field` (5), `carousel` (4), `avatar`/`breadcrumb`/
-`button-group`/`empty`/`menubar`/`navigation-menu`/`tabs` (3 each), and one each in `accordion`,
-`card`, `kbd` and `scroll-area`. Today's `sheet`, once renamed to `drawer` (§5.2), is missing
-`DrawerHeader` and `DrawerFooter`, and carries the Apple-specific `SheetSection` and `SheetToolbar`
-which are kept alongside.
+The remaining known gaps, all recorded in the test's ledger and re-counted after Task 15b closed
+sixteen of them: `sidebar` (17 symbols, 16 slots), `toast` (11, 1), `combobox` (9, 8), `field`
+(5, 5), `carousel` (4, 2), `avatar`/`breadcrumb`/`button-group`/`input-otp`/`navigation-menu`/
+`tabs` (3 exports each). `accordion`, `card`, `context-menu`, `drawer`, `dropdown-menu`, `empty`,
+`hover-card`, `kbd`, `menubar` and `scroll-area` are now at parity on both halves of the surface.
+Task 15c owns what is left except `tabs` (Task 16), `field` (Task 37), `button-group` (Task 42)
+and combobox's `input-group-button` slot (Task 18).
 
 ### 5.2 Parity, rename (5)
 
