@@ -22,6 +22,7 @@ export const examples: Record<string, () => Promise<{ default: ComponentType }>>
   'collapsible/basic': () => import('./examples/collapsible/basic'),
   'color-well/basic': () => import('./examples/color-well/basic'),
   'combobox/basic': () => import('./examples/combobox/basic'),
+  'command/basic': () => import('./examples/command/basic'),
   'context-menu/basic': () => import('./examples/context-menu/basic'),
   'dialog/basic': () => import('./examples/dialog/basic'),
   'drawer/basic': () => import('./examples/drawer/basic'),

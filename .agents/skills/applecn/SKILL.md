@@ -116,6 +116,7 @@ Install any of these as `@applecn/<name>`.
 ### Overlays
 
 - `dropdown-menu` — Dropdown menu (Menus, pull-down buttons): Liquid Glass menus: 250 pt panels of 44 pt rows with leading glyphs on iOS 26; AppKit’s 24 pt rows, hairlines and accent highlight on macOS 26.
+- `command` — Command (Searching): Spotlight: a field you type into over a list of results, where every row is a menu row and the palette arrives on glass a third of the way down.
 - `context-menu` — Context menu (Context menus): The same menu, opened by a secondary click or a long press on an item.
 - `popover` — Popover (Popovers): A transient Liquid Glass card with an arrow, on the platform’s popover corner.
 - `tooltip` — Tooltip (Tooltips): A brief phrase on thick material after a short hover.

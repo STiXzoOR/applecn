@@ -308,7 +308,32 @@ const LEDGER: Record<string, Row> = {
       '`data-slot="combobox-collection"` never reaches the DOM there either. applecn carries it ' +
       "for source parity; nothing can select on it in either project.",
   },
-  command: { task: "Task 27" },
+  command: {
+    gap: [],
+    note:
+      "nine exports and nine slots, all present — the brief listed eight, omitting `Command` " +
+      "itself, and two of the nine slots (`command-input-wrapper` and `command-input`) are " +
+      "stamped by `CommandInput` alone. Built on `cmdk`, as shadcn's Base UI variant is. Three " +
+      "notes. `CommandDialog` stamps no slot of its own in either project, which is why it is " +
+      "absent from the slot list. `showCloseButton` is honoured inside `CommandDialog` rather " +
+      "than forwarded, because applecn's `DialogContent` does not take it yet — that is the " +
+      "`DialogContent.showCloseButton` prop gap Task 59 owns, and the prop a shadcn user " +
+      "writes behaves identically here meanwhile. And the header renders INSIDE " +
+      "`DialogContent`: shadcn renders `DialogHeader` as a sibling of it, which under Base UI " +
+      "puts the sr-only title and description in the page rather than in the dialog, where " +
+      "they are read with the surrounding page and outlive the palette. Exports, slots and " +
+      "props are unchanged by both. " +
+      'Spec §3.2, third instance: `cmdk` gives `Command.Separator` `role="separator"` and ' +
+      '`Command.List` `role="listbox"`, and ARIA does not permit the one inside the other: ' +
+      "axe fails `aria-required-children` on shadcn's markup as much as on applecn's. " +
+      '`CommandSeparator` defaults to `role="none"`. Nothing is lost — `Command.Group` already ' +
+      'announces each group through an inner `role="group"` labelled by its heading, so the ' +
+      "rule is decoration beside semantics that exist without it, which is what distinguishes " +
+      "this from `item`'s ruling (there the separator WAS the structure, so the container's " +
+      "role went instead; here the container's role is the combobox's listbox and cannot go). " +
+      'A caller writes `role="separator"` to take it back. The role is reached through ' +
+      "`asChild` because `cmdk` writes its own after the props it is handed.",
+  },
   "context-menu": {
     propGap: [
       "ContextMenuCheckboxItem.inset",

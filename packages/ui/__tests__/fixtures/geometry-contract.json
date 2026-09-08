@@ -150,6 +150,24 @@
     "w-5",
     "w-full"
   ],
+  "command.tsx": [
+    "--available-height",
+    "--menu-font",
+    "--menu-item-gap",
+    "--menu-item-height",
+    "--menu-item-px",
+    "--menu-label-font-size",
+    "--menu-label-leading",
+    "--menu-label-py",
+    "--menu-label-tracking",
+    "--menu-label-weight",
+    "--menu-separator-height",
+    "--text-field-font",
+    "--text-field-height",
+    "rounded-menu-item",
+    "size-3",
+    "size-full"
+  ],
   "context-menu.tsx": [
     "--menu-font",
     "--menu-item-px",

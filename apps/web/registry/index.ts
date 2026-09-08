@@ -407,6 +407,16 @@ export const componentDocs: ComponentDoc[] = [
     examples: [{ name: "basic", title: "Pull-down menu" }],
   },
   {
+    name: "command",
+    title: "Command",
+    description:
+      "Spotlight: a field you type into over a list of results, where every row is a menu row and the palette arrives on glass a third of the way down.",
+    group: "overlays",
+    apple: { name: "Searching", hig: hig("searching") },
+    primitive: "element",
+    examples: [{ name: "basic", title: "Spotlight" }],
+  },
+  {
     name: "context-menu",
     title: "Context menu",
     description:
