@@ -732,10 +732,37 @@ The four renames of §5.2, the `segmented-control` fold of §5.3, then the 15 pr
 
 ### 7.4 Rebuild the Apple layer
 
-The 13 compositions of §5.6 onto their shadcn bases, and the two new primitives of §5.8. This phase
-deletes more code than it adds.
+The 13 compositions of §5.6 onto their shadcn bases, and the two new primitives of §5.8.
 
 **Acceptance:** no measured metric changes. §7.2 is the gate.
+
+**Correction (2026-09-08).** This section previously ended "This phase deletes more code than it adds."
+That has not held, and the reason is structural rather than a matter of effort. Of the first eight
+compositions attempted, three fit (`list`, `search-field`, `stepper`) and five did not
+(`lockup`, `color-well`, `split-view`, `tab-bar`, `page-control`); `action-sheet` was re-sequenced
+behind Task 44 rather than abandoned. Each non-fit was spiked, measured, and recorded here with its
+numbers rather than forced.
+
+Three causes recur, and the first was unknown when this spec was written:
+
+1. **A wrapper cannot reliably override its base's paint.** applecn's custom named utilities do not
+   merge in `cn` — `cn("rounded-field","rounded-full")` and `cn("shadow-control","shadow-none")` both
+   return _both_ classes — so which one applies is decided by stylesheet emission order, invisibly
+   from the source. Composition assumes a wrapper can restyle what it wraps; for named radii and
+   shadows it cannot. `tab-bar` failed on exactly this (`bg-fill-3` emitted after `glass`, with no
+   `bg-*` able to clear one without the other). §4.3 already rejects the cure — teaching the merger
+   needs a per-project `cn build`, which is the config burden copy-paste exists to avoid — so
+   `packages/ui/__tests__/named-utility-collision.test.ts` guards the class instead.
+2. **Shared design language is not shared semantics.** `page-control`'s dots are not `pagination`'s
+   links; `lockup` is a stack where `item` is a row. §4.4's sweep found one true duplication in the
+   catalogue and folded it; §5.6's remaining rows were read as duplications on thinner evidence.
+3. **Some Apple components have no behaviour to inherit.** `split-view` had no drag at all, so
+   rebuilding it on `resizable` adds code by definition.
+
+The phase's real value proved to be elsewhere: the guard written to explain a failed composition found
+six components where `glass`'s reduced-transparency fallback never landed, because a later
+unconditional `shadow-glass` outranked it in both states — a shipped accessibility regression of
+exactly the kind §4.3 warns about.
 
 ### 7.5 Docs 1:1 with shadcn, and brand
 
