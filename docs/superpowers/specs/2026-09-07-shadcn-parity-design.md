@@ -412,7 +412,7 @@ are a product surface rather than primitives.
 | `lockup`         | nothing — verification only   | media + title + description, Apple's metrics  |
 | `search-field`   | `input-group`                 | 44 pt capsule, magnifier addon, clear, cancel |
 | `stepper`        | `input-group`                 | 94 × 32 capsule, −/+ as `InputGroupButton`    |
-| `color-well`     | `input-group`                 |                                               |
+| `color-well`     | nothing — verification only   | 28 pt ring on iOS, AppKit's 48 × 24 capsule   |
 | `split-view`     | `resizable`                   | gains the drag it never had                   |
 | `checkbox-group` | `field` (FieldSet/FieldGroup) | macOS text-style hierarchy                    |
 | `tab-bar`        | `tabs`                        | platter 62 inset 21, items 54, labels 10      |
@@ -450,6 +450,32 @@ So Task 32 becomes verification-only, like Tasks 26, 41 and 43: `lockup` keeps i
 title and subtitle, and `packages/ui/__tests__/lockup.test.tsx` pins each of those numbers against
 the list-row value it would have taken. `ItemContent` and `ItemActions` are the only two parts that
 would have dropped in unchanged, and two generic flex boxes do not pay for the dependency.
+
+**Correction (2026-09-08, Task 35).** The `color-well` row read "`input-group`" until Task 33 built
+`search-field` on it and Task 35 tried the same. A search capsule IS the combined field; a colour
+well is a 28 pt swatch, and it shares neither `input-group`'s element nor any of its values. Spiked
+as a real rebuild and measured in a browser:
+
+- **The radius breaks.** The well reads `rounded-(--color-well-radius)`, an arbitrary value;
+  `input-group` writes `rounded-field`, a named theme radius. `cn` does not merge the two, so both
+  survive on the element and Tailwind's emission order decides — and it emits the named one later.
+  The composed well came out at **5 px on iOS and on the web, where the well is a circle**
+  (`calc(infinity * 1px)`). macOS matched at 6 px only because `--color-well-radius` and
+  `--text-field-radius` agree there. The same collision resolved the OTHER way for `search-field`,
+  whose `rounded-search` is emitted after `rounded-field`; that it lands right there and wrong here
+  is what makes it a race rather than a rule, and Task 33 records it as one.
+- **The element is wrong.** The well is a `<label>` around `<input type="color">`, which is what
+  makes the whole swatch open the system picker. `InputGroup` renders a `<div role="group">` and
+  takes no `render` prop, so a rebuild either loses the label or grows a wrapper around it.
+- **Nothing of the group survives.** Seven utilities are overridden outright (height, width, radius,
+  border width, fill, padding, shadow), two more must be neutralised (`gap-1.5`, `flex-wrap`), and
+  the group brings a field type and two `has-[>textarea]` rules to a control that has neither. What
+  is left that the well wants is `relative`, `outline-none` and a focus ring it already writes.
+
+So Task 35 becomes verification-only, like Tasks 26, 32, 41 and 43, and
+`packages/ui/__tests__/color-well.test.tsx` pins each of those numbers against the field value it
+would have taken. §5.7.1's `number-field` is unaffected: Task 34 DID compose `input-group`, at the
+number field's group, where the field's own metrics are the right ones.
 
 ### 5.7 Genuinely Apple-only (7)
 
