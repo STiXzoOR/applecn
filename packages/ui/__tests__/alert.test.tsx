@@ -6,8 +6,10 @@ import {
   AlertAction,
   AlertDescription,
   AlertTitle,
+  alertVariants,
 } from "../src/components/alert"
 import { checkA11y } from "./helpers/axe"
+import { resolve, variableMap } from "./helpers/token-cascade"
 
 describe("Alert", () => {
   test("is a live region carrying a title and a description, each stamped as shadcn stamps it", () => {
@@ -100,6 +102,43 @@ describe("Alert", () => {
       screen.getByRole("button", { name: "Retry" })
     )
   })
+
+  /**
+   * The banner has to LOOK like a banner. `--card` is `--grouped-background-2`, which is the same
+   * colour as `--background` in light on all three idioms and in dark on macOS — so a container
+   * painted with `bg-card` and nothing else is invisible in four of the six idiom x appearance
+   * combinations, and the default variant read as loose text beside a destructive variant that
+   * read as a banner. Two variants of one component that do not look like the same component.
+   *
+   * The fill is right and stays; what was missing is a boundary. Recorded in two parts: the
+   * mechanism (which combinations the fill cannot be seen in) and the gate (the container draws
+   * an edge of its own, in every variant, so it does not depend on the fill at all).
+   */
+  const COMBINATIONS = (["ios", "macos", "web"] as const).flatMap((platform) =>
+    (["light", "dark"] as const).map(
+      (appearance) => [platform, appearance] as const
+    )
+  )
+
+  test("the card fill alone cannot carry the container: it is the page ground in four of six", () => {
+    const invisible = COMBINATIONS.filter(([platform, appearance]) => {
+      const vars = variableMap(platform, { name: appearance, appearance })
+      return resolve("var(--card)", vars) === resolve("var(--background)", vars)
+    }).map(([platform, appearance]) => `${platform}/${appearance}`)
+    expect(
+      invisible,
+      "if this set changed, the token values moved and the reason for the hairline moved with it"
+    ).toEqual(["ios/light", "macos/light", "macos/dark", "web/light"])
+  })
+
+  test.each(["default", "destructive"] as const)(
+    "the %s variant draws an edge of its own, so the container is visible in all six",
+    (variant) => {
+      const className = alertVariants({ variant })
+      expect(className).toContain("border-[0.5px]")
+      expect(className).toContain("border-separator")
+    }
+  )
 
   test("has no accessibility violations", async () => {
     const { container } = render(

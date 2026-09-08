@@ -82,7 +82,7 @@ import { Tabs, TabsList, TabsPanel, TabsTab } from "../src/components/tabs"
 import { Toggle } from "../src/components/toggle"
 import { ToggleGroup, ToggleGroupItem } from "../src/components/toggle-group"
 import { PlatformProvider, type Platform } from "../src/lib/platform"
-import { tokenBaseCss, tokenPlatformCss, tokenVars } from "../src/tokens/css"
+import { resolve, variableMap, type Environment } from "./helpers/token-cascade"
 
 /**
  * The Apple-fidelity gate (spec §7.2). jsdom has no layout, so it asserts at the two layers that
@@ -106,20 +106,10 @@ import { tokenBaseCss, tokenPlatformCss, tokenVars } from "../src/tokens/css"
 const IDIOMS: readonly Platform[] = ["ios", "macos", "web"]
 
 /**
- * The cascade contexts a control is actually rendered in. `tokens.css` emits seven scopes, not
- * four: alongside `:root`, `.dark` and the two platform scopes it writes `.dark [data-elevated]`
- * (the raised backgrounds a sheet or a menu reads through), `[data-contrast="more"]` and
- * `.dark [data-contrast="more"]`. §4.5 was itself a cascade collision, so a collision that only
- * appears inside a dark popover, or under increased contrast, is the same class of bug in a
- * lower-frequency place. Each environment below is one real combination of those scopes.
+ * Each environment below is one real combination of the scopes `tokens.css` emits; the cascade
+ * that resolves them lives in `helpers/token-cascade.ts`, shared with the other guards that ask
+ * what a class actually paints.
  */
-interface Environment {
-  readonly name: string
-  readonly appearance: "light" | "dark"
-  readonly elevated?: boolean
-  readonly contrast?: boolean
-}
-
 const ENVIRONMENTS: readonly Environment[] = [
   { name: "light", appearance: "light" },
   { name: "light/contrast", appearance: "light", contrast: true },
@@ -139,84 +129,6 @@ for (const [, name, value] of readFileSync(
   "utf8"
 ).matchAll(/--color-([\w-]+):\s*(var\(--[\w-]+\));/g))
   themeColors.set(name!, value!)
-
-const withoutPrefix = (declarations: Record<string, string>) =>
-  Object.entries(declarations).map(
-    ([name, value]) => [name.replace(/^--/, ""), value] as const
-  )
-
-const baseCss = tokenBaseCss() as Record<string, Record<string, string>>
-
-/**
- * Every custom property in scope for an element under one idiom and one environment, resolved the
- * way a browser would: layers sorted by selector weight first and by emission order only to break
- * a tie. Modelling the weight matters — `.dark [data-elevated]` is (0,2,0) and outranks
- * `[data-platform="ios"]`'s (0,1,0) however late the platform scope is written, while
- * `.dark [data-platform="ios"]` matches it on weight and wins on order. A flat last-one-wins map
- * gets the first of those two backwards.
- *
- * Composed from the token modules rather than parsed from the generated stylesheet, so it cannot
- * drift from what a consumer installs.
- */
-function variableMap(
-  platform: Platform,
-  environment: Environment
-): ReadonlyMap<string, string> {
-  const scopes = tokenPlatformCss(platform) as Record<
-    string,
-    Record<string, string>
-  >
-  const light = scopes[`[data-platform="${platform}"]`]
-  const dark = Object.entries(scopes).find(([selector]) =>
-    selector.startsWith(".dark")
-  )?.[1]
-  expect(light, `${platform} has a light scope`).toBeDefined()
-  expect(dark, `${platform} has a dark scope`).toBeDefined()
-
-  const isDark = environment.appearance === "dark"
-  // [weight, emission order, declarations] — the order `tokens.css` writes these scopes in.
-  const layers: [number, number, Iterable<readonly [string, string]>][] = [
-    [0, 0, Object.entries(tokenVars("light"))],
-  ]
-  if (isDark) layers.push([1, 1, Object.entries(tokenVars("dark"))])
-  if (isDark && environment.elevated)
-    layers.push([2, 2, withoutPrefix(baseCss[".dark [data-elevated]"]!)])
-  if (environment.contrast) {
-    layers.push([1, 3, withoutPrefix(baseCss['[data-contrast="more"]']!)])
-    if (isDark)
-      layers.push([
-        2,
-        4,
-        withoutPrefix(baseCss['.dark [data-contrast="more"]']!),
-      ])
-  }
-  layers.push([1, 5, withoutPrefix(light!)])
-  if (isDark) layers.push([2, 6, withoutPrefix(dark!)])
-
-  const vars = new Map<string, string>()
-  for (const [, , entries] of layers.sort((a, b) => a[0] - b[0] || a[1] - b[1]))
-    for (const [name, value] of entries) vars.set(name, value)
-  return vars
-}
-
-const VAR = /^var\(--([\w-]+)\)$/
-
-/** Follows a `var(--x)` chain to the literal it ends at, on one idiom's variable map. */
-function resolve(value: string, vars: ReadonlyMap<string, string>): string {
-  const seen = new Set<string>()
-  let current = value.trim()
-  for (let match = VAR.exec(current); match; match = VAR.exec(current)) {
-    const name = match[1]!
-    expect(seen.has(name), `--${name} resolves without a cycle`).toBe(false)
-    seen.add(name)
-    const next = vars.get(name)
-    // A token that dereferences a variable the stylesheet never delivers renders as nothing —
-    // the shape of the install defect Task 11 found in the registry's base layer.
-    expect(next, `--${name} is delivered by the token scopes`).toBeDefined()
-    current = next!.trim()
-  }
-  return current
-}
 
 /** Splits `data-checked:bg-(--x)` into its modifiers and its utility, on top-level colons only. */
 function splitModifiers(token: string): {

@@ -11,9 +11,16 @@ import type { ComponentProps } from "react"
  *
  * `AlertAction` is shadcn's trailing control, the banner's "Undo" or "Retry", parked opposite the
  * text in a column of its own.
+ *
+ * The hairline is what makes it a container. `--card` is `--grouped-background-2`, which is the
+ * same colour as the page ground in light on all three idioms and in dark on macOS — four of the
+ * six combinations — so a banner painted with the fill alone reads as loose text while the
+ * destructive variant, which brings its own 10 % tint, reads as a banner. The fill is right and
+ * stays; the 0.5 pt separator hairline is the house edge (`command`'s field, `resizable`'s seam)
+ * and it does not depend on the fill at all, so both variants are one component in all six.
  */
 const alertVariants = cva(
-  "group/alert relative grid w-full grid-cols-[0_1fr_auto] items-start gap-y-0.5 rounded-card bg-card p-3 text-label has-[>svg]:grid-cols-[auto_1fr_auto] has-[>svg]:gap-x-3 [&>svg]:size-[1.2em] [&>svg]:translate-y-px",
+  "group/alert relative grid w-full grid-cols-[0_1fr_auto] items-start gap-y-0.5 rounded-card border-[0.5px] border-separator bg-card p-3 text-label has-[>svg]:grid-cols-[auto_1fr_auto] has-[>svg]:gap-x-3 [&>svg]:size-[1.2em] [&>svg]:translate-y-px",
   {
     variants: {
       variant: {
