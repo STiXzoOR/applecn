@@ -8,11 +8,11 @@ import { cn } from "../lib/utils"
  * card on the platform's popover corner with a look at the destination; it closes as the
  * pointer leaves. Links stay links for the keyboard and assistive technology.
  */
-function PreviewCard(props: PreviewCardPrimitive.Root.Props) {
+function HoverCard(props: PreviewCardPrimitive.Root.Props) {
   return <PreviewCardPrimitive.Root data-slot="preview-card" {...props} />
 }
 
-function PreviewCardTrigger({
+function HoverCardTrigger({
   className,
   ...props
 }: PreviewCardPrimitive.Trigger.Props) {
@@ -28,7 +28,7 @@ function PreviewCardTrigger({
   )
 }
 
-function PreviewCardContent({
+function HoverCardContent({
   className,
   children,
   side = "bottom",
@@ -66,4 +66,4 @@ function PreviewCardContent({
   )
 }
 
-export { PreviewCard, PreviewCardContent, PreviewCardTrigger }
+export { HoverCard, HoverCardContent, HoverCardTrigger }

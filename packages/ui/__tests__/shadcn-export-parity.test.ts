@@ -73,9 +73,9 @@ type Row = Unbuilt | Built | Declined
  * is not built yet with the task that builds it.
  *
  * Task 15's §5.2 renames land one at a time, so a row moves from unbuilt to a gap as its file
- * appears under shadcn's name. `hover-card`, `input-otp`, `collapsible` and `drawer` are still
- * unbuilt here while `preview-card.tsx`, `passcode-field.tsx`, `disclosure-group.tsx` and
- * `sheet.tsx` carry their code under Apple's names. Auditing them under shadcn's names is
+ * appears under shadcn's name. `input-otp`, `collapsible` and `drawer` are still
+ * unbuilt here while `passcode-field.tsx`, `disclosure-group.tsx` and `sheet.tsx` carry their
+ * code under Apple's names. Auditing them under shadcn's names is
  * deliberate: it is the rename that owes the parity, and each row fails the moment its file
  * appears.
  */
@@ -174,7 +174,10 @@ const LEDGER: Record<string, Row> = {
     closes: "Task 37",
     note: "Task 37 rebuilds `checkbox-group` on FieldSet/FieldGroup and needs these.",
   },
-  "hover-card": { task: "Task 15", note: "the rename of `preview-card`." },
+  "hover-card": {
+    gap: [],
+    note: "the rename of `preview-card`; the three exports match shadcn's exactly.",
+  },
   input: { gap: [] },
   "input-group": { task: "Task 18" },
   "input-otp": { task: "Task 15", note: "the rename of `passcode-field`." },

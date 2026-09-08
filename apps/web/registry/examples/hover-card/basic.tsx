@@ -1,21 +1,21 @@
 "use client"
 
 import {
-  PreviewCard,
-  PreviewCardContent,
-  PreviewCardTrigger,
-} from "@applecn/ui/components/preview-card"
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@applecn/ui/components/hover-card"
 import { Text } from "@applecn/ui/components/text"
 
-export default function PreviewCardBasic() {
+export default function HoverCardBasic() {
   return (
     <Text>
       Read the guidelines at{" "}
-      <PreviewCard>
-        <PreviewCardTrigger href="https://developer.apple.com/design/">
+      <HoverCard>
+        <HoverCardTrigger href="https://developer.apple.com/design/">
           developer.apple.com/design
-        </PreviewCardTrigger>
-        <PreviewCardContent>
+        </HoverCardTrigger>
+        <HoverCardContent>
           <div className="aspect-video w-full rounded-lg bg-[linear-gradient(135deg,var(--system-blue),var(--system-purple))]" />
           <div className="flex flex-col gap-0.5">
             <Text variant="headline">Apple Design</Text>
@@ -24,8 +24,8 @@ export default function PreviewCardBasic() {
               Apple Design Awards.
             </Text>
           </div>
-        </PreviewCardContent>
-      </PreviewCard>{" "}
+        </HoverCardContent>
+      </HoverCard>{" "}
       before you start.
     </Text>
   )

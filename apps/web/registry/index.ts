@@ -456,8 +456,8 @@ export const componentDocs: ComponentDoc[] = [
     examples: [{ name: "basic", title: "Rename" }],
   },
   {
-    name: "preview-card",
-    title: "Preview card",
+    name: "hover-card",
+    title: "Hover card",
     description:
       "Safari’s link preview: a Liquid Glass card that appears after hovering a link for a moment.",
     group: "overlays",

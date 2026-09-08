@@ -3,22 +3,22 @@ import userEvent from "@testing-library/user-event"
 import { describe, expect, test } from "vitest"
 
 import {
-  PreviewCard,
-  PreviewCardContent,
-  PreviewCardTrigger,
-} from "../src/components/preview-card"
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "../src/components/hover-card"
 
-describe("PreviewCard", () => {
+describe("HoverCard", () => {
   test("a link shows a preview card on hover, as a glass popover with the platform corner", async () => {
     render(
-      <PreviewCard>
-        <PreviewCardTrigger href="https://www.apple.com/" delay={0}>
+      <HoverCard>
+        <HoverCardTrigger href="https://www.apple.com/" delay={0}>
           apple.com
-        </PreviewCardTrigger>
-        <PreviewCardContent>
+        </HoverCardTrigger>
+        <HoverCardContent>
           <p>Apple</p>
-        </PreviewCardContent>
-      </PreviewCard>
+        </HoverCardContent>
+      </HoverCard>
     )
     const link = screen.getByRole("link", { name: "apple.com" })
     expect(link).toHaveAttribute("data-slot", "preview-card-trigger")

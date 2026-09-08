@@ -3889,6 +3889,25 @@
       ]
     },
     {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover card",
+      "description": "Safari’s link preview: a Liquid Glass card that appears after hovering a link for a moment.",
+      "dependencies": [
+        "@base-ui/react",
+        "tw-animate-css"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/hover-card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "icon",
       "type": "registry:ui",
       "title": "Icon",
@@ -4163,25 +4182,6 @@
       "files": [
         {
           "path": "src/components/popover.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "name": "preview-card",
-      "type": "registry:ui",
-      "title": "Preview card",
-      "description": "Safari’s link preview: a Liquid Glass card that appears after hovering a link for a moment.",
-      "dependencies": [
-        "@base-ui/react",
-        "tw-animate-css"
-      ],
-      "registryDependencies": [
-        "https://applecn.vercel.app/r/utils.json"
-      ],
-      "files": [
-        {
-          "path": "src/components/preview-card.tsx",
           "type": "registry:ui"
         }
       ]

@@ -177,6 +177,7 @@
   "empty.tsx": ["min-w-0", "size-12", "type-body", "type-title-2", "w-full"],
   "field.tsx": ["type-body", "type-footnote", "w-full"],
   "glass.tsx": ["rounded-full"],
+  "hover-card.tsx": ["rounded-popover", "w-72"],
   "icon.tsx": [],
   "input.tsx": [
     "--input-border-width",
@@ -289,7 +290,6 @@
     "type-subheadline",
     "w-72"
   ],
-  "preview-card.tsx": ["rounded-popover", "w-72"],
   "progress.tsx": [
     "--progress-height",
     "h-full",
