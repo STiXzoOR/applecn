@@ -427,7 +427,6 @@
     "--search-field-border-width",
     "--search-field-height",
     "--text-field-font",
-    "min-w-0",
     "rounded-full",
     "rounded-search",
     "size-2.5",

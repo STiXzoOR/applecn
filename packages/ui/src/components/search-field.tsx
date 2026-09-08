@@ -5,12 +5,32 @@ import { cn } from "../lib/utils"
 import { useRef, useState, type ComponentProps } from "react"
 
 import { Icon } from "./icon"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group"
 
 /**
  * The search field (HIG › Search fields). iOS 26: the 44 pt capsule on the tertiary fill with
  * the magnifier at 12 pt, a "Search" placeholder, the clear button once there is text, and the
  * Cancel button while editing; macOS 26: AppKit's 24 pt capsule on the bezel; the web the App
  * Store's 32 px field. Escape clears; Cancel clears and ends editing.
+ *
+ * The capsule is shadcn's `InputGroup` (spec §5.6). Apple's search capsule IS the combined field —
+ * a surface with affordances inside it — so the group draws it and this file writes only the
+ * numbers where Apple's search metrics differ from the text field's: the 44 pt height against the
+ * field's 34, the capsule radius against the field's 5 pt corners, the tertiary fill, the leading
+ * padding and the shadow. Everything else the group already had. The magnifier and the clear
+ * button are `InputGroupAddon`s, which is where the click-to-focus behaviour comes from — tapping
+ * the magnifier in Apple's capsule puts the caret in the box, and this file no longer implements
+ * that. The box is `InputGroupInput`.
+ *
+ * Measured in a browser on all three idioms, 2026-09-08: the composed capsule resolves to the same
+ * radius, padding, fill, hairline, shadow, gap and type size as the hand-written one it replaces.
+ * Two of the group's own classes are overruled rather than inherited, both deliberately —
+ * `flex-wrap`, because a search capsule is one line and a wrapped clear button is not a thing Apple
+ * draws, and the control's `focus-visible` ring, because `input-group` lights the whole capsule and
+ * not the text inside it, which is what its own doc comment says and what this field already did.
+ *
+ * The Apple `data-slot` values stay on top of the group's, exactly as shadcn's own `ItemSeparator`
+ * stamps `item-separator` over `Separator`'s slot.
  */
 type SearchFieldProps = Omit<
   ComponentProps<"input">,
@@ -53,23 +73,25 @@ function SearchField({
       data-slot="search-field-root"
       className={cn("flex w-full items-center gap-2", className)}
     >
-      <span
+      <InputGroup
         data-slot="search-field"
-        className="flex h-(--search-field-height) flex-1 items-center gap-1.5 rounded-search border-(length:--search-field-border-width) border-(--search-field-border-color) bg-(--search-field-bg) ps-(--search-field-padding-start) pe-2 text-[length:var(--text-field-font)] text-label shadow-(--search-field-shadow) transition-[box-shadow] duration-(--duration-hover) focus-within:ring-3 focus-within:ring-ring/50"
+        className="h-(--search-field-height) flex-1 flex-nowrap rounded-search border-(length:--search-field-border-width) border-(--search-field-border-color) bg-(--search-field-bg) ps-(--search-field-padding-start) pe-2 shadow-(--search-field-shadow) transition-[box-shadow] focus-within:ring-3 focus-within:ring-ring/50"
       >
-        <Icon
-          icon={Search01Icon}
-          data-slot="search-field-icon"
-          className="text-label-2"
-        />
-        <input
+        <InputGroupAddon>
+          <Icon
+            icon={Search01Icon}
+            data-slot="search-field-icon"
+            className="text-label-2"
+          />
+        </InputGroupAddon>
+        <InputGroupInput
           ref={inputRef}
           type="search"
           data-slot="search-field-input"
-          className="min-w-0 flex-1 bg-transparent outline-none placeholder:text-placeholder [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden"
+          className="focus-visible:ring-0 [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden"
           placeholder={placeholder}
           value={current}
-          onChange={(event) => update(event.target.value)}
+          onValueChange={update}
           onFocus={(event) => {
             setFocused(true)
             onFocus?.(event)
@@ -85,19 +107,21 @@ function SearchField({
           {...props}
         />
         {current !== "" ? (
-          <button
-            type="button"
-            tabIndex={-1}
-            aria-label="Clear text"
-            data-slot="search-field-clear"
-            className="flex size-5 shrink-0 items-center justify-center rounded-full bg-gray-3 text-white outline-none"
-            onMouseDown={(event) => event.preventDefault()}
-            onClick={() => update("")}
-          >
-            <Icon icon={Cancel01Icon} weight="bold" className="size-2.5" />
-          </button>
+          <InputGroupAddon align="inline-end">
+            <button
+              type="button"
+              tabIndex={-1}
+              aria-label="Clear text"
+              data-slot="search-field-clear"
+              className="flex size-5 shrink-0 items-center justify-center rounded-full bg-gray-3 text-white outline-none"
+              onMouseDown={(event) => event.preventDefault()}
+              onClick={() => update("")}
+            >
+              <Icon icon={Cancel01Icon} weight="bold" className="size-2.5" />
+            </button>
+          </InputGroupAddon>
         ) : null}
-      </span>
+      </InputGroup>
       {showsCancelButton && editing ? (
         <button
           type="button"

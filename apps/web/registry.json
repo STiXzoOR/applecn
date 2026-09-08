@@ -4655,6 +4655,7 @@
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/input-group.json",
         "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
