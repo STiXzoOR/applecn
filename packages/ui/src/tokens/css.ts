@@ -236,29 +236,6 @@ function typeLines(styles: readonly TextStyle[]): Line[] {
   return lines
 }
 
-/** `@media (width >= …)` blocks for the styles that grow with the viewport. */
-function responsiveTypeBlocks(
-  selector: string,
-  styles: readonly TextStyle[]
-): string[] {
-  const byBreakpoint = new Map<number, Line[]>()
-  for (const s of styles) {
-    for (const step of s.responsive ?? []) {
-      const lines = byBreakpoint.get(step.minWidth) ?? []
-      lines.push([`type-${s.name}-size`, pt(step.size)])
-      lines.push([`type-${s.name}-leading`, pt(step.leading)])
-      lines.push([`type-${s.name}-tracking`, em(step.tracking)])
-      byBreakpoint.set(step.minWidth, lines)
-    }
-  }
-  return [...byBreakpoint.entries()]
-    .sort((a, b) => a[0] - b[0])
-    .map(
-      ([minWidth, lines]) =>
-        `@media (width >= ${minWidth}px) {\n${block(selector, lines, "  ")}\n}`
-    )
-}
-
 function controlLines(m: ControlMetrics): Line[] {
   const sizes = ["mini", "small", "regular", "large", "xl"] as const
   const lines: Line[] = []
@@ -438,6 +415,176 @@ const platformLines = (platform: Platform): Line[] => [
   ...controlLines(metrics[platform]),
 ]
 
+/**
+ * One scope of the stylesheet: a selector, its declarations, and the at-rule it sits inside.
+ * `renderTokensCss()` and the registry's `css` objects are both generated from these, so a
+ * scope cannot exist in the committed stylesheet without also reaching a consumer — the class
+ * of defect where `globals.css`/`tokens.css` has something the registry never delivers.
+ */
+interface Scope {
+  readonly at?: string
+  readonly selector: string
+  readonly lines: readonly Line[]
+}
+
+/**
+ * Every scope that is not platform-specific, in stylesheet order. `:root` and `.dark` reach a
+ * consumer as `cssVars.light`/`cssVars.dark`, which is how shadcn writes those two selectors;
+ * `tokenBaseCss()` ships the rest as `css` keys. The `@supports` scope is separate because
+ * tokens.css emits it last, after the platform scopes.
+ */
+function baseScopes(): Scope[] {
+  const contrastLight = [
+    ...accessiblePrimitives("light"),
+    ...semanticAliases("light"),
+  ]
+  const contrastDark = [
+    ...accessiblePrimitives("dark"),
+    ...semanticAliases("dark"),
+  ]
+  return [
+    {
+      selector: ":root",
+      lines: [
+        ["pt", "0.0625rem"],
+        ...primitives("light"),
+        ...semanticAliases("light"),
+        ...platformLines("ios"),
+        ...motionLines(),
+        ...elevationLines("light"),
+        ...materialLines("light"),
+      ],
+    },
+    {
+      at: "@media (width >= 414px)",
+      selector: ":root",
+      lines: [["list-inset", px(metrics.ios.list.insetWide)]],
+    },
+    {
+      selector: ".dark",
+      lines: [
+        ...primitives("dark"),
+        ...semanticAliases("dark"),
+        ...elevationLines("dark", true),
+        ...materialLines("dark"),
+      ],
+    },
+    {
+      selector: ".dark [data-elevated]",
+      lines: [...elevatedPrimitives(), ...semanticAliases("dark")],
+    },
+    {
+      at: "@media (prefers-contrast: more)",
+      selector: ":root",
+      lines: contrastLight,
+    },
+    {
+      at: "@media (prefers-contrast: more)",
+      selector: ".dark",
+      lines: contrastDark,
+    },
+    { selector: '[data-contrast="more"]', lines: contrastLight },
+    { selector: '.dark [data-contrast="more"]', lines: contrastDark },
+  ]
+}
+
+/**
+ * Dynamic Type's other half. `globals.css`'s `@layer base` sets the root font to
+ * `-apple-system-body` under the same query; this re-derives the `pt` unit from that root, so
+ * the 180 `calc(N * var(--pt))` type tokens keep their measured size. Ship one without the
+ * other and every one of them renders 17/16 = 6.25% oversized on iOS Safari.
+ */
+const dynamicTypeScope: Scope = {
+  at: "@supports (font: -apple-system-body) and (-webkit-touch-callout: none)",
+  selector: ":root",
+  lines: [["pt", "calc(1rem / 17)"]],
+}
+
+/** One idiom's scopes, in stylesheet order. */
+function platformScopes(platform: Platform): Scope[] {
+  const selector = platformSelector(platform)
+  const colors = platform === "ios" ? iosColors : platformColors[platform]
+  const scopes: Scope[] = [
+    {
+      selector,
+      lines: [
+        ...platformColorLines(colors, "light"),
+        ...semanticAliases("light"),
+        ...platformLines(platform),
+        ...componentLines(platform),
+      ],
+    },
+  ]
+  // The wide-phone layout margin: iPhone Plus/Pro Max class devices inset a grouped list by
+  // 20 pt rather than 16 (research document §layout).
+  if (platform === "ios")
+    scopes.push({
+      at: "@media (width >= 414px)",
+      selector,
+      lines: [["list-inset", px(metrics.ios.list.insetWide)]],
+    })
+  scopes.push({
+    selector: darkPlatformSelector(platform),
+    lines: [...platformColorLines(colors, "dark"), ...semanticAliases("dark")],
+  })
+  const byBreakpoint = new Map<number, Line[]>()
+  for (const s of textStyles[platform]) {
+    for (const step of s.responsive ?? []) {
+      const lines = byBreakpoint.get(step.minWidth) ?? []
+      lines.push([`type-${s.name}-size`, pt(step.size)])
+      lines.push([`type-${s.name}-leading`, pt(step.leading)])
+      lines.push([`type-${s.name}-tracking`, em(step.tracking)])
+      byBreakpoint.set(step.minWidth, lines)
+    }
+  }
+  for (const [minWidth, lines] of [...byBreakpoint.entries()].sort(
+    (a, b) => a[0] - b[0]
+  ))
+    scopes.push({ at: `@media (width >= ${minWidth}px)`, selector, lines })
+  return scopes
+}
+
+/** Renders scopes to CSS text, merging a run that shares one at-rule into a single block. */
+function renderScopes(scopes: readonly Scope[]): string[] {
+  const parts: string[] = []
+  let i = 0
+  while (i < scopes.length) {
+    const scope = scopes[i]!
+    if (!scope.at) {
+      parts.push(block(scope.selector, scope.lines))
+      i++
+      continue
+    }
+    const run: Scope[] = []
+    while (i < scopes.length && scopes[i]!.at === scope.at)
+      run.push(scopes[i++]!)
+    const body = run.map((s) => block(s.selector, s.lines, "  ")).join("\n")
+    parts.push(`${scope.at} {\n${body}\n}`)
+  }
+  return parts
+}
+
+/** Scopes as the nested object the registry's `css` field takes; keys are single-line. */
+function scopeObject(scopes: readonly Scope[]): Record<string, unknown> {
+  const declarations = (lines: readonly Line[]) =>
+    Object.fromEntries(lines.map(([n, v]) => [`--${n}`, v]))
+  const out: Record<string, unknown> = {}
+  for (const scope of scopes) {
+    const selector = scope.selector.replace(",\n", ", ")
+    if (!scope.at)
+      out[selector] = {
+        ...(out[selector] as object),
+        ...declarations(scope.lines),
+      }
+    else
+      out[scope.at] = {
+        ...(out[scope.at] as object),
+        [selector]: declarations(scope.lines),
+      }
+  }
+  return out
+}
+
 /** The variables of one appearance as a flat map (no `--`), for the registry's style item. */
 export function tokenVars(appearance: Appearance): Record<string, string> {
   const lines: Line[] =
@@ -465,84 +612,32 @@ const darkPlatformSelector = (platform: Platform) =>
   `.dark${platformSelector(platform)},\n.dark ${platformSelector(platform)}`
 
 export function renderTokensCss(): string {
-  const parts: string[] = []
-  parts.push(
-    "/* Generated by scripts/build-css.ts from src/tokens — edit the token modules, then run `pnpm tokens:build`. */"
+  return (
+    [
+      "/* Generated by scripts/build-css.ts from src/tokens — edit the token modules, then run `pnpm tokens:build`. */",
+      ...renderScopes([
+        ...baseScopes(),
+        ...platforms.flatMap(platformScopes),
+        dynamicTypeScope,
+      ]),
+    ].join("\n\n") + "\n"
   )
+}
 
-  parts.push(
-    block(":root", [
-      ["pt", "0.0625rem"],
-      ...primitives("light"),
-      ...semanticAliases("light"),
-      ...platformLines("ios"),
-      ...motionLines(),
-      ...elevationLines("light"),
-      ...materialLines("light"),
-    ])
-  )
-  parts.push(
-    `@media (width >= 414px) {\n${block(":root", [["list-inset", px(metrics.ios.list.insetWide)]], "  ")}\n}`
-  )
-
-  parts.push(
-    block(".dark", [
-      ...primitives("dark"),
-      ...semanticAliases("dark"),
-      ...elevationLines("dark", true),
-      ...materialLines("dark"),
-    ])
-  )
-  parts.push(
-    block(".dark [data-elevated]", [
-      ...elevatedPrimitives(),
-      ...semanticAliases("dark"),
-    ])
-  )
-
-  const contrastLight = [
-    ...accessiblePrimitives("light"),
-    ...semanticAliases("light"),
-  ]
-  const contrastDark = [
-    ...accessiblePrimitives("dark"),
-    ...semanticAliases("dark"),
-  ]
-  parts.push(
-    `@media (prefers-contrast: more) {\n${block(":root", contrastLight, "  ")}\n${block(".dark", contrastDark, "  ")}\n}`
-  )
-  parts.push(block('[data-contrast="more"]', contrastLight))
-  parts.push(block('.dark [data-contrast="more"]', contrastDark))
-
-  for (const platform of platforms) {
-    const selector = platformSelector(platform)
-    const colors = platform === "ios" ? iosColors : platformColors[platform]
-    parts.push(
-      block(selector, [
-        ...platformColorLines(colors, "light"),
-        ...semanticAliases("light"),
-        ...platformLines(platform),
-        ...componentLines(platform),
-      ])
-    )
-    if (platform === "ios")
-      parts.push(
-        `@media (width >= 414px) {\n${block(selector, [["list-inset", px(metrics.ios.list.insetWide)]], "  ")}\n}`
-      )
-    parts.push(
-      block(darkPlatformSelector(platform), [
-        ...platformColorLines(colors, "dark"),
-        ...semanticAliases("dark"),
-      ])
-    )
-    parts.push(...responsiveTypeBlocks(selector, textStyles[platform]))
-  }
-
-  parts.push(
-    `@supports (font: -apple-system-body) and (-webkit-touch-callout: none) {\n${block(":root", [["pt", "calc(1rem / 17)"]], "  ")}\n}`
-  )
-
-  return parts.join("\n\n") + "\n"
+/**
+ * The scopes `base` ships as `css`: everything `renderTokensCss()` writes outside a
+ * `[data-platform]` scope, less `:root` and `.dark` themselves, which travel as
+ * `cssVars.light`/`cssVars.dark`. Without these a consumer loses the wide-phone list inset,
+ * the raised dark backgrounds sheets and menus read through `[data-elevated]`, the whole
+ * increased-contrast colour set, and Dynamic Type's `--pt` re-derivation.
+ */
+export function tokenBaseCss(): Record<string, unknown> {
+  return scopeObject([
+    ...baseScopes().filter(
+      (s) => s.at || (s.selector !== ":root" && s.selector !== ".dark")
+    ),
+    dynamicTypeScope,
+  ])
 }
 
 /**
@@ -557,36 +652,5 @@ export function renderTokensCss(): string {
  * `[data-platform="web"]` into the ios/macos themes, depending on which way it filtered.
  */
 export function tokenPlatformCss(only?: Platform): Record<string, unknown> {
-  const declarations = (lines: readonly Line[]) =>
-    Object.fromEntries(lines.map(([n, v]) => [`--${n}`, v]))
-  const out: Record<string, unknown> = {}
-  for (const platform of only ? [only] : platforms) {
-    const selector = platformSelector(platform)
-    const colors = platform === "ios" ? iosColors : platformColors[platform]
-    out[selector] = declarations([
-      ...platformColorLines(colors, "light"),
-      ...semanticAliases("light"),
-      ...platformLines(platform),
-      ...componentLines(platform),
-    ])
-    out[darkPlatformSelector(platform).replace(",\n", ", ")] = declarations([
-      ...platformColorLines(colors, "dark"),
-      ...semanticAliases("dark"),
-    ])
-    const byBreakpoint = new Map<number, Line[]>()
-    for (const s of textStyles[platform]) {
-      for (const step of s.responsive ?? []) {
-        const lines = byBreakpoint.get(step.minWidth) ?? []
-        lines.push([`type-${s.name}-size`, pt(step.size)])
-        lines.push([`type-${s.name}-leading`, pt(step.leading)])
-        lines.push([`type-${s.name}-tracking`, em(step.tracking)])
-        byBreakpoint.set(step.minWidth, lines)
-      }
-    }
-    for (const [minWidth, lines] of byBreakpoint) {
-      const key = `@media (width >= ${minWidth}px)`
-      out[key] = { ...(out[key] as object), [selector]: declarations(lines) }
-    }
-  }
-  return out
+  return scopeObject((only ? [only] : platforms).flatMap(platformScopes))
 }

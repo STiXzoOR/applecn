@@ -3,6 +3,8 @@ import { join } from "node:path"
 
 import { describe, expect, test } from "vitest"
 
+import { renderTokensCss } from "@applecn/ui/tokens/css"
+
 import { componentDocs } from "@/registry/index"
 import { REGISTRY_URL, SITE_URL } from "@/lib/site"
 import {
@@ -254,12 +256,23 @@ describe("the three idiom themes", () => {
   })
 
   test.each([
-    ["ios", 2],
+    // ios: its scope, its dark scope, and the >= 414px wide-phone list inset.
+    ["ios", 3],
     ["macos", 2],
     ["web", 4],
   ] as const)("%s carries exactly %i top-level css keys", (name, count) => {
     const theme = items.find((i) => i.name === name)!
     expect(Object.keys(theme.css ?? {})).toHaveLength(count)
+  })
+
+  test("iOS carries the wide-phone list inset its own stylesheet defines", () => {
+    // An iPhone Plus/Pro Max class device insets a grouped list by 20pt rather than 16.
+    const ios = items.find((i) => i.name === "ios")!
+    const wide = ios.css?.["@media (width >= 414px)"] as Record<
+      string,
+      Record<string, string>
+    >
+    expect(wide['[data-platform="ios"]']!["--list-inset"]).toBe("20px")
   })
 
   test("only the web theme carries apple.com's responsive type ramp", () => {
@@ -273,7 +286,7 @@ describe("the three idiom themes", () => {
     for (const name of ["ios", "macos"]) {
       const theme = items.find((i) => i.name === name)!
       for (const key of Object.keys(theme.css ?? {}))
-        expect(key, name).not.toMatch(/^@media/)
+        expect(key, name).not.toMatch(/^@media \(width >= (735|1069)px\)/)
     }
   })
 })
@@ -607,6 +620,148 @@ describe("rewritten imports point at where the file they name actually installs"
             )
         }
       }
+    }
+    expect(problems).toEqual([])
+  })
+})
+
+/**
+ * The general form of the question ruling R19 asked too narrowly. R19 audited which Tailwind
+ * *registrations* fail to ship; the failure mode is broader — **what does the compiled
+ * stylesheet contain that the registry never delivers?** Two defects found at the phase-1
+ * review were of that shape and R19 could not have caught either: the `@supports
+ * (font: -apple-system-body)` rule that re-derives `--pt` from the Dynamic Type root
+ * (without it every one of the 180 pt-based type tokens renders 17/16 = 6.25% oversized on
+ * iOS Safari, the only engine matching that query, while `globals.css`'s paired
+ * `html { font: -apple-system-body }` half *does* ship), and iOS's `@media (width >= 414px)`
+ * list inset.
+ *
+ * So this asks the general question, mechanically: parse `renderTokensCss()` — the single
+ * generated definition of every Apple token — into scope/declaration pairs, parse everything
+ * a `shadcn add @applecn/apple` transitively installs into the same shape, and demand the
+ * second contain the first. `cssVars.light` and `cssVars.dark` are how shadcn writes `:root`
+ * and `.dark`; every other scope has to arrive as a `css` key.
+ */
+describe("everything the generated stylesheet defines reaches a consumer", () => {
+  const items = buildRegistry().items
+  const byName = new Map(items.map((i) => [i.name, i]))
+
+  const normalize = (selector: string) =>
+    selector
+      .replace(/\s+/g, " ")
+      .replace(/\s*,\s*/g, ", ")
+      .trim()
+
+  /** A stylesheet as `scope path -> declarations`, nested scopes joined by " > ". */
+  function parseCss(css: string): Map<string, Record<string, string>> {
+    const out = new Map<string, Record<string, string>>()
+    const stack: string[] = []
+    const body = css.replace(/\/\*[\s\S]*?\*\//g, "")
+    let buffer = ""
+    for (const character of body) {
+      if (character === "{") {
+        stack.push(normalize(buffer))
+        buffer = ""
+      } else if (character === "}") {
+        stack.pop()
+        buffer = ""
+      } else if (character === ";") {
+        const colon = buffer.indexOf(":")
+        if (colon !== -1) {
+          const scope = out.get(stack.join(" > ")) ?? {}
+          scope[buffer.slice(0, colon).trim()] = buffer.slice(colon + 1).trim()
+          out.set(stack.join(" > "), scope)
+        }
+        buffer = ""
+      } else buffer += character
+    }
+    return out
+  }
+
+  /** A registry `css` object flattened into the same shape. */
+  function flatten(
+    node: unknown,
+    path: string[],
+    out: Map<string, Record<string, string>>
+  ): void {
+    if (!node || typeof node !== "object") return
+    for (const [key, value] of Object.entries(
+      node as Record<string, unknown>
+    )) {
+      if (typeof value === "string") {
+        const scope = out.get(path.join(" > ")) ?? {}
+        scope[key] = value
+        out.set(path.join(" > "), scope)
+      } else flatten(value, [...path, normalize(key)], out)
+    }
+  }
+
+  function closure(name: string, seen = new Set<string>()): Set<string> {
+    if (seen.has(name)) return seen
+    seen.add(name)
+    for (const dep of byName.get(name)?.registryDependencies ?? [])
+      closure(dep.replace(/^.*\//, "").replace(/\.json$/, ""), seen)
+    return seen
+  }
+
+  /** Everything `shadcn add @applecn/<name>` installs, as scope/declaration pairs. */
+  function installed(name: string): Map<string, Record<string, string>> {
+    const out = new Map<string, Record<string, string>>()
+    for (const dep of closure(name)) {
+      const item = byName.get(dep)
+      if (!item) continue
+      for (const [appearance, selector] of [
+        ["light", ":root"],
+        ["dark", ".dark"],
+      ] as const) {
+        const vars = item.cssVars?.[appearance]
+        if (!vars) continue
+        const scope = out.get(selector) ?? {}
+        for (const [key, value] of Object.entries(vars))
+          scope[`--${key}`] = value
+        out.set(selector, scope)
+      }
+      flatten(item.css, [], out)
+    }
+    return out
+  }
+
+  const stylesheet = parseCss(renderTokensCss())
+  const delivered = installed("apple")
+
+  test("the parse finds every scope tokens.css writes, so an empty diff cannot mean an empty parse", () => {
+    // A sanity check on the method, not the registry: if this fails the parser is broken.
+    expect(stylesheet.size).toBeGreaterThanOrEqual(18)
+    expect([...stylesheet.keys()]).toEqual(
+      expect.arrayContaining([
+        ":root",
+        ".dark",
+        ".dark [data-elevated]",
+        '[data-contrast="more"]',
+        '[data-platform="ios"]',
+        "@media (prefers-contrast: more) > :root",
+        "@supports (font: -apple-system-body) and (-webkit-touch-callout: none) > :root",
+      ])
+    )
+  })
+
+  test.each([...parseCss(renderTokensCss()).keys()])(
+    "installing apple delivers %s",
+    (scope) => {
+      expect(delivered.has(scope)).toBe(true)
+    }
+  )
+
+  test("and every declaration inside those scopes, value for value", () => {
+    const problems: string[] = []
+    for (const [scope, declarations] of stylesheet) {
+      const got = delivered.get(scope)
+      if (!got) continue
+      for (const [property, value] of Object.entries(declarations))
+        if (got[property] !== value)
+          problems.push(
+            `${scope} { ${property}: ${value} } — installed as ${got[property] ?? "nothing"}`
+          )
     }
     expect(problems).toEqual([])
   })

@@ -1,7 +1,11 @@
 import { readdirSync, readFileSync } from "node:fs"
 import { join } from "node:path"
 
-import { tokenPlatformCss, tokenVars } from "@applecn/ui/tokens/css"
+import {
+  tokenBaseCss,
+  tokenPlatformCss,
+  tokenVars,
+} from "@applecn/ui/tokens/css"
 
 import { REGISTRY_URL, SITE_URL } from "../lib/site.ts"
 import { componentDocs } from "../registry/index.ts"
@@ -480,6 +484,12 @@ export function buildRegistry(): Registry {
       ...utilities(globalsCss),
       ...baseLayer(globalsCss),
       ...themeInlineKeyframes(globalsCss),
+      // Every scope `tokens.css` writes outside a `[data-platform]` block that `cssVars`
+      // cannot express: the wide-phone list inset, the raised dark backgrounds sheets and
+      // menus read through `[data-elevated]`, the increased-contrast colour set, and Dynamic
+      // Type's `--pt` re-derivation — the other half of the `-apple-system-body` rule the
+      // `@layer base` block above already carries.
+      ...tokenBaseCss(),
     },
   }
 
