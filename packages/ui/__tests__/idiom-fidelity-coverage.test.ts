@@ -59,7 +59,21 @@ const SELECTION_MODIFIERS = [
   "inactive",
 ]
 
-const SELECTION = new Set(SELECTION_MODIFIERS.map((name) => `data-${name}`))
+/**
+ * The same state, written both of the ways Tailwind writes one. `data-checked:` keys on the
+ * attribute being PRESENT; `data-[selected=true]:` keys on its value, which is the only form that
+ * works against a primitive stamping the attribute on every row and toggling what it says —
+ * `cmdk` does exactly that, so `command`'s highlight was a selection paint the bare-string set
+ * could not see, and the guard did not ask for it in the harness.
+ *
+ * The name may carry a qualifier (`data-[selected-single=true]`, which is how shadcn's own
+ * `calendar` distinguishes a lone selected day from the ends of a range), because a qualified
+ * state is still that state. It may not be a different word: `data-[side=left]`,
+ * `data-[size=sm]` and `data-[variant=destructive]` are placement, scale and intent, and
+ * demanding harness coverage for those would be noise rather than a gate.
+ */
+const NAME = `(?:${SELECTION_MODIFIERS.join("|")})(?:-[a-z]+)*`
+const SELECTION = new RegExp(`^data-(?:${NAME}|\\[${NAME}(?:=[^\\]]*)?\\])$`)
 
 /**
  * A property that makes selection visible. `paintedProperty` covers the colours, the shadow and
@@ -79,7 +93,7 @@ function declaresSelection(source: string): boolean {
   for (const [, block] of source.matchAll(/"([^"\n]*)"/g))
     for (const token of block!.split(/\s+/).filter(Boolean)) {
       const { modifiers, utility } = splitModifiers(token)
-      if (!modifiers.some((modifier) => SELECTION.has(modifier))) continue
+      if (!modifiers.some((modifier) => SELECTION.test(modifier))) continue
       if (visibleProperty(utility)) return true
     }
   return false
@@ -164,6 +178,38 @@ describe("every selection rule is covered by the idiom-fidelity harness", () => 
   test("the scan finds rules to check", () => {
     expect(all.length).toBeGreaterThan(0)
     expect(new Set(all.map((carrier) => carrier.file)).size).toBeGreaterThan(1)
+  })
+
+  // Tailwind writes a state two ways, and the guard was blind to one of them. A primitive that
+  // stamps `data-selected="true"` on EVERY row rather than only the current one — `cmdk` does —
+  // has to be read with the arbitrary-value form, and `data-[selected=true]` is not the string
+  // `data-selected`. `command` shipped a selection paint this guard could not see.
+  test("the arbitrary-value form of a state is a selection rule too", () => {
+    for (const form of [
+      "data-[selected=true]:bg-primary",
+      "data-[selected=false]:bg-fill-3",
+      "data-[selected]:bg-primary",
+      "data-[selected-single=true]:bg-primary",
+    ])
+      expect(
+        declaresSelection(`const x = "${form}"`),
+        `${form} declares a selection rule`
+      ).toBe(true)
+  })
+
+  // The widening must not swallow every bracketed state: `data-[side=left]` and `data-[size=sm]`
+  // are placement and scale, and a guard that demands harness coverage for those is noise.
+  test("a bracketed state that is not a selection is not one", () => {
+    for (const form of [
+      "data-[side=left]:bg-popover",
+      "data-[size=sm]:text-label",
+      "data-[variant=destructive]:text-destructive",
+      "data-[disabled=true]:opacity-40",
+    ])
+      expect(
+        declaresSelection(`const x = "${form}"`),
+        `${form} is not a selection rule`
+      ).toBe(false)
   })
 
   // A second canary, on the matching rather than the scanning: a planted rule in a module nobody

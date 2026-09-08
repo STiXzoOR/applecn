@@ -10,6 +10,7 @@ import type { ReactElement } from "react"
 import { describe, expect, test } from "vitest"
 
 import { Checkbox } from "../src/components/checkbox"
+import { Command, CommandItem, CommandList } from "../src/components/command"
 import {
   Combobox,
   ComboboxContent,
@@ -288,6 +289,25 @@ interface State {
   readonly off?: string
 }
 
+/**
+ * The DOM assertion one state modifier makes. Tailwind writes a state two ways and a primitive
+ * chooses which one is readable: `data-checked` keys on the attribute being PRESENT, which is what
+ * Base UI's toggles give; `data-[selected=true]` keys on its VALUE, which is the only form that
+ * works against `cmdk`, because it stamps `data-selected` on every row and toggles what it says.
+ * A resting state is then "the attribute says false" rather than "the attribute is absent", and
+ * both are expressible here — the limit the previous batch reported when it left `command`
+ * outside the coverage guard.
+ */
+function attribute(
+  modifier: string
+): [name: string, value: string | undefined] {
+  const arbitrary = /^data-\[([\w-]+)(?:=(.*))?\]$/.exec(modifier)
+  // `toHaveAttribute` reads an undefined value as "present, whatever it says", which is exactly
+  // what the bare form means — so one tuple shape serves both.
+  if (!arbitrary) return [modifier, undefined]
+  return [`data-${arbitrary[1]!}`, arbitrary[2]]
+}
+
 interface Rule {
   readonly modifier: string
   readonly property: string
@@ -467,6 +487,21 @@ const sidebarSubRow = (active: boolean) => (
   </SidebarProvider>
 )
 
+/**
+ * A Spotlight result. `cmdk` decides the highlighted row from the root's `value`, and it writes
+ * `data-selected="false"` on the others rather than dropping the attribute — so this is the one
+ * control whose resting state is an attribute VALUE, and the reason `State` had to grow past
+ * "present or absent".
+ */
+const commandRow = (selected: boolean) => (
+  <Command value={selected ? "t" : "u"}>
+    <CommandList>
+      <CommandItem value="t">t</CommandItem>
+      <CommandItem value="u">u</CommandItem>
+    </CommandList>
+  </Command>
+)
+
 /** Every selectable control, with the two states that must be visually distinct. */
 const CONTROLS: readonly Control[] = [
   {
@@ -556,6 +591,14 @@ const CONTROLS: readonly Control[] = [
     off: sidebarRow(false),
   },
   {
+    name: "command-item",
+    role: "option",
+    options: { name: "t" },
+    state: { on: "data-[selected=true]", off: "data-[selected=false]" },
+    on: commandRow(true),
+    off: commandRow(false),
+  },
+  {
     name: "sidebar-menu-sub-button",
     role: "link",
     options: { name: "t" },
@@ -586,7 +629,9 @@ describe("selection is visible on every idiom", () => {
           <PlatformProvider platform={idiom}>{control.on}</PlatformProvider>
         )
         const on = find()
-        expect(on, `${where} is selected`).toHaveAttribute(control.state.on)
+        expect(on, `${where} is selected`).toHaveAttribute(
+          ...attribute(control.state.on)
+        )
         if (control.indicator)
           expect(
             findIndicator(),
@@ -599,8 +644,13 @@ describe("selection is visible on every idiom", () => {
         )
         const off = find()
         if (control.state.off)
-          expect(off, `${where} rests`).toHaveAttribute(control.state.off)
-        else expect(off, `${where} rests`).not.toHaveAttribute(control.state.on)
+          expect(off, `${where} rests`).toHaveAttribute(
+            ...attribute(control.state.off)
+          )
+        else
+          expect(off, `${where} rests`).not.toHaveAttribute(
+            ...attribute(control.state.on)
+          )
 
         // Asserting only that the indicator is THERE when selected is signal-free: an indicator
         // mounted in both states satisfies it either way, and one of ours is (the switch's thumb
@@ -617,7 +667,7 @@ describe("selection is visible on every idiom", () => {
           expect(
             resting,
             `${where}'s indicator stays mounted, so it must track the state itself`
-          ).not.toHaveAttribute(control.state.on)
+          ).not.toHaveAttribute(...attribute(control.state.on))
       })
 
       test(`${control.name} on ${idiom} declares a selected paint its resting state does not`, () => {
@@ -635,8 +685,11 @@ describe("selection is visible on every idiom", () => {
             `${where} paints its selection`
           ).toContain(paints === "fill" ? "background-color" : "color")
         if (control.disables !== false)
+          // `disabled:opacity-40` and `data-[disabled=true]:opacity-40` are the same rule; which
+          // one a component writes is decided by whether its primitive stamps the attribute on
+          // every row (`cmdk`) or only on the disabled one (Base UI).
           expect(element.className, `${where} dims when disabled`).toMatch(
-            /\bdisabled:opacity-/
+            /\bdisabled(?:=true\])?:opacity-/
           )
 
         for (const [group, rules] of selected) {
