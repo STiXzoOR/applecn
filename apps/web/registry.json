@@ -4735,8 +4735,7 @@
       "title": "cn",
       "description": "Class merging.",
       "dependencies": [
-        "clsx",
-        "tailwind-merge"
+        "cn"
       ],
       "files": [
         {

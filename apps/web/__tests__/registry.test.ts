@@ -221,9 +221,16 @@ describe("a consumer gets everything the components need", () => {
       expect(item.dependencies, item.name).toContain("tw-animate-css")
   })
 
-  test("no item still depends on the cn package", () => {
-    for (const item of registry.items)
-      expect(item.dependencies ?? [], item.name).not.toContain("cn")
+  test("the utils item declares cn, shadcn's class-merging engine", () => {
+    const utils = registry.items.find((i) => i.name === "utils")!
+    expect(utils.dependencies ?? []).toContain("cn")
+  })
+
+  test("no item depends on clsx or tailwind-merge", () => {
+    for (const item of registry.items) {
+      expect(item.dependencies ?? [], item.name).not.toContain("clsx")
+      expect(item.dependencies ?? [], item.name).not.toContain("tailwind-merge")
+    }
   })
 })
 

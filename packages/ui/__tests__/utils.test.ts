@@ -9,7 +9,8 @@ describe("cn", () => {
 
   test("keeps a type utility beside a text colour", () => {
     // The reason type-* are @utility blocks and not @theme --text-* entries:
-    // tailwind-merge groups by prefix, so `text-body` would drop `text-label`.
+    // cn (shadcn's clsx + tailwind-merge replacement) still groups conflicts by
+    // Tailwind prefix, so `text-body` would drop `text-label`.
     expect(cn("type-body", "text-label")).toBe("type-body text-label")
   })
 
