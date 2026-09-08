@@ -12,12 +12,10 @@ export default function CalendarBasic() {
       {/* The calendar goes transparent inside a card or a popover, so the surface under it is
           the one that paints — shadcn's rule, kept. */}
       <CardContent>
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={setDate}
-          captionLayout="dropdown"
-        />
+        {/* The default `label` caption, not `dropdown`: it is the month title Apple's calendar
+            shows, and the dropdown's locale-formatted month names mismatch across a server
+            render. */}
+        <Calendar mode="single" selected={date} onSelect={setDate} />
       </CardContent>
     </Card>
   )

@@ -149,6 +149,13 @@ function DatePicker({
 /**
  * The compact field. `data-empty` is what a caller styles the placeholder through, and it is on
  * the element rather than in a class so the same rule works from a stylesheet.
+ *
+ * `suppressHydrationWarning` is React's own remedy for the one thing this element does: format a
+ * date in the reader's locale. A Node server has no way to know that locale, so it renders
+ * `9/8/2026` where an `en-GB` browser hydrates `08/09/2026`, React throws a hydration error and
+ * discards the tree. The warning is suppressed rather than the formatting made deterministic
+ * because the client's answer is the correct one — measured in a browser, where this component
+ * threw exactly that error before the attribute was added.
  */
 function DatePickerTrigger({
   className,
@@ -160,6 +167,7 @@ function DatePickerTrigger({
     <PopoverTrigger
       data-slot="date-picker-trigger"
       data-empty={value === undefined}
+      suppressHydrationWarning
       className={cn("tabular-nums data-[empty=true]:text-label-3", className)}
       render={<Button variant="gray" />}
       {...props}

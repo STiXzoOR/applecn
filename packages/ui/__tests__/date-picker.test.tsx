@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs"
+import { join } from "node:path"
+
 import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { useState } from "react"
@@ -75,6 +78,22 @@ describe("DatePicker", () => {
       screen.queryByRole("grid"),
       "the popover closes on a pick"
     ).toBeNull()
+  })
+
+  // A Node server cannot know the reader's locale, so it renders `9/8/2026` where an `en-GB`
+  // browser hydrates `08/09/2026`; this threw a real hydration error in a browser before the
+  // attribute was added, and React's own answer for locale-formatted dates is to suppress it.
+  // Asserted against the source because React strips `suppressHydrationWarning` before the DOM,
+  // so there is nothing in a rendered tree to read it back from.
+  test("the locale-formatted label does not fight hydration", () => {
+    const source = readFileSync(
+      join(import.meta.dirname, "../src/components/date-picker.tsx"),
+      "utf8"
+    )
+    const trigger = source.slice(source.indexOf("function DatePickerTrigger"))
+    expect(trigger.slice(0, trigger.indexOf("</PopoverTrigger>"))).toContain(
+      "suppressHydrationWarning"
+    )
   })
 
   test("with no date it shows the placeholder and says it is empty", () => {

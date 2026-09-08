@@ -24,6 +24,13 @@ import { Icon } from "./icon"
  * (44 pt on iOS and the web, 28 on macOS — Apple's own minimum target, not a calendar metric
  * invented for this), today's number takes the tint, and a selected day fills that circle.
  *
+ * One hazard worth knowing before `captionLayout="dropdown"` reaches a server-rendered page, and
+ * it is shadcn's and `react-day-picker`'s as much as this copy's: the month names in that
+ * dropdown are formatted in the reader's locale, which a Node server cannot know, so `Sep` on the
+ * server meets `Sept` in an `en-GB` browser and React discards the tree with a hydration error.
+ * Measured in a browser rather than reasoned about. Pass an explicit `locale`, or stay on the
+ * default `label` layout — which is also the month title Apple's calendar shows.
+ *
  * Two things read differently to shadcn's copy and both are house style rather than divergence:
  * the range band is drawn with logical properties (`rounded-s-*`, `after:end-0`), because the
  * catalogue is RTL-correct throughout; and colours are the applecn ramp. Exports, `data-slot` and
