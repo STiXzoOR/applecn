@@ -253,6 +253,191 @@
   letter-spacing: var(--type-caption-2-tracking);
 }
 
+/* Prose (spec §5.4, Task 25). shadcn ships no `typography` component: their Typography page is
+   documentation telling a consumer which Tailwind classes to put on an `h1`, because shadcn has
+   no type scale of its own. applecn has eleven measured Apple text styles, so what is worth
+   shipping is the half a consumer cannot write by hand — a container that styles HTML it does
+   not control (markdown, MDX, a CMS) off that same scale. Every size, weight, colour and rule
+   below reads an existing token; the vertical rhythm (the margins, the 2 px quote rule and the
+   list indent) is a web convention rather than a published Apple metric, and is the only
+   judgement in the block. `Text` and `Link` are the element-level API over the same styles, for
+   the markup a consumer DOES control. No comments inside the block: the registry's `@utility`
+   parser reads declarations and nested selectors only. */
+@utility typography {
+  color: var(--label);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
+  font-weight: var(--type-body-weight);
+  letter-spacing: var(--type-body-tracking);
+
+  & h1 {
+    margin-top: 2rem;
+    font-size: var(--type-large-title-size);
+    line-height: var(--type-large-title-leading);
+    font-weight: var(--type-large-title-emphasized);
+    letter-spacing: var(--type-large-title-tracking);
+    text-wrap: balance;
+  }
+
+  & h2 {
+    margin-top: 2rem;
+    font-size: var(--type-title-1-size);
+    line-height: var(--type-title-1-leading);
+    font-weight: var(--type-title-1-emphasized);
+    letter-spacing: var(--type-title-1-tracking);
+    text-wrap: balance;
+  }
+
+  & h3 {
+    margin-top: 1.5rem;
+    font-size: var(--type-title-2-size);
+    line-height: var(--type-title-2-leading);
+    font-weight: var(--type-title-2-emphasized);
+    letter-spacing: var(--type-title-2-tracking);
+  }
+
+  & h4 {
+    margin-top: 1.5rem;
+    font-size: var(--type-title-3-size);
+    line-height: var(--type-title-3-leading);
+    font-weight: var(--type-title-3-emphasized);
+    letter-spacing: var(--type-title-3-tracking);
+  }
+
+  & :is(h5, h6) {
+    margin-top: 1.5rem;
+    font-size: var(--type-headline-size);
+    line-height: var(--type-headline-leading);
+    font-weight: var(--type-headline-weight);
+    letter-spacing: var(--type-headline-tracking);
+  }
+
+  & :is(h1, h2, h3, h4, h5, h6):first-child {
+    margin-top: 0;
+  }
+
+  & p {
+    font-size: var(--type-body-size);
+    line-height: var(--type-body-leading);
+    font-weight: var(--type-body-weight);
+    letter-spacing: var(--type-body-tracking);
+  }
+
+  & p:not(:first-child) {
+    margin-top: 1rem;
+  }
+
+  & a {
+    color: var(--link);
+    text-decoration-line: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  & :is(strong, b) {
+    font-weight: var(--type-body-emphasized);
+  }
+
+  & blockquote {
+    margin-top: 1.5rem;
+    border-inline-start: 2px solid var(--separator);
+    padding-inline-start: 1rem;
+    font-size: var(--type-body-size);
+    line-height: var(--type-body-leading);
+    font-weight: var(--type-body-weight);
+    letter-spacing: var(--type-body-tracking);
+    color: var(--label-2);
+  }
+
+  & :is(ul, ol) {
+    margin-top: 1rem;
+    padding-inline-start: 1.5rem;
+  }
+
+  & ul {
+    list-style-type: disc;
+  }
+
+  & ol {
+    list-style-type: decimal;
+  }
+
+  & li + li {
+    margin-top: 0.5rem;
+  }
+
+  & code {
+    border-radius: var(--radius-sm);
+    background-color: var(--fill-3);
+    padding: 0.125em 0.375em;
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+
+  & pre {
+    margin-top: 1.5rem;
+    overflow-x: auto;
+    border-radius: var(--radius);
+    background-color: var(--fill-3);
+    padding: 1rem;
+  }
+
+  & pre code {
+    border-radius: 0;
+    background-color: transparent;
+    padding: 0;
+  }
+
+  & hr {
+    margin-block: 2rem;
+    border: 0;
+    border-block-start: 1px solid var(--separator);
+  }
+
+  & small {
+    font-size: var(--type-footnote-size);
+    line-height: var(--type-footnote-leading);
+    font-weight: var(--type-footnote-weight);
+    letter-spacing: var(--type-footnote-tracking);
+    color: var(--label-2);
+  }
+
+  & figcaption {
+    margin-top: 0.5rem;
+    font-size: var(--type-caption-1-size);
+    line-height: var(--type-caption-1-leading);
+    font-weight: var(--type-caption-1-weight);
+    letter-spacing: var(--type-caption-1-tracking);
+    color: var(--label-2);
+  }
+
+  & table {
+    margin-top: 1.5rem;
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  & th {
+    border-block-end: 1px solid var(--separator);
+    padding: 0.5rem 0.75rem;
+    text-align: start;
+    font-size: var(--type-footnote-size);
+    line-height: var(--type-footnote-leading);
+    font-weight: var(--type-footnote-emphasized);
+    color: var(--label-2);
+  }
+
+  & td {
+    border-block-end: 1px solid var(--separator);
+    padding: 0.5rem 0.75rem;
+  }
+
+  & :is(img, video) {
+    margin-top: 1.5rem;
+    border-radius: var(--radius);
+    max-width: 100%;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

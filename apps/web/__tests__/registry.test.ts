@@ -149,6 +149,21 @@ describe("registry", () => {
     )
   })
 
+  test("base carries the typography prose utility, nested selectors and all", () => {
+    // Task 25. shadcn ships no `typography` component, so applecn's is CSS in the style item —
+    // the one place a consumer cannot reach with a class, because the markup is not theirs.
+    const base = registry.items.find((i) => i.name === "base")!
+    const prose = base.css?.["@utility typography"] as Record<string, unknown>
+    expect(prose).toBeDefined()
+    expect(prose["& h1"]).toMatchObject({
+      "font-size": "var(--type-large-title-size)",
+      "font-weight": "var(--type-large-title-emphasized)",
+    })
+    expect(prose["& blockquote"]).toMatchObject({
+      "border-inline-start": "2px solid var(--separator)",
+    })
+  })
+
   test("ships the hooks and lib modules", () => {
     expect(
       registry.items

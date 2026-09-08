@@ -142,3 +142,63 @@ describe("globals.css", () => {
     expect(css).toContain("--shadow-hairline-b:")
   })
 })
+
+/**
+ * The `typography` prose utility (spec §5.4, Task 25). shadcn ships no `typography` component —
+ * their Typography page is documentation telling a consumer which Tailwind classes to put on an
+ * `h1`, because shadcn has no type scale of its own. applecn has eleven measured Apple text
+ * styles, so the thing worth shipping is the half a consumer cannot write by hand: a container
+ * that styles HTML it does not control — markdown, MDX, a CMS — off that same scale.
+ */
+describe("the typography prose utility", () => {
+  const block = (() => {
+    const start = css.indexOf("@utility typography {")
+    if (start === -1) return ""
+    let depth = 1
+    let i = start + "@utility typography {".length
+    while (depth > 0 && i < css.length) {
+      if (css[i] === "{") depth++
+      if (css[i] === "}") depth--
+      i++
+    }
+    return css.slice(start, i)
+  })()
+
+  test("maps each prose element onto a measured Apple text style, not a Tailwind size", () => {
+    const scale: [string, string][] = [
+      ["h1", "large-title"],
+      ["h2", "title-1"],
+      ["h3", "title-2"],
+      ["h4", "title-3"],
+      ["p", "body"],
+      ["blockquote", "body"],
+      ["small", "footnote"],
+      ["figcaption", "caption-1"],
+    ]
+    for (const [element, style] of scale) {
+      expect(block).toContain(`& ${element} {`)
+      expect(block).toContain(`font-size: var(--type-${style}-size);`)
+      expect(block).toContain(`line-height: var(--type-${style}-leading);`)
+    }
+  })
+
+  test("a heading takes its style's own emphasized weight, which differs per style", () => {
+    for (const style of ["large-title", "title-1", "title-2", "title-3"]) {
+      expect(block).toContain(`font-weight: var(--type-${style}-emphasized);`)
+    }
+  })
+
+  test("its rules are Apple roles, and it invents no colour or hairline of its own", () => {
+    expect(block).toContain("color: var(--label);")
+    expect(block).toContain("color: var(--label-2);")
+    expect(block).toContain("var(--separator)")
+    expect(block).toContain("color: var(--link);")
+  })
+
+  test("the leading rule and list markers are logical, so the block is RTL-correct", () => {
+    expect(block).toContain("border-inline-start:")
+    expect(block).toContain("padding-inline-start:")
+    expect(block).not.toContain("border-left:")
+    expect(block).not.toContain("padding-left:")
+  })
+})
