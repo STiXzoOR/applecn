@@ -113,6 +113,19 @@
   ],
   "card.tsx": ["rounded-card", "type-body", "type-footnote", "type-headline"],
   "carousel.tsx": ["--list-inset", "w-full"],
+  "chart.tsx": [
+    "min-w-32",
+    "rounded-full",
+    "rounded-popover",
+    "size-2",
+    "size-2.5",
+    "size-3",
+    "type-caption-1",
+    "type-caption-2",
+    "w-0",
+    "w-1",
+    "w-full"
+  ],
   "checkbox-group.tsx": [],
   "checkbox.tsx": [
     "--checkbox-border-width",

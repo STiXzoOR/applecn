@@ -693,6 +693,20 @@ export const componentDocs: ComponentDoc[] = [
     examples: [{ name: "basic", title: "Files" }],
   },
   {
+    name: "chart",
+    title: "Chart",
+    description:
+      "Swift Charts' look on recharts: the system palette for series, caption axis labels, hairline grids and a material tooltip.",
+    group: "content",
+    apple: { name: "Charting data", hig: hig("charting-data") },
+    primitive: "element",
+    examples: [
+      { name: "line", title: "Line" },
+      { name: "bar", title: "Bar" },
+      { name: "area", title: "Area" },
+    ],
+  },
+  {
     name: "collapsible",
     title: "Collapsible",
     description: "A row that reveals details, its chevron turning as it opens.",

@@ -3745,6 +3745,24 @@
       ]
     },
     {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "Swift Charts' look on recharts: the system palette for series, caption axis labels, hairline grids and a material tooltip.",
+      "dependencies": [
+        "recharts"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "checkbox-group",
       "type": "registry:ui",
       "title": "Checkbox group",

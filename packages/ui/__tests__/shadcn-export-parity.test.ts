@@ -289,7 +289,25 @@ const LEDGER: Record<string, Row> = {
       "to; shadcn's returns embla's `api` and `opts` beside those, and applecn's carousel " +
       "scrolls natively and takes no carousel library, so it has neither.",
   },
-  chart: { task: "Task 30b" },
+  chart: {
+    gap: [],
+    note:
+      "built on `recharts`, which shadcn's Base UI variant imports and pins at 3.8.0 exactly — " +
+      "the same reason `calendar` takes `react-day-picker`: a shadcn-named primitive wraps the " +
+      "library shadcn wraps, and the prop layer this row checks (`payload`, `formatter`, " +
+      "`labelFormatter`, `hideIndicator`, `verticalAlign`) is that library's. Six exports, one " +
+      "slot (`chart`, on the container; `ChartTooltip` and `ChartLegend` are recharts' own " +
+      "components re-exported and stamp nothing). `useChart` is the applecn addition, exported " +
+      "because a consumer writing a custom tooltip needs the config the container holds. Apple's " +
+      "is Swift Charts: the five series colours were ALREADY in the token layer as `--chart-1`…" +
+      "`--chart-5` mapped to system blue, green, orange, purple and red, so the palette needed " +
+      "no new token. Axis text is `fill-label-2` at `type-caption-2`, grid and cursor rules are " +
+      "`stroke-separator`, and the tooltip is `material-regular` on `rounded-popover` with " +
+      "`shadow-glass`. Two paint departures from shadcn's file, neither touching a name: the " +
+      "legend and dot indicators are circles rather than 2 px squares, which is how Swift " +
+      "Charts marks a series, and figures drop `font-mono` for `tabular-nums` alone, because " +
+      "Apple sets numbers in SF with tabular figures rather than in a monospaced face.",
+  },
   checkbox: { gap: [] },
   collapsible: {
     gap: [],
