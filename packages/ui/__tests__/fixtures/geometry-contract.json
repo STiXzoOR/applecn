@@ -202,6 +202,14 @@
   "glass.tsx": ["rounded-full"],
   "hover-card.tsx": ["rounded-popover", "w-72"],
   "icon.tsx": [],
+  "input-group.tsx": [
+    "--input-border-width",
+    "--text-field-font",
+    "--text-field-height",
+    "min-w-0",
+    "rounded-field",
+    "w-full"
+  ],
   "input-otp.tsx": [
     "--control-font-large",
     "--passcode-field-border-width",

@@ -100,6 +100,7 @@ Install any of these as `@applecn/<name>`.
 - `stepper` — Stepper (Steppers): The 94×32 pt capsule with − and + halves on iOS 26; AppKit’s 20×26 vertical stepper on macOS 26.
 - `tabs` — Tabs (Tab views): A segmented control that switches between related subviews.
 - `input` — Input (Text fields): The bordered text field on every platform — 34 pt with 5 pt corners on iOS 26, AppKit’s 24 pt bezel, the App Store’s 32 px field — plus filled and plain variants and the iOS clear button.
+- `input-group` — Input group (Text fields): A text field with affordances inside it — a leading glyph or prefix, trailing buttons, a counter under a text view — on the field’s own height, corner and hairline.
 - `textarea` — Textarea (Text views): The text view for longer text, on the same surface as the text field.
 - `label` — Label (Labels): A control’s label in body text.
 - `field` — Field (Entering data): A labelled control with a description and an error, wired together for assistive technology.

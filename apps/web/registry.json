@@ -3952,6 +3952,27 @@
       ]
     },
     {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input group",
+      "description": "A text field with affordances inside it — a leading glyph or prefix, trailing buttons, a counter under a text view — on the field’s own height, corner and hairline.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/button.json",
+        "https://applecn.vercel.app/r/input.json",
+        "https://applecn.vercel.app/r/textarea.json",
+        "https://applecn.vercel.app/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/input-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "input-otp",
       "type": "registry:ui",
       "title": "Input OTP",

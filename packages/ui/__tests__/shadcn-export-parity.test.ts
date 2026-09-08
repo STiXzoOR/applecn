@@ -372,7 +372,18 @@ const LEDGER: Record<string, Row> = {
       "rather than exporting.",
   },
   input: { gap: [] },
-  "input-group": { task: "Task 18" },
+  "input-group": {
+    gap: [],
+    note:
+      "built from shadcn's own source rather than the plan: the fixture's six exports and its " +
+      "three slots are all of it — `InputGroupText` stamps none upstream either, and " +
+      "`input-group-button` belongs to `combobox`, which is the module that stamps it. Two " +
+      "divergences, neither at any of the three layers. `InputGroupButton` defaults to " +
+      '`variant="plain"` where shadcn defaults to `ghost`, which is the same quiet button ' +
+      "under the name applecn's `Button` ships; and its four sizes resolve to Apple's control " +
+      "sizes (`xs`/`icon-xs` → mini, `sm`/`icon-sm` → small, the icon pair as circles), with " +
+      "shadcn's own name still stamped as `data-size` so its CSS selects. No token was added.",
+  },
   "input-otp": {
     propGap: ["InputOTP.containerClassName"],
     propCloses: "Task 59",

@@ -277,6 +277,16 @@ export const componentDocs: ComponentDoc[] = [
     ],
   },
   {
+    name: "input-group",
+    title: "Input group",
+    description:
+      "A text field with affordances inside it — a leading glyph or prefix, trailing buttons, a counter under a text view — on the field’s own height, corner and hairline.",
+    group: "forms",
+    apple: { name: "Text fields", hig: hig("text-fields") },
+    primitive: "element",
+    examples: [{ name: "basic", title: "Addons and buttons" }],
+  },
+  {
     name: "textarea",
     title: "Textarea",
     description:

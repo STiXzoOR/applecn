@@ -29,6 +29,7 @@ export const examples: Record<string, () => Promise<{ default: ComponentType }>>
   'glass/basic': () => import('./examples/glass/basic'),
   'hover-card/basic': () => import('./examples/hover-card/basic'),
   'icon/scales': () => import('./examples/icon/scales'),
+  'input-group/basic': () => import('./examples/input-group/basic'),
   'input-otp/basic': () => import('./examples/input-otp/basic'),
   'input/basic': () => import('./examples/input/basic'),
   'input/clearable': () => import('./examples/input/clearable'),
