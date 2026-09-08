@@ -22,17 +22,35 @@ function AlertDialogTrigger(props: AlertDialogPrimitive.Trigger.Props) {
   )
 }
 
+function AlertDialogPortal(props: AlertDialogPrimitive.Portal.Props) {
+  return <AlertDialogPrimitive.Portal {...props} />
+}
+
+/** The dimmed layer behind the alert. shadcn's name for what Base UI calls the backdrop. */
+function AlertDialogOverlay({
+  className,
+  ...props
+}: AlertDialogPrimitive.Backdrop.Props) {
+  return (
+    <AlertDialogPrimitive.Backdrop
+      data-slot="alert-dialog-overlay"
+      className={cn(
+        "fixed inset-0 z-50 [background-color:rgb(0_0_0/var(--sheet-scrim))] duration-(--duration-overlay) motion-reduce:animate-none data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
 function AlertDialogContent({
   className,
   children,
   ...props
 }: AlertDialogPrimitive.Popup.Props) {
   return (
-    <AlertDialogPrimitive.Portal>
-      <AlertDialogPrimitive.Backdrop
-        data-slot="alert-dialog-backdrop"
-        className="fixed inset-0 z-50 [background-color:rgb(0_0_0/var(--sheet-scrim))] duration-(--duration-overlay) motion-reduce:animate-none data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0"
-      />
+    <AlertDialogPortal>
+      <AlertDialogOverlay />
       <AlertDialogPrimitive.Popup
         data-slot="alert-dialog-content"
         data-elevated=""
@@ -44,7 +62,21 @@ function AlertDialogContent({
       >
         {children}
       </AlertDialogPrimitive.Popup>
-    </AlertDialogPrimitive.Portal>
+    </AlertDialogPortal>
+  )
+}
+
+/**
+ * The title and description together. Layout-neutral on purpose: each of them already carries the
+ * alert's measured padding, so a gap here would space them twice.
+ */
+function AlertDialogHeader({ className, ...props }: ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="alert-dialog-header"
+      className={cn("flex flex-col", className)}
+      {...props}
+    />
   )
 }
 
@@ -118,6 +150,14 @@ function AlertDialogActions({
       {children}
     </div>
   )
+}
+
+/**
+ * shadcn's name for the action row. The same layout `AlertDialogActions` gives it — spec §3 asks
+ * for shadcn's exports carrying shadcn's semantics, styled as Apple, not a second appearance.
+ */
+function AlertDialogFooter(props: AlertDialogActionsProps) {
+  return <AlertDialogActions data-slot="alert-dialog-footer" {...props} />
 }
 
 const alertDialogActionVariants = cva(
@@ -210,6 +250,10 @@ export {
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogField,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  AlertDialogPortal,
   AlertDialogTitle,
   AlertDialogTrigger,
   alertDialogActionVariants,

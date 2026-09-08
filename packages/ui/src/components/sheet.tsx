@@ -242,6 +242,34 @@ function SheetToolbar({
   )
 }
 
+/**
+ * The title and description at the top of the sheet, on its 16 pt inset. shadcn's Drawer header;
+ * `SheetToolbar` is the iOS alternative, with Cancel and Done flanking a centred title.
+ */
+function SheetHeader({ className, ...props }: ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="sheet-header"
+      className={cn("flex shrink-0 flex-col gap-1 px-4 py-4", className)}
+      {...props}
+    />
+  )
+}
+
+/** The actions under the sheet's body, pinned to its bottom. shadcn's Drawer footer. */
+function SheetFooter({ className, ...props }: ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="sheet-footer"
+      className={cn(
+        "mt-auto flex shrink-0 flex-col gap-2 px-4 pb-4",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
 function SheetSection({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
@@ -257,6 +285,8 @@ export {
   SheetClose,
   SheetContent,
   SheetDescription,
+  SheetFooter,
+  SheetHeader,
   SheetSection,
   SheetTitle,
   SheetToolbar,

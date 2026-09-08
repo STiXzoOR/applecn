@@ -9,6 +9,8 @@ import {
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../src/components/alert-dialog"
@@ -127,5 +129,66 @@ describe("AlertDialog is idiom-agnostic", () => {
       "active:scale-(--alert-button-active-scale)"
     )
     expect(cancel.className).toContain("shadow-(--alert-button-shadow)")
+  })
+})
+
+/**
+ * shadcn's own alert-dialog markup, pasted unchanged (spec §3): a Portal holding an Overlay and
+ * the Content, a Header around the title and description, a Footer around the actions.
+ */
+function ShadcnShaped() {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger>Delete</AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete Note?</AlertDialogTitle>
+          <AlertDialogDescription>This can’t be undone.</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction variant="destructive" preferred>
+            Delete
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
+
+describe("AlertDialog takes shadcn's markup", () => {
+  test("the header groups the title and description without spacing them twice", async () => {
+    render(<ShadcnShaped />)
+    await userEvent.click(screen.getByRole("button", { name: "Delete" }))
+    const alert = await screen.findByRole("alertdialog")
+    const header = alert.querySelector('[data-slot="alert-dialog-header"]')!
+    expect(header.className).toContain("flex-col")
+    expect(header.className).not.toMatch(/(^|\s)gap-/)
+    expect(header).toContainElement(screen.getByText("Delete Note?"))
+    expect(header).toContainElement(screen.getByText("This can’t be undone."))
+  })
+
+  test("the footer lays the actions out the way AlertDialogActions does", async () => {
+    render(<ShadcnShaped />)
+    await userEvent.click(screen.getByRole("button", { name: "Delete" }))
+    const alert = await screen.findByRole("alertdialog")
+    const footer = alert.querySelector('[data-slot="alert-dialog-footer"]')!
+    expect(footer).toHaveAttribute("data-layout", "horizontal")
+    expect(footer.className).toContain("p-(--alert-button-inset)")
+    expect(footer.className).toContain("gap-(--alert-button-gap)")
+    expect(footer.className).toContain("grid-cols-2")
+  })
+
+  test("the content portals an overlay that dims the screen", async () => {
+    render(<ShadcnShaped />)
+    await userEvent.click(screen.getByRole("button", { name: "Delete" }))
+    await screen.findByRole("alertdialog")
+    const overlay = document.querySelector(
+      '[data-slot="alert-dialog-overlay"]'
+    )!
+    expect(overlay.className).toContain("fixed inset-0")
+    expect(overlay.className).toContain(
+      "[background-color:rgb(0_0_0/var(--sheet-scrim))]"
+    )
   })
 })

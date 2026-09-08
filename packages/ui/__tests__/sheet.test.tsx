@@ -6,6 +6,9 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
   SheetTitle,
   SheetToolbar,
   SheetTrigger,
@@ -76,4 +79,56 @@ describe("Sheet", () => {
     await userEvent.keyboard("{Escape}")
     expect(screen.queryByRole("dialog")).toBeNull()
   })
+})
+
+/**
+ * shadcn's Drawer markup, pasted unchanged (spec §3, §5.1): a Header around the title and
+ * description, a Footer around the actions. Task 15 renames these to Drawer*.
+ */
+function ShadcnShaped() {
+  return (
+    <Sheet>
+      <SheetTrigger>New Event</SheetTrigger>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>New Event</SheetTitle>
+          <SheetDescription>Add it to your calendar.</SheetDescription>
+        </SheetHeader>
+        <SheetFooter>
+          <SheetClose>Cancel</SheetClose>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+  )
+}
+
+describe("Sheet takes shadcn's Drawer markup", () => {
+  test("the header holds the title and description on the sheet's inset", async () => {
+    setViewport("phone")
+    render(<ShadcnShaped />)
+    await userEvent.click(screen.getByRole("button", { name: "New Event" }))
+    const sheet = await screen.findByRole("dialog")
+    const header = sheet.querySelector('[data-slot="sheet-header"]')!
+    expect(header.className).toContain("flex-col")
+    expect(header.className).toContain("px-4")
+    expect(header).toContainElement(
+      screen.getByText("Add it to your calendar.")
+    )
+  })
+
+  test.each(["phone", "desktop"] as const)(
+    "on a %s the footer sits under the body",
+    async (viewport) => {
+      setViewport(viewport)
+      render(<ShadcnShaped />)
+      await userEvent.click(screen.getByRole("button", { name: "New Event" }))
+      const sheet = await screen.findByRole("dialog")
+      const footer = sheet.querySelector('[data-slot="sheet-footer"]')!
+      expect(footer.className).toContain("mt-auto")
+      expect(footer.className).toContain("px-4")
+      expect(footer).toContainElement(
+        screen.getByRole("button", { name: "Cancel" })
+      )
+    }
+  )
 })
