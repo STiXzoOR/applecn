@@ -324,7 +324,7 @@ this**; it is not a Phase 3 change.
 behaviour). `tabs` carries the same segmented styling for the case that drives panels. Net: one
 component deleted.
 
-### 5.4 To build — shadcn primitives applecn lacks (14)
+### 5.4 To build — shadcn primitives applecn lacks (12, plus two rows that are not components)
 
 alert, aspect-ratio, calendar, chart, command, data-table, date-picker, input-group, item,
 native-select, pagination, resizable, sheet (edge panel), typography.
@@ -341,6 +341,52 @@ Spotlight for command, `NSTableView` for data-table, Swift Charts for chart, the
 banner for alert, apple.com's own pagination, the macOS draggable split divider for resizable.
 
 `chart` and `data-table` are each a subsystem; they are sub-phases of §7.3, not single tasks.
+
+**Correction (2026-09-08, Task 25/30a scope review).** This section said "14", and two of the
+fourteen are not components shadcn ships. Both were verified against the generated fixture — which
+scrapes shadcn's `apps/v4/registry/bases/base/ui` and finds 62 items — and against shadcn's own
+repository tree at the fixture's commit. **The count is 12 components, plus two rows that are
+something else.** Correcting the count is the right outcome; inventing a component to justify a
+number is not.
+
+- **`typography` is not a component in shadcn, and is not one here.** It is absent from the 62,
+  has no parity-ledger row, and in shadcn's repo it is `content/docs/components/base/typography.mdx`
+  plus a folder of examples that are raw `<h1 className="scroll-m-20 text-4xl font-extrabold
+tracking-tight">` recipes. It is a documentation page, and it exists because shadcn has no type
+  scale: a consumer has to be told which Tailwind classes make a heading. applecn has eleven
+  measured Apple text styles already shipping as `type-*` utilities, and a `Text` component that
+  names them, so the recipes have nothing to add. What applecn genuinely lacked is the half a
+  consumer cannot write by hand — a container that styles HTML it does not control, from markdown,
+  MDX or a CMS. **`typography` therefore ships as `@utility typography` in the style item's `css`,
+  with no exports**, which is what the plan's Task 25 already said. Every size, weight, colour and
+  rule reads an existing token; the vertical rhythm is the one judgement in it.
+
+- **`data-table` is not a component in shadcn either.** Same evidence: absent from the 62, no ledger
+  row, and in shadcn's repo it is `content/docs/components/base/data-table.mdx` plus a 331-line
+  _example_ composing their `table`, `button`, `checkbox`, `dropdown-menu` and `input` with
+  `@tanstack/react-table`. applecn already ships `table` with NSTableView's metrics. **So
+  `data-table` ships as a registry example on `table`** — sorting, filtering, column visibility, row
+  selection and paging — with `@tanstack/react-table` a dependency of `apps/web` and of nothing in
+  the library. The two alternatives were weighed and rejected: a real `data-table` component would
+  invent a surface with nothing to be at parity with, and a shadcn user arriving from that guide
+  would find an API they do not know; **ReUI's `data-grid`**, which §5.7.1 sanctions for gaps, is
+  sanctioned for gaps where applecn needs a _shape_ it does not have, and here the shape is
+  `table` + TanStack, which shadcn documents and applecn already owns. Taking ReUI's would be a
+  second, competing table. §5.7.1 is unchanged; it simply does not reach this row.
+
+Neither is a "subsystem" in the sense the paragraph above claims. **`chart` is** — one file, six
+exports, a charting library under it — and it stayed a sub-phase. `data-table` is a page of
+documentation and one example; column _resizing_, which the plan's Task 30a listed beside sorting
+and selection, is deliberately not in it, because NSTableView's draggable dividers are a `resizable`
+composition that shadcn's guide has no counterpart for.
+
+What this changes downstream, and it is the part worth reading: §5.6 lists `text` (Task 41) and
+`link` (Task 43) as rebuilds "on `typography`". **There is nothing there to rebuild them on.** Both
+were written on the assumption that `typography` would be a shadcn component they could compose;
+it is a CSS block, and the dependency in fact runs the other way — the prose block is written
+against the same eleven `type-*` utilities `Text` already names. Tasks 41 and 43 become
+verification-only, in the shape Task 26 already has for `collapsible`: confirm that `Text`, `Link`
+and the prose block read one scale and duplicate nothing.
 
 ### 5.5 To build — shadcn's AI set (7)
 
@@ -361,9 +407,14 @@ are a product surface rather than primitives.
 | `tab-bar`        | `tabs`                        | platter 62 inset 21, items 54, labels 10      |
 | `action-sheet`   | `drawer`                      | 48 pt capsule actions from the bottom         |
 | `page-control`   | `pagination`                  | iOS dots                                      |
-| `text`           | `typography`                  | the eleven text styles                        |
+| `text`           | the `type-*` scale            | the eleven text styles                        |
 | `toolbar`        | `button-group`                | partial — grouped actions                     |
-| `link`           | `typography`                  |                                               |
+| `link`           | the `type-*` scale            |                                               |
+
+**Correction (2026-09-08, Task 25 scope review).** The `text` and `link` rows read "`typography`"
+until the row above it was checked against shadcn. There is no `typography` component to compose —
+see §5.4 — so both now name what they actually read: the eleven `type-*` utilities. That makes
+Tasks 41 and 43 verification-only, like Task 26.
 
 ### 5.7 Genuinely Apple-only (7)
 

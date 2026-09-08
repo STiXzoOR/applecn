@@ -1379,15 +1379,37 @@ Each follows Task 17 exactly — failing test with an a11y case, component, regi
 | 22  | `native-select`      | `UIPickerView` compact / `NSPopUpButton`    | none                                                                                             |
 | 23  | `pagination`         | apple.com pagination                        | `PaginationContent/Item/Link/Previous/Next/Ellipsis`                                             |
 | 24  | `resizable`          | macOS draggable split divider               | `ResizablePanelGroup`, `ResizablePanel`, `ResizableHandle`                                       |
-| 25  | `typography`         | the eleven text styles as prose CSS         | none — ships as `css` in the style item                                                          |
+| 25  | `typography`         | the eleven text styles as prose CSS         | **none, and not a component** — see the note below                                               |
 | 26  | `collapsible`*       | already renamed in Task 15                  | verify `CollapsibleTrigger`, `CollapsibleContent`                                                |
 | 27  | `command`            | Spotlight                                   | `CommandDialog/Input/List/Empty/Group/Item/Separator/Shortcut`                                   |
 | 28  | `calendar`           | `UICalendarView` / `NSDatePicker` graphical | none                                                                                             |
 | 29  | `date-picker`        | `UIDatePicker` wheels, compact, inline      | composed of `calendar` + `popover`                                                               |
-| 30a | `data-table`         | `NSTableView`                               | sub-phase: sorting, selection, column sizing                                                     |
+| 30a | `data-table`         | `NSTableView`                               | **not a component either** — a registry example on `table`; see the note below                   |
 | 30b | `chart`              | Swift Charts                                | sub-phase: line, bar, area, the Apple palette                                                    |
 
 `*` Task 26 is verification only; the rename in Task 15 does the work.
+
+**Tasks 25 and 30a, resolved 2026-09-08 (spec §5.4).** Both were booked as builds against
+components shadcn does not ship. Verified twice — the generated fixture scrapes 62 items from
+shadcn's Base UI base and neither name is among them, and neither has a parity-ledger row — and
+against shadcn's repository tree at the fixture's commit, where both are
+`content/docs/components/base/*.mdx` pages with example folders.
+
+- **25 `typography` ships as `@utility typography` in the style item's `css`, with no exports.**
+  shadcn's page is per-element class recipes, which exist because shadcn has no type scale;
+  applecn's eleven `type-*` utilities already are one. What applecn lacked is a container that
+  styles markup it does not control — markdown, MDX, a CMS — so that is what was built. Done.
+  Consequence: **Tasks 41 and 43 become verification-only.** They were specified as rebuilds "on
+  `typography`" and there is no component there to rebuild on; the prose block and `Text` read the
+  same scale, so the work is confirming they duplicate nothing.
+- **30a `data-table` ships as a registry example on `table`**, which is shadcn's own shape:
+  sorting, filtering, column visibility, row selection and paging, composed with
+  `@tanstack/react-table` at shadcn's `^9.0.0`. The dependency belongs to `apps/web`, not to the
+  library. Column _resizing_ is dropped from the row: NSTableView's draggable dividers are a
+  `resizable` composition shadcn's guide has no counterpart for, and adding one would be inventing
+  a component to justify a number. ReUI's `data-grid` was weighed and rejected — §5.7.1 sanctions
+  ReUI where applecn needs a shape it does not have, and here the shape is `table` + TanStack,
+  which applecn already owns. Done.
 
 ---
 
@@ -1451,9 +1473,9 @@ Same cycle. Rebuild each on its shadcn base, keep the Apple-facing prop names, d
 | 38  | `tab-bar`        | `tabs`                                                                                                                                             |
 | 39  | `action-sheet`   | `drawer`                                                                                                                                           |
 | 40  | `page-control`   | `pagination`                                                                                                                                       |
-| 41  | `text`           | `typography`                                                                                                                                       |
+| 41  | `text`           | nothing — verification only; there is no `typography` component to rebuild on                                                                      |
 | 42  | `toolbar`        | `button-group` — **spike first**: spacers, overflow and the prominent action may not fit, in which case leave it Apple-only and say so in the spec |
-| 43  | `link`           | `typography`                                                                                                                                       |
+| 43  | `link`           | nothing — verification only, as Task 41                                                                                                            |
 
 ### Task 44: `responsive-dialog` and `responsive-alert-dialog`
 
