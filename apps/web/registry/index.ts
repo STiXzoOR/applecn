@@ -84,6 +84,16 @@ export const componentDocs: ComponentDoc[] = [
     examples: [{ name: "basic", title: "Variants" }],
   },
   {
+    name: "aspect-ratio",
+    title: "Aspect ratio",
+    description:
+      "A frame that holds a ratio open while its content loads — the App Store hero, square album art, a 4:3 screenshot.",
+    group: "foundation",
+    apple: { name: "Images", hig: hig("images") },
+    primitive: "element",
+    examples: [{ name: "basic", title: "Three ratios" }],
+  },
+  {
     name: "separator",
     title: "Separator",
     description:

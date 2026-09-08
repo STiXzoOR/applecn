@@ -7,6 +7,7 @@ export const examples: Record<string, () => Promise<{ default: ComponentType }>>
   'alert-dialog/basic': () => import('./examples/alert-dialog/basic'),
   'alert-dialog/stacked': () => import('./examples/alert-dialog/stacked'),
   'alert/basic': () => import('./examples/alert/basic'),
+  'aspect-ratio/basic': () => import('./examples/aspect-ratio/basic'),
   'avatar/basic': () => import('./examples/avatar/basic'),
   'badge/basic': () => import('./examples/badge/basic'),
   'breadcrumb/basic': () => import('./examples/breadcrumb/basic'),

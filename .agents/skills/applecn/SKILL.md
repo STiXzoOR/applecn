@@ -76,6 +76,7 @@ Install any of these as `@applecn/<name>`.
 - `icon` — Icon (SF Symbols): Hugeicons rendered with the SF Symbols sizing model: scales relative to text and weights that follow it.
 - `material` — Material (Materials): A content-layer material from ultra-thin to thick that blurs what is behind it.
 - `glass` — Glass (Liquid Glass): Liquid Glass for the functional layer: regular, clear and prominent, as a capsule, rounded rectangle or circle.
+- `aspect-ratio` — Aspect ratio (Images): A frame that holds a ratio open while its content loads — the App Store hero, square album art, a 4:3 screenshot.
 - `separator` — Separator (Separators): The half-point hairline, inset after a row’s leading content when it divides a list.
 
 ### Controls

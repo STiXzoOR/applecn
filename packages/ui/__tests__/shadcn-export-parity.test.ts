@@ -210,7 +210,15 @@ const LEDGER: Record<string, Row> = {
     propCloses: "Task 59",
     gap: [],
   },
-  "aspect-ratio": { task: "Task 21" },
+  "aspect-ratio": {
+    gap: [],
+    note:
+      "shadcn's whole component: one export, one slot, `ratio` written to `--ratio` and read " +
+      "back by `aspect-(--ratio)`. It draws nothing, so there is no Apple metric to read and " +
+      "none was invented. One difference, and it is a fix rather than a divergence: shadcn " +
+      "spreads `...props` AFTER its own `style`, so a caller passing `style` silently drops " +
+      "`--ratio` and the box loses its ratio. applecn merges the two.",
+  },
   attachment: { task: "Task 52–58 (the AI set)" },
   avatar: {
     gap: [],
