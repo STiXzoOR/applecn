@@ -550,6 +550,16 @@ export const componentDocs: ComponentDoc[] = [
     examples: [{ name: "basic", title: "Library" }],
   },
   {
+    name: "resizable",
+    title: "Resizable",
+    description:
+      "The macOS split divider: panes a pointer can redraw, with a half-point seam and the grabber iPadOS puts on a Split View.",
+    group: "navigation",
+    apple: { name: "Split views", hig: hig("split-views") },
+    primitive: "element",
+    examples: [{ name: "basic", title: "Draggable panes" }],
+  },
+  {
     name: "split-view",
     title: "Split view",
     description:

@@ -54,6 +54,7 @@ export const examples: Record<string, () => Promise<{ default: ComponentType }>>
   'progress/basic': () => import('./examples/progress/basic'),
   'radio-group/basic': () => import('./examples/radio-group/basic'),
   'rating/basic': () => import('./examples/rating/basic'),
+  'resizable/basic': () => import('./examples/resizable/basic'),
   'scroll-area/basic': () => import('./examples/scroll-area/basic'),
   'search-field/basic': () => import('./examples/search-field/basic'),
   'select/basic': () => import('./examples/select/basic'),

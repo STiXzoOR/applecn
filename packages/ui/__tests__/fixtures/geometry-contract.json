@@ -362,6 +362,14 @@
     "rounded-full"
   ],
   "rating.tsx": ["rounded-sm", "size-3", "size-4", "size-6"],
+  "resizable.tsx": [
+    "--control-height-small",
+    "h-1",
+    "h-full",
+    "rounded-full",
+    "w-1",
+    "w-full"
+  ],
   "scroll-area.tsx": [
     "h-1.5",
     "h-2",

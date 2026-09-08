@@ -496,7 +496,23 @@ const LEDGER: Record<string, Row> = {
   progress: { gap: [] },
   questionnaire: { task: "Task 52–58 (the AI set)" },
   "radio-group": { gap: [] },
-  resizable: { task: "Task 24" },
+  resizable: {
+    gap: [],
+    note:
+      "three exports and three slots, all present. Built on `react-resizable-panels` v4, which " +
+      "shadcn's Base UI variant also imports — the same `Group`/`Panel`/`Separator` API, so " +
+      "`GroupProps`, `PanelProps` and `SeparatorProps` are the prop types on both sides and " +
+      "`withHandle` is the one prop either project adds. Two things about the library a " +
+      "shadcn user inherits identically here, both worth recording because they are not " +
+      "visible in either source: a panel's `className` lands on the scroll box the library " +
+      'wraps the children in, NOT on the `data-slot="resizable-panel"` element; and the ' +
+      "group emits no `aria-orientation` at all — only the separator does, carrying the " +
+      "group's inverted axis — so shadcn's `aria-[orientation=vertical]:flex-col` on the " +
+      "group is dead CSS. applecn drops that one class (the library sets `flex-direction` " +
+      "inline regardless) and keeps every other rule shadcn writes. `resizable-handle-grip` " +
+      "is the Apple addition: the grabber pill iPadOS puts on a Split View seam, drawn only " +
+      "when `withHandle` asks for it, as shadcn's unnamed div is.",
+  },
   "scroll-area": {
     gap: [],
     note: "`ScrollBar` is shadcn's name for `ScrollAreaScrollbar`, exported as an alias.",

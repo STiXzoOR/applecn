@@ -134,6 +134,7 @@ Install any of these as `@applecn/<name>`.
 - `toolbar` — Toolbar (Toolbars): Items in floating glass platters — 44 pt circles inset 4 on iOS 26, 28 pt on macOS and the web — with the prominent action filled.
 - `sidebar` — Sidebar (Sidebars): A navigation list on the regular material: 44 pt rows on iPad, AppKit’s 28 pt rows with 6 pt corners on macOS 26, Music’s 34 pt rows on the web.
 - `split-view` — Split view (Split views): Two or three adjacent panes with hairline dividers that stack on narrow screens.
+- `resizable` — Resizable (Split views): The macOS split divider: panes a pointer can redraw, with a half-point seam and the grabber iPadOS puts on a Split View.
 - `page-control` — Page control (Page controls): A row of dots for a flat sequence of pages.
 - `pagination` — Pagination (Page controls): apple.com’s numbered pages: small round buttons with the current one tinted, and a worded Previous and Next.
 - `menubar` — Menu bar (The menu bar): The macOS menu bar: top-level menus whose titles highlight with the accent while open, each a full menu with shortcuts and submenus.
