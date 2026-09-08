@@ -2,13 +2,13 @@ import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { describe, expect, test, vi } from "vitest"
 
-import { PasscodeField } from "../src/components/passcode-field"
+import { InputOTP } from "../src/components/input-otp"
 
-describe("PasscodeField", () => {
+describe("InputOTP", () => {
   test("is a row of one-character boxes that advances as digits are typed", async () => {
     const onChange = vi.fn()
     render(
-      <PasscodeField
+      <InputOTP
         aria-label="Verification code"
         length={4}
         onValueChange={onChange}
@@ -35,9 +35,9 @@ describe("PasscodeField", () => {
   })
 })
 
-describe("PasscodeField labelling", () => {
+describe("InputOTP labelling", () => {
   test("names every box, including the first — Base UI drops `aria-label` there", () => {
-    render(<PasscodeField aria-label="Verification code" length={3} />)
+    render(<InputOTP aria-label="Verification code" length={3} />)
     const boxes = screen.getAllByRole("textbox") as HTMLInputElement[]
     expect(boxes).toHaveLength(3)
     // A real <label> is the only thing Base UI honours on the first box; it names
@@ -50,7 +50,7 @@ describe("PasscodeField labelling", () => {
   })
 
   test("keeps the boxes and the label out of each other's ids", () => {
-    render(<PasscodeField aria-label="Code" length={2} />)
+    render(<InputOTP aria-label="Code" length={2} />)
     const ids = [...document.querySelectorAll("[id]")].map((e) => e.id)
     expect(new Set(ids).size).toBe(ids.length)
   })

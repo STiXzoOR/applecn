@@ -73,9 +73,8 @@ type Row = Unbuilt | Built | Declined
  * is not built yet with the task that builds it.
  *
  * Task 15's §5.2 renames land one at a time, so a row moves from unbuilt to a gap as its file
- * appears under shadcn's name. `input-otp`, `collapsible` and `drawer` are still
- * unbuilt here while `passcode-field.tsx`, `disclosure-group.tsx` and `sheet.tsx` carry their
- * code under Apple's names. Auditing them under shadcn's names is
+ * appears under shadcn's name. `collapsible` and `drawer` are still unbuilt here while
+ * `disclosure-group.tsx` and `sheet.tsx` carry their code under Apple's names. Auditing them under shadcn's names is
  * deliberate: it is the rename that owes the parity, and each row fails the moment its file
  * appears.
  */
@@ -180,7 +179,14 @@ const LEDGER: Record<string, Row> = {
   },
   input: { gap: [] },
   "input-group": { task: "Task 18" },
-  "input-otp": { task: "Task 15", note: "the rename of `passcode-field`." },
+  "input-otp": {
+    gap: ["InputOTPGroup", "InputOTPSeparator", "InputOTPSlot"],
+    closes: "Task 15",
+    note:
+      "the rename of `passcode-field`. applecn's field renders its own boxes from a `length` " +
+      "prop, so shadcn's three composition parts have never existed here; the rename does not " +
+      "invent them.",
+  },
   item: { task: "Task 17" },
   kbd: { gap: ["KbdGroup"], closes: "Task 15" },
   label: { gap: [] },

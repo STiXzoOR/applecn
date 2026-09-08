@@ -353,8 +353,8 @@ export const componentDocs: ComponentDoc[] = [
     examples: [{ name: "basic", title: "Parent and children" }],
   },
   {
-    name: "passcode-field",
-    title: "Passcode field",
+    name: "input-otp",
+    title: "Input OTP",
     description:
       "A row of one-character boxes for a verification code that advances as digits are typed and fills on paste.",
     group: "forms",

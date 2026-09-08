@@ -23,7 +23,7 @@ import { Icon } from "@applecn/ui/components/icon"
 import { Kbd } from "@applecn/ui/components/kbd"
 import { Gauge, Meter } from "@applecn/ui/components/meter"
 import { PageControl } from "@applecn/ui/components/page-control"
-import { PasscodeField } from "@applecn/ui/components/passcode-field"
+import { InputOTP } from "@applecn/ui/components/input-otp"
 import { Progress } from "@applecn/ui/components/progress"
 import { Rating } from "@applecn/ui/components/rating"
 import { SearchField } from "@applecn/ui/components/search-field"
@@ -184,10 +184,10 @@ const tiles: Tile[] = [
     ),
   },
   {
-    href: "/components/passcode-field",
-    title: "Passcode field",
+    href: "/components/input-otp",
+    title: "Input OTP",
     span: "wide",
-    children: <PasscodeField aria-label="Code" length={4} defaultValue="26" />,
+    children: <InputOTP aria-label="Code" length={4} defaultValue="26" />,
   },
   {
     href: "/components/badge",

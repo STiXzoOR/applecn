@@ -179,6 +179,13 @@
   "glass.tsx": ["rounded-full"],
   "hover-card.tsx": ["rounded-popover", "w-72"],
   "icon.tsx": [],
+  "input-otp.tsx": [
+    "--control-font-large",
+    "--passcode-field-border-width",
+    "--passcode-field-height",
+    "--passcode-field-width",
+    "rounded-field"
+  ],
   "input.tsx": [
     "--input-border-width",
     "--text-field-font",
@@ -276,13 +283,6 @@
     "--page-control-dot",
     "--page-control-gap",
     "rounded-full"
-  ],
-  "passcode-field.tsx": [
-    "--control-font-large",
-    "--passcode-field-border-width",
-    "--passcode-field-height",
-    "--passcode-field-width",
-    "rounded-field"
   ],
   "popover.tsx": [
     "rounded-popover",

@@ -12,19 +12,19 @@ import { useId } from "react"
  * `aria-label` names the field through a hidden `<label>`, which is what Base UI reads: it
  * names the group and the first box, and the boxes after it say which digit they are.
  */
-type PasscodeFieldProps = Omit<OTPFieldPrimitive.Root.Props, "length"> & {
+type InputOTPProps = Omit<OTPFieldPrimitive.Root.Props, "length"> & {
   "aria-label": string
   className?: string
   length?: number
 }
 
-function PasscodeField({
+function InputOTP({
   className,
   "aria-label": label,
   id: idProp,
   length = 6,
   ...props
-}: PasscodeFieldProps) {
+}: InputOTPProps) {
   const generatedId = useId()
   // Base UI names the field, and its first box, from an associated `<label>` — it ignores
   // `aria-label` on that box, which otherwise leaves it unnamed. The label carries the name
@@ -54,5 +54,5 @@ function PasscodeField({
   )
 }
 
-export { PasscodeField }
-export type { PasscodeFieldProps }
+export { InputOTP }
+export type { InputOTPProps }

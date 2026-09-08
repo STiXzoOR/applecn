@@ -3927,6 +3927,24 @@
       ]
     },
     {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input OTP",
+      "description": "A row of one-character boxes for a verification code that advances as digits are typed and fills on paste.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/input-otp.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "input",
       "type": "registry:ui",
       "title": "Input",
@@ -4145,24 +4163,6 @@
       "files": [
         {
           "path": "src/components/page-control.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "name": "passcode-field",
-      "type": "registry:ui",
-      "title": "Passcode field",
-      "description": "A row of one-character boxes for a verification code that advances as digits are typed and fills on paste.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "https://applecn.vercel.app/r/utils.json"
-      ],
-      "files": [
-        {
-          "path": "src/components/passcode-field.tsx",
           "type": "registry:ui"
         }
       ]
