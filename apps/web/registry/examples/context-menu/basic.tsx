@@ -9,7 +9,9 @@ import {
 import {
   ContextMenu,
   ContextMenuContent,
+  ContextMenuGroup,
   ContextMenuItem,
+  ContextMenuLabel,
   ContextMenuSeparator,
   ContextMenuTrigger,
 } from "@applecn/ui/components/context-menu"
@@ -24,8 +26,11 @@ export default function ContextMenuBasic() {
         </Text>
       </ContextMenuTrigger>
       <ContextMenuContent>
-        <ContextMenuItem icon={Copy01Icon}>Copy</ContextMenuItem>
-        <ContextMenuItem icon={Share01Icon}>Share…</ContextMenuItem>
+        <ContextMenuGroup>
+          <ContextMenuLabel>Image</ContextMenuLabel>
+          <ContextMenuItem icon={Copy01Icon}>Copy</ContextMenuItem>
+          <ContextMenuItem icon={Share01Icon}>Share…</ContextMenuItem>
+        </ContextMenuGroup>
         <ContextMenuSeparator />
         <ContextMenuItem variant="destructive" icon={Delete02Icon}>
           Delete

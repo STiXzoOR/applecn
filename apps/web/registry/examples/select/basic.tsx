@@ -3,7 +3,9 @@
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@applecn/ui/components/select"
@@ -39,11 +41,14 @@ export default function SelectBasic() {
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          {Object.entries(repeat).map(([value, label]) => (
-            <SelectItem key={value} value={value}>
-              {label}
-            </SelectItem>
-          ))}
+          <SelectGroup>
+            <SelectLabel>Frequency</SelectLabel>
+            {Object.entries(repeat).map(([value, label]) => (
+              <SelectItem key={value} value={value}>
+                {label}
+              </SelectItem>
+            ))}
+          </SelectGroup>
         </SelectContent>
       </Select>
     </div>

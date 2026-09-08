@@ -4,6 +4,8 @@ import {
   Combobox,
   ComboboxContent,
   ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxGroupLabel,
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
@@ -27,13 +29,16 @@ export default function ComboboxBasic() {
         <ComboboxInput aria-label="City" placeholder="City" />
         <ComboboxContent>
           <ComboboxEmpty>No cities found.</ComboboxEmpty>
-          <ComboboxList>
-            {(city: string) => (
-              <ComboboxItem key={city} value={city}>
-                {city}
-              </ComboboxItem>
-            )}
-          </ComboboxList>
+          <ComboboxGroup>
+            <ComboboxGroupLabel>Cities</ComboboxGroupLabel>
+            <ComboboxList>
+              {(city: string) => (
+                <ComboboxItem key={city} value={city}>
+                  {city}
+                </ComboboxItem>
+              )}
+            </ComboboxList>
+          </ComboboxGroup>
         </ComboboxContent>
       </Combobox>
     </div>

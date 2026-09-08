@@ -11,7 +11,9 @@ import {
   Menu,
   MenuCheckboxItem,
   MenuContent,
+  MenuGroup,
   MenuItem,
+  MenuLabel,
   MenuSeparator,
   MenuShortcut,
   MenuSub,
@@ -25,11 +27,14 @@ export default function MenuBasic() {
     <Menu>
       <MenuTrigger render={<Button variant="gray" />}>Actions</MenuTrigger>
       <MenuContent>
-        <MenuItem icon={Copy01Icon}>
-          Copy
-          <MenuShortcut>⌘C</MenuShortcut>
-        </MenuItem>
-        <MenuItem icon={Share01Icon}>Share…</MenuItem>
+        <MenuGroup>
+          <MenuLabel>Note</MenuLabel>
+          <MenuItem icon={Copy01Icon}>
+            Copy
+            <MenuShortcut>⌘C</MenuShortcut>
+          </MenuItem>
+          <MenuItem icon={Share01Icon}>Share…</MenuItem>
+        </MenuGroup>
         <MenuSub>
           <MenuSubTrigger>Sort By</MenuSubTrigger>
           <MenuSubContent>

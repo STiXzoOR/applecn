@@ -4,7 +4,9 @@ import {
   Menubar,
   MenubarCheckboxItem,
   MenubarContent,
+  MenubarGroup,
   MenubarItem,
+  MenubarLabel,
   MenubarMenu,
   MenubarSeparator,
   MenubarShortcut,
@@ -53,9 +55,14 @@ export default function MenubarBasic() {
       <MenubarMenu>
         <MenubarTrigger>View</MenubarTrigger>
         <MenubarContent>
-          <MenubarCheckboxItem defaultChecked>Show Sidebar</MenubarCheckboxItem>
-          <MenubarCheckboxItem>Show Path Bar</MenubarCheckboxItem>
-          <MenubarCheckboxItem>Show Status Bar</MenubarCheckboxItem>
+          <MenubarGroup>
+            <MenubarLabel>Layout</MenubarLabel>
+            <MenubarCheckboxItem defaultChecked>
+              Show Sidebar
+            </MenubarCheckboxItem>
+            <MenubarCheckboxItem>Show Path Bar</MenubarCheckboxItem>
+            <MenubarCheckboxItem>Show Status Bar</MenubarCheckboxItem>
+          </MenubarGroup>
         </MenubarContent>
       </MenubarMenu>
     </Menubar>
