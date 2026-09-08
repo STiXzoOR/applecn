@@ -49,3 +49,4 @@ apps/web/public/r/
 
 # lefthook writes here when a global core.hooksPath points at .githooks; hooks are installed per clone
 .githooks/
+.playwright-mcp/

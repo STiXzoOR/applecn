@@ -91,7 +91,15 @@ function ChartContainer({
           // recharts paints `#ccc` grids and `#fff` marker outlines of its own; each override
           // below swaps one for the Apple role it stands in for — separator for a rule, fill-3
           // for an inactive band, the secondary label for axis text.
-          "flex aspect-video justify-center type-caption-2 text-label-2 [&_.recharts-cartesian-axis-tick_text]:fill-label-2 [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-separator [&_.recharts-curve.recharts-tooltip-cursor]:stroke-separator [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-hidden [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-separator [&_.recharts-radial-bar-background-sector]:fill-fill-3 [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-fill-3 [&_.recharts-reference-line_[stroke='#ccc']]:stroke-separator [&_.recharts-sector]:outline-hidden [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-surface]:outline-hidden",
+          //
+          // The axis rule is written TWICE on purpose. shadcn's form is
+          // `.recharts-cartesian-axis-tick text`, and in recharts 3.8 that <g> is empty — the
+          // label moved out to a sibling `.recharts-cartesian-axis-tick-label`, so shadcn's
+          // selector matches nothing and axis text renders in recharts' own #666 in both
+          // projects. Selecting the text's own `.recharts-cartesian-axis-tick-value` class is
+          // the form that holds whichever group it sits in; shadcn's is kept beside it so a
+          // consumer's copied CSS and a future recharts still land on the same colour.
+          "flex aspect-video justify-center type-caption-2 text-label-2 [&_.recharts-cartesian-axis-tick_text]:fill-label-2 [&_.recharts-cartesian-axis-tick-value]:fill-label-2 [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-separator [&_.recharts-curve.recharts-tooltip-cursor]:stroke-separator [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-hidden [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-separator [&_.recharts-radial-bar-background-sector]:fill-fill-3 [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-fill-3 [&_.recharts-reference-line_[stroke='#ccc']]:stroke-separator [&_.recharts-sector]:outline-hidden [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-surface]:outline-hidden",
           className
         )}
         {...props}

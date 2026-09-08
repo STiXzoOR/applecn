@@ -98,6 +98,28 @@ describe("Chart", () => {
     expect(className).toContain("type-caption-2")
   })
 
+  test("the axis rule reaches the element recharts 3.8 actually puts the tick text in", () => {
+    render(
+      <ChartContainer config={config} data-testid="chart">
+        <LineChart data={data}>
+          <XAxis dataKey="day" />
+          <Line dataKey="steps" />
+        </LineChart>
+      </ChartContainer>
+    )
+    // shadcn's selector is `.recharts-cartesian-axis-tick text`, and in recharts 3.8 that
+    // <g> is empty: the label moved out to `.recharts-cartesian-axis-tick-label`, and the
+    // text itself carries `.recharts-cartesian-axis-tick-value`. Selecting the text's own
+    // class is the one form that holds whichever group it sits in.
+    const tick = screen
+      .getByTestId("chart")
+      .querySelector(".recharts-cartesian-axis-tick-value")
+    expect(tick).not.toBeNull()
+    expect(screen.getByTestId("chart").className).toContain(
+      "[&_.recharts-cartesian-axis-tick-value]:fill-label-2"
+    )
+  })
+
   test("bar and area compose in the same container", () => {
     const { rerender } = render(
       <ChartContainer config={config} data-testid="chart">
