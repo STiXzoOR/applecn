@@ -48,6 +48,16 @@ function PopoverArrow({ className, ...props }: PopoverPrimitive.Arrow.Props) {
   )
 }
 
+/**
+ * The card. `aria-label` DEFAULTS to "Popover" rather than being left unset: Base UI's popup is a
+ * `role="dialog"`, and a popover composed without a `PopoverTitle` fails axe's `aria-dialog-name`
+ * with no name at all (spec §3.2). The accessible-name computation reads `aria-labelledby` first,
+ * so a title still names the card whenever there is one.
+ *
+ * That default is a literal English string, and it is the prop a localised app overrides: pass
+ * `aria-label` on every untitled popover, or give the card a `PopoverTitle` and the default never
+ * speaks. It is a default rather than a hardcoded value for exactly this reason.
+ */
 function PopoverContent({
   className,
   children,

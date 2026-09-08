@@ -115,6 +115,13 @@ reads `aria-labelledby` **before** `aria-label`, so a `PopoverTitle` still names
 there is one and the fallback speaks only when there is not; nothing regresses for the titled case. All
 three surface layers stay shadcn's exactly — only a prop's default value differs.
 
+The default is the literal English word "Popover", and it is the only untranslated string any of these
+four divergences introduces (`date-picker`'s "Choose a date" is applecn's own component and
+`Pagination`'s `aria-label="pagination"` is shadcn's). A French app's untitled popover announces
+"Popover". That is still better than announcing nothing, and it is why the remedy is a _default_ rather
+than a hardcoded value — but it makes `aria-label` a prop a localised app is expected to pass, on every
+untitled popover, and the component says so where a reader will meet it.
+
 The same audit swept every neighbouring overlay, and what it found decides where this remedy stops.
 `hover-card`'s `PreviewCard.Popup` carries **no role at all**, so no name is owed; `tooltip` is
 `role="tooltip"`, named by its own content. But `dialog`, `alert-dialog`, `drawer`, `sheet` and
