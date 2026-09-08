@@ -13,6 +13,7 @@ import {
   SheetPortal,
   SheetTitle,
   SheetTrigger,
+  sheetContentVariants,
 } from "../src/components/sheet"
 import { checkA11y } from "./helpers/axe"
 
@@ -39,6 +40,12 @@ function Inspector({
   )
 }
 
+describe("sheetContentVariants", () => {
+  test("is exported, and is what SheetContent renders", () => {
+    expect(sheetContentVariants({ side: "left" })).toContain("border-r-[0.5px]")
+  })
+})
+
 describe("Sheet", () => {
   test("is an edge panel with a title and description wired to it", async () => {
     render(<Inspector />)
@@ -62,6 +69,11 @@ describe("Sheet", () => {
     expect(panel.className).toContain("bg-popover")
     expect(panel.className).toContain("shadow-dialog")
     expect(panel).toHaveAttribute("data-elevated")
+    // The content-facing edge is the house hairline, not a full pixel: `input-group`'s bezel,
+    // `command`'s field rule and `resizable`'s seam all draw 0.5 px, and the panel sits beside
+    // them on the same page.
+    expect(panel.className).toContain("border-l-[0.5px]")
+    expect(panel.className).toContain("border-separator")
   })
 
   test("takes shadcn's four sides, and comes from the trailing edge by default", async () => {

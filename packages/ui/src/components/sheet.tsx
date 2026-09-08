@@ -54,13 +54,23 @@ function SheetOverlay({ className, ...props }: SheetPrimitive.Backdrop.Props) {
 }
 
 /**
- * `side` is shadcn's, and the geometry is Apple's panel: the measured sidebar width — 320 pt on
- * iPadOS, AppKit's 240, 260 on the web — for the two inline edges, and content height for the
- * block ones. That token is the only measured panel width Apple's tables publish; an inspector
- * has no separate one, so it is read rather than a new token invented for it.
+ * `side` is shadcn's. What is APPLE'S here is the width and the movement: the measured sidebar
+ * width — 320 pt on iPadOS, AppKit's 240, 260 on the web — for the two inline edges, because that
+ * token is the only measured panel width Apple's tables publish and an inspector has no separate
+ * one; the 0.5 pt hairline on the content-facing edge, which is the house rule every neighbour on
+ * the same page draws (`input-group`'s bezel, `command`'s field, `resizable`'s seam); and the
+ * slide of the panel's whole width on the sheet curve, which is how Apple presents an inspector
+ * rather than shadcn's 2.5 rem nudge.
  *
- * The panel slides its whole width in and out on the sheet curve, which is how Apple presents an
- * inspector, rather than shadcn's 2.5 rem nudge.
+ * What is SHADCN'S, unchanged and corresponding to no Apple measurement: `p-6` and `gap-4`, which
+ * are `dialogPopupClassName`'s inset and rhythm and keep the panel in the dialog family it
+ * belongs to; and `max-h-[80%]` / `max-w-[calc(100%-2rem)]`, the caps that keep a block-edge
+ * panel and a narrow viewport from filling the screen. The inset is the one number a browser pass
+ * has argued with — 24 px leaves 192 px of content inside the 240 px macOS panel — but it is the
+ * dialog family's inset, not this component's, so narrowing it here alone would split the family.
+ *
+ * Reading `--sidebar-width` also couples this panel to the `sidebar` component's measured token:
+ * a future sidebar remeasure resizes every sheet, and nothing tests the coupling.
  */
 const sheetContentVariants = cva(
   "fixed z-50 flex flex-col gap-4 bg-popover p-6 text-label shadow-dialog transition-transform duration-(--duration-sheet) ease-(--ease-sheet) will-change-transform outline-none motion-reduce:transition-none",
@@ -68,11 +78,11 @@ const sheetContentVariants = cva(
     variants: {
       side: {
         right:
-          "inset-y-0 right-0 h-full w-(--sidebar-width) max-w-[calc(100%-2rem)] border-l border-separator data-ending-style:translate-x-full data-starting-style:translate-x-full",
-        left: "inset-y-0 left-0 h-full w-(--sidebar-width) max-w-[calc(100%-2rem)] border-r border-separator data-ending-style:-translate-x-full data-starting-style:-translate-x-full",
-        top: "inset-x-0 top-0 max-h-[80%] w-full border-b border-separator data-ending-style:-translate-y-full data-starting-style:-translate-y-full",
+          "inset-y-0 right-0 h-full w-(--sidebar-width) max-w-[calc(100%-2rem)] border-l-[0.5px] border-separator data-ending-style:translate-x-full data-starting-style:translate-x-full",
+        left: "inset-y-0 left-0 h-full w-(--sidebar-width) max-w-[calc(100%-2rem)] border-r-[0.5px] border-separator data-ending-style:-translate-x-full data-starting-style:-translate-x-full",
+        top: "inset-x-0 top-0 max-h-[80%] w-full border-b-[0.5px] border-separator data-ending-style:-translate-y-full data-starting-style:-translate-y-full",
         bottom:
-          "inset-x-0 bottom-0 max-h-[80%] w-full border-t border-separator data-ending-style:translate-y-full data-starting-style:translate-y-full",
+          "inset-x-0 bottom-0 max-h-[80%] w-full border-t-[0.5px] border-separator data-ending-style:translate-y-full data-starting-style:translate-y-full",
       },
     },
     defaultVariants: {
@@ -179,4 +189,5 @@ export {
   SheetPortal,
   SheetTitle,
   SheetTrigger,
+  sheetContentVariants,
 }

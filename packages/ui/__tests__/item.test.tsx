@@ -12,8 +12,29 @@ import {
   ItemMedia,
   ItemSeparator,
   ItemTitle,
+  itemVariants,
 } from "../src/components/item"
 import { checkA11y } from "./helpers/axe"
+
+/**
+ * The cva is public, as `alertVariants` and `nativeSelectVariants` already are: a consumer who
+ * composes the row onto their own element still gets the paint. shadcn keeps all four private, so
+ * this is more surface than shadcn ships, never less — the phase applied that principle to two of
+ * its four cvas and this is the other pair.
+ */
+describe("itemVariants", () => {
+  test("is exported, and is what Item renders", () => {
+    render(<Item variant="outline">t</Item>)
+    // Not a whole-string comparison: `cn` merges, and a Tailwind v4 font-size utility drops the
+    // `leading-snug` written before it. The variant's own classes are the claim.
+    expect(itemVariants({ variant: "outline" })).toContain(
+      "rounded-list border border-separator"
+    )
+    expect(screen.getByText("t").className).toContain(
+      "rounded-list border border-separator"
+    )
+  })
+})
 
 describe("Item", () => {
   test("lays media, content and actions across a row", () => {

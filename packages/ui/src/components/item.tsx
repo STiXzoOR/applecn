@@ -225,4 +225,5 @@ export {
   ItemMedia,
   ItemSeparator,
   ItemTitle,
+  itemVariants,
 }
