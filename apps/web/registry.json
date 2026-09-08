@@ -4211,6 +4211,26 @@
       ]
     },
     {
+      "name": "native-select",
+      "type": "registry:ui",
+      "title": "Native select",
+      "description": "The platform's own menu in the pop-up button's bezel — UIPickerView on iOS, NSPopUpButton on macOS.",
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/native-select.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "navigation-bar",
       "type": "registry:ui",
       "title": "Navigation bar",

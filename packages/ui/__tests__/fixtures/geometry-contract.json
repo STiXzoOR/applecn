@@ -303,6 +303,16 @@
     "type-headline",
     "w-full"
   ],
+  "native-select.tsx": [
+    "--control-font-regular",
+    "--control-font-small",
+    "--control-height-regular",
+    "--control-height-small",
+    "--control-radius-regular",
+    "--control-radius-small",
+    "--select-popup-border-width",
+    "w-full"
+  ],
   "navigation-bar.tsx": [
     "--nav-bar-height",
     "--nav-bar-title-font",

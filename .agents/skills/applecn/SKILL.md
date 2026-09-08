@@ -107,6 +107,7 @@ Install any of these as `@applecn/<name>`.
 - `field` — Field (Entering data): A labelled control with a description and an error, wired together for assistive technology.
 - `search-field` — Search field (Search fields): The 44 pt capsule search field of iOS 26 with the magnifier, clear and Cancel; AppKit’s 24 pt capsule on macOS.
 - `select` — Select (Pickers, pop-up buttons): The menu picker: a tinted inline value on iOS, AppKit’s pop-up button bezel on macOS 26, a pill on the web, opening a glass menu with leading check marks.
+- `native-select` — Native select (Pickers, pop-up buttons): The platform’s own menu in the pop-up button’s bezel — UIPickerView on iOS, NSPopUpButton on macOS.
 - `combobox` — Combo box (Combo boxes): A text field that offers suggestions filtered as the person types, in a glass menu with the platform’s rows.
 - `checkbox-group` — Checkbox group (Checkboxes): Checkboxes that share a value under a parent that turns them all on or off and shows the mixed state — macOS’s settings hierarchy.
 - `input-otp` — Input OTP (Text fields): A row of one-character boxes for a verification code that advances as digits are typed and fills on paste.

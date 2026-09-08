@@ -457,7 +457,17 @@ const LEDGER: Record<string, Row> = {
   },
   message: { task: "Task 52–58 (the AI set)" },
   "message-scroller": { task: "Task 52–58 (the AI set)" },
-  "native-select": { task: "Task 22" },
+  "native-select": {
+    gap: [],
+    note:
+      "three exports but FIVE slots: shadcn wraps the `<select>` in a positioned div and parks " +
+      "the chevrons in it, so `native-select-wrapper` and `native-select-icon` are stamped by " +
+      "a module that exports neither. `className` dresses the wrapper, as it does upstream. " +
+      "Apple's is the pop-up button, so the bezel is the one `select`'s `popup` trigger " +
+      "already draws — the same `--select-popup-*` fill, hairline and shadow on the control " +
+      "height and corner — and `size` keeps shadcn's `sm`/`default` names over Apple's small " +
+      "and regular controls, stamped as `data-size` on both the wrapper and the select.",
+  },
   "navigation-menu": {
     gap: [],
     note:

@@ -346,6 +346,16 @@ export const componentDocs: ComponentDoc[] = [
     examples: [{ name: "basic", title: "Plain and pop-up" }],
   },
   {
+    name: "native-select",
+    title: "Native select",
+    description:
+      "The platform's own menu in the pop-up button's bezel — UIPickerView on iOS, NSPopUpButton on macOS.",
+    group: "forms",
+    apple: { name: "Pickers, pop-up buttons", hig: hig("pickers") },
+    primitive: "element",
+    examples: [{ name: "basic", title: "Sort and group" }],
+  },
+  {
     name: "combobox",
     title: "Combo box",
     description:

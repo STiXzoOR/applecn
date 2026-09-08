@@ -45,6 +45,7 @@ export const examples: Record<string, () => Promise<{ default: ComponentType }>>
   'material/basic': () => import('./examples/material/basic'),
   'menubar/basic': () => import('./examples/menubar/basic'),
   'meter/basic': () => import('./examples/meter/basic'),
+  'native-select/basic': () => import('./examples/native-select/basic'),
   'navigation-bar/basic': () => import('./examples/navigation-bar/basic'),
   'navigation-menu/basic': () => import('./examples/navigation-menu/basic'),
   'page-control/basic': () => import('./examples/page-control/basic'),
