@@ -1,9 +1,11 @@
-import { readdirSync, readFileSync } from "node:fs"
-import { join } from "node:path"
-
 import { describe, expect, test } from "vitest"
 
 import { componentTokens } from "../src/tokens/components"
+import {
+  componentModules,
+  paintedProperty,
+  splitModifiers,
+} from "./helpers/component-source"
 
 /**
  * The §4.5 bug: a checked checkbox painted its resting bezel and showed no selection at all.
@@ -33,7 +35,6 @@ import { componentTokens } from "../src/tokens/components"
  * changes under a rename. So those pairs must be resolved explicitly — with a class carrying
  * both modifiers, which by construction outranks either alone — rather than left to race.
  */
-const dir = join(import.meta.dirname, "../src/components")
 
 /** Pseudo-class modifiers, whose relative order Tailwind fixes and designers rely on. */
 const PSEUDO = new Set([
@@ -55,41 +56,6 @@ const PSEUDO = new Set([
   "placeholder-shown",
   "read-only",
 ])
-
-/** Splits `data-[variant=destructive]:text-x` on top-level colons only. */
-function splitModifiers(token: string): {
-  modifiers: string[]
-  utility: string
-} {
-  const parts: string[] = []
-  let depth = 0
-  let buffer = ""
-  for (const character of token) {
-    if (character === "[" || character === "(") depth++
-    else if (character === "]" || character === ")") depth--
-    if (character === ":" && depth === 0) {
-      parts.push(buffer)
-      buffer = ""
-    } else buffer += character
-  }
-  parts.push(buffer)
-  return { modifiers: parts.slice(0, -1), utility: parts.at(-1)! }
-}
-
-/** The coarse property group a utility writes, or null when it writes none we track. */
-function property(utility: string): string | null {
-  if (utility.startsWith("bg-")) return "background-color"
-  if (/^border-(?![[\d]|[xytbsel]-|r-|\(length)/.test(utility))
-    return "border-color"
-  if (
-    utility.startsWith("text-") &&
-    !/^text-(\[length|xs|sm|base|lg|xl|\d)/.test(utility)
-  )
-    return "color"
-  if (utility.startsWith("shadow-")) return "box-shadow"
-  if (utility.startsWith("opacity-")) return "opacity"
-  return null
-}
 
 const isAttribute = (modifier: string) =>
   (modifier.startsWith("data-") || modifier.startsWith("aria-")) &&
@@ -159,7 +125,7 @@ function races(file: string, source: string): string[] {
     >()
     for (const token of match[1]!.split(/\s+/).filter(Boolean)) {
       const { modifiers, utility } = splitModifiers(token)
-      const group = property(utility)
+      const group = paintedProperty(utility)
       if (!group || modifiers.length === 0) continue
       // A `group-`/`peer-`/`[&…]` modifier conditions on another element, so two such classes
       // are not necessarily deciding one element's paint between them.
@@ -194,12 +160,9 @@ function races(file: string, source: string): string[] {
 }
 
 describe("two state attributes never race for the same property", () => {
-  test.each(readdirSync(dir).filter((f) => f.endsWith(".tsx")))(
-    "%s",
-    (file) => {
-      expect(races(file, readFileSync(join(dir, file), "utf8"))).toEqual([])
-    }
-  )
+  test.each(componentModules())("$file", ({ file, source }) => {
+    expect(races(file, source)).toEqual([])
+  })
 
   test("the scan reaches real class strings, so an empty result cannot mean an empty input", () => {
     // A sanity check on the method: the guard must see a known collision when one is present.

@@ -1,3 +1,6 @@
+// oxlint-disable vitest/no-conditional-expect -- the control table below is a capability table:
+// only some controls have an indicator, a resting attribute or a disabled state, and the branches
+// are decided by that static fixture data rather than by anything that happens at run time.
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
 
@@ -41,6 +44,12 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from "../src/components/menubar"
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from "../src/components/navigation-menu"
 import { RadioGroup, RadioGroupItem } from "../src/components/radio-group"
 import {
   Select,
@@ -51,9 +60,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../src/components/select"
+import {
+  SegmentedControl,
+  SegmentedControlItem,
+} from "../src/components/segmented-control"
 import { Switch } from "../src/components/switch"
+import { Toggle } from "../src/components/toggle"
+import { ToggleGroup, ToggleGroupItem } from "../src/components/toggle-group"
 import { PlatformProvider, type Platform } from "../src/lib/platform"
-import { tokenPlatformCss, tokenVars } from "../src/tokens/css"
+import { tokenBaseCss, tokenPlatformCss, tokenVars } from "../src/tokens/css"
 
 /**
  * The Apple-fidelity gate (spec §7.2). jsdom has no layout, so it asserts at the two layers that
@@ -75,9 +90,29 @@ import { tokenPlatformCss, tokenVars } from "../src/tokens/css"
  */
 
 const IDIOMS: readonly Platform[] = ["ios", "macos", "web"]
-const APPEARANCES = ["light", "dark"] as const
 
-type Appearance = (typeof APPEARANCES)[number]
+/**
+ * The cascade contexts a control is actually rendered in. `tokens.css` emits seven scopes, not
+ * four: alongside `:root`, `.dark` and the two platform scopes it writes `.dark [data-elevated]`
+ * (the raised backgrounds a sheet or a menu reads through), `[data-contrast="more"]` and
+ * `.dark [data-contrast="more"]`. §4.5 was itself a cascade collision, so a collision that only
+ * appears inside a dark popover, or under increased contrast, is the same class of bug in a
+ * lower-frequency place. Each environment below is one real combination of those scopes.
+ */
+interface Environment {
+  readonly name: string
+  readonly appearance: "light" | "dark"
+  readonly elevated?: boolean
+  readonly contrast?: boolean
+}
+
+const ENVIRONMENTS: readonly Environment[] = [
+  { name: "light", appearance: "light" },
+  { name: "light/contrast", appearance: "light", contrast: true },
+  { name: "dark", appearance: "dark" },
+  { name: "dark/elevated", appearance: "dark", elevated: true },
+  { name: "dark/contrast", appearance: "dark", contrast: true },
+]
 
 /**
  * `--color-x: var(--y)` from `globals.css`'s `@theme inline` block: how a colour utility's name
@@ -96,16 +131,22 @@ const withoutPrefix = (declarations: Record<string, string>) =>
     ([name, value]) => [name.replace(/^--/, ""), value] as const
   )
 
+const baseCss = tokenBaseCss() as Record<string, Record<string, string>>
+
 /**
- * Every custom property in scope for an element under one idiom and appearance, in the order the
- * cascade resolves them. `tokens.css` emits `:root`, `.dark`, `[data-platform=…]` and
- * `.dark[data-platform=…]` in that order; the first three weigh the same, so the later declaration
- * wins between them, and the fourth outranks all three. Composed from the token modules rather
- * than parsed from the generated stylesheet, so it cannot drift from what a consumer installs.
+ * Every custom property in scope for an element under one idiom and one environment, resolved the
+ * way a browser would: layers sorted by selector weight first and by emission order only to break
+ * a tie. Modelling the weight matters — `.dark [data-elevated]` is (0,2,0) and outranks
+ * `[data-platform="ios"]`'s (0,1,0) however late the platform scope is written, while
+ * `.dark [data-platform="ios"]` matches it on weight and wins on order. A flat last-one-wins map
+ * gets the first of those two backwards.
+ *
+ * Composed from the token modules rather than parsed from the generated stylesheet, so it cannot
+ * drift from what a consumer installs.
  */
 function variableMap(
   platform: Platform,
-  appearance: Appearance
+  environment: Environment
 ): ReadonlyMap<string, string> {
   const scopes = tokenPlatformCss(platform) as Record<
     string,
@@ -118,14 +159,29 @@ function variableMap(
   expect(light, `${platform} has a light scope`).toBeDefined()
   expect(dark, `${platform} has a dark scope`).toBeDefined()
 
-  const vars = new Map<string, string>()
-  const add = (entries: Iterable<readonly [string, string]>) => {
-    for (const [name, value] of entries) vars.set(name, value)
+  const isDark = environment.appearance === "dark"
+  // [weight, emission order, declarations] — the order `tokens.css` writes these scopes in.
+  const layers: [number, number, Iterable<readonly [string, string]>][] = [
+    [0, 0, Object.entries(tokenVars("light"))],
+  ]
+  if (isDark) layers.push([1, 1, Object.entries(tokenVars("dark"))])
+  if (isDark && environment.elevated)
+    layers.push([2, 2, withoutPrefix(baseCss[".dark [data-elevated]"]!)])
+  if (environment.contrast) {
+    layers.push([1, 3, withoutPrefix(baseCss['[data-contrast="more"]']!)])
+    if (isDark)
+      layers.push([
+        2,
+        4,
+        withoutPrefix(baseCss['.dark [data-contrast="more"]']!),
+      ])
   }
-  add(Object.entries(tokenVars("light")))
-  if (appearance === "dark") add(Object.entries(tokenVars("dark")))
-  add(withoutPrefix(light!))
-  if (appearance === "dark") add(withoutPrefix(dark!))
+  layers.push([1, 5, withoutPrefix(light!)])
+  if (isDark) layers.push([2, 6, withoutPrefix(dark!)])
+
+  const vars = new Map<string, string>()
+  for (const [, , entries] of layers.sort((a, b) => a[0] - b[0] || a[1] - b[1]))
+    for (const [name, value] of entries) vars.set(name, value)
   return vars
 }
 
@@ -168,69 +224,232 @@ function splitModifiers(token: string): {
   return { modifiers: parts.slice(0, -1), utility: parts.at(-1)! }
 }
 
-/** The CSS value a colour utility paints, or null when it is not one we can resolve. */
-function paint(utility: string): string | null {
-  const arbitrary = /^(?:bg|border)-\((--[\w-]+)\)$/.exec(utility)
-  if (arbitrary) return `var(${arbitrary[1]})`
-  const named = /^(?:bg|border)-([a-z][\w-]*)$/.exec(utility)
-  if (!named) return null
-  return themeColors.get(named[1]!) ?? null
+/**
+ * A colour a utility paints, with its opacity modifier. The alpha is carried rather than dropped
+ * because it is the whole difference between a `toggle`'s 15%-tint fill and the full-tint label
+ * sitting on it: same token, two very different paints.
+ */
+interface Paint {
+  readonly value: string
+  readonly alpha: number
 }
 
-/** The half of a toggle a modifier describes. */
-const RESTING = "data-unchecked"
-const CHECKED = "data-checked"
-const SELECTED = new Set([CHECKED, "data-indeterminate"])
+/** Colour keywords Tailwind writes literally. `current`/`inherit` name no colour of their own. */
+const LITERALS: Record<string, string | null> = {
+  white: "#fff",
+  black: "#000",
+  transparent: "transparent",
+  current: null,
+  inherit: null,
+}
+
+/** The CSS value a colour utility paints, or null when it is not one we can resolve. */
+function paint(utility: string): Paint | null {
+  const opacity = /\/(\d+(?:\.\d+)?)$/.exec(utility)
+  const alpha = opacity ? Number(opacity[1]) / 100 : 1
+  const bare = opacity ? utility.slice(0, opacity.index) : utility
+  const arbitrary = /^(?:bg|border|text)-\((--[\w-]+)\)$/.exec(bare)
+  if (arbitrary) return { value: `var(${arbitrary[1]})`, alpha }
+  const named = /^(?:bg|border|text)-([a-z][\w-]*)$/.exec(bare)
+  if (!named) return null
+  const themed = themeColors.get(named[1]!)
+  if (themed) return { value: themed, alpha }
+  const literal = LITERALS[named[1]!]
+  return literal ? { value: literal, alpha } : null
+}
+
+/** The property a colour utility writes. */
+function property(utility: string): string | null {
+  if (utility.startsWith("bg-")) return "background-color"
+  if (utility.startsWith("border-")) return "border-color"
+  if (utility.startsWith("text-")) return "color"
+  return null
+}
+
+/**
+ * Which attributes name a control's two halves. `off` is optional on purpose: Base UI's Toggle
+ * emits `data-pressed` when pressed and NOTHING when it is not — `ToggleDataAttributes` exports
+ * `pressed` and `disabled`, with no `unpressed` twin. The first version of this harness hardcoded
+ * `RESTING = "data-unchecked"`, which is why `toggle` and `toggle-group` had to be exempted from
+ * its own coverage guard. That was a limit of this file, not of the primitive, and spec §5.3 folds
+ * `segmented-control` — the sliding indicator and all — into `toggle-group`, so the exemption was
+ * about to swallow the one component §5.3 rebuilds. A resting state is now allowed to be *the
+ * absence of the selected attribute*, and the resting paint is then read off the cascade the way a
+ * browser reads it: the element's own unmodified background, or the nearest ancestor's.
+ */
+interface State {
+  readonly on: string
+  readonly off?: string
+}
 
 interface Rule {
   readonly modifier: string
   readonly property: string
-  readonly value: string
+  readonly paint: Paint
 }
 
-/** Every selection-state colour rule one class string declares, by property. */
-function selectionRules(className: string): Map<string, Rule[]> {
+/** Every colour rule one class string declares under one state modifier, by property. */
+function rulesFor(className: string, modifier: string): Map<string, Rule[]> {
   const byProperty = new Map<string, Rule[]>()
   for (const token of className.split(/\s+/).filter(Boolean)) {
     const { modifiers, utility } = splitModifiers(token)
-    if (modifiers.length !== 1) continue
-    const modifier = modifiers[0]!
-    if (modifier !== RESTING && !SELECTED.has(modifier)) continue
+    if (modifiers.length !== 1 || modifiers[0] !== modifier) continue
     const value = paint(utility)
-    if (!value) continue
-    const property = utility.startsWith("bg-")
-      ? "background-color"
-      : "border-color"
-    byProperty.set(property, [
-      ...(byProperty.get(property) ?? []),
-      { modifier, property, value },
+    const group = property(utility)
+    if (!value || !group) continue
+    byProperty.set(group, [
+      ...(byProperty.get(group) ?? []),
+      { modifier, property: group, paint: value },
     ])
   }
   return byProperty
 }
 
+/** The first unmodified `bg-`/`text-`/`border-` colour one element declares, ignoring transparent. */
+function baseColour(element: Element, prefix: string): Paint | null {
+  // `getAttribute`, not `className`: an SVG element's `className` is an `SVGAnimatedString`, and
+  // the walk below runs over the icon inside an indicator.
+  for (const token of (element.getAttribute("class") ?? "")
+    .split(/\s+/)
+    .filter(Boolean)) {
+    const { modifiers, utility } = splitModifiers(token)
+    if (modifiers.length !== 0 || !utility.startsWith(`${prefix}-`)) continue
+    const value = paint(utility)
+    if (value && value.value !== "transparent") return value
+  }
+  return null
+}
+
+/**
+ * What the control is painted with at rest. A declared resting rule wins; otherwise the paint is
+ * whatever shows through — the element's own unmodified background, else the nearest ancestor
+ * that declares one (a `ToggleGroupItem` rests on its group's `bg-fill-3`), else the page.
+ */
+function restingColour(root: HTMLElement, state: State, group: string): Paint {
+  const prefix =
+    group === "background-color" ? "bg" : group === "color" ? "text" : "border"
+  if (state.off) {
+    const declared = rulesFor(root.className, state.off).get(group)?.[0]
+    if (declared) return declared.paint
+  }
+  for (let node: Element | null = root; node; node = node.parentElement) {
+    const found = baseColour(node, prefix)
+    if (found) return found
+  }
+  return { value: "transparent", alpha: 1 }
+}
+
+/**
+ * The colour the control's *content* draws in when selected — the tick, the dot, the thumb, the
+ * label. This is the layer the first harness could not see, and the escape the Phase 2 review
+ * named: `checkbox.tsx` paints its tick with an unmodified `text-primary-foreground` over a
+ * `data-checked:bg-primary` fill, so aliasing `--primary-foreground` to `--primary` on one idiom
+ * turns a checked checkbox into a solid blue square with no tick — visually the §4.5 bug — while
+ * every root-level assertion stays green. The same holds for the radio's dot and the switch's
+ * thumb, whose contrast is against a token nothing else here reads.
+ */
+function inkColour(
+  root: HTMLElement,
+  indicator: Element | null,
+  state: State
+): Paint | null {
+  const declared = rulesFor(root.className, state.on).get("color")?.[0]
+  if (declared) return declared.paint
+  if (indicator)
+    for (const node of [indicator, ...indicator.querySelectorAll("*")]) {
+      const filled = baseColour(node, "bg")
+      if (filled) return filled
+    }
+  for (
+    let node: Element | null = indicator ?? root;
+    node;
+    node = node.parentElement
+  ) {
+    const text = baseColour(node, "text")
+    if (text) return text
+  }
+  return null
+}
+
 interface Control {
   readonly name: string
   readonly role: string
-  /** The slot the selected state shows, which must be in the tree when it is on. */
-  readonly indicator: string
+  /** Extra `getByRole` options, where the role alone does not pick the control out. */
+  readonly options?: Record<string, unknown>
+  readonly state: State
+  /**
+   * How the control draws its selection — §4.5's failure mode is "selected is indistinguishable
+   * from unselected", and all three of these can produce it. A harness that reads only `fill`
+   * states a limit of its own machinery in the voice of a judgement about risk.
+   *
+   * - `fill`: the root's own background swaps (checkbox, radio, switch, toggle). The indicator
+   *   then sits ON that fill and must contrast with it.
+   * - `ink`: the root is untouched and the content re-colours (`navigation-menu`'s active link).
+   * - `indicator`: a separate element carries the whole selection — `segmented-control`'s pill
+   *   slides to the selected segment. On iOS and the web its selected label is deliberately the
+   *   SAME `--label` as its neighbours (the pill is what reads); only macOS re-colours. So the
+   *   assertion for these is not "the label changes colour" but "the pill is visible on the
+   *   track, and the label is visible on the pill".
+   */
+  readonly paints?: "fill" | "ink" | "indicator"
+  /**
+   * Whether the control has a disabled state to dim. Default true. `navigation-menu`'s link is an
+   * `<a>` and Base UI's `NavigationMenu.Link` takes no `disabled` prop, so there is no such state
+   * to assert — this is the one place the exception is real rather than an omission.
+   */
+  readonly disables?: boolean
+  /**
+   * The element that shows the selection. `persists` marks the ones that stay mounted and move
+   * instead of appearing — the switch's thumb and the segmented control's pill both slide, so
+   * presence proves nothing about them. `tracksState` says the persisting element carries the
+   * state attribute itself (the thumb does; a pill shared by every segment cannot), which is then
+   * what the resting render asserts on in place of absence.
+   */
+  readonly indicator?: {
+    readonly slot: string
+    readonly persists?: boolean
+    readonly tracksState?: boolean
+  }
   readonly on: ReactElement
   readonly off: ReactElement
 }
+
+/* --- rendered controls: read verbatim by idiom-fidelity-coverage.test.ts --- */
+
+const segments = (
+  <>
+    <SegmentedControlItem value="a">t</SegmentedControlItem>
+    <SegmentedControlItem value="b">u</SegmentedControlItem>
+  </>
+)
+
+const navLink = (active: boolean) => (
+  <NavigationMenu aria-label="n">
+    <NavigationMenuList>
+      <NavigationMenuItem>
+        <NavigationMenuLink href="/t" active={active}>
+          t
+        </NavigationMenuLink>
+      </NavigationMenuItem>
+    </NavigationMenuList>
+  </NavigationMenu>
+)
 
 /** Every selectable control, with the two states that must be visually distinct. */
 const CONTROLS: readonly Control[] = [
   {
     name: "checkbox",
     role: "checkbox",
-    indicator: "checkbox-indicator",
+    state: { on: "data-checked", off: "data-unchecked" },
+    indicator: { slot: "checkbox-indicator" },
     on: <Checkbox aria-label="c" defaultChecked />,
     off: <Checkbox aria-label="c" />,
   },
   {
     name: "radio",
     role: "radio",
-    indicator: "radio-group-indicator",
+    state: { on: "data-checked", off: "data-unchecked" },
+    indicator: { slot: "radio-group-indicator" },
     on: (
       <RadioGroup defaultValue="a">
         <RadioGroupItem value="a" aria-label="r" />
@@ -245,86 +464,231 @@ const CONTROLS: readonly Control[] = [
   {
     name: "switch",
     role: "switch",
-    indicator: "switch-thumb",
+    state: { on: "data-checked", off: "data-unchecked" },
+    indicator: { slot: "switch-thumb", persists: true, tracksState: true },
     on: <Switch aria-label="s" defaultChecked />,
     off: <Switch aria-label="s" />,
   },
+  {
+    name: "toggle-group",
+    role: "button",
+    options: { name: "t" },
+    state: { on: "data-pressed" },
+    on: (
+      <ToggleGroup defaultValue={["t"]}>
+        <ToggleGroupItem value="t" aria-label="t" />
+      </ToggleGroup>
+    ),
+    off: (
+      <ToggleGroup defaultValue={[]}>
+        <ToggleGroupItem value="t" aria-label="t" />
+      </ToggleGroup>
+    ),
+  },
+  {
+    name: "toggle",
+    role: "button",
+    options: { name: "t" },
+    state: { on: "data-pressed" },
+    on: <Toggle aria-label="t" defaultPressed />,
+    off: <Toggle aria-label="t" />,
+  },
+  {
+    name: "segmented-control",
+    role: "tab",
+    options: { name: "t" },
+    state: { on: "data-active" },
+    paints: "indicator",
+    indicator: { slot: "segmented-control-indicator", persists: true },
+    on: (
+      <SegmentedControl defaultValue="a" aria-label="s">
+        {segments}
+      </SegmentedControl>
+    ),
+    off: (
+      <SegmentedControl defaultValue="b" aria-label="s">
+        {segments}
+      </SegmentedControl>
+    ),
+  },
+  {
+    name: "navigation-menu",
+    role: "link",
+    options: { name: "t" },
+    state: { on: "data-active" },
+    paints: "ink",
+    disables: false,
+    on: navLink(true),
+    off: navLink(false),
+  },
 ]
+
+/* --- end rendered controls --- */
 
 describe("selection is visible on every idiom", () => {
   for (const idiom of IDIOMS)
     for (const control of CONTROLS) {
       const where = `${control.name}/${idiom}`
+      const paints = control.paints ?? "fill"
+      const find = () =>
+        screen.getByRole(control.role, control.options as never)
+      // One control is rendered per test, so the indicator is looked up document-wide rather than
+      // inside the control: a sliding pill is a SIBLING of the item it marks, not a descendant.
+      const findIndicator = () =>
+        control.indicator
+          ? document.querySelector(`[data-slot="${control.indicator.slot}"]`)
+          : null
 
       test(`${control.name} on ${idiom} carries the state its paint keys off`, () => {
         const { unmount } = render(
           <PlatformProvider platform={idiom}>{control.on}</PlatformProvider>
         )
-        const on = screen.getByRole(control.role)
-        expect(on, `${where} is checked`).toHaveAttribute("data-checked")
-        expect(
-          on.querySelector(`[data-slot="${control.indicator}"]`),
-          `${where} shows its indicator when checked`
-        ).not.toBeNull()
+        const on = find()
+        expect(on, `${where} is selected`).toHaveAttribute(control.state.on)
+        if (control.indicator)
+          expect(
+            findIndicator(),
+            `${where} shows its indicator when selected`
+          ).not.toBeNull()
         unmount()
 
         render(
           <PlatformProvider platform={idiom}>{control.off}</PlatformProvider>
         )
-        expect(
-          screen.getByRole(control.role),
-          `${where} is unchecked`
-        ).toHaveAttribute("data-unchecked")
+        const off = find()
+        if (control.state.off)
+          expect(off, `${where} rests`).toHaveAttribute(control.state.off)
+        else expect(off, `${where} rests`).not.toHaveAttribute(control.state.on)
+
+        // Asserting only that the indicator is THERE when selected is signal-free: an indicator
+        // mounted in both states satisfies it either way, and one of ours is (the switch's thumb
+        // slides rather than appears). So the resting render is asserted too — absence for the
+        // ones that appear, and the resting state attribute for the one that stays.
+        if (!control.indicator) return
+        const resting = findIndicator()
+        if (!control.indicator.persists) {
+          expect(resting, `${where} hides its indicator at rest`).toBeNull()
+          return
+        }
+        expect(resting, `${where} keeps its indicator at rest`).not.toBeNull()
+        if (control.indicator.tracksState)
+          expect(
+            resting,
+            `${where}'s indicator stays mounted, so it must track the state itself`
+          ).not.toHaveAttribute(control.state.on)
       })
 
       test(`${control.name} on ${idiom} declares a selected paint its resting state does not`, () => {
         render(
           <PlatformProvider platform={idiom}>{control.on}</PlatformProvider>
         )
-        const element = screen.getByRole(control.role)
-        const byProperty = selectionRules(element.className)
+        const element = find()
+        const selected = rulesFor(element.className, control.state.on)
 
-        expect(
-          [...byProperty.keys()],
-          `${where} paints a selected background`
-        ).toContain("background-color")
-        expect(element.className, `${where} dims when disabled`).toMatch(
-          /data-disabled:opacity-/
-        )
-
-        for (const [property, rules] of byProperty) {
-          const selected = rules.filter((rule) => rule.modifier !== RESTING)
-          const resting = rules.filter((rule) => rule.modifier === RESTING)
-          // `data-checked` by name, not "some selected state": a checkbox whose checked fill was
-          // deleted still declares `data-indeterminate:bg-primary`, and a laxer check passes on
-          // the strength of a state the control is almost never in.
+        // An `indicator` control paints nothing on its own root; the element that carries its
+        // selection is asserted in the next test.
+        if (paints !== "indicator")
           expect(
-            rules.map((rule) => rule.modifier),
-            `${where} ${property} has a checked and a resting rule`
-          ).toEqual(expect.arrayContaining([CHECKED, RESTING]))
-          expect(
-            resting.length,
-            `${where} ${property} has one resting rule`
-          ).toBe(1)
+            [...selected.keys()],
+            `${where} paints its selection`
+          ).toContain(paints === "fill" ? "background-color" : "color")
+        if (control.disables !== false)
+          expect(element.className, `${where} dims when disabled`).toMatch(
+            /\bdisabled:opacity-/
+          )
 
-          for (const on of selected)
-            for (const off of resting) {
+        for (const [group, rules] of selected) {
+          if (paints === "indicator") continue
+          // A `fill` control's own colour is asserted against its fill in the next test; an `ink`
+          // control's background is the surface it shares with its unselected siblings, and
+          // comparing it to itself would be the tautology R16 removed.
+          if ((group === "color") === (paints === "fill")) continue
+          const resting = restingColour(element, control.state, group)
+          for (const rule of rules) {
+            expect(
+              `${rule.paint.value}/${rule.paint.alpha}`,
+              `${where} ${group}: ${rule.modifier} and its resting state declare one value`
+            ).not.toBe(`${resting.value}/${resting.alpha}`)
+
+            // The values differing textually is not enough: two tokens can alias the same
+            // colour. This is the assertion that would have caught the §4.5 bug.
+            for (const environment of ENVIRONMENTS) {
+              const vars = variableMap(idiom, environment)
+              if (rule.paint.alpha !== resting.alpha) continue
               expect(
-                on.value,
-                `${where} ${property}: ${on.modifier} and ${off.modifier} declare one value`
-              ).not.toBe(off.value)
-
-              // The values differing textually is not enough: two tokens can alias the same
-              // colour. This is the assertion that would have caught the §4.5 bug.
-              for (const appearance of APPEARANCES) {
-                const vars = variableMap(idiom, appearance)
-                expect(
-                  resolve(on.value, vars),
-                  `${where}/${appearance} ${property}: ${on.value} and ${off.value} resolve alike`
-                ).not.toBe(resolve(off.value, vars))
-              }
+                resolve(rule.paint.value, vars),
+                `${where}/${environment.name} ${group}: ${rule.paint.value} and ${resting.value} resolve alike`
+              ).not.toBe(resolve(resting.value, vars))
             }
+          }
         }
+      })
+
+      // The escape the Phase 2 review named: the harness compared exactly two properties on
+      // exactly one element, so the indicator's OWN colour was never read. Alias
+      // `--primary-foreground` to `--primary` on one idiom and a checked checkbox becomes a solid
+      // blue square with no tick — visually the §4.5 bug — with every other assertion green.
+      test(`${control.name} on ${idiom} draws its indicator in a colour its surface is not`, () => {
+        if (!control.indicator && paints !== "fill") return
+        render(
+          <PlatformProvider platform={idiom}>{control.on}</PlatformProvider>
+        )
+        const element = find()
+        const indicator = findIndicator()
+
+        /** Neither of these may resolve to the other, or the mark vanishes into its ground. */
+        const distinct = (mark: Paint, surface: Paint, what: string) => {
+          if (mark.alpha !== surface.alpha) return
+          for (const environment of ENVIRONMENTS) {
+            const vars = variableMap(idiom, environment)
+            expect(
+              resolve(mark.value, vars),
+              `${where}/${environment.name}: ${what} — the surface ${surface.value} and ` +
+                `${mark.value} resolve alike, so it is invisible on it`
+            ).not.toBe(resolve(surface.value, vars))
+          }
+        }
+
+        if (paints === "indicator") {
+          // The pill must read against the track it slides along...
+          const pill = baseColour(indicator!, "bg")
+          let track: Paint | undefined
+          for (
+            let node = indicator!.parentElement;
+            node && !track;
+            node = node.parentElement
+          )
+            track = baseColour(node, "bg") ?? undefined
+          expect(pill, `${where}'s indicator declares a fill`).not.toBeNull()
+          expect(
+            track,
+            `${where} names the track its indicator slides along`
+          ).toBeDefined()
+          distinct(pill!, track!, "the selected pill on its track")
+
+          // ...and the selected label must read against the pill it now sits on.
+          const label =
+            rulesFor(element.className, control.state.on).get("color")?.[0]
+              ?.paint ?? baseColour(element, "text")
+          expect(
+            label,
+            `${where}'s selected item declares a colour`
+          ).not.toBeNull()
+          distinct(label!, pill!, "the selected label on its pill")
+          return
+        }
+
+        const fill = rulesFor(element.className, control.state.on).get(
+          "background-color"
+        )?.[0]?.paint
+        const mark = inkColour(element, indicator, control.state)
+        expect(fill, `${where} paints a selected background`).toBeDefined()
+        expect(
+          mark,
+          `${where}'s selected indicator declares no colour this harness can read — ` +
+            `add one, or the tick, dot or thumb could take the fill's own paint unnoticed`
+        ).not.toBeNull()
+        distinct(mark!, fill!, "the indicator on the selected fill")
       })
     }
 })
@@ -493,7 +857,10 @@ describe("a group label keeps the type each idiom measures", () => {
     "%s labels are semibold on macOS and step down a size",
     (family) => {
       const slot = (idiom: Platform, name: string) =>
-        resolve(`var(--${family}-label-${name})`, variableMap(idiom, "light"))
+        resolve(
+          `var(--${family}-label-${name})`,
+          variableMap(idiom, ENVIRONMENTS[0]!)
+        )
 
       // AppKit's grouped-list header: caption-1, bolded to 600. macOS's caption-1 scale is itself
       // 400 (500 emphasized), so a slot that fell back to the scale's own weight would demote
