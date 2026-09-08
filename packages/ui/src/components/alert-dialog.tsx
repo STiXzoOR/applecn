@@ -23,7 +23,9 @@ function AlertDialogTrigger(props: AlertDialogPrimitive.Trigger.Props) {
 }
 
 function AlertDialogPortal(props: AlertDialogPrimitive.Portal.Props) {
-  return <AlertDialogPrimitive.Portal {...props} />
+  return (
+    <AlertDialogPrimitive.Portal data-slot="alert-dialog-portal" {...props} />
+  )
 }
 
 /** The dimmed layer behind the alert. shadcn's name for what Base UI calls the backdrop. */
@@ -112,6 +114,25 @@ function AlertDialogDescription({
   )
 }
 
+/**
+ * An icon or illustration above the title — shadcn's slot for it. Layout only: it carries the
+ * alert's own horizontal inset and top padding so a media row does not space the card twice, and
+ * takes no opinion on the artwork's size, because the research document measures no such element
+ * on either idiom. A consumer sizes their own glyph.
+ */
+function AlertDialogMedia({ className, ...props }: ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="alert-dialog-media"
+      className={cn(
+        "flex items-center justify-center px-(--alert-title-px) pt-(--alert-title-pt) pb-1",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
 /** A text field row inside the alert (password prompts). */
 function AlertDialogField({ className, ...props }: ComponentProps<"div">) {
   return (
@@ -155,6 +176,10 @@ function AlertDialogActions({
 /**
  * shadcn's name for the action row. The same layout `AlertDialogActions` gives it — spec §3 asks
  * for shadcn's exports carrying shadcn's semantics, styled as Apple, not a second appearance.
+ * The slot really is `alert-dialog-footer` and not `alert-dialog-actions`: `AlertDialogActions`
+ * writes its own `data-slot` BEFORE spreading `{...props}`, so this one wins. A shadcn-shaped
+ * alert therefore has a footer node and no actions node, which is what a shadcn user's CSS and
+ * queries expect.
  */
 function AlertDialogFooter(props: AlertDialogActionsProps) {
   return <AlertDialogActions data-slot="alert-dialog-footer" {...props} />
@@ -252,6 +277,7 @@ export {
   AlertDialogField,
   AlertDialogFooter,
   AlertDialogHeader,
+  AlertDialogMedia,
   AlertDialogOverlay,
   AlertDialogPortal,
   AlertDialogTitle,

@@ -27,20 +27,40 @@ const dialogBackdropClassName =
 const dialogPopupClassName =
   "fixed top-1/2 left-1/2 z-50 flex w-[calc(100%-2rem)] max-w-(--dialog-width) -translate-x-1/2 -translate-y-1/2 flex-col gap-4 rounded-dialog bg-popover p-6 text-label shadow-dialog outline-none duration-(--duration-overlay) ease-(--ease-standard) data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 motion-reduce:animate-none"
 
+/**
+ * The portal the dialog renders through. shadcn exports it so a consumer can place the popup in a
+ * container of their own; `DialogContent` already wraps itself in one, so it is rarely written by
+ * hand.
+ */
+function DialogPortal(props: DialogPrimitive.Portal.Props) {
+  return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
+}
+
+/** The dimmed layer behind the dialog. shadcn's name for what Base UI calls the backdrop. */
+function DialogOverlay({
+  className,
+  ...props
+}: DialogPrimitive.Backdrop.Props) {
+  return (
+    <DialogPrimitive.Backdrop
+      data-slot="dialog-overlay"
+      className={cn(dialogBackdropClassName, className)}
+      {...props}
+    />
+  )
+}
+
 function DialogContent({ className, ...props }: DialogPrimitive.Popup.Props) {
   return (
-    <DialogPrimitive.Portal>
-      <DialogPrimitive.Backdrop
-        data-slot="dialog-backdrop"
-        className={dialogBackdropClassName}
-      />
+    <DialogPortal>
+      <DialogOverlay />
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         data-elevated=""
         className={cn(dialogPopupClassName, className)}
         {...props}
       />
-    </DialogPrimitive.Portal>
+    </DialogPortal>
   )
 }
 
@@ -97,6 +117,8 @@ export {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogOverlay,
+  DialogPortal,
   DialogTitle,
   DialogTrigger,
   dialogBackdropClassName,

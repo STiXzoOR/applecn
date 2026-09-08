@@ -155,11 +155,28 @@ combobox, context-menu, dialog, empty, field, input, kbd, label, menubar, naviga
 progress, radio-group, scroll-area, select, separator, sidebar, skeleton, slider, spinner, switch,
 table, tabs, textarea, toast, toggle, toggle-group, tooltip.
 
-Each still needs its **export surface** audited against shadcn's. Known gaps: `alert-dialog` is
-missing `AlertDialogHeader`, `AlertDialogFooter`, `AlertDialogOverlay`, `AlertDialogPortal`;
-today's `sheet`, once renamed to `drawer` (§5.2), is missing `DrawerHeader` and `DrawerFooter`, and
-carries the Apple-specific `SheetSection` and `SheetToolbar` which are kept alongside. `dialog`
-already matches shadcn exactly.
+Each still needs its **export surface** audited against shadcn's. That audit is done, and it is
+now mechanical: `packages/ui/__tests__/fixtures/shadcn-exports.json` is generated from shadcn's
+Base UI base by `packages/ui/scripts/refresh-shadcn-exports.ts`, and
+`shadcn-export-parity.test.ts` carries one ledger row per component shadcn ships — at parity, or a
+gap recorded exactly with the task that closes it, or not built yet with the task that builds it.
+
+**Correction (2026-09-08, Phase 2 review C1/C2).** This section previously read "`dialog` already
+matches shadcn exactly". That was false: shadcn's Base UI `dialog` exports ten symbols and
+applecn's exported eight, missing `DialogOverlay` and `DialogPortal`. `alert-dialog` was likewise
+audited against an eleven-symbol list where shadcn ships twelve, missing `AlertDialogMedia`. Both
+claims had been "verified" against a hand-copied fixture rather than against shadcn, so the
+verification was circular and the parity test was green on a live parity break. All three symbols
+are now exported. The general rule this earns: **a fixture encoding an external project's API is a
+claim about the world and must be checked against that world**, never against the document that
+asserts it.
+
+The remaining known gaps, all recorded in the test's ledger: `sidebar` (17 symbols), `toast` (11),
+`combobox` (9), `context-menu` (7), `field` (5), `carousel` (4), `avatar`/`breadcrumb`/
+`button-group`/`empty`/`menubar`/`navigation-menu`/`tabs` (3 each), and one each in `accordion`,
+`card`, `kbd` and `scroll-area`. Today's `sheet`, once renamed to `drawer` (§5.2), is missing
+`DrawerHeader` and `DrawerFooter`, and carries the Apple-specific `SheetSection` and `SheetToolbar`
+which are kept alongside.
 
 ### 5.2 Parity, rename (5)
 
@@ -183,6 +200,11 @@ alert, aspect-ratio, calendar, chart, command, data-table, date-picker, input-gr
 native-select, pagination, resizable, sheet (edge panel), typography.
 
 `drawer` is not here: it is §5.2's rename of today's bottom sheet.
+
+`sonner` is deliberately not here either, and the export audit surfaced the omission. shadcn's
+`sonner.tsx` exports one symbol, `Toaster`, wrapping the third-party `sonner` package. applecn
+ships its own `toast` on Base UI and takes no runtime dependency on sonner, so the row is declined
+on the record in `shadcn-export-parity.test.ts` rather than left as an unexplained absence.
 
 Each has an Apple original to measure: `UICalendarView`/`NSDatePicker` for calendar and date-picker,
 Spotlight for command, `NSTableView` for data-table, Swift Charts for chart, the iOS notification
