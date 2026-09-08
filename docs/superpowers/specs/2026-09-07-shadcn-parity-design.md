@@ -181,13 +181,34 @@ panel would have collided with), `dropdown-menu` (17 reading `menu-*`), `menubar
 `input-otp`, `collapsible`, `accordion`, `carousel`, `combobox` and `empty`. The gaps that remain
 are sub-components applecn has not built; Task 15c owns them.
 
-The remaining known gaps, all recorded in the test's ledger and re-counted after Task 15b closed
-sixteen of them: `sidebar` (17 symbols, 16 slots), `toast` (11, 1), `combobox` (9, 8), `field`
-(5, 5), `carousel` (4, 2), `avatar`/`breadcrumb`/`button-group`/`input-otp`/`navigation-menu`/
-`tabs` (3 exports each). `accordion`, `card`, `context-menu`, `drawer`, `dropdown-menu`, `empty`,
-`hover-card`, `kbd`, `menubar` and `scroll-area` are now at parity on both halves of the surface.
-Task 15c owns what is left except `tabs` (Task 16), `field` (Task 37), `button-group` (Task 42)
-and combobox's `input-group-button` slot (Task 18).
+**Extension (2026-09-08, Task 15c).** Task 15c emptied the eight rows Task 15b had left, each of
+which carried a composition question rather than a missing line. Three turned out to be the same
+question — applecn's component renders a container that shadcn separates out — and took the same
+answer: the root looks for the explicit child among its children and, finding none, supplies the
+container itself, so shadcn's markup and applecn's shorthand reach the same tree. That is
+`breadcrumb` (`BreadcrumbList`), `carousel` (`CarouselContent`) and `input-otp`
+(`InputOTPGroup`/`InputOTPSlot`/`InputOTPSeparator`). `navigation-menu` and `toast` were
+extractions: the portal/positioner/popup/viewport and the whole banner were rendered inline, and
+are now the exported parts their roots assemble. `avatar` gained the badge, the group and the
+group count; `combobox` the chips surface, `ComboboxValue`, `ComboboxCollection`,
+`ComboboxSeparator` and shadcn's `ComboboxLabel` name, with `ComboboxGroupLabel` kept as an alias
+of it. `sidebar` — the widest row — resolved on the layout model: shadcn's sidebar is
+`position: fixed` with a spacer holding its place, applecn's stands in a grid, and shadcn's own
+`collapsible="none"` **is** the standing sidebar, so `collapsible` now takes both vocabularies
+(`false`/`"none"` stands, `true` is Apple's sheet, `"offcanvas"`/`"icon"` render shadcn's
+structure) and `useSidebar` took shadcn's meanings with it — `open` is the standing sidebar,
+`openMobile` the sheet.
+
+The only gaps left in the ledger belong to tasks that rebuild their components: `tabs` (Task 16),
+`field` (Task 37), `button-group` (Task 42) and combobox's `input-group-button` slot (Task 18).
+Every other component shadcn ships and applecn has built is at parity on both halves of the
+surface.
+
+One finding worth carrying: a `data-slot` in shadcn's source is not always a `data-slot` in
+shadcn's DOM. Base UI's `Combobox.Collection` renders its rows and no element of its own and
+accepts only `children`, so shadcn's `data-slot="combobox-collection"` never reaches the page
+there either. The generated fixture scrapes source, so it lists the value; applecn carries it for
+that parity, and nothing can select on it in either project.
 
 ### 5.2 Parity, rename (5)
 

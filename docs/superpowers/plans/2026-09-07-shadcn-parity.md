@@ -1069,24 +1069,37 @@ Rows owned elsewhere and NOT part of this task: `tabs` (Task 16), `field` (Task 
 
 Task 15b closed the ten cheapest rows on its way past: `card`, `kbd`, `scroll-area`, `accordion`,
 `empty`, `dropdown-menu`, `menubar`, `context-menu`, `drawer` and `hover-card` are at parity on
-both halves. Seven rows are left, each carrying a composition question the cheap ones did not:
+both halves. Task 15c closed the seven that were left, each of which carried a composition
+question the cheap ones did not:
 
-- [ ] `breadcrumb` (3 exports, 1 slot) — `BreadcrumbList` is the decision: applecn's `Breadcrumb`
-      renders the `<ol>` itself and auto-inserts separators between children, so shadcn's
-      `<Breadcrumb><BreadcrumbList><BreadcrumbItem/><BreadcrumbSeparator/>` would nest one `<ol>`
-      in another and double the separators. Decide how both markups can hold.
-- [ ] `navigation-menu` (3, 1) — `NavigationMenuIndicator`, `NavigationMenuPositioner`,
-      `navigationMenuTriggerStyle`.
-- [ ] `carousel` (4, 2) — `CarouselContent` is the same question as `BreadcrumbList`: applecn's
-      `Carousel` renders the track. Plus `CarouselNext`/`CarouselPrevious`/`useCarousel`.
-- [ ] `avatar` (3, 3) — `AvatarGroup`, `AvatarGroupCount`, `AvatarBadge`: real Apple design.
-- [ ] `input-otp` (3, 3) — applecn renders its boxes from a `length` prop; shadcn composes
-      `InputOTPGroup`/`InputOTPSlot`/`InputOTPSeparator`.
-- [ ] `combobox` (9, 8) — the chips surface, `ComboboxValue`, `ComboboxCollection`,
-      `ComboboxSeparator`, and `ComboboxGroupLabel` renamed to `ComboboxLabel` with the old name
-      kept as an alias. `input-group-button` arrives with Task 18, not here.
-- [ ] `sidebar` (17, 16) and `toast` (11, 1) — the two big ones; each is a task-sized rebuild.
-- [ ] Each: shrink the row in the ledger, watch it fail, add the sub-component, `pnpm check`.
+- [x] `breadcrumb` (3 exports, 1 slot) — `Breadcrumb` looks for a `BreadcrumbList` among its
+      children and, finding one, renders what it was given: one `<ol>`, only the separators
+      written. Finding none, it keeps applecn's shorthand and supplies both.
+- [x] `navigation-menu` (3, 1) — the inline portal/positioner/popup/viewport became
+      `NavigationMenuPositioner`, which the root still renders; `navigationMenuTriggerStyle` is the
+      cva of the class the trigger and the link share; `NavigationMenuIndicator` is Base UI's
+      `Icon`, which is what shadcn builds it on.
+- [x] `carousel` (4, 2) — the same shape as `breadcrumb`, and the arrows are kept out of the track
+      because an arrow is not a slide. `useCarousel` returns the scroller and where it has got to;
+      shadcn's returns embla's `api` and `opts` beside those, and applecn scrolls natively.
+- [x] `avatar` (3, 3) — `AvatarBadge`, `AvatarGroup`, `AvatarGroupCount`, sized off
+      `group-data-[size=…]/avatar` against applecn's own `small`/`medium`/`large`.
+- [x] `input-otp` (3, 3) — giving `InputOTP` children hands the layout to them; the `length`
+      shorthand renders the same `InputOTPSlot`. `index` is shadcn's prop (Base UI takes a box's
+      position from render order) and names the digit without reaching the input.
+- [x] `combobox` (9, 8) — the chips surface, `ComboboxValue`, `ComboboxCollection`,
+      `ComboboxSeparator`, `ComboboxTrigger`, `useComboboxAnchor`, and `ComboboxGroupLabel`
+      renamed to `ComboboxLabel` with the old name kept as an alias of it. `input-group-button`
+      arrives with Task 18, not here.
+- [x] `toast` (11, 1) — the banner `Toaster` rendered inline is now the parts a caller can
+      assemble themselves; `useToast` is an alias of `useToastManager`.
+- [x] `sidebar` (17, 16) — the layout model was the question. shadcn's is `position: fixed` with a
+      spacer; applecn's stands in a grid, which is shadcn's `collapsible="none"` exactly. So
+      `collapsible` takes both vocabularies and `"offcanvas"`/`"icon"` render shadcn's
+      `sidebar-gap`/`sidebar-container`/`sidebar-inner`. `useSidebar` took shadcn's meanings with
+      it: `open` is the standing sidebar, `openMobile` the sheet. `SidebarItem` and
+      `SidebarMenuButton` are the same measured row wearing two APIs, and the two new selectable
+      rows were added to the §7.2 fidelity harness, which demanded them.
 
 ### Task 16: Fold `segmented-control` into `toggle-group`
 
