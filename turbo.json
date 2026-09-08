@@ -2,10 +2,18 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "tasks": {
+    // `.next/**` is tarred whole: leaving `dev`, `trace` or `diagnostics` in grew
+    // .turbo/cache to 33 GB in three days. Gated by apps/web/__tests__/repo.test.ts.
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "!.next/dev/**",
+        "!.next/trace",
+        "!.next/diagnostics/**"
+      ]
     },
     "typecheck": {
       "dependsOn": ["^typecheck"]
@@ -24,7 +32,13 @@
     "@applecn/web#build": {
       "dependsOn": ["^build", "registry:build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "!.next/dev/**",
+        "!.next/trace",
+        "!.next/diagnostics/**"
+      ]
     }
   }
 }

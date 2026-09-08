@@ -34,6 +34,59 @@ export function registryNamesIn(markdown: string): string[] {
   return [...names]
 }
 
+/** The `.next` subtrees a cached build must never carry. See the test that reads them. */
+const volatileOutputs = [
+  "!.next/cache/**",
+  "!.next/dev/**",
+  "!.next/trace",
+  "!.next/diagnostics/**",
+]
+
+/**
+ * turbo.json is JSONC — turbo allows line and block comments, and the sibling repos use them
+ * freely. This strips comments outside strings. A trailing comma would still throw, loudly,
+ * naming turbo.json, which is the failure we want rather than a silently skipped check.
+ */
+export function parseTurboJson(text: string): {
+  tasks: Record<string, { outputs?: string[] }>
+} {
+  let out = ""
+  let inString = false
+  let inLine = false
+  let inBlock = false
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i]!
+    const next = text[i + 1]
+    if (inLine) {
+      if (c === "\n") {
+        inLine = false
+        out += c
+      }
+    } else if (inBlock) {
+      if (c === "*" && next === "/") {
+        inBlock = false
+        i++
+      }
+    } else if (inString) {
+      out += c
+      if (c === "\\") {
+        out += next ?? ""
+        i++
+      } else if (c === '"') inString = false
+    } else if (c === '"') {
+      inString = true
+      out += c
+    } else if (c === "/" && next === "/") {
+      inLine = true
+      i++
+    } else if (c === "/" && next === "*") {
+      inBlock = true
+      i++
+    } else out += c
+  }
+  return JSON.parse(out)
+}
+
 describe("repository hygiene", () => {
   test("no tracked file outside the history folders still says apple-ds or <your-host>", () => {
     const stale = tracked.filter((f) => {
@@ -89,6 +142,38 @@ describe("repository hygiene", () => {
     expect(
       components.filter((n) => !catalogue.includes(n)),
       "a component exists that SKILL.md's catalogue does not document"
+    ).toEqual([])
+  })
+
+  /**
+   * Turbo tars an output glob whole, so a bare `.next/**` sweeps in whatever `.next` happens to
+   * hold. `.next/dev` is turbopack's dev-server state — it outlives `next dev`, and the next
+   * `turbo build` packs all of it into the cache entry.
+   *
+   * Measured here on 2026-09-08: 330 entries, the largest 787 MB, 33 GB of `.turbo/cache` grown
+   * in three days, of which `apps/web/.next/dev` was 3,690 of the ~5,300 files in the biggest
+   * tarball. The same shape of repo with these four exclusions already in place sat at 311 MB.
+   * `.next/trace` and `.next/diagnostics` are small but rewritten every build, so they cost a
+   * fresh entry instead of a hit.
+   *
+   * Derived from the config rather than listed by hand: any task naming `.next/**` as an output
+   * owes all four exclusions, so a second app or a new build task fails here rather than quietly
+   * filling the disk.
+   */
+  test("every task that caches .next excludes the volatile subtrees", () => {
+    const { tasks } = parseTurboJson(
+      readFileSync(join(root, "turbo.json"), "utf8")
+    )
+    const caching = Object.entries(tasks).filter(([, t]) =>
+      t.outputs?.includes(".next/**")
+    )
+    expect(caching.length).toBeGreaterThan(0)
+    expect(
+      caching.flatMap(([name, t]) =>
+        volatileOutputs
+          .filter((glob) => !t.outputs!.includes(glob))
+          .map((glob) => `${name} is missing ${glob}`)
+      )
     ).toEqual([])
   })
 })
