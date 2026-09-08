@@ -4158,7 +4158,8 @@
       "description": "apple.com’s global navigation: a 44 pt material bar of small links with full-width flyout panels of large links under eyebrows.",
       "dependencies": [
         "@base-ui/react",
-        "@hugeicons/core-free-icons"
+        "@hugeicons/core-free-icons",
+        "class-variance-authority"
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/icon.json",

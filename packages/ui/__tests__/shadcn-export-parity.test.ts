@@ -260,14 +260,13 @@ const LEDGER: Record<string, Row> = {
   "message-scroller": { task: "Task 52–58 (the AI set)" },
   "native-select": { task: "Task 22" },
   "navigation-menu": {
-    gap: [
-      "NavigationMenuIndicator",
-      "NavigationMenuPositioner",
-      "navigationMenuTriggerStyle",
-    ],
-    slotGap: ["navigation-menu-indicator"],
-    slotCloses: "Task 15c",
-    closes: "Task 15c",
+    gap: [],
+    note:
+      "Task 15c lifted the portal/positioner/popup/viewport `NavigationMenu` rendered inline " +
+      "into shadcn's `NavigationMenuPositioner`, which the root still renders, so apple.com's " +
+      "bar needs no extra markup. `navigationMenuTriggerStyle` is the cva of the class the " +
+      "trigger and the link share — shadcn styles only its trigger with it, and applecn's link " +
+      "wears it too because apple.com draws the two identically.",
   },
   pagination: { task: "Task 23" },
   popover: { gap: [] },

@@ -289,9 +289,11 @@
   "navigation-menu.tsx": [
     "--anchor-width",
     "--nav-bar-height",
+    "h-1.5",
     "h-full",
     "rounded-b-popover",
     "rounded-sm",
+    "size-2",
     "type-caption-1",
     "type-footnote",
     "type-title-3",
