@@ -78,8 +78,12 @@ shipped example. The defect is upstream, in a Base UI primitive both projects wr
 fix exists that is not a workaround. **applecn's `ItemGroup` omits `role="list"`.** Exports, slots,
 props and composition all still match, so nothing a shadcn user pastes breaks; only a container's ARIA
 role differs, and it differs in the direction of announcing nothing rather than announcing an empty
-list. The rejected alternative — `role="none"` on `ItemSeparator` inside a group — hides a real
-separator from assistive technology, trading one defect for another to paper over someone else's bug.
+list. `role="none"` on `ItemSeparator` would also have silenced the violation, and the reason to
+prefer dropping the container's role is **not** that neutering a separator loses something — the third
+instance below does exactly that, for sound reasons. It is that `role="list"` here is not load-bearing:
+`Item` is not a `listitem` in either project, so the role announces an empty list and removing it
+costs nothing, while the separator keeps semantics it can still carry in other contexts. Take the
+lever with the smaller loss; which lever that is depends on the component.
 
 The second instance, and the one that widened this section: shadcn's `PaginationLink` renders Base UI
 `Button` with `nativeButton={false}` and `render={<a aria-current="page" …/>}`, which stamps
