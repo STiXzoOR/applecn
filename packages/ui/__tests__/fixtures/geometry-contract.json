@@ -4,6 +4,7 @@
     "--list-font",
     "--list-row-min-height",
     "--list-subtitle-font",
+    "--type-body-leading",
     "h-0",
     "rounded-list",
     "w-full"

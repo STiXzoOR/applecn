@@ -10,6 +10,16 @@ import { Icon } from "./icon"
  * An accordion (HIG › Disclosure controls, in a list): an inset grouped list of rows that
  * each reveal a panel, one open at a time unless `multiple`. Rows follow the platform's list
  * metrics; the chevron turns as a row opens.
+ *
+ * A row's line box is the measured `--type-body-leading`, the same one `item` writes, because a
+ * disclosure row IS a list row and takes the row's arithmetic: on iOS 15 + 22 + 15 is exactly the
+ * 52 pt `--list-row-min-height`, so the content stands the row up rather than the floor clamping
+ * it. It carried the judged `leading-snug` until 2026-09-08 — 1.375 × 17 = 23.375 px and a
+ * 53.375 pt row, close and not measured; macOS and the web are floor-driven either way.
+ *
+ * The panel keeps `leading-snug`. That is body copy at `--list-subtitle-font` rather than a row,
+ * and Apple has published no leading to pair with it — the same reason `item`'s `sm` and `xs`
+ * assert none of their own.
  */
 type AccordionProps = AccordionPrimitive.Root.Props & {
   /** Allow several rows open at once. */
@@ -53,7 +63,7 @@ function AccordionTrigger({
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          "flex min-h-(--list-row-min-height) w-full items-center justify-between gap-3 px-(--list-row-padding-x) py-(--list-row-padding-y) text-start text-[length:var(--list-font)] leading-snug text-label transition-[background-color] duration-(--duration-press) outline-none select-none hover:bg-fill-4 focus-visible:bg-fill-4 active:bg-fill-3 disabled:opacity-40",
+          "flex min-h-(--list-row-min-height) w-full items-center justify-between gap-3 px-(--list-row-padding-x) py-(--list-row-padding-y) text-start text-[length:var(--list-font)] leading-(--type-body-leading) text-label transition-[background-color] duration-(--duration-press) outline-none select-none hover:bg-fill-4 focus-visible:bg-fill-4 active:bg-fill-3 disabled:opacity-40",
           className
         )}
         {...props}
