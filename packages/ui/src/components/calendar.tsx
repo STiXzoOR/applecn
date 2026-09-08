@@ -217,6 +217,15 @@ function CalendarDayButton({
       variant="plain"
       size="regular"
       shape="circle"
+      // shadcn's `data-day` is the date in the reader's locale, which a Node server cannot know:
+      // it renders `8/30/2026` and an `en-GB` browser hydrates `30/08/2026`, and React reports
+      // an attribute mismatch on every day of every server-rendered calendar. The line is
+      // shadcn's and is kept; the warning is suppressed, which is React's own answer for a
+      // locale-formatted value. Note what this does NOT do: React never patches a mismatched
+      // attribute, so the value a consumer reads back is the SERVER's locale either way — a
+      // property of shadcn's attribute, not of this suppression. The deterministic one is
+      // `react-day-picker`'s own ISO `data-day` on the `<td>`.
+      suppressHydrationWarning
       data-day={day.date.toLocaleDateString(locale?.code)}
       data-selected-single={
         modifiers.selected &&

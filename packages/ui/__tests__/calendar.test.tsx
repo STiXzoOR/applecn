@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs"
+import { join } from "node:path"
+
 import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { useState } from "react"
@@ -153,6 +156,21 @@ describe("Calendar", () => {
     )
     const weekday = screen.getByRole("grid").querySelector("th")!
     expect(weekday.className).toBe("uppercase-weekday")
+  })
+
+  // shadcn's `data-day` is locale-formatted, so a Node server writes `8/30/2026` where an
+  // `en-GB` browser hydrates `30/08/2026` — a real attribute mismatch on every day of every
+  // server-rendered calendar, seen in a browser. Asserted against the source because React
+  // strips `suppressHydrationWarning` before the DOM.
+  test("the locale-formatted data-day does not fight hydration", () => {
+    const source = readFileSync(
+      join(import.meta.dirname, "../src/components/calendar.tsx"),
+      "utf8"
+    )
+    const button = source.slice(source.indexOf("function CalendarDayButton"))
+    expect(button.slice(0, button.indexOf("className="))).toContain(
+      "suppressHydrationWarning"
+    )
   })
 
   test("CalendarDayButton is exported for a caller's own components override", () => {
