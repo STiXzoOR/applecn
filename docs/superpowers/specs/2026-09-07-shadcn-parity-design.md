@@ -409,7 +409,7 @@ are a product surface rather than primitives.
 | applecn          | built on                      | Apple reference                               |
 | ---------------- | ----------------------------- | --------------------------------------------- |
 | `list`           | `item`                        | inset grouped list, 26 pt corners, 52 pt rows |
-| `lockup`         | `item`                        | media + title + description                   |
+| `lockup`         | nothing — verification only   | media + title + description, Apple's metrics  |
 | `search-field`   | `input-group`                 | 44 pt capsule, magnifier addon, clear, cancel |
 | `stepper`        | `input-group`                 | 94 × 32 capsule, −/+ as `InputGroupButton`    |
 | `color-well`     | `input-group`                 |                                               |
@@ -426,6 +426,30 @@ are a product surface rather than primitives.
 until the row above it was checked against shadcn. There is no `typography` component to compose —
 see §5.4 — so both now name what they actually read: the eleven `type-*` utilities. That makes
 Tasks 41 and 43 verification-only, like Task 26.
+
+**Correction (2026-09-08, Task 32).** The `lockup` row read "`item`" until Task 31 built `list` on
+`item` and Task 32 tried the same. `lockup` shares `item`'s shape — media, title, description, a
+trailing action — and none of its values, and three of the collisions are races the cascade decides
+rather than overrides `cn` resolves. Spiked and measured in a browser against the built docs:
+
+- `ItemMedia` sizes any DESCENDANT glyph, `[&_svg]:size-[70%]`; a lockup's well sizes a direct CHILD
+  only, `[&>svg]:size-1/2`, so artwork wrapped in a span — how the App Store lockup is composed, and
+  how the module's own example composes it — keeps its natural size. Under `ItemMedia` a 24 px glyph
+  in a 64 px well became 44.8 px, and the two rules cannot coexist: at equal specificity `[&_svg]`
+  won the race against `[&>svg]`.
+- `ItemDescription` sets `text-[length:var(--list-subtitle-font)]`. A lockup's subtitle is
+  `type-footnote`, and a named text style is not in the same `cn` group as an arbitrary-length one,
+  so neither overrides the other. Written in either order the result was one hybrid: 13 px from the
+  list token, 20 px leading from the text style, neither style intact.
+- `Item` is a ROW — `min-h-(--list-row-min-height)`, `px`/`py-(--list-row-padding-*)`, `w-full`,
+  `flex-wrap`, and shadcn's `default`/`sm`/`xs` on `data-size` where a lockup's is Apple's
+  `small`/`medium`/`large`. On iOS a `small` lockup is 48 pt, under the 52 pt row minimum, so it
+  would grow. Six neutralising classes and two overridden state attributes is not a composition.
+
+So Task 32 becomes verification-only, like Tasks 26, 41 and 43: `lockup` keeps its own root, well,
+title and subtitle, and `packages/ui/__tests__/lockup.test.tsx` pins each of those numbers against
+the list-row value it would have taken. `ItemContent` and `ItemActions` are the only two parts that
+would have dropped in unchanged, and two generic flex boxes do not pay for the dependency.
 
 ### 5.7 Genuinely Apple-only (7)
 
