@@ -21,15 +21,15 @@ const menuContentClassName =
 const menuItemClassName =
   "group/menu-item relative flex h-(--menu-item-height) w-full shrink-0 cursor-default items-center gap-(--menu-item-gap) rounded-menu-item px-(--menu-item-px) text-[length:var(--menu-font)] text-label outline-hidden select-none focus:bg-(--menu-item-highlight-bg) focus:text-(--menu-item-highlight-text) data-highlighted:bg-(--menu-item-highlight-bg) data-highlighted:text-(--menu-item-highlight-text) data-highlighted:[&_[data-slot=menu-shortcut]]:text-(--menu-shortcut-highlight-text) data-disabled:pointer-events-none data-disabled:opacity-40 data-[variant=destructive]:text-destructive focus:data-[variant=destructive]:text-(--menu-item-highlight-text-destructive) data-highlighted:data-[variant=destructive]:text-(--menu-item-highlight-text-destructive) [&_svg]:pointer-events-none [&_svg]:shrink-0"
 
-function Menu(props: MenuPrimitive.Root.Props) {
+function DropdownMenu(props: MenuPrimitive.Root.Props) {
   return <MenuPrimitive.Root data-slot="menu" {...props} />
 }
 
-function MenuTrigger(props: MenuPrimitive.Trigger.Props) {
+function DropdownMenuTrigger(props: MenuPrimitive.Trigger.Props) {
   return <MenuPrimitive.Trigger data-slot="menu-trigger" {...props} />
 }
 
-function MenuContent({
+function DropdownMenuContent({
   align = "start",
   alignOffset = 0,
   side = "bottom",
@@ -61,11 +61,14 @@ function MenuContent({
   )
 }
 
-function MenuGroup(props: MenuPrimitive.Group.Props) {
+function DropdownMenuGroup(props: MenuPrimitive.Group.Props) {
   return <MenuPrimitive.Group data-slot="menu-group" {...props} />
 }
 
-function MenuLabel({ className, ...props }: MenuPrimitive.GroupLabel.Props) {
+function DropdownMenuLabel({
+  className,
+  ...props
+}: MenuPrimitive.GroupLabel.Props) {
   return (
     <MenuPrimitive.GroupLabel
       data-slot="menu-label"
@@ -78,19 +81,19 @@ function MenuLabel({ className, ...props }: MenuPrimitive.GroupLabel.Props) {
   )
 }
 
-type MenuItemProps = MenuPrimitive.Item.Props & {
+type DropdownMenuItemProps = MenuPrimitive.Item.Props & {
   variant?: "default" | "destructive"
   /** A glyph at the leading edge. */
   icon?: IconSvgElement
 }
 
-function MenuItem({
+function DropdownMenuItem({
   className,
   variant = "default",
   icon,
   children,
   ...props
-}: MenuItemProps) {
+}: DropdownMenuItemProps) {
   return (
     <MenuPrimitive.Item
       data-slot="menu-item"
@@ -104,7 +107,7 @@ function MenuItem({
   )
 }
 
-function MenuCheckboxItem({
+function DropdownMenuCheckboxItem({
   className,
   children,
   ...props
@@ -128,11 +131,11 @@ function MenuCheckboxItem({
   )
 }
 
-function MenuRadioGroup(props: MenuPrimitive.RadioGroup.Props) {
+function DropdownMenuRadioGroup(props: MenuPrimitive.RadioGroup.Props) {
   return <MenuPrimitive.RadioGroup data-slot="menu-radio-group" {...props} />
 }
 
-function MenuRadioItem({
+function DropdownMenuRadioItem({
   className,
   children,
   ...props
@@ -156,7 +159,10 @@ function MenuRadioItem({
   )
 }
 
-function MenuSeparator({ className, ...props }: MenuPrimitive.Separator.Props) {
+function DropdownMenuSeparator({
+  className,
+  ...props
+}: MenuPrimitive.Separator.Props) {
   return (
     <MenuPrimitive.Separator
       data-slot="menu-separator"
@@ -169,7 +175,7 @@ function MenuSeparator({ className, ...props }: MenuPrimitive.Separator.Props) {
   )
 }
 
-function MenuShortcut({ className, ...props }: ComponentProps<"span">) {
+function DropdownMenuShortcut({ className, ...props }: ComponentProps<"span">) {
   return (
     <span
       data-slot="menu-shortcut"
@@ -182,11 +188,11 @@ function MenuShortcut({ className, ...props }: ComponentProps<"span">) {
   )
 }
 
-function MenuSub(props: MenuPrimitive.SubmenuRoot.Props) {
+function DropdownMenuSub(props: MenuPrimitive.SubmenuRoot.Props) {
   return <MenuPrimitive.SubmenuRoot data-slot="menu-sub" {...props} />
 }
 
-function MenuSubTrigger({
+function DropdownMenuSubTrigger({
   className,
   children,
   ...props
@@ -207,15 +213,15 @@ function MenuSubTrigger({
   )
 }
 
-function MenuSubContent({
+function DropdownMenuSubContent({
   align = "start",
   alignOffset = -4,
   side = "right",
   sideOffset = 0,
   ...props
-}: ComponentProps<typeof MenuContent>) {
+}: ComponentProps<typeof DropdownMenuContent>) {
   return (
-    <MenuContent
+    <DropdownMenuContent
       data-slot="menu-sub-content"
       align={align}
       alignOffset={alignOffset}
@@ -227,21 +233,21 @@ function MenuSubContent({
 }
 
 export {
-  Menu,
-  MenuCheckboxItem,
-  MenuContent,
-  MenuGroup,
-  MenuItem,
-  MenuLabel,
-  MenuRadioGroup,
-  MenuRadioItem,
-  MenuSeparator,
-  MenuShortcut,
-  MenuSub,
-  MenuSubContent,
-  MenuSubTrigger,
-  MenuTrigger,
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
   menuContentClassName,
   menuItemClassName,
 }
-export type { MenuItemProps }
+export type { DropdownMenuItemProps }

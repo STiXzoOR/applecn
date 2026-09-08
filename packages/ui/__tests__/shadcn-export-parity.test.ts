@@ -72,11 +72,12 @@ type Row = Unbuilt | Built | Declined
  * every parity component is either at parity, carries a named gap with the task that closes it, or
  * is not built yet with the task that builds it.
  *
- * The §5.2 renames have not happened yet (Task 15), so `dropdown-menu`, `hover-card`, `input-otp`,
- * `collapsible` and `drawer` read as unbuilt here while `menu.tsx`, `preview-card.tsx`,
- * `passcode-field.tsx`, `disclosure-group.tsx` and `sheet.tsx` carry their code under Apple's
- * names. Auditing them under shadcn's names is deliberate: it is the rename that owes the parity,
- * and each row fails the moment its file appears.
+ * Task 15's §5.2 renames land one at a time, so a row moves from unbuilt to a gap as its file
+ * appears under shadcn's name. `hover-card`, `input-otp`, `collapsible` and `drawer` are still
+ * unbuilt here while `preview-card.tsx`, `passcode-field.tsx`, `disclosure-group.tsx` and
+ * `sheet.tsx` carry their code under Apple's names. Auditing them under shadcn's names is
+ * deliberate: it is the rename that owes the parity, and each row fails the moment its file
+ * appears.
  */
 const LEDGER: Record<string, Row> = {
   accordion: { gap: ["AccordionContent"], closes: "Task 15" },
@@ -151,7 +152,13 @@ const LEDGER: Record<string, Row> = {
     task: "Task 15",
     note: "today's bottom `sheet` renamed; gains DrawerHeader/DrawerFooter there (spec §5.2).",
   },
-  "dropdown-menu": { task: "Task 15", note: "the rename of `menu`." },
+  "dropdown-menu": {
+    gap: ["DropdownMenuPortal"],
+    closes: "Task 15",
+    note:
+      "the rename of `menu`. The whole `Menu*` surface came across; `DropdownMenuPortal` is a " +
+      "sub-component applecn never had, since `DropdownMenuContent` portals itself.",
+  },
   empty: {
     gap: ["EmptyContent", "EmptyHeader", "EmptyMedia"],
     closes: "Task 15",

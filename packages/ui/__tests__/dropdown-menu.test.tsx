@@ -3,40 +3,42 @@ import userEvent from "@testing-library/user-event"
 import { describe, expect, test } from "vitest"
 
 import {
-  Menu,
-  MenuCheckboxItem,
-  MenuContent,
-  MenuGroup,
-  MenuItem,
-  MenuLabel,
-  MenuSeparator,
-  MenuShortcut,
-  MenuTrigger,
-} from "../src/components/menu"
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "../src/components/dropdown-menu"
 
 function Actions() {
   return (
-    <Menu>
-      <MenuTrigger>Actions</MenuTrigger>
-      <MenuContent>
-        <MenuGroup>
-          <MenuLabel>Edit</MenuLabel>
-          <MenuItem>
+    <DropdownMenu>
+      <DropdownMenuTrigger>Actions</DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Edit</DropdownMenuLabel>
+          <DropdownMenuItem>
             Copy
-            <MenuShortcut>⌘C</MenuShortcut>
-          </MenuItem>
-          <MenuItem>Paste</MenuItem>
-        </MenuGroup>
-        <MenuSeparator />
-        <MenuCheckboxItem defaultChecked>Show Ruler</MenuCheckboxItem>
-        <MenuSeparator />
-        <MenuItem variant="destructive">Delete</MenuItem>
-      </MenuContent>
-    </Menu>
+            <DropdownMenuShortcut>⌘C</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>Paste</DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuCheckboxItem defaultChecked>
+          Show Ruler
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 
-describe("Menu", () => {
+describe("DropdownMenu", () => {
   test("opens a menu of items from its trigger and closes on Escape", async () => {
     render(<Actions />)
     await userEvent.click(screen.getByRole("button", { name: "Actions" }))
@@ -102,7 +104,7 @@ describe("Menu", () => {
   })
 })
 
-describe("Menu is idiom-agnostic", () => {
+describe("DropdownMenu is idiom-agnostic", () => {
   test("carries no platform variant; the idiom supplies the values", async () => {
     render(<Actions />)
     await userEvent.click(screen.getByRole("button", { name: "Actions" }))

@@ -3764,8 +3764,8 @@
         "@hugeicons/react"
       ],
       "registryDependencies": [
+        "https://applecn.vercel.app/r/dropdown-menu.json",
         "https://applecn.vercel.app/r/icon.json",
-        "https://applecn.vercel.app/r/menu.json",
         "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [
@@ -3810,6 +3810,28 @@
       "files": [
         {
           "path": "src/components/disclosure-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown menu",
+      "description": "Liquid Glass menus: 250 pt panels of 44 pt rows with leading glyphs on iOS 26; AppKit’s 24 pt rows, hairlines and accent highlight on macOS 26.",
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/core-free-icons",
+        "@hugeicons/react",
+        "tw-animate-css"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/dropdown-menu.tsx",
           "type": "registry:ui"
         }
       ]
@@ -4011,28 +4033,6 @@
       ]
     },
     {
-      "name": "menu",
-      "type": "registry:ui",
-      "title": "Menu",
-      "description": "Liquid Glass menus: 250 pt panels of 44 pt rows with leading glyphs on iOS 26; AppKit’s 24 pt rows, hairlines and accent highlight on macOS 26.",
-      "dependencies": [
-        "@base-ui/react",
-        "@hugeicons/core-free-icons",
-        "@hugeicons/react",
-        "tw-animate-css"
-      ],
-      "registryDependencies": [
-        "https://applecn.vercel.app/r/icon.json",
-        "https://applecn.vercel.app/r/utils.json"
-      ],
-      "files": [
-        {
-          "path": "src/components/menu.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "menubar",
       "type": "registry:ui",
       "title": "Menu bar",
@@ -4042,8 +4042,8 @@
         "@hugeicons/core-free-icons"
       ],
       "registryDependencies": [
+        "https://applecn.vercel.app/r/dropdown-menu.json",
         "https://applecn.vercel.app/r/icon.json",
-        "https://applecn.vercel.app/r/menu.json",
         "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [

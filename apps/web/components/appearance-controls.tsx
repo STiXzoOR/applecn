@@ -6,16 +6,16 @@ import { useTheme } from "next-themes"
 import { Button } from "@applecn/ui/components/button"
 import { Icon } from "@applecn/ui/components/icon"
 import {
-  Menu,
-  MenuCheckboxItem,
-  MenuContent,
-  MenuGroup,
-  MenuLabel,
-  MenuRadioGroup,
-  MenuRadioItem,
-  MenuSeparator,
-  MenuTrigger,
-} from "@applecn/ui/components/menu"
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@applecn/ui/components/dropdown-menu"
 import {
   SegmentedControl,
   SegmentedControlItem,
@@ -46,8 +46,8 @@ export function AppearanceMenu() {
   const { contrast, setContrast, transparency, setTransparency } =
     useAppearance()
   return (
-    <Menu>
-      <MenuTrigger
+    <DropdownMenu>
+      <DropdownMenuTrigger
         render={
           <Button
             variant="gray"
@@ -58,32 +58,37 @@ export function AppearanceMenu() {
         }
       >
         <Icon icon={PaintBoardIcon} />
-      </MenuTrigger>
-      <MenuContent align="end">
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
         {/* Base UI group labels must sit inside a group or radio group. */}
-        <MenuRadioGroup
+        <DropdownMenuRadioGroup
           value={theme ?? "system"}
           onValueChange={(v) => setTheme(String(v))}
         >
-          <MenuLabel>Appearance</MenuLabel>
-          <MenuRadioItem value="light">Light</MenuRadioItem>
-          <MenuRadioItem value="dark">Dark</MenuRadioItem>
-          <MenuRadioItem value="system">Automatic</MenuRadioItem>
-        </MenuRadioGroup>
-        <MenuSeparator />
-        <MenuGroup>
-          <MenuLabel>Accessibility</MenuLabel>
-          <MenuCheckboxItem checked={contrast} onCheckedChange={setContrast}>
+          <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+          <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="system">
+            Automatic
+          </DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Accessibility</DropdownMenuLabel>
+          <DropdownMenuCheckboxItem
+            checked={contrast}
+            onCheckedChange={setContrast}
+          >
             Increase Contrast
-          </MenuCheckboxItem>
-          <MenuCheckboxItem
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem
             checked={transparency}
             onCheckedChange={setTransparency}
           >
             Reduce Transparency
-          </MenuCheckboxItem>
-        </MenuGroup>
-      </MenuContent>
-    </Menu>
+          </DropdownMenuCheckboxItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }

@@ -6,7 +6,7 @@ import type { IconSvgElement } from "@hugeicons/react"
 import { cn } from "../lib/utils"
 
 import { Icon } from "./icon"
-import { menuContentClassName, menuItemClassName } from "./menu"
+import { menuContentClassName, menuItemClassName } from "./dropdown-menu"
 
 /** Context menus (HIG › Menus): the same glass menu, opened by a secondary click or a long press. */
 function ContextMenu(props: ContextMenuPrimitive.Root.Props) {

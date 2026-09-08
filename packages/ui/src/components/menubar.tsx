@@ -7,7 +7,7 @@ import { cn } from "../lib/utils"
 import type { ComponentProps } from "react"
 
 import { Icon } from "./icon"
-import { menuContentClassName, menuItemClassName } from "./menu"
+import { menuContentClassName, menuItemClassName } from "./dropdown-menu"
 
 /**
  * The menu bar (HIG › The menu bar): the row of an app's top-level menus — 24 pt on macOS 26,

@@ -374,8 +374,8 @@ export const componentDocs: ComponentDoc[] = [
   },
   // ---------- overlays ----------
   {
-    name: "menu",
-    title: "Menu",
+    name: "dropdown-menu",
+    title: "Dropdown menu",
     description:
       "Liquid Glass menus: 250 pt panels of 44 pt rows with leading glyphs on iOS 26; AppKit’s 24 pt rows, hairlines and accent highlight on macOS 26.",
     group: "overlays",

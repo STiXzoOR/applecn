@@ -28,13 +28,13 @@ import {
   ContextMenuTrigger,
 } from "../src/components/context-menu"
 import {
-  Menu,
-  MenuContent,
-  MenuGroup,
-  MenuItem,
-  MenuLabel,
-  MenuTrigger,
-} from "../src/components/menu"
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "../src/components/dropdown-menu"
 import {
   Menubar,
   MenubarContent,
@@ -725,15 +725,15 @@ const LABELS: readonly LabelFixture[] = [
     slot: "menu-label",
     family: "menu",
     element: () => (
-      <Menu>
-        <MenuTrigger>Actions</MenuTrigger>
-        <MenuContent>
-          <MenuGroup>
-            <MenuLabel>Group</MenuLabel>
-            <MenuItem>Copy</MenuItem>
-          </MenuGroup>
-        </MenuContent>
-      </Menu>
+      <DropdownMenu>
+        <DropdownMenuTrigger>Actions</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuGroup>
+            <DropdownMenuLabel>Group</DropdownMenuLabel>
+            <DropdownMenuItem>Copy</DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
     ),
     open: async () => {
       await userEvent.click(screen.getByRole("button", { name: "Actions" }))
