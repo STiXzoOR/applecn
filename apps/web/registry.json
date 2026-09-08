@@ -3559,6 +3559,24 @@
       ]
     },
     {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "The notification banner in flow: a card with a leading glyph, a semibold title, a message and an optional action.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/alert.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "avatar",
       "type": "registry:ui",
       "title": "Avatar",

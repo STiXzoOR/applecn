@@ -144,6 +144,7 @@ Install any of these as `@applecn/<name>`.
 - `card` — Card (Boxes): A group box on the grouped card surface with the platform’s card corner.
 - `table` — Table (Tables (macOS)): The macOS table with small column headers, compact rows and a tinted selection.
 - `collapsible` — Collapsible (Disclosure controls): A row that reveals details, its chevron turning as it opens.
+- `alert` — Alert (Notifications): The notification banner in flow: a card with a leading glyph, a semibold title, a message and an optional action.
 - `empty` — Empty (ContentUnavailableView): The unavailable-content view: a symbol, a title, a description and an action.
 - `skeleton` — Skeleton (Redacted placeholders): A redacted placeholder for loading content.
 - `avatar` — Avatar (Contact photos): A person’s picture or their monogram on gray.

@@ -191,7 +191,16 @@ const LEDGER: Record<string, Row> = {
       "`AccordionContent` is shadcn's name for Base UI's `Panel`, exported as an alias of " +
       "`AccordionPanel` so both names reach the same component.",
   },
-  alert: { task: "Task 20" },
+  alert: {
+    gap: [],
+    note:
+      "shadcn exports FOUR symbols, not the two the task brief listed: `AlertAction` is the " +
+      "trailing control, and it is a slot as well. Apple's is the notification banner rendered " +
+      "in flow — `toast`'s card corner, subheadline pair and 12 pt inset on the grouped card " +
+      "surface rather than glass, because it sits on the content layer. `alertVariants` is the " +
+      "cva, exported as the catalogue exports every other one; shadcn keeps it module-private, " +
+      "which is less, not more.",
+  },
   "alert-dialog": {
     propGap: [
       "AlertDialogCancel.size",

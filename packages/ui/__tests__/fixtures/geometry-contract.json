@@ -44,6 +44,7 @@
     "min-w-0",
     "rounded-alert"
   ],
+  "alert.tsx": ["rounded-card", "type-subheadline", "w-full"],
   "avatar.tsx": [
     "rounded-full",
     "size-10",

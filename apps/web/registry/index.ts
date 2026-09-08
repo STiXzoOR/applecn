@@ -632,6 +632,16 @@ export const componentDocs: ComponentDoc[] = [
     examples: [{ name: "basic", title: "Advanced options" }],
   },
   {
+    name: "alert",
+    title: "Alert",
+    description:
+      "The notification banner in flow: a card with a leading glyph, a semibold title, a message and an optional action.",
+    group: "content",
+    apple: { name: "Notifications", hig: hig("notifications") },
+    primitive: "element",
+    examples: [{ name: "basic", title: "Backup banners" }],
+  },
+  {
     name: "empty",
     title: "Empty",
     description:
