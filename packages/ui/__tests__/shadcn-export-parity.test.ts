@@ -159,36 +159,19 @@ const LEDGER: Record<string, Row> = {
       "and `collapsible-content`, with `collapsible-chevron` the Apple addition.",
   },
   combobox: {
-    gap: [
-      "ComboboxChip",
-      "ComboboxChips",
-      "ComboboxChipsInput",
-      "ComboboxCollection",
-      "ComboboxLabel",
-      "ComboboxSeparator",
-      "ComboboxTrigger",
-      "ComboboxValue",
-      "useComboboxAnchor",
-    ],
-    slotGap: [
-      "combobox-chip",
-      "combobox-chip-input",
-      "combobox-chip-remove",
-      "combobox-chips",
-      "combobox-collection",
-      "combobox-separator",
-      "combobox-value",
-      "input-group-button",
-    ],
-    slotCloses: "Task 15c",
-    closes: "Task 15c",
+    gap: [],
+    slotGap: ["input-group-button"],
+    slotCloses: "Task 18",
     note:
-      "`ComboboxLabel` is the naming split the Phase 2 review flagged as M6, and it resolves " +
+      "`ComboboxLabel` was the naming split the Phase 2 review flagged as M6, and it resolved " +
       "against shadcn rather than by preference: shadcn's `ComboboxLabel` wraps Base UI's " +
-      '`Combobox.GroupLabel` and carries `data-slot="combobox-label"`, so applecn\'s ' +
-      "`ComboboxGroupLabel`/`combobox-group-label` diverges on both the export name and the " +
-      "slot. Task 15b closed the slot half; Task 15c renames the export and keeps the old name " +
-      "as an alias.",
+      '`Combobox.GroupLabel` and carries `data-slot="combobox-label"`. Task 15b closed the slot ' +
+      "half; Task 15c renamed the export and kept `ComboboxGroupLabel` as an alias of it. " +
+      "`input-group-button` waits for Task 18's `input-group`, which is what stamps it. One " +
+      "value in this row is a phantom on both sides: Base UI's `Collection` renders the rows " +
+      "and no element of its own and takes only `children`, so shadcn's " +
+      '`data-slot="combobox-collection"` never reaches the DOM there either. applecn carries it ' +
+      "for source parity; nothing can select on it in either project.",
   },
   command: { task: "Task 27" },
   "context-menu": { gap: [] },

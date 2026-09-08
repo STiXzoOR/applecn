@@ -4,13 +4,20 @@ import { describe, expect, test } from "vitest"
 
 import {
   Combobox,
+  ComboboxChip,
+  ComboboxChips,
+  ComboboxChipsInput,
+  ComboboxCollection,
   ComboboxContent,
   ComboboxEmpty,
   ComboboxGroup,
   ComboboxGroupLabel,
   ComboboxInput,
   ComboboxItem,
+  ComboboxLabel,
   ComboboxList,
+  ComboboxSeparator,
+  ComboboxValue,
 } from "../src/components/combobox"
 
 const fruits = ["Apple", "Apricot", "Banana"]
@@ -106,5 +113,83 @@ describe("Combobox is idiom-agnostic", () => {
       selector: "[data-slot=combobox-label]",
     })
     expect(label.className).not.toMatch(/(^|\s)(ios|macos|web):/)
+  })
+})
+
+describe("ComboboxLabel", () => {
+  test("is shadcn's name for the group label, and the Apple name still reaches it", () => {
+    expect(ComboboxLabel).toBe(ComboboxGroupLabel)
+  })
+})
+
+describe("Combobox chips", () => {
+  test("multiple selections read as removable tokens beside the input", async () => {
+    render(
+      <Combobox items={fruits} multiple defaultValue={["Apple", "Banana"]}>
+        <ComboboxChips>
+          <ComboboxValue>
+            {(value: string[]) =>
+              value.map((item) => (
+                <ComboboxChip key={item}>{item}</ComboboxChip>
+              ))
+            }
+          </ComboboxValue>
+          <ComboboxChipsInput aria-label="Fruit" />
+        </ComboboxChips>
+      </Combobox>
+    )
+    const chips = document.querySelector('[data-slot="combobox-chips"]')!
+    expect(chips.className).toContain("rounded-field")
+    expect(chips.querySelectorAll('[data-slot="combobox-chip"]')).toHaveLength(
+      2
+    )
+    expect(screen.getByRole("combobox", { name: "Fruit" })).toHaveAttribute(
+      "data-slot",
+      "combobox-chip-input"
+    )
+    const remove = screen.getAllByRole("button")[0]!
+    expect(remove).toHaveAttribute("data-slot", "combobox-chip-remove")
+    await userEvent.click(remove)
+    expect(chips.querySelectorAll('[data-slot="combobox-chip"]')).toHaveLength(
+      1
+    )
+  })
+})
+
+describe("ComboboxSeparator and ComboboxCollection", () => {
+  test("the separator wears the menu's hairline and the collection groups rows", async () => {
+    render(
+      <Combobox items={fruits}>
+        <ComboboxInput aria-label="Fruit" />
+        <ComboboxContent>
+          <ComboboxList>
+            <ComboboxGroup>
+              <ComboboxLabel>Fruit</ComboboxLabel>
+              <ComboboxCollection>
+                {(item: string) => (
+                  <ComboboxItem key={item} value={item}>
+                    {item}
+                  </ComboboxItem>
+                )}
+              </ComboboxCollection>
+            </ComboboxGroup>
+            <ComboboxSeparator />
+          </ComboboxList>
+        </ComboboxContent>
+      </Combobox>
+    )
+    await userEvent.click(screen.getByRole("combobox", { name: "Fruit" }))
+    const separator = document.querySelector(
+      '[data-slot="combobox-separator"]'
+    )!
+    expect(separator.className).toContain("bg-(--menu-separator-bg)")
+    expect(separator.className).toContain("h-(--menu-separator-height)")
+    // `Collection` renders the rows and no element of its own — Base UI says so, and shadcn's
+    // `data-slot="combobox-collection"` is therefore inert upstream too. It is carried here for
+    // exactly that parity, and nothing can select on it in either project.
+    expect(
+      document.querySelector('[data-slot="combobox-collection"]')
+    ).toBeNull()
+    expect(await screen.findAllByRole("option")).toHaveLength(3)
   })
 })
