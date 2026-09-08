@@ -362,6 +362,11 @@ Reference, with prev/next and an "On This Page" rail. A Get Started section: Ins
 components.json, Theming, Dark Mode, CLI, Monorepo, llms.txt. An alias table so a shadcn user
 searching "Dropdown Menu" finds it.
 
+Two API-table notes owed from the Phase 2 review, both inert in the tree but visible to a reader
+of the docs: `AlertDialogFooter` renders `AlertDialogActions` under `data-slot="alert-dialog-footer"`,
+so a shadcn-shaped alert has a footer node and NO actions node; and `ComboboxGroupLabel` is
+applecn's name for what shadcn calls `ComboboxLabel` until Task 15 renames it.
+
 Brand starts from nothing — there is no logo, OG image, apple-touch-icon, manifest or
 `metadata.icons` in the repo today.
 

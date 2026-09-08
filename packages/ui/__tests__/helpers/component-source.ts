@@ -125,3 +125,42 @@ export function exportedNames(source: string): string[] {
     if (declaration.exported) names.add(declaration.name)
   return [...names]
 }
+
+/**
+ * Words that make a custom property a MEASURED one — a number out of
+ * `docs/research/apple-design-system-reference.md` rather than a colour or a duration.
+ */
+const MEASURED =
+  /(?:height|width|size|radius|inset|gap|font|leading|tracking|weight|scale|offset|indent|dot|-p[xytblr]?$|-p[xytblr]-)/
+
+/** Numeric geometry written as a literal utility rather than read from a token. */
+const LITERAL_GEOMETRY =
+  /^(?:h|w|size|min-h|min-w|max-h|max-w)-(?:\d[\d./]*|px|full|screen)$/
+
+/**
+ * The geometry one module reads: the measured tokens it dereferences, the named radii and text
+ * styles it applies, and the numeric heights and widths it hardcodes. Sorted and deduplicated.
+ *
+ * This is spec §7.4's acceptance — "no measured metric changes" — made mechanical. Thirteen
+ * components are about to be rebuilt on shadcn bases, and §8 names metric drift during that as
+ * the top risk; nothing in the suite could see a rebuilt component start reading
+ * `--control-height-small` where it used to read `--control-height-regular`. Task 14's browser
+ * pass caught that class of thing once, by hand, on one day. This catches it on every run.
+ */
+export function geometryContract(source: string): string[] {
+  const found = new Set<string>()
+  for (const [, name] of source.matchAll(/var\((--[\w-]+)\)/g))
+    if (MEASURED.test(name!)) found.add(name!)
+  for (const [, block] of source.matchAll(/"([^"\n]*)"/g))
+    for (const token of block!.split(/\s+/).filter(Boolean)) {
+      const { utility } = splitModifiers(token)
+      const property = /^([\w-]+?)-\((?:length:)?(--[\w-]+)\)$/.exec(utility)
+      if (property && MEASURED.test(property[2]!)) {
+        found.add(property[2]!)
+        continue
+      }
+      if (/^(?:rounded|type)-[a-z][\w-]*$/.test(utility)) found.add(utility)
+      else if (LITERAL_GEOMETRY.test(utility)) found.add(utility)
+    }
+  return [...found].sort()
+}

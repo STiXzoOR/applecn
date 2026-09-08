@@ -706,6 +706,18 @@ interface LabelFixture {
  * The menu-shaped group labels. Phase 1 rebuilt these from a two-utility swap
  * (`macos:type-caption-1 macos:font-semibold`) into four token slots, and no registry example
  * anywhere renders one, so nothing had ever put one on screen under an idiom.
+ *
+ * The per-entry `slot` is not a fixture convenience papering over a naming split: shadcn's own
+ * `ComboboxLabel` wraps Base UI's `Combobox.GroupLabel` under `data-slot="combobox-label"`, so
+ * applecn's `ComboboxGroupLabel`/`combobox-group-label` is a real parity gap. It is recorded
+ * against Task 15 in `shadcn-export-parity.test.ts`, and this fixture follows the tree as it is
+ * until then.
+ *
+ * These assertions run once per idiom and, with the platform variants gone, compare identical
+ * strings each time. Kept deliberately: the cost is three cheap string checks, and what they buy
+ * is the case where a future component gates RENDERING rather than styling on the platform — a
+ * label that fails to appear on one idiom is exactly the §7.2 failure this file exists for, and
+ * only a per-idiom render can see it.
  */
 const LABELS: readonly LabelFixture[] = [
   {

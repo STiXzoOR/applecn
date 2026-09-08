@@ -125,6 +125,12 @@ const LEDGER: Record<string, Row> = {
       "useComboboxAnchor",
     ],
     closes: "Task 15",
+    note:
+      "`ComboboxLabel` is the naming split the Phase 2 review flagged as M6, and it resolves " +
+      "against shadcn rather than by preference: shadcn's `ComboboxLabel` wraps Base UI's " +
+      '`Combobox.GroupLabel` and carries `data-slot="combobox-label"`, so applecn\'s ' +
+      "`ComboboxGroupLabel`/`combobox-group-label` diverges on both the export name and the " +
+      "slot. Task 15 renames it and keeps the old name as an alias.",
   },
   command: { task: "Task 27" },
   "context-menu": {
