@@ -4,6 +4,15 @@ import type { ComponentProps } from "react"
 /**
  * The macOS table (HIG › Lists and tables): small column headers, compact rows, optional
  * alternating row colour, and a selected row painted with the accent colour.
+ *
+ * The stripe is what an UNSELECTED row shows, and it says so in the selector. Written as the bare
+ * `[&_tbody_tr:nth-child(even)]:bg-fill-4` it compiles to `.<class> tbody tr:nth-child(even)` —
+ * one class and one pseudo-class — which weighs exactly as much as `TableRow`'s own
+ * `.<class>[aria-selected="true"]`, so the stripe won on emission order and the selection fill
+ * never landed while `text-white` (which nothing competes with) did: a selected even row of a
+ * striped table was white text on near-white in light mode, on all three idioms. Making the
+ * selection heavier would only move the fight; taking the selected rows out of the stripe's reach
+ * ends it, because the two rules can no longer both match.
  */
 type TableProps = ComponentProps<"table"> & {
   striped?: boolean
@@ -20,7 +29,8 @@ function Table({ className, striped = false, ...props }: TableProps) {
         data-striped={striped || undefined}
         className={cn(
           "w-full caption-bottom border-collapse text-label",
-          striped && "[&_tbody_tr:nth-child(even)]:bg-fill-4",
+          striped &&
+            "[&_tbody_tr:nth-child(even):not([aria-selected=true])]:bg-fill-4",
           className
         )}
         {...props}

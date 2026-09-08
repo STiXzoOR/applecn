@@ -5,6 +5,7 @@ import {
   componentModules,
   paintedProperty,
   splitModifiers,
+  topLevelDeclarations,
 } from "./helpers/component-source"
 
 /**
@@ -212,4 +213,167 @@ describe("a selected control never resolves to its resting paint", () => {
       expect(item.highlightText).not.toBe(item.highlightBg)
     }
   )
+})
+
+/**
+ * The third hole in the same family, and the one that shipped a live defect: a race decided not
+ * by emission order but by SPECIFICITY, between a container's rule on a descendant and that
+ * descendant's own state.
+ *
+ * `table` writes its stripe on the table root as `[&_tbody_tr:nth-child(even)]:bg-fill-4`, which
+ * compiles to `.<class> tbody tr:nth-child(even)` — one class plus one pseudo-class. `TableRow`
+ * writes selection on itself as `aria-selected:bg-selection`, which compiles to
+ * `.<class>[aria-selected="true"]` — one class plus one attribute. They weigh the same, so the
+ * stripe won on order and `bg-selection` never landed, while `aria-selected:text-white` (which
+ * nothing competes with) did: a selected row was white text on near-white in light mode, on all
+ * three idioms.
+ *
+ * Neither guard above could see it. `races()` compares two modifiers inside ONE class string and
+ * skips anything conditioning on another element, which is exactly what a `[&_…]` variant does;
+ * the coverage guard asks whether a selection rule is exercised in the harness, and `table` IS in
+ * the harness — jsdom has no cascade, so rendering it proves the attribute and the class, not
+ * which of two matching rules paints.
+ *
+ * So this pairs the two across declarations: a rule a container writes on a descendant TAG, and a
+ * state rule on the declaration that renders that tag. The container's rule may not outweigh the
+ * state unless it excludes the state outright.
+ */
+
+/** The tag a component declaration renders, from the first lower-case JSX element in its body. */
+const renderedTag = (body: string) => /<([a-z][\w-]*)[\s/>]/.exec(body)?.[1]
+
+/** CSS specificity of one compound/descendant selector, in classes+attributes+pseudo-classes. */
+function selectorWeight(selector: string): number {
+  const attributes = selector.match(/\[[^\]]*\]/g)?.length ?? 0
+  const pseudo = selector.replace(/\[[^\]]*\]/g, "").match(/(?<!:):[a-z-]+/g)
+  const classes = selector.match(/\.[A-Za-z]/g)?.length ?? 0
+  return attributes + (pseudo?.length ?? 0) + classes
+}
+
+interface DescendantRule {
+  /** The selector after the `&`, with Tailwind's `_` read back as a space. */
+  readonly target: string
+  readonly tag: string
+  readonly property: string
+  readonly utility: string
+  readonly weight: number
+}
+
+/** Every rule a class string writes on a descendant through an arbitrary `[&…]` variant. */
+function descendantRules(source: string): DescendantRule[] {
+  const found: DescendantRule[] = []
+  for (const [, block] of source.matchAll(/"([^"\n]*)"/g))
+    for (const token of block!.split(/\s+/).filter(Boolean)) {
+      const { modifiers, utility } = splitModifiers(token)
+      const property = paintedProperty(utility)
+      if (!property) continue
+      for (const modifier of modifiers) {
+        const arbitrary = /^\[&([_>~+].*)\]$/.exec(modifier)
+        if (!arbitrary) continue
+        const target = arbitrary[1]!.replaceAll("_", " ")
+        const compound = target
+          .split(/[\s>~+]+/)
+          .filter(Boolean)
+          .at(-1)
+        const tag = /^([a-z][\w-]*)/.exec(compound ?? "")?.[1]
+        if (!tag) continue
+        found.push({
+          target,
+          tag,
+          property,
+          utility,
+          // The utility's own class counts too: `.x tbody tr:nth-child(even)` is (0,2,2).
+          weight: 1 + selectorWeight(target),
+        })
+      }
+    }
+  return found
+}
+
+interface StateRule {
+  readonly declaration: string
+  readonly tag: string
+  readonly property: string
+  readonly utility: string
+  readonly modifiers: string[]
+  readonly weight: number
+}
+
+/** Every state rule a declaration writes on the element it renders itself. */
+function stateRules(source: string): StateRule[] {
+  const found: StateRule[] = []
+  for (const declaration of topLevelDeclarations(source)) {
+    const tag = renderedTag(declaration.body)
+    if (!tag) continue
+    for (const [, block] of declaration.body.matchAll(/"([^"\n]*)"/g))
+      for (const token of block!.split(/\s+/).filter(Boolean)) {
+        const { modifiers, utility } = splitModifiers(token)
+        const property = paintedProperty(utility)
+        if (!property || modifiers.length === 0) continue
+        if (!modifiers.every(isAttribute)) continue
+        found.push({
+          declaration: declaration.name,
+          tag,
+          property,
+          utility,
+          modifiers,
+          weight: 1 + modifiers.length,
+        })
+      }
+  }
+  return found
+}
+
+/** Does the container's selector take the stated rows out of its own reach? */
+const excludes = (target: string, state: StateRule) =>
+  state.modifiers.some((modifier) => {
+    const name = /^((?:data|aria)-[\w-]+)/.exec(modifier.replace("[", ""))?.[1]
+    return Boolean(name) && new RegExp(`:not\\([^)]*${name}`).test(target)
+  })
+
+function specificityRaces(source: string): string[] {
+  const found = new Set<string>()
+  for (const rule of descendantRules(source))
+    for (const state of stateRules(source)) {
+      if (state.tag !== rule.tag || state.property !== rule.property) continue
+      if (state.utility === rule.utility) continue
+      if (excludes(rule.target, state)) continue
+      if (rule.weight < state.weight) continue
+      found.add(
+        `[&${rule.target}]:${rule.utility} outranks ${state.declaration}'s ` +
+          `${state.modifiers.join(":")}:${state.utility}`
+      )
+    }
+  return [...found]
+}
+
+describe("a container's rule on a descendant never outranks that element's own state", () => {
+  test.each(componentModules())("$file", ({ file, source }) => {
+    expect(
+      specificityRaces(source),
+      `${file} paints a descendant from its container with a selector at least as heavy as the ` +
+        `state rule on that same element, so the state never lands. Narrow the container's ` +
+        `selector so it does not reach the stated element.`
+    ).toEqual([])
+  })
+
+  test("the scan sees the collision it was built from", () => {
+    // `table` before the fix, in miniature: the stripe at (0,2,2) over selection at (0,2,0).
+    // `topLevelDeclarations` anchors on the line start, so the plant is written flush left.
+    const planted = [
+      "function Table() {",
+      '  return <table className="[&_tbody_tr:nth-child(even)]:bg-fill-4" />',
+      "}",
+      "function TableRow() {",
+      '  return <tr className="aria-selected:bg-selection" />',
+      "}",
+    ].join("\n")
+    expect(specificityRaces(planted)).toHaveLength(1)
+    // And it is resolved by taking the stated rows out of the container's reach, not by weight.
+    const narrowed = planted.replace(
+      "tr:nth-child(even)",
+      "tr:nth-child(even):not([aria-selected=true])"
+    )
+    expect(specificityRaces(narrowed)).toEqual([])
+  })
 })

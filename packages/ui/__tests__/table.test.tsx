@@ -51,7 +51,21 @@ describe("Table (macOS)", () => {
     expect(selected).toHaveAttribute("aria-selected", "true")
     expect(selected.className).toContain("aria-selected:bg-selection")
     expect(screen.getByRole("table").className).toContain(
-      "[&_tbody_tr:nth-child(even)]:bg-fill-4"
+      "tbody_tr:nth-child(even)"
+    )
+  })
+
+  /**
+   * The stripe is written on the table root and the selection on the row, and as a bare
+   * `nth-child(even)` the two weigh the same — one class plus one pseudo-class against one class
+   * plus one attribute — so the stripe won on emission order and the selection fill never landed
+   * while `text-white` did. A selected even row of a striped table was white on near-white in
+   * light mode, on all three idioms. The stripe now says what it always meant: an UNSELECTED row.
+   */
+  test("the stripe does not reach a selected row, so the selection fill can land", () => {
+    render(<Files striped />)
+    expect(screen.getByRole("table").className).toContain(
+      "[&_tbody_tr:nth-child(even):not([aria-selected=true])]:bg-fill-4"
     )
   })
 })
