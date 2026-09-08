@@ -25,8 +25,8 @@ import { checkA11y } from "./helpers/axe"
 describe("itemVariants", () => {
   test("is exported, and is what Item renders", () => {
     render(<Item variant="outline">t</Item>)
-    // Not a whole-string comparison: `cn` merges, and a Tailwind v4 font-size utility drops the
-    // `leading-snug` written before it. The variant's own classes are the claim.
+    // Not a whole-string comparison: `cn` merges, and a Tailwind v4 font-size utility drops any
+    // `leading-*` written before it. The variant's own classes are the claim.
     expect(itemVariants({ variant: "outline" })).toContain(
       "rounded-list border border-separator"
     )
@@ -56,6 +56,31 @@ describe("Item", () => {
     expect(screen.getByTestId("media")).toHaveAttribute(
       "data-slot",
       "item-media"
+    )
+  })
+
+  /**
+   * The row's line box is the measured body leading, and it has to be written AFTER the font size
+   * to survive: `cn` puts `text-[length:…]` and `leading-*` in one group, because a Tailwind
+   * font-size shorthand sets both, so a leading written in the cva's base — where `leading-snug`
+   * sat from the day the module was written — is dropped by every size variant's font size and has
+   * never applied. On iOS 15 + 22 + 15 is exactly the 52 pt `--list-row-min-height`.
+   *
+   * Asserting the merged string is the whole point of the test: the class the module writes is not
+   * the class the row gets, and that is how the old one died silently.
+   */
+  test("the row's leading is the measured body leading, not dropped by the font size", () => {
+    render(
+      <Item data-testid="row">
+        <ItemTitle>A</ItemTitle>
+      </Item>
+    )
+    const row = screen.getByTestId("row")
+    expect(row.className).toContain("leading-(--type-body-leading)")
+    expect(row.className).not.toContain("leading-snug")
+    // The claim is about the merged string, which is where the old class died.
+    expect(itemVariants({ size: "default" })).toContain(
+      "leading-(--type-body-leading)"
     )
   })
 

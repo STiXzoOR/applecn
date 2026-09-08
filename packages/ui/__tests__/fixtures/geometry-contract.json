@@ -285,6 +285,7 @@
     "--list-footer-font",
     "--list-row-min-height",
     "--list-subtitle-font",
+    "--type-body-leading",
     "min-w-0",
     "rounded-list",
     "rounded-md",

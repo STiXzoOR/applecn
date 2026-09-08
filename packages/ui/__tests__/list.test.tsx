@@ -120,6 +120,26 @@ describe("List composes Item", () => {
     expect(row).not.toBeNull()
   })
 
+  /**
+   * The row took `leading-snug` from this file because `item`'s own leading was dead and a row
+   * with no leading at all would have inherited one. `item` now writes the measured
+   * `--type-body-leading` beside its font size, where it survives the merge, and a `leading-snug`
+   * written here would outrank it — `className` is merged last. Measured in a browser on the list
+   * docs page: a plain single-line row was 53.375 px and is 52, which is the published metric.
+   */
+  test("a row takes item's measured leading, and does not overrule it", () => {
+    render(
+      <List>
+        <ListSection>
+          <ListRow title="Wi-Fi" />
+        </ListSection>
+      </List>
+    )
+    const row = screen.getByText("Wi-Fi").closest('[data-slot="item"]')!
+    expect(row.className).not.toContain("leading-snug")
+    expect(row.className).toContain("leading-(--type-body-leading)")
+  })
+
   test("the inset grouped list keeps its 26 pt corners", () => {
     render(
       <List style="inset-grouped">

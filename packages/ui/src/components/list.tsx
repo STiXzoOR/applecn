@@ -210,11 +210,12 @@ function ListRow({
       <Item
         render={render}
         className={cn(
-          // `leading-snug`, written again because `item`'s own is dead: `cn` merges a font-size
-          // utility as conflicting with `leading-*`, and `itemVariants` puts `text-[length:…]`
-          // in the size variant AFTER the base's `leading-snug`, so the base's is dropped. A row
-          // written here survives, which is what keeps this rewrite pixel-for-pixel identical.
-          "leading-snug",
+          // No leading written here. This file used to re-assert `leading-snug` because `item`'s
+          // own was dropped by its font size and a row would otherwise have had none; `item` now
+          // writes the measured `--type-body-leading` where it survives the merge, and anything
+          // written here would outrank it — `className` merges last. Measured in a browser: a
+          // plain single-line row goes from 53.375 px to the published 52, and a row with a tile
+          // or a subtitle (60 px, 74 px) does not move at all.
           interactive &&
             "transition-[background-color] duration-(--duration-press) hover:bg-fill-4 active:bg-fill-3",
           destructive && "text-destructive",
