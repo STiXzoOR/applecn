@@ -74,5 +74,10 @@ function ScrollAreaScrollbar({
   )
 }
 
-export { ScrollArea, ScrollAreaScrollbar }
+export {
+  ScrollArea,
+  ScrollAreaScrollbar,
+  // shadcn's name for the same scrollbar, so its markup pastes in unchanged.
+  ScrollAreaScrollbar as ScrollBar,
+}
 export type { ScrollAreaProps }

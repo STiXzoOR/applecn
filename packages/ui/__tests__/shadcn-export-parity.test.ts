@@ -103,7 +103,12 @@ type Row = Unbuilt | Built | Declined
  * left under `drawer`, and the name is held for Task 19's edge panel.
  */
 const LEDGER: Record<string, Row> = {
-  accordion: { gap: ["AccordionContent"], closes: "Task 15c" },
+  accordion: {
+    gap: [],
+    note:
+      "`AccordionContent` is shadcn's name for Base UI's `Panel`, exported as an alias of " +
+      "`AccordionPanel` so both names reach the same component.",
+  },
   alert: { task: "Task 20" },
   "alert-dialog": { gap: [] },
   "aspect-ratio": { task: "Task 21" },
@@ -130,12 +135,7 @@ const LEDGER: Record<string, Row> = {
     note: "Task 42 rebuilds `toolbar` on `button-group` and owns its surface.",
   },
   calendar: { task: "Task 28" },
-  card: {
-    gap: ["CardAction"],
-    slotGap: ["card-action"],
-    slotCloses: "Task 15c",
-    closes: "Task 15c",
-  },
+  card: { gap: [] },
   carousel: {
     gap: ["CarouselContent", "CarouselNext", "CarouselPrevious", "useCarousel"],
     slotGap: ["carousel-next", "carousel-previous"],
@@ -233,10 +233,10 @@ const LEDGER: Record<string, Row> = {
       "to `[data-slot$=-shortcut]` so `menubar` and `context-menu` keep their own names.",
   },
   empty: {
-    gap: ["EmptyContent", "EmptyHeader", "EmptyMedia"],
-    slotGap: ["empty-header"],
-    slotCloses: "Task 15c",
-    closes: "Task 15c",
+    gap: [],
+    note:
+      "`EmptyContent` is an alias of the Apple-named `EmptyActions`; `EmptyMedia` is the " +
+      "general media well beside `EmptyIcon`, and both stamp `empty-icon` as shadcn's does.",
   },
   field: {
     gap: [
@@ -278,12 +278,7 @@ const LEDGER: Record<string, Row> = {
       "invent them.",
   },
   item: { task: "Task 17" },
-  kbd: {
-    gap: ["KbdGroup"],
-    slotGap: ["kbd-group"],
-    slotCloses: "Task 15c",
-    closes: "Task 15c",
-  },
+  kbd: { gap: [] },
   label: { gap: [] },
   marker: { task: "Task 52–58 (the AI set)" },
   menubar: {
@@ -311,7 +306,10 @@ const LEDGER: Record<string, Row> = {
   questionnaire: { task: "Task 52–58 (the AI set)" },
   "radio-group": { gap: [] },
   resizable: { task: "Task 24" },
-  "scroll-area": { gap: ["ScrollBar"], closes: "Task 15c" },
+  "scroll-area": {
+    gap: [],
+    note: "`ScrollBar` is shadcn's name for `ScrollAreaScrollbar`, exported as an alias.",
+  },
   select: { gap: [] },
   separator: { gap: [] },
   sheet: {

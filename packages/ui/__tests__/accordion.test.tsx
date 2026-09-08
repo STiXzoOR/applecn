@@ -5,6 +5,7 @@ import { describe, expect, test } from "vitest"
 import {
   Accordion,
   AccordionItem,
+  AccordionContent,
   AccordionPanel,
   AccordionTrigger,
 } from "../src/components/accordion"
@@ -36,5 +37,23 @@ describe("Accordion", () => {
     expect(screen.getByText("Yes.")).toBeVisible()
     await userEvent.click(screen.getByRole("button", { name: "Is it styled?" }))
     expect(first).toHaveAttribute("aria-expanded", "false")
+  })
+})
+
+describe("Accordion takes shadcn's markup unchanged", () => {
+  test("AccordionContent is shadcn's name for the panel, and the same component", async () => {
+    expect(AccordionContent).toBe(AccordionPanel)
+    render(
+      <Accordion>
+        <AccordionItem value="a">
+          <AccordionTrigger>Is it accessible?</AccordionTrigger>
+          <AccordionContent>Yes.</AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    )
+    await userEvent.click(screen.getByRole("button", { name: /accessible/ }))
+    expect(
+      screen.getByText("Yes.").closest('[data-slot="accordion-content"]')
+    ).not.toBeNull()
   })
 })

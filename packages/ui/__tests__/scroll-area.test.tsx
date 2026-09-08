@@ -1,7 +1,11 @@
 import { render, screen } from "@testing-library/react"
 import { describe, expect, test } from "vitest"
 
-import { ScrollArea } from "../src/components/scroll-area"
+import {
+  ScrollArea,
+  ScrollAreaScrollbar,
+  ScrollBar,
+} from "../src/components/scroll-area"
 
 describe("ScrollArea", () => {
   test("wraps its content in a viewport with overlay scrollbars that only show while scrolling", () => {
@@ -36,5 +40,11 @@ describe("ScrollArea", () => {
     expect(
       root.querySelector('[data-slot="scroll-area-scrollbar"]')
     ).toHaveAttribute("data-orientation", "horizontal")
+  })
+})
+
+describe("ScrollArea takes shadcn's markup unchanged", () => {
+  test("ScrollBar is shadcn's name for the scrollbar, and the same component", () => {
+    expect(ScrollBar).toBe(ScrollAreaScrollbar)
   })
 })

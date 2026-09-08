@@ -94,5 +94,12 @@ function AccordionPanel({
   )
 }
 
-export { Accordion, AccordionItem, AccordionPanel, AccordionTrigger }
+export {
+  Accordion,
+  AccordionItem,
+  AccordionPanel,
+  // shadcn's name for the same panel: Base UI calls the region `Panel`, shadcn `Content`.
+  AccordionPanel as AccordionContent,
+  AccordionTrigger,
+}
 export type { AccordionProps }

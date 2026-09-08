@@ -8,7 +8,7 @@ import {
   avatarVariants,
 } from "../src/components/avatar"
 import { Checkbox } from "../src/components/checkbox"
-import { Kbd } from "../src/components/kbd"
+import { Kbd, KbdGroup } from "../src/components/kbd"
 import { Label } from "../src/components/label"
 import { Skeleton } from "../src/components/skeleton"
 
@@ -48,6 +48,19 @@ describe("Kbd", () => {
     expect(k.tagName).toBe("KBD")
     expect(k.className).toContain("bg-fill-3")
     expect(k.className).toContain("type-caption-1")
+  })
+
+  test("KbdGroup lines up the keys of one shortcut", () => {
+    render(
+      <KbdGroup>
+        <Kbd>⌘</Kbd>
+        <Kbd>K</Kbd>
+      </KbdGroup>
+    )
+    const group = screen.getByText("⌘").closest('[data-slot="kbd-group"]')!
+    expect(group).not.toBeNull()
+    expect(group.className).toContain("inline-flex")
+    expect(group.querySelectorAll('[data-slot="kbd"]')).toHaveLength(2)
   })
 })
 

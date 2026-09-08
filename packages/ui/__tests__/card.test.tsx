@@ -3,6 +3,7 @@ import { describe, expect, test } from "vitest"
 
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -36,5 +37,23 @@ describe("Card", () => {
     expect(
       screen.getByText("Manage").closest('[data-slot="card-footer"]')
     ).not.toBeNull()
+  })
+
+  test("takes shadcn's CardAction, which parks a control on the header's trailing edge", () => {
+    render(
+      <Card>
+        <CardHeader>
+          <CardTitle>Storage</CardTitle>
+          <CardAction>
+            <button type="button">Manage</button>
+          </CardAction>
+        </CardHeader>
+      </Card>
+    )
+    const action = screen
+      .getByRole("button", { name: "Manage" })
+      .closest('[data-slot="card-action"]')!
+    expect(action).not.toBeNull()
+    expect(action.className).toContain("justify-self-end")
   })
 })

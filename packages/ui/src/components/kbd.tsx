@@ -15,4 +15,15 @@ function Kbd({ className, ...props }: ComponentProps<"kbd">) {
   )
 }
 
-export { Kbd }
+/** The keys of one shortcut, lined up: ⌘ then K. */
+function KbdGroup({ className, ...props }: ComponentProps<"div">) {
+  return (
+    <kbd
+      data-slot="kbd-group"
+      className={cn("inline-flex items-center gap-1", className)}
+      {...props}
+    />
+  )
+}
+
+export { Kbd, KbdGroup }

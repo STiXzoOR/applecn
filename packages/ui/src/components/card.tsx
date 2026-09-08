@@ -45,6 +45,17 @@ function CardDescription({ className, ...props }: ComponentProps<"p">) {
   )
 }
 
+/** shadcn's trailing header control — a button or menu parked opposite the title. */
+function CardAction({ className, ...props }: ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-action"
+      className={cn("ms-auto self-start justify-self-end", className)}
+      {...props}
+    />
+  )
+}
+
 function CardContent({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
@@ -65,4 +76,12 @@ function CardFooter({ className, ...props }: ComponentProps<"div">) {
   )
 }
 
-export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
+export {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+}
