@@ -101,6 +101,28 @@ a command palette announces its options — so the separator is the only lever. 
 was undefined already, and `role="none"` only makes explicit what the spec implies. The rule is
 "remove the degradation with the smallest loss", not "always prefer one fix".
 
+The fourth instance, found while building `date-picker` (Task 29) and fixed by this batch: Base UI's
+`Popover.Popup` is `role="dialog"`, ARIA requires a dialog to carry an accessible name, and shadcn's
+`popover.tsx` supplies none. `PopoverTitle` is optional in shadcn's own composition — their date-picker
+example opens straight onto a calendar with no title, as Apple's compact picker does — so a titleless
+popover is normal usage rather than misuse, and it fails axe's `aria-dialog-name` every time.
+**`PopoverContent` defaults `aria-label`**, overridable like any prop. The accessible-name computation
+reads `aria-labelledby` **before** `aria-label`, so a `PopoverTitle` still names the dialog whenever
+there is one and the fallback speaks only when there is not; nothing regresses for the titled case. All
+three surface layers stay shadcn's exactly — only a prop's default value differs.
+
+The same audit swept every neighbouring overlay, and what it found decides where this remedy stops.
+`hover-card`'s `PreviewCard.Popup` carries **no role at all**, so no name is owed; `tooltip` is
+`role="tooltip"`, named by its own content. But `dialog`, `alert-dialog`, `drawer`, `sheet` and
+`action-sheet` all fail `aria-dialog-name` identically when composed without a title. **They are
+deliberately not given a default name.** For a modal the title is part of the composition rather than
+optional decoration — it is the visible heading the user reads — so an unnamed one is a defect in the
+consumer's markup, and defaulting `aria-label="Dialog"` would make every such dialog pass axe while
+announcing nothing useful, turning a detectable defect into a silent one. That is the opposite of this
+section's "smallest loss". A dev-time warning when a modal opens unnamed is the right remedy and is not
+built. `dialog` and `alert-dialog` gained the `checkA11y` cases they had never had, on the titled
+composition.
+
 ## 4. Findings that motivate this
 
 Measured on 2026-09-07 against the registry as published at commit `c67c4d3`.
