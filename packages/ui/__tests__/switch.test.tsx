@@ -52,7 +52,10 @@ describe("Switch", () => {
     expect(switchVariants({ color: "tint" })).toContain(
       "data-checked:bg-primary"
     )
-    expect(switchVariants()).toContain("data-unchecked:bg-label-3")
+    // A component token, not the bare utility: --switch-off-bg resolves to the same
+    // var(--label-3) on every idiom today, but is now a slot a future idiom-specific off
+    // colour can fill without a new plumbing layer (idiom-fidelity harness meta-guard).
+    expect(switchVariants()).toContain("data-unchecked:bg-(--switch-off-bg)")
   })
 
   test("disabled switches are dimmed and inert", async () => {

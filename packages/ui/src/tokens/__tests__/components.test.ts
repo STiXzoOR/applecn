@@ -43,6 +43,26 @@ describe("component appearance tokens", () => {
   })
 })
 
+describe("switch appearance tokens", () => {
+  // A slot, not yet a per-idiom difference: the resting track reads the same tertiary label on
+  // every idiom today (docs/research/apple-design-system-reference.md's iOS/macOS/web switch
+  // rows agree on a tertiary-label-toned off state). Giving it a component token — rather than
+  // the bare `bg-label-3` utility switch.tsx used before — means a future idiom-specific off
+  // colour is a value change here, not a new plumbing layer.
+  test("the resting fill is the tertiary label on every idiom", () => {
+    for (const p of ["ios", "macos", "web"] as const)
+      expect(componentTokens[p].switch.offBg).toBe("var(--label-3)")
+  })
+
+  test("emits a kebab-case CSS variable line", () => {
+    for (const p of ["ios", "macos", "web"] as const)
+      expect(componentLines(p)).toContainEqual([
+        "switch-off-bg",
+        "var(--label-3)",
+      ])
+  })
+})
+
 describe("button appearance tokens", () => {
   test("labels are semibold on iOS, normal on macOS and the web", () => {
     expect(componentTokens.ios.button.fontWeight).toBe("600")

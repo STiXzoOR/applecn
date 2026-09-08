@@ -880,6 +880,7 @@
   --radio-border: var(--gray-3);
   --radio-border-width: 1.5px;
   --radio-shadow: 0 0 #0000;
+  --switch-off-bg: var(--label-3);
   --button-font-weight: 600;
   --button-active-scale: 0.97;
   --button-filled-shadow: 0 0 #0000;
@@ -1282,6 +1283,7 @@
   --radio-border: var(--label-3);
   --radio-border-width: 1px;
   --radio-shadow: var(--elevation-control);
+  --switch-off-bg: var(--label-3);
   --button-font-weight: 400;
   --button-active-scale: 1;
   --button-filled-shadow: var(--elevation-control);
@@ -1678,6 +1680,7 @@
   --radio-border: var(--label-4);
   --radio-border-width: 1px;
   --radio-shadow: 0 0 #0000;
+  --switch-off-bg: var(--label-3);
   --button-font-weight: 400;
   --button-active-scale: 1;
   --button-filled-shadow: 0 0 #0000;

@@ -300,9 +300,20 @@ export interface ListTokens {
   readonly headerFontWeight: string
 }
 
+/**
+ * The switch's resting (off) track fill. A slot rather than a settled per-idiom difference today
+ * — every idiom reads the same tertiary label — kept as a component token instead of the bare
+ * `bg-label-3` utility switch.tsx used before, so a future idiom-specific off colour is a value
+ * change here rather than a new plumbing layer (idiom-fidelity harness meta-guard, Phase 2).
+ */
+export interface SwitchTokens {
+  readonly offBg: string
+}
+
 export interface ComponentTokens {
   readonly checkbox: Bezel
   readonly radio: Bezel
+  readonly switch: SwitchTokens
   readonly button: ButtonTokens
   readonly alertDialog: AlertDialogTokens
   readonly menu: MenuTokens
@@ -345,6 +356,11 @@ const webBezel: Bezel = {
   borderWidth: 1,
   shadow: "0 0 #0000",
 }
+
+// Same tertiary-label off track on every idiom today — see SwitchTokens above.
+const iosSwitch: SwitchTokens = { offBg: "var(--label-3)" }
+const macosSwitch: SwitchTokens = { offBg: "var(--label-3)" }
+const webSwitch: SwitchTokens = { offBg: "var(--label-3)" }
 
 // Measured 2026-09-06/07: iOS presses with a 0.97 scale and stays semibold; macOS and the
 // web hold still on press and set their labels to normal weight (docs/research/apple-design-
@@ -875,6 +891,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
   ios: {
     checkbox: iosBezel,
     radio: iosBezel,
+    switch: iosSwitch,
     button: iosButton,
     alertDialog: iosAlertDialog,
     menu: iosMenu,
@@ -899,6 +916,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
   macos: {
     checkbox: macosBezel,
     radio: macosBezel,
+    switch: macosSwitch,
     button: macosButton,
     alertDialog: macosAlertDialog,
     menu: macosMenu,
@@ -923,6 +941,7 @@ export const componentTokens: Record<Platform, ComponentTokens> = {
   web: {
     checkbox: webBezel,
     radio: webBezel,
+    switch: webSwitch,
     button: webButton,
     alertDialog: webAlertDialog,
     menu: webMenu,
@@ -954,6 +973,8 @@ const bezelLines = (name: string, b: Bezel): Line[] => [
   [`${name}-border-width`, `${b.borderWidth}px`],
   [`${name}-shadow`, b.shadow],
 ]
+
+const switchLines = (s: SwitchTokens): Line[] => [["switch-off-bg", s.offBg]]
 
 const buttonLines = (b: ButtonTokens): Line[] => [
   ["button-font-weight", b.fontWeight],
@@ -1124,6 +1145,7 @@ export function componentLines(platform: Platform): Line[] {
   return [
     ...bezelLines("checkbox", t.checkbox),
     ...bezelLines("radio", t.radio),
+    ...switchLines(t.switch),
     ...buttonLines(t.button),
     ...alertDialogLines(t.alertDialog),
     ...menuLines(t.menu),

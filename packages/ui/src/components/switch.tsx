@@ -12,7 +12,7 @@ import { cn } from "../lib/utils"
  * label.
  */
 const switchVariants = cva(
-  "peer group/switch relative inline-flex h-(--switch-height) w-(--switch-width) shrink-0 items-center rounded-full transition-[background-color] duration-(--duration-hover) ease-(--ease-standard) outline-none focus-visible:ring-4 focus-visible:ring-ring/60 data-unchecked:bg-label-3 data-disabled:cursor-not-allowed data-disabled:opacity-40",
+  "peer group/switch relative inline-flex h-(--switch-height) w-(--switch-width) shrink-0 items-center rounded-full transition-[background-color] duration-(--duration-hover) ease-(--ease-standard) outline-none focus-visible:ring-4 focus-visible:ring-ring/60 data-unchecked:bg-(--switch-off-bg) data-disabled:cursor-not-allowed data-disabled:opacity-40",
   {
     variants: {
       color: {
