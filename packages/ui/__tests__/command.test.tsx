@@ -13,6 +13,7 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "../src/components/command"
+import { tokenPlatformCss } from "../src/tokens/css"
 import { checkA11y } from "./helpers/axe"
 
 function Spotlight() {
@@ -132,6 +133,35 @@ describe("Command", () => {
     expect(
       container.querySelector('[data-slot="command-separator"]')
     ).toHaveAttribute("role", "separator")
+  })
+
+  /**
+   * The palette is not in a positioner, so it has no `--available-height` to cap itself with —
+   * and a cap that resolves to nothing leaves `max-height: none`, which never lets
+   * `overflow-y-auto` engage. `CommandDialog` then pins a `position: fixed` popup at `top-1/3`
+   * with no height of its own, and every result below the fold is unreachable: no scrollbar on
+   * the list, and no page scroll to reach it with. So the ceiling has to be one the token scopes
+   * actually deliver.
+   */
+  test("the result list caps its own height with a token every idiom delivers", () => {
+    render(<Spotlight />)
+    const list = screen.getByRole("listbox")
+    expect(list.className).toContain("max-h-(--command-list-max-height)")
+    expect(list.className).toContain("overflow-y-auto")
+    for (const platform of ["ios", "macos", "web"] as const) {
+      const scopes = tokenPlatformCss(platform) as Record<
+        string,
+        Record<string, string>
+      >
+      const value =
+        scopes[`[data-platform="${platform}"]`]?.["--command-list-max-height"]
+      expect(
+        value,
+        `${platform} delivers --command-list-max-height`
+      ).toBeTruthy()
+      // A real length, not a chain that ends nowhere: the rows are the measured menu row.
+      expect(value).toContain("var(--menu-item-height)")
+    }
   })
 
   test("has no accessibility violations", async () => {

@@ -319,6 +319,13 @@ function controlLines(m: ControlMetrics): Line[] {
     ["menu-padding", px(m.menu.padding)],
     ["menu-font", pt(m.menu.font)],
     ["menu-bar-height", px(m.menuBar.height)],
+    // The palette's own ceiling. Written as a calc over the row rather than a literal so it
+    // follows the measured row height on each idiom — and so a consumer who restyles a menu row
+    // gets a palette that still shows the same number of results.
+    [
+      "command-list-max-height",
+      `calc(${m.command.listRows} * var(--menu-item-height) + 2 * var(--menu-padding))`,
+    ],
     ["dialog-width", px(m.dialog.width)],
     ["dialog-radius", px(m.dialog.radius)],
     ["split-view-sidebar-width", px(m.splitView.sidebar)],

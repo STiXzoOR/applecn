@@ -231,6 +231,7 @@
   --menu-padding: 4px;
   --menu-font: calc(17 * var(--pt));
   --menu-bar-height: 44px;
+  --command-list-max-height: calc(8 * var(--menu-item-height) + 2 * var(--menu-padding));
   --dialog-width: 540px;
   --dialog-radius: 34px;
   --split-view-sidebar-width: 320px;
@@ -853,6 +854,7 @@
   --menu-padding: 4px;
   --menu-font: calc(17 * var(--pt));
   --menu-bar-height: 44px;
+  --command-list-max-height: calc(8 * var(--menu-item-height) + 2 * var(--menu-padding));
   --dialog-width: 540px;
   --dialog-radius: 34px;
   --split-view-sidebar-width: 320px;
@@ -1256,6 +1258,7 @@
   --menu-padding: 5px;
   --menu-font: calc(13 * var(--pt));
   --menu-bar-height: 24px;
+  --command-list-max-height: calc(8 * var(--menu-item-height) + 2 * var(--menu-padding));
   --dialog-width: 480px;
   --dialog-radius: 16px;
   --split-view-sidebar-width: 240px;
@@ -1653,6 +1656,7 @@
   --menu-padding: 4px;
   --menu-font: calc(14 * var(--pt));
   --menu-bar-height: 36px;
+  --command-list-max-height: calc(8 * var(--menu-item-height) + 2 * var(--menu-padding));
   --dialog-width: 691px;
   --dialog-radius: 10px;
   --split-view-sidebar-width: 260px;

@@ -69,6 +69,16 @@ function CommandInput({
   )
 }
 
+/**
+ * The results, and the only thing in the palette that scrolls. The ceiling is applecn's own
+ * `--command-list-max-height` rather than the `--available-height` the menu-shaped lists cap
+ * themselves with: that variable comes out of a Base UI positioner measuring the space around an
+ * anchor, and the palette has no anchor and no positioner — inside `CommandDialog` it is a fixed
+ * popup pinned a third of the way down. Read there it resolves to nothing, `max-height` stays
+ * `none`, `overflow-y-auto` never engages and the results below the fold cannot be reached at
+ * all. The token is eight menu rows plus the palette's own padding, so the cap follows the row
+ * height each idiom draws: 360 px on iOS and the web, 202 px on macOS.
+ */
 function CommandList({
   className,
   ...props
@@ -77,7 +87,7 @@ function CommandList({
     <CommandPrimitive.List
       data-slot="command-list"
       className={cn(
-        "max-h-(--available-height) overflow-x-hidden overflow-y-auto p-(--menu-padding)",
+        "max-h-(--command-list-max-height) overflow-x-hidden overflow-y-auto p-(--menu-padding)",
         className
       )}
       {...props}

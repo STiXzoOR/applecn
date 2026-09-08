@@ -137,6 +137,13 @@ export interface ControlMetrics {
   }
   /** The menu bar (macOS; iPadOS 26 has one too). */
   readonly menuBar: { readonly height: number }
+  /**
+   * The command palette (Spotlight). `listRows` is how many result rows stand before the list
+   * scrolls, which is what gives it a height: the palette is not in a positioner, so it has no
+   * measured space around an anchor to cap itself against, and a fixed pixel ceiling would stop
+   * tracking the row height each idiom actually draws.
+   */
+  readonly command: { readonly listRows: number }
   readonly dialog: { readonly width: number; readonly radius: number }
   readonly splitView: { readonly sidebar: number; readonly content: number }
   readonly popover: {
@@ -233,6 +240,8 @@ const ios: ControlMetrics = {
   },
   /** iPadOS 26's menu bar **approx.** */
   menuBar: { height: 44 },
+  /** Spotlight publishes no list height; eight rows is the count it reads at **approx.** */
+  command: { listRows: 8 },
   /** iPad form sheet; radius **approx.** */
   dialog: { width: 540, radius: 34 },
   splitView: { sidebar: 320, content: 375 },
@@ -308,6 +317,8 @@ const macos: ControlMetrics = {
   },
   /** The macOS menu bar on a display without a notch. */
   menuBar: { height: 24 },
+  /** Spotlight publishes no list height; eight rows is the count it reads at **approx.** */
+  command: { listRows: 8 },
   dialog: { width: 480, radius: 16 },
   splitView: { sidebar: 240, content: 320 },
   /** **approx.** */
@@ -392,6 +403,8 @@ const web: ControlMetrics = {
     font: 14,
   },
   menuBar: { height: 36 },
+  /** No web palette of Apple's to measure; the iOS count, on the web's own row **approx.** */
+  command: { listRows: 8 },
   /** The App Store's Version History modal. */
   dialog: { width: 691, radius: 10 },
   splitView: { sidebar: 260, content: 320 },
