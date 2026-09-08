@@ -125,6 +125,65 @@ describe("Item", () => {
     expect(screen.getByTestId("artwork").className).toContain("object-cover")
   })
 
+  test("carries shadcn's variant and size, defaulting as shadcn defaults", () => {
+    render(
+      <Item data-testid="row">
+        <ItemTitle>A</ItemTitle>
+      </Item>
+    )
+    const row = screen.getByTestId("row")
+    expect(row).toHaveAttribute("data-variant", "default")
+    expect(row).toHaveAttribute("data-size", "default")
+  })
+
+  test("the outline row is the grouped card's hairline and corners", () => {
+    render(
+      <Item data-testid="row" variant="outline">
+        <ItemTitle>A</ItemTitle>
+      </Item>
+    )
+    const row = screen.getByTestId("row")
+    expect(row).toHaveAttribute("data-variant", "outline")
+    expect(row.className).toContain("rounded-list")
+    expect(row.className).toContain("border-separator")
+  })
+
+  test("the muted row rests on Apple's quietest fill", () => {
+    render(
+      <Item data-testid="row" variant="muted">
+        <ItemTitle>A</ItemTitle>
+      </Item>
+    )
+    const row = screen.getByTestId("row")
+    expect(row).toHaveAttribute("data-variant", "muted")
+    expect(row.className).toContain("bg-fill-4")
+  })
+
+  test("the smaller rows drop the height floor and step down the type", () => {
+    render(
+      <>
+        <Item data-testid="sm" size="sm">
+          <ItemTitle>A</ItemTitle>
+        </Item>
+        <Item data-testid="xs" size="xs">
+          <ItemTitle>B</ItemTitle>
+        </Item>
+      </>
+    )
+    const sm = screen.getByTestId("sm")
+    const xs = screen.getByTestId("xs")
+    expect(sm).toHaveAttribute("data-size", "sm")
+    expect(xs).toHaveAttribute("data-size", "xs")
+    // `cn` resolves each against the base row, so the floor and the list type are gone, not merely
+    // overridden further down the class string.
+    expect(sm.className).not.toContain("min-h-(--list-row-min-height)")
+    expect(sm.className).toContain("text-[length:var(--list-subtitle-font)]")
+    expect(xs.className).toContain("text-[length:var(--list-footer-font)]")
+    // The measured horizontal padding is the row's whatever its size.
+    expect(sm.className).toContain("px-(--list-row-padding-x)")
+    expect(xs.className).toContain("px-(--list-row-padding-x)")
+  })
+
   test("has no accessibility violations", async () => {
     const { container } = render(
       <ItemGroup>

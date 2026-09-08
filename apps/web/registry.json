@@ -3998,7 +3998,8 @@
       "title": "Item",
       "description": "A row of content — media, a title and description, trailing actions — on the list-row metrics: 52 pt rows with 15 × 16 pt padding on iOS 26, 28 pt rows on macOS 26.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react",
+        "class-variance-authority"
       ],
       "registryDependencies": [
         "https://applecn.vercel.app/r/separator.json",

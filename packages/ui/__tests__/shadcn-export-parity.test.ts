@@ -388,22 +388,25 @@ const LEDGER: Record<string, Row> = {
   },
   item: {
     gap: [],
-    propGap: ["Item.size", "Item.variant"],
-    propCloses: "Task 17b",
     note:
       "shadcn's row primitive on Apple's list metrics: the `--list-row-*` tokens give it 52 pt " +
       "rows with 15 × 16 pt padding on iOS 26 and AppKit's 28 pt with 4 × 10 on macOS, which is " +
       "what lets Task 31 rebuild `list` on it without a measured metric moving. " +
       '`data-slot="item"` is stamped by `useRender`\'s state rather than written, exactly as ' +
       "shadcn stamps it, so it is a literal in neither source and neither side of this row " +
-      "carries it. Two divergences are deliberate. shadcn's `Item` is a cva over `variant` " +
-      "(default/outline/muted) and `size` (default/sm/xs) resolving to classes its own theme CSS " +
-      "defines; applecn ships one row, because the surface belongs to the list style — plain, " +
-      "grouped, inset grouped — and not to the row, and Task 31 owns whether a second look " +
-      'exists. And shadcn\'s `ItemGroup` sets `role="list"` over rows that are not `listitem`s, ' +
-      "which announces an empty list and, with a separator among them, fails axe's " +
-      "`aria-required-children`; applecn's group leaves the role to a caller who supplies real " +
-      "list rows.",
+      "carries it. `Item` takes shadcn's `variant` (default/outline/muted) and `size` " +
+      "(default/sm/xs) with shadcn's defaults, resolved to measured Apple slots rather than to " +
+      "the theme classes shadcn's own CSS defines — the grouped card's radius and hairline, the " +
+      "quietest fill, and the type one and two steps below a row's. The smaller sizes drop the " +
+      "height floor rather than invent a shorter one, because `default` is the size with a " +
+      "measured metric behind it. No token was added and no value changed. " +
+      'One divergence stands: shadcn\'s `ItemGroup` sets `role="list"` (upstream `item.tsx:12`) ' +
+      "over rows that are not `listitem`s, which announces an empty list — and `ItemSeparator`, " +
+      "the sibling the group exists to be used with, is Base UI's `Separator` in both projects " +
+      'and renders `role="separator"`, a child the role forbids. Re-verified on 2026-09-08 by ' +
+      "restoring the role: axe fails this module's own registry example on " +
+      "`aria-required-children`, so the composition is unsound upstream too, not merely unbuilt " +
+      "here. applecn's group leaves the role to a caller who supplies real list rows.",
   },
   kbd: { gap: [] },
   label: { gap: [] },

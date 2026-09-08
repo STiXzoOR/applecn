@@ -224,9 +224,11 @@
   ],
   "item.tsx": [
     "--list-font",
+    "--list-footer-font",
     "--list-row-min-height",
     "--list-subtitle-font",
     "min-w-0",
+    "rounded-list",
     "rounded-md",
     "size-full",
     "w-full"
