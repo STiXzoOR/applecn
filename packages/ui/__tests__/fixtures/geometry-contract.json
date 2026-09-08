@@ -195,6 +195,7 @@
     "--menu-separator-height",
     "w-5"
   ],
+  "date-picker.tsx": [],
   "dialog.tsx": [
     "--dialog-width",
     "rounded-dialog",

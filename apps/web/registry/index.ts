@@ -396,6 +396,16 @@ export const componentDocs: ComponentDoc[] = [
     examples: [{ name: "basic", title: "Pick a date" }],
   },
   {
+    name: "date-picker",
+    title: "Date picker",
+    description:
+      "UIDatePicker's two browser-honest presentations: the compact grey field that opens a calendar, and the month in place.",
+    group: "forms",
+    apple: { name: "Pickers", hig: hig("pickers") },
+    primitive: "element",
+    examples: [{ name: "basic", title: "Compact and inline" }],
+  },
+  {
     name: "color-well",
     title: "Color well",
     description:

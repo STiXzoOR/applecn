@@ -112,6 +112,7 @@ Install any of these as `@applecn/<name>`.
 - `checkbox-group` — Checkbox group (Checkboxes): Checkboxes that share a value under a parent that turns them all on or off and shows the mixed state — macOS’s settings hierarchy.
 - `input-otp` — Input OTP (Text fields): A row of one-character boxes for a verification code that advances as digits are typed and fills on paste.
 - `calendar` — Calendar (Pickers): A month grid where a day is a hit target you can hit: 44 pt circles on iOS, 28 on macOS, today in the tint and the selection filled.
+- `date-picker` — Date picker (Pickers): UIDatePicker's two browser-honest presentations: the compact grey field that opens a calendar, and the month in place.
 - `color-well` — Color well (Color wells): The native colour input as Apple presents it: a ring around the swatch on iOS, AppKit’s capsule on macOS.
 
 ### Overlays

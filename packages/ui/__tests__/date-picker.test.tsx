@@ -1,0 +1,161 @@
+import { render, screen } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
+import { useState } from "react"
+import { describe, expect, test } from "vitest"
+
+import {
+  DatePicker,
+  DatePickerContent,
+  DatePickerTrigger,
+} from "../src/components/date-picker"
+import { PlatformProvider } from "../src/lib/platform"
+import { checkA11y } from "./helpers/axe"
+
+const SEPTEMBER = new Date(2026, 8, 15)
+
+const day = (iso: string) =>
+  document.querySelector<HTMLButtonElement>(`td[data-day="${iso}"] button`)!
+
+describe("DatePicker", () => {
+  test("compact is UIDatePicker's grey field, opening the calendar in a popover", async () => {
+    const user = userEvent.setup()
+    render(<DatePicker defaultValue={SEPTEMBER} defaultMonth={SEPTEMBER} />)
+
+    const trigger = screen.getByRole("button")
+    expect(trigger).toHaveAttribute("data-slot", "date-picker-trigger")
+    // `variant="gray"` already reads the tint on iOS and the label colour on macOS and the web,
+    // through `--button-gray-text` — which is exactly what UIDatePicker's compact field does.
+    expect(trigger).toHaveAttribute("data-variant", "gray")
+    expect(trigger.textContent).toBe(SEPTEMBER.toLocaleDateString())
+    expect(screen.queryByRole("grid")).toBeNull()
+
+    await user.click(trigger)
+    expect(screen.getByRole("grid")).toBeInTheDocument()
+    expect(day("2026-09-15")).toHaveAttribute("data-selected-single", "true")
+  })
+
+  test("inline is the month grid itself, with no trigger and no popover", () => {
+    const { container } = render(
+      <DatePicker presentation="inline" defaultValue={SEPTEMBER} />
+    )
+    expect(
+      container.querySelector('[data-slot="date-picker"]')
+    ).toHaveAttribute("data-presentation", "inline")
+    expect(screen.getByRole("grid")).toBeInTheDocument()
+    expect(
+      screen.queryByTestId("nothing") ??
+        container.querySelector('[data-slot="date-picker-trigger"]')
+    ).toBeNull()
+  })
+
+  test("picking a day reports it and closes the popover", async () => {
+    const user = userEvent.setup()
+    function Controlled() {
+      const [value, setValue] = useState<Date | undefined>(undefined)
+      return (
+        <>
+          <DatePicker
+            value={value}
+            onValueChange={setValue}
+            defaultMonth={SEPTEMBER}
+          />
+          <output>{value ? value.toDateString() : "none"}</output>
+        </>
+      )
+    }
+    render(<Controlled />)
+    expect(screen.getByRole("status").textContent).toBe("none")
+
+    await user.click(screen.getByRole("button"))
+    await user.click(day("2026-09-10"))
+    expect(screen.getByRole("status").textContent).toBe(
+      new Date(2026, 8, 10).toDateString()
+    )
+    expect(
+      screen.queryByRole("grid"),
+      "the popover closes on a pick"
+    ).toBeNull()
+  })
+
+  test("with no date it shows the placeholder and says it is empty", () => {
+    render(<DatePicker placeholder="Choose a day" />)
+    const trigger = screen.getByRole("button")
+    expect(trigger.textContent).toBe("Choose a day")
+    expect(trigger).toHaveAttribute("data-empty", "true")
+  })
+
+  test("the label is the locale's date, and a caller can format it themselves", () => {
+    render(
+      <DatePicker
+        defaultValue={SEPTEMBER}
+        format={(date) => `Day ${date.getDate()}`}
+      />
+    )
+    expect(screen.getByRole("button").textContent).toBe("Day 15")
+  })
+
+  test("the trigger and the content are replaceable, as the catalogue's roots allow", async () => {
+    const user = userEvent.setup()
+    render(
+      <DatePicker defaultValue={SEPTEMBER} defaultMonth={SEPTEMBER}>
+        <DatePickerTrigger>Pick</DatePickerTrigger>
+        <DatePickerContent captionLayout="dropdown" />
+      </DatePicker>
+    )
+    const trigger = screen.getByRole("button")
+    expect(trigger.textContent).toBe("Pick")
+    await user.click(trigger)
+    // One trigger and one calendar, so the root supplied neither on top of what it was given.
+    expect(screen.getAllByRole("grid")).toHaveLength(1)
+    expect(screen.getAllByRole("combobox")).toHaveLength(2)
+  })
+
+  test("open is controllable the way every overlay in the catalogue is", async () => {
+    const user = userEvent.setup()
+    function Controlled() {
+      const [open, setOpen] = useState(false)
+      return (
+        <>
+          <button type="button" onClick={() => setOpen(true)}>
+            Open it
+          </button>
+          <DatePicker
+            open={open}
+            onOpenChange={setOpen}
+            defaultMonth={SEPTEMBER}
+          />
+        </>
+      )
+    }
+    render(<Controlled />)
+    expect(screen.queryByRole("grid")).toBeNull()
+    await user.click(screen.getByRole("button", { name: "Open it" }))
+    expect(screen.getByRole("grid")).toBeInTheDocument()
+  })
+
+  test("renders on every idiom", () => {
+    for (const platform of ["ios", "macos", "web"] as const) {
+      const { unmount } = render(
+        <PlatformProvider platform={platform}>
+          <DatePicker presentation="inline" defaultValue={SEPTEMBER} />
+        </PlatformProvider>
+      )
+      expect(screen.getByRole("grid")).toBeInTheDocument()
+      unmount()
+    }
+  })
+
+  test("has no accessibility violations", async () => {
+    const { container } = render(
+      <DatePicker presentation="inline" defaultValue={SEPTEMBER} />
+    )
+    expect(await checkA11y(container)).toHaveNoViolations()
+  })
+
+  test("the compact field and its open popover have none either", async () => {
+    const user = userEvent.setup()
+    render(<DatePicker defaultValue={SEPTEMBER} defaultMonth={SEPTEMBER} />)
+    await user.click(screen.getByRole("button"))
+    expect(await checkA11y(document.body)).toHaveNoViolations()
+  })
+})

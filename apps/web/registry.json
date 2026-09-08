@@ -3883,6 +3883,24 @@
       ]
     },
     {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "Date picker",
+      "description": "UIDatePicker's two browser-honest presentations: the compact grey field that opens a calendar, and the month in place.",
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/button.json",
+        "https://applecn.vercel.app/r/calendar.json",
+        "https://applecn.vercel.app/r/popover.json",
+        "https://applecn.vercel.app/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/date-picker.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",
