@@ -19,6 +19,15 @@ import { useIsDesktop } from "../hooks/use-media-query"
  * destructive choices in red, Cancel a bolder capsule at the bottom. From `sm` up (iPad,
  * desktop) it becomes a popover anchored to the control, with the platform's menu rows, and
  * Cancel disappears: pressing outside dismisses.
+ *
+ * This file reaches past `drawer` and `popover` into Base UI, which the layering rule forbids, and
+ * spec §5.6 gives it a `drawer` base to fix that. It is owed AFTER Task 44 (corrected 2026-09-08):
+ * `drawer` publishes no popup parts, only the composed `DrawerContent`, which always draws a
+ * grabber this card has not got and paints itself `bg-popover` where the card is glass;
+ * `DrawerClose` writes `type-body` over a row that writes `--alert-title-font`, which `cn` cannot
+ * merge; and the desktop half is an ANCHORED popover where a drawer's is a centred dialog — the
+ * delegation §5.2's correction moves into `responsive-dialog` at Task 44. `action-sheet.test.tsx`
+ * pins all three, so they are re-run rather than re-argued.
  */
 type Presentation = "sheet" | "popover"
 

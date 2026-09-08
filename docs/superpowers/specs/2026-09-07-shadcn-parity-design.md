@@ -417,7 +417,7 @@ are a product surface rather than primitives.
 | `split-view`     | nothing — verification only   | two or three panes, measured widths, 1 pt dividers |
 | `checkbox-group` | `field` (FieldSet/FieldGroup) | macOS text-style hierarchy                         |
 | `tab-bar`        | nothing — verification only   | platter 62 inset 21, items 54, labels 10           |
-| `action-sheet`   | `drawer`                      | 48 pt capsule actions from the bottom              |
+| `action-sheet`   | `drawer` (after Task 44)      | 48 pt capsule actions from the bottom              |
 | `page-control`   | nothing — verification only   | iOS dots, 7 pt on 10 pt gaps                       |
 | `text`           | the `type-*` scale            | the eleven text styles                             |
 | `toolbar`        | `button-group`                | partial — grouped actions                          |
@@ -527,6 +527,31 @@ bar is a floating Liquid Glass platter of app-level navigation. Spiked and aband
   to the same capsule at 62 pt.
 
 So Task 38 becomes verification-only, with the claims kept executable in `tab-bar.test.tsx`.
+
+**Correction (2026-09-08, Task 39).** The `action-sheet` row keeps its `drawer` base — the module
+reaches past `drawer` into `@base-ui/react/drawer` AND `@base-ui/react/popover`, which is the
+layering rule's exact violation, and `drawer` is the right place to fix it. What changes is the
+ORDER: Task 39 runs after Task 44, not before it. Spiked, and all three blockers are things Task 44
+either supplies or moves:
+
+- **`drawer` publishes no popup parts.** An action sheet's card is a `Viewport` + `Popup` +
+  `Content` of its own — a transparent, edge-inset stack holding a glass card at
+  `--action-sheet-radius` and `--action-sheet-width`. `drawer` exports only the composed
+  `DrawerContent`, which always draws the grabber an action sheet does not have, paints itself
+  `bg-popover` where the card is glass, and brings `rounded-t-sheet` and its own scroll box.
+  Composing it today means reaching past `drawer` into Base UI again, which is the rule being fixed.
+- **`DrawerClose` is not an action row.** It writes `type-body` where a row writes
+  `text-[length:var(--alert-title-font)]`, and a named text style and an arbitrary length are not
+  one `cn` group — both survive and emission order decides, the collision
+  `named-utility-collision.test.ts` guards. It also dims under the finger where an action capsule
+  scales.
+- **The desktop halves differ, and that half is Task 44's.** An action sheet becomes a popover
+  ANCHORED to its trigger; a drawer becomes a centred dialog. `drawer` cannot supply the popover,
+  and its own delegation is precisely what §5.2's correction takes out of it and into
+  `responsive-dialog`. Building action-sheet on that delegation now is work Task 44 would undo.
+
+`packages/ui/__tests__/action-sheet.test.tsx` pins all three, so when Task 44 lands the blockers are
+re-run rather than re-argued.
 
 **Correction (2026-09-08, Task 40).** The `page-control` row read "`pagination`". The two share the
 idea of a row of page markers and nothing else. Spiked and abandoned:
