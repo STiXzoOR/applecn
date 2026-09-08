@@ -534,7 +534,16 @@ const LEDGER: Record<string, Row> = {
       "component's; the current page is `tinted` where shadcn's is `outline`, and the rest " +
       "`plain` where shadcn's are `ghost`, both being the names applecn's `Button` ships.",
   },
-  popover: { gap: [] },
+  popover: {
+    gap: [],
+    note:
+      'spec §3.2, fourth instance. Base UI\'s popup is `role="dialog"` and ARIA requires a ' +
+      "dialog to have an accessible name; shadcn's file supplies none and `PopoverTitle` is " +
+      "optional in their own composition, so any titleless popover fails axe's " +
+      "`aria-dialog-name`. `PopoverContent` defaults `aria-label`, which accname ranks BELOW " +
+      "`aria-labelledby`, so a `PopoverTitle` still names the dialog whenever there is one. " +
+      "Exports, slots and props are shadcn's exactly; only a prop's default value differs.",
+  },
   progress: { gap: [] },
   questionnaire: { task: "Task 52–58 (the AI set)" },
   "radio-group": { gap: [] },

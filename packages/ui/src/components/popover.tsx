@@ -8,6 +8,14 @@ import type { ComponentProps } from "react"
  * Popovers (HIG › Popovers): a transient Liquid Glass card with an arrow pointing at the
  * control that opened it, on the platform's popover corner (26 pt on iOS 26, 12 on macOS and
  * the web). For compact widths present a sheet instead.
+ *
+ * Spec §3.2, fourth instance: Base UI's popup is `role="dialog"`, and ARIA requires a dialog to
+ * have an accessible name. shadcn's file supplies none, so every popover without a
+ * `PopoverTitle` fails axe's `aria-dialog-name` — a `PopoverTitle` is optional in shadcn's own
+ * composition and its own examples ship without one. `PopoverContent` therefore defaults
+ * `aria-label`. A `PopoverTitle` still wins: accname reads `aria-labelledby` before `aria-label`,
+ * so the title names the dialog whenever there is one and the fallback speaks only when there is
+ * not. Exports, slots and props are shadcn's exactly; only the default value of a prop differs.
  */
 function Popover(props: PopoverPrimitive.Root.Props) {
   return <PopoverPrimitive.Root data-slot="popover" {...props} />
@@ -47,6 +55,7 @@ function PopoverContent({
   alignOffset = 0,
   side = "bottom",
   sideOffset = 8,
+  "aria-label": label = "Popover",
   ...props
 }: PopoverPrimitive.Popup.Props &
   Pick<
@@ -65,6 +74,7 @@ function PopoverContent({
         <PopoverPrimitive.Popup
           data-slot="popover-content"
           data-elevated=""
+          aria-label={label}
           className={cn(
             "z-50 flex w-72 origin-(--transform-origin) flex-col gap-3 rounded-popover glass p-4 text-label shadow-glass outline-hidden duration-(--duration-overlay) ease-(--ease-standard) motion-reduce:animate-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
             className
