@@ -963,6 +963,7 @@
         "payload",
         "verticalAlign"
       ],
+      "ChartStyle": ["config", "id"],
       "ChartTooltipContent": [
         "active",
         "className",
@@ -1221,6 +1222,7 @@
       ],
       "MessageScrollerContent": ["className"],
       "MessageScrollerItem": ["className", "scrollAnchor"],
+      "MessageScrollerProvider": [],
       "MessageScrollerViewport": ["className"]
     },
     "native-select": {
@@ -1388,7 +1390,9 @@
     "slider": {
       "Slider": ["className", "defaultValue", "max", "min", "value"]
     },
-    "sonner": {},
+    "sonner": {
+      "Toaster": []
+    },
     "spinner": {
       "Spinner": ["className"]
     },

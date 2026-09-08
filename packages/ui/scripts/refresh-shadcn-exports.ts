@@ -152,24 +152,41 @@ function patternEntries(pattern: string): string[] {
  * This subsumes the cva variant props rather than needing a second pass for them: checked across all
  * 62 components at `c257f68`, every key of every `cva({ variants })` block is destructured by the
  * component that applies it, so `variant`, `size` and `spacing` arrive here already.
+ *
+ * Two things this reads that the first version did not, both because they were INDISTINGUISHABLE
+ * from a component that names nothing:
+ *
+ * - An arrow const. shadcn writes most components as `function X(…)` but not all — `ChartStyle`
+ *   and `sonner`'s `Toaster` are `const X = ({ … }) =>` — and matching only `function` left those
+ *   with no row at all, so nothing compared their props against applecn's.
+ * - A component that takes its props whole (`function X(props: …)`, which is how
+ *   `MessageScrollerProvider` is written) now gets an EMPTY row rather than being skipped. It
+ *   really does name no props and forwards everything, so there is nothing for the other side to
+ *   declare — but "names none" and "was not parsed" must not look the same in the output, or a
+ *   parse miss reads as a clean bill of health.
+ *
+ * A bare re-export (`const Select = SelectPrimitive.Root`) still gets no row, and that is the true
+ * answer: there is no signature of shadcn's to read.
  */
+const COMPONENT =
+  /^(?:export\s+)?(?:function\s+([A-Z]\w*)\s*\(|const\s+([A-Z]\w*)(?:\s*:[^=\n]+)?\s*=\s*\()/gm
+
 function namedProps(source: string): Record<string, string[]> {
   const components: Record<string, string[]> = {}
-  for (const match of source.matchAll(
-    /^(?:export\s+)?function\s+([A-Z]\w*)\s*\(/gm
-  )) {
+  for (const match of source.matchAll(COMPONENT)) {
     const parameters = bracketBody(
       source,
       match.index + match[0].length - 1
     ).trim()
-    // A component that takes its props whole (`function X(props: …)`) names none, and forwards
-    // everything: there is nothing for the other side to have to declare.
-    if (!parameters.startsWith("{")) continue
+    if (!parameters.startsWith("{")) {
+      components[(match[1] ?? match[2])!] = []
+      continue
+    }
     const named = patternEntries(bracketBody(parameters, 0))
       .filter((entry) => !entry.startsWith("..."))
       .map((entry) => entry.split(/[:=]/)[0]!.trim())
       .filter(Boolean)
-    components[match[1]!] = [...new Set(named)].sort()
+    components[(match[1] ?? match[2])!] = [...new Set(named)].sort()
   }
   return components
 }

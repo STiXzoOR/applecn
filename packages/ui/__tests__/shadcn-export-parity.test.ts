@@ -781,11 +781,81 @@ describe("export parity with shadcn", () => {
     const componentless = Object.entries(FIXTURE.props)
       .filter(([, components]) => Object.keys(components).length === 0)
       .map(([name]) => name)
-    expect(componentless).toEqual(["direction", "sonner"])
+    // `direction` re-exports Base UI's provider untouched and declares nothing of its own.
+    // `sonner` used to be here too, wrongly: its `Toaster` is an arrow const, which the generator
+    // could not read, so a component the extraction MISSED was recorded as a module that has none.
+    expect(componentless).toEqual(["direction"])
     // And the sharpest one: `variant`/`size` on `Item` are the pair this layer was added for. If
     // the extraction stops seeing cva variant props, it has stopped being worth running.
     expect(FIXTURE.props.item?.Item).toContain("variant")
     expect(FIXTURE.props.item?.Item).toContain("size")
+  })
+
+  /**
+   * The canaries above are MODULE-level: a count over the whole fixture and a list of modules
+   * that record nothing. A single component silently absent passes both, and eight were — the
+   * generator matched `function X(` only, so a component shadcn writes as `const X = ({ … }) =>`
+   * produced no row and went unchecked, indistinguishable in the output from one that genuinely
+   * names no props. Same lesson as the grep that told a previous batch `calendar` needed no
+   * `react-day-picker`: a pattern that under-matches produces a confident wrong answer.
+   *
+   * So this asks per COMPONENT. Every capitalised symbol shadcn exports must have a row, even an
+   * empty one, unless it is a bare re-export of somebody else's component — which has no
+   * signature of shadcn's to read, and whose absence is therefore the true answer rather than a
+   * parse miss.
+   */
+  const RE_EXPORTS = new Map<string, string>([
+    [
+      "chart.ChartTooltip",
+      "recharts' own Tooltip, re-exported under a shadcn name",
+    ],
+    [
+      "chart.ChartLegend",
+      "recharts' own Legend, re-exported under a shadcn name",
+    ],
+    [
+      "direction.DirectionProvider",
+      "Base UI's DirectionProvider, re-exported untouched",
+    ],
+    [
+      "combobox.Combobox",
+      "Base UI's Combobox.Root, aliased: `const Combobox = ComboboxPrimitive.Root`",
+    ],
+    [
+      "select.Select",
+      "Base UI's Select.Root, aliased: `const Select = SelectPrimitive.Root`",
+    ],
+  ])
+
+  test("every exported component has a props row, however its signature is written", () => {
+    const missing = Object.entries(FIXTURE.exports).flatMap(([name, symbols]) =>
+      symbols
+        .filter(
+          (symbol) =>
+            /^[A-Z]/.test(symbol) &&
+            !RE_EXPORTS.has(`${name}.${symbol}`) &&
+            !(symbol in (FIXTURE.props[name] ?? {}))
+        )
+        .map((symbol) => `${name}.${symbol}`)
+    )
+    expect(
+      missing,
+      "these components are exported by shadcn but the generator read no signature for them, " +
+        "so nothing compares their props against applecn's. Widen the extraction or, if the " +
+        "symbol is somebody else's component re-exported, record it in RE_EXPORTS with why."
+    ).toEqual([])
+  })
+
+  test("every RE_EXPORTS entry is real and argued", () => {
+    for (const [key, reason] of RE_EXPORTS) {
+      const [name, symbol] = key.split(".") as [string, string]
+      expect(FIXTURE.exports[name], `${key} is exported`).toContain(symbol)
+      expect(
+        FIXTURE.props[name]?.[symbol],
+        `${key} is recorded as a re-export but has a props row`
+      ).toBeUndefined()
+      expect(reason.length, `${key}'s reason is argued`).toBeGreaterThan(30)
+    }
   })
 
   for (const [name, row] of declined)
