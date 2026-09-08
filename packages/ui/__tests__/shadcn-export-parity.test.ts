@@ -477,7 +477,21 @@ const LEDGER: Record<string, Row> = {
       "trigger and the link share — shadcn styles only its trigger with it, and applecn's link " +
       "wears it too because apple.com draws the two identically.",
   },
-  pagination: { task: "Task 23" },
+  pagination: {
+    gap: [],
+    note:
+      "seven exports and five slots — `PaginationPrevious` and `PaginationNext` stamp none of " +
+      "their own, they are `PaginationLink` wearing a name. Two divergences, neither at any " +
+      "layer. First, `PaginationLink` renders the anchor itself with `buttonVariants` where " +
+      "shadcn passes `Button` `nativeButton={false}` and `render={<a>}`: Base UI stamps " +
+      '`role="button"` on a non-native button, which takes every page out of a screen ' +
+      "reader's list of links inside a navigation landmark — spec §3.2's narrow " +
+      "accessibility exception, and the paint, the props and the slots are identical. " +
+      "Second, `size` and `shape` are applecn's `Button` union rather than shadcn's " +
+      "`icon`/`default`, which is the catalogue-wide size-name divergence, not this " +
+      "component's; the current page is `tinted` where shadcn's is `outline`, and the rest " +
+      "`plain` where shadcn's are `ghost`, both being the names applecn's `Button` ships.",
+  },
   popover: { gap: [] },
   progress: { gap: [] },
   questionnaire: { task: "Task 52–58 (the AI set)" },

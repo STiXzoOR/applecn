@@ -340,6 +340,7 @@
     "--page-control-gap",
     "rounded-full"
   ],
+  "pagination.tsx": ["--control-height-small", "w-full"],
   "popover.tsx": [
     "rounded-popover",
     "type-headline",

@@ -4290,6 +4290,27 @@
       ]
     },
     {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "apple.com's numbered pages: small round buttons with the current one tinted, and a worded Previous and Next.",
+      "dependencies": [
+        "@hugeicons/core-free-icons",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://applecn.vercel.app/r/button.json",
+        "https://applecn.vercel.app/r/icon.json",
+        "https://applecn.vercel.app/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/pagination.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "popover",
       "type": "registry:ui",
       "title": "Popover",

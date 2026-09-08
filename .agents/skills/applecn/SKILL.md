@@ -135,6 +135,7 @@ Install any of these as `@applecn/<name>`.
 - `sidebar` — Sidebar (Sidebars): A navigation list on the regular material: 44 pt rows on iPad, AppKit’s 28 pt rows with 6 pt corners on macOS 26, Music’s 34 pt rows on the web.
 - `split-view` — Split view (Split views): Two or three adjacent panes with hairline dividers that stack on narrow screens.
 - `page-control` — Page control (Page controls): A row of dots for a flat sequence of pages.
+- `pagination` — Pagination (Page controls): apple.com’s numbered pages: small round buttons with the current one tinted, and a worded Previous and Next.
 - `menubar` — Menu bar (The menu bar): The macOS menu bar: top-level menus whose titles highlight with the accent while open, each a full menu with shortcuts and submenus.
 - `navigation-menu` — Navigation menu (apple.com global nav): apple.com’s global navigation: a 44 pt material bar of small links with full-width flyout panels of large links under eyebrows.
 - `breadcrumb` — Breadcrumb (Path controls): The path to the current location as links separated by chevrons — the Finder’s path bar, apple.com’s breadcrumbs.

@@ -49,6 +49,7 @@ export const examples: Record<string, () => Promise<{ default: ComponentType }>>
   'navigation-bar/basic': () => import('./examples/navigation-bar/basic'),
   'navigation-menu/basic': () => import('./examples/navigation-menu/basic'),
   'page-control/basic': () => import('./examples/page-control/basic'),
+  'pagination/basic': () => import('./examples/pagination/basic'),
   'popover/basic': () => import('./examples/popover/basic'),
   'progress/basic': () => import('./examples/progress/basic'),
   'radio-group/basic': () => import('./examples/radio-group/basic'),

@@ -569,6 +569,16 @@ export const componentDocs: ComponentDoc[] = [
     examples: [{ name: "basic", title: "Pages" }],
   },
   {
+    name: "pagination",
+    title: "Pagination",
+    description:
+      "apple.com's numbered pages: small round buttons with the current one tinted, and a worded Previous and Next.",
+    group: "navigation",
+    apple: { name: "Page controls", hig: hig("page-controls") },
+    primitive: "element",
+    examples: [{ name: "basic", title: "Numbered pages" }],
+  },
+  {
     name: "menubar",
     title: "Menu bar",
     description:
