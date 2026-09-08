@@ -2,7 +2,12 @@ import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { describe, expect, test, vi } from "vitest"
 
-import { InputOTP } from "../src/components/input-otp"
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "../src/components/input-otp"
 
 describe("InputOTP", () => {
   test("is a row of one-character boxes that advances as digits are typed", async () => {
@@ -53,5 +58,41 @@ describe("InputOTP labelling", () => {
     render(<InputOTP aria-label="Code" length={2} />)
     const ids = [...document.querySelectorAll("[id]")].map((e) => e.id)
     expect(new Set(ids).size).toBe(ids.length)
+  })
+})
+
+describe("InputOTP composed shadcn's way", () => {
+  test("renders the boxes it is given, grouped and separated, instead of generating them", () => {
+    render(
+      <InputOTP aria-label="Verification code" maxLength={4}>
+        <InputOTPGroup>
+          <InputOTPSlot index={0} />
+          <InputOTPSlot index={1} />
+        </InputOTPGroup>
+        <InputOTPSeparator />
+        <InputOTPGroup>
+          <InputOTPSlot index={2} />
+          <InputOTPSlot index={3} />
+        </InputOTPGroup>
+      </InputOTP>
+    )
+    const group = screen.getByRole("group", { name: "Verification code" })
+    expect(group.querySelectorAll("input")).toHaveLength(4)
+    expect(
+      group.querySelectorAll('[data-slot="input-otp-group"]')
+    ).toHaveLength(2)
+    const separator = group.querySelector('[data-slot="input-otp-separator"]')!
+    expect(separator).toHaveAttribute("role", "separator")
+    const boxes = screen.getAllByRole("textbox") as HTMLInputElement[]
+    expect(boxes[0]!).toHaveAttribute("data-slot", "input-otp-slot")
+    expect(boxes[1]!).toHaveAccessibleName("Digit 2")
+    // `index` is shadcn's prop for its own DOM-less slots; it must never reach the input.
+    expect(boxes[0]!).not.toHaveAttribute("index")
+  })
+
+  test("a generated box is the same InputOTPSlot, so shadcn's selector reaches both", () => {
+    render(<InputOTP aria-label="Code" length={2} />)
+    for (const box of screen.getAllByRole("textbox"))
+      expect(box).toHaveAttribute("data-slot", "input-otp-slot")
   })
 })

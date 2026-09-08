@@ -3952,9 +3952,11 @@
       "title": "Input OTP",
       "description": "A row of one-character boxes for a verification code that advances as digits are typed and fills on paste.",
       "dependencies": [
-        "@base-ui/react"
+        "@base-ui/react",
+        "@hugeicons/core-free-icons"
       ],
       "registryDependencies": [
+        "https://applecn.vercel.app/r/icon.json",
         "https://applecn.vercel.app/r/utils.json"
       ],
       "files": [

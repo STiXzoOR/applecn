@@ -241,14 +241,15 @@ const LEDGER: Record<string, Row> = {
   input: { gap: [] },
   "input-group": { task: "Task 18" },
   "input-otp": {
-    gap: ["InputOTPGroup", "InputOTPSeparator", "InputOTPSlot"],
-    slotGap: ["input-otp-group", "input-otp-separator", "input-otp-slot"],
-    slotCloses: "Task 15c",
-    closes: "Task 15c",
+    gap: [],
     note:
-      "the rename of `passcode-field`. applecn's field renders its own boxes from a `length` " +
-      "prop, so shadcn's three composition parts have never existed here; the rename does not " +
-      "invent them.",
+      "the rename of `passcode-field`. Task 15c built shadcn's three composition parts on Base " +
+      "UI's OTP Field: giving `InputOTP` children hands the layout to them, and the `length` " +
+      "shorthand renders the same `InputOTPSlot`, so `[data-slot=input-otp-slot]` reaches the " +
+      "boxes either way. `index` is shadcn's prop — Base UI takes a box's position from render " +
+      "order — and is kept so its markup transplants, naming the digit and never reaching the " +
+      "input. One divergence stands: shadcn's slot is a `<div>` echoing one hidden input, " +
+      "because it wraps the `input-otp` package; Base UI gives each box a real `<input>`.",
   },
   item: { task: "Task 17" },
   kbd: { gap: [] },
